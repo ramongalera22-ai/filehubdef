@@ -1,8 +1,15 @@
 /** @type {import('tailwindcss').Config} */
 export default {
+  // ============================================
+  // OPTIMIZACIÓN 13: TAILWIND BUILD-TIME
+  // Purge: solo incluye clases usadas en tu código
+  // CDN = ~300KB → Build = ~15-30KB (90% reducción)
+  // ============================================
   content: [
     './index.html',
-    './src/**/*.{ts,tsx,js,jsx}',
+    './**/*.{ts,tsx}',
+    './components/**/*.{ts,tsx}',
+    './services/**/*.{ts,tsx}',
   ],
   darkMode: 'class',
   theme: {

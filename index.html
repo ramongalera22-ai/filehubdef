@@ -3,35 +3,58 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>FILEHUB — Inteligencia de Gestión</title>
-
-  <!-- PWA -->
+  <title>FILEHUB - Inteligencia de Gestión</title>
+  
+  <!-- PWA Meta Tags -->
   <meta name="theme-color" content="#4f46e5">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <link rel="manifest" href="/manifest.json">
+  <link rel="manifest" href="manifest.json">
   <link rel="apple-touch-icon" href="https://img.icons8.com/ios-filled/512/FFFFFF/lightning-bolt.png">
   <link rel="icon" type="image/png" href="https://img.icons8.com/ios-filled/512/4f46e5/lightning-bolt.png">
 
-  <!-- Resource hints -->
+  <!-- ============================================
+       OPTIMIZACIÓN 8: RESOURCE HINTS
+       Preconnect a servicios críticos para ahorrar ~200-400ms
+       ============================================ -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- Preconnect a Supabase (tu backend principal) -->
   <link rel="dns-prefetch" href="https://supabase.co">
 
-  <!-- Font -->
+  <!-- ============================================
+       OPTIMIZACIÓN 9: ELIMINAR cdn.tailwindcss.com
+       El CDN de Tailwind carga ~300KB de CSS runtime.
+       Con Vite + PostCSS solo se incluyen las clases usadas (~15-30KB).
+       ============================================ -->
+  <!-- ELIMINADO: <script src="https://cdn.tailwindcss.com"></script> -->
+  
+  <!-- Fuente con display=swap para no bloquear render -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-
+  
   <style>
     body {
-      font-family: 'Inter', system-ui, -apple-system, sans-serif;
-      margin: 0;
+      font-family: 'Inter', sans-serif;
       background-color: #f8fafc;
       -webkit-tap-highlight-color: transparent;
       overscroll-behavior: none;
     }
-    button, nav { user-select: none; }
+    .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+    .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+    .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+    
+    @media (display-mode: standalone) {
+      .pwa-only { display: none; }
+    }
 
-    /* Loading spinner while JS loads */
+    button, nav {
+      user-select: none;
+    }
+
+    /* ============================================
+       OPTIMIZACIÓN 10: CRITICAL CSS INLINE
+       Loading skeleton para first paint instantáneo
+       ============================================ */
     #root:empty {
       display: flex;
       align-items: center;
@@ -47,14 +70,21 @@
       border-radius: 50%;
       animation: spin 0.8s linear infinite;
     }
-    @keyframes spin { to { transform: rotate(360deg); } }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
   </style>
 </head>
 <body class="bg-[#f8fafc]">
   <div id="root"></div>
-
+  
+  <!-- ============================================
+       OPTIMIZACIÓN 11: SERVICE WORKER ASYNC
+       No bloquea el render principal
+       ============================================ -->
   <script>
     if ('serviceWorker' in navigator) {
+      // Registrar SW después de que la página esté lista
       window.addEventListener('load', () => {
         navigator.serviceWorker.register('/sw.js').catch(() => {});
       });

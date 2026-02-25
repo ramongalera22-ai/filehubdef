@@ -1,10 +1,10 @@
 
 import React, { useState, useEffect, useRef, lazy, Suspense, useCallback, useMemo } from 'react';
-import { ViewType, Expense, Project, Trip, CalendarEvent, Goal, Task, ShoppingItem, ShoppingOrder, Idea, OllamaConfig, OpenNotebookConfig, Debt, Investment, Presentation, SharedExpense, SharedDebt, StoredFile, WeightEntry, NutritionPlan, TrainingSession, TrainingPlan, Partnership } from './types/index';
+import { ViewType, Expense, Project, Trip, CalendarEvent, Goal, Task, ShoppingItem, ShoppingOrder, Idea, OllamaConfig, OpenNotebookConfig, Debt, Investment, Presentation, SharedExpense, SharedDebt, StoredFile, WeightEntry, NutritionPlan, TrainingSession, TrainingPlan, Partnership } from './types';
 import Sidebar from './components/Sidebar';
 import ErrorBoundary from './components/ErrorBoundary';
 import { processUniversalDocument } from './services/geminiService';
-import { supabase, isSupabaseConfigured } from './services/supabaseClient';
+import { supabase } from './services/supabaseClient';
 import {
   Search, Bell, X, FileText, Sparkles, Menu, Receipt, Database, User, Moon, Sun, Wifi
 } from 'lucide-react';
@@ -211,23 +211,8 @@ const App: React.FC = () => {
     }
   }, []);
 
-  // Check Supabase Session OR Demo Mode
+  // Check Supabase Session
   useEffect(() => {
-    // Demo/local mode: check localStorage
-    if (!isSupabaseConfigured()) {
-      const demoUser = localStorage.getItem('filehub_demo_user');
-      if (demoUser) {
-        try {
-          const user = JSON.parse(demoUser);
-          setIsAuthenticated(true);
-          setCurrentUser(user.email);
-          setIsDBReady(true);
-        } catch { /* ignore */ }
-      }
-      return;
-    }
-
-    // Cloud mode: use Supabase auth
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
       if (session) {
@@ -266,20 +251,11 @@ const App: React.FC = () => {
   }, [darkMode]);
 
   const handleLogin = useCallback((user: any) => {
-    // In demo mode, set auth state directly
-    if (!isSupabaseConfigured()) {
-      setIsAuthenticated(true);
-      setCurrentUser(user.email);
-      setIsDBReady(true);
-    }
-    // In cloud mode, onAuthStateChange handles it
+    // Handled by onAuthStateChange in useEffect
   }, []);
 
   const handleLogout = useCallback(async () => {
-    if (isSupabaseConfigured()) {
-      await supabase.auth.signOut();
-    }
-    localStorage.removeItem('filehub_demo_user');
+    await supabase.auth.signOut();
     setIsAuthenticated(false);
     setCurrentUser(null);
     // Reset all state in one batch

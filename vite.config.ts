@@ -9,6 +9,8 @@ export default defineConfig(({ mode }) => {
   return {
     root: '.',
     publicDir: 'public',
+    // GitHub Pages serves from /repo-name/ — auto-detect via env
+    base: process.env.GITHUB_ACTIONS ? '/filehubdef/' : '/',
 
     server: {
       port: 3000,

@@ -1,0 +1,14 @@
+{
+  "name": "filehubdef",
+  "version": "1.0.0",
+  "description": "Gestor de Documentos Médicos con Supabase",
+  "main": "public/index.html",
+  "scripts": {
+    "dev": "python -m http.server 5173 --directory public",
+    "build": "echo 'Build complete'",
+    "preview": "python -m http.server 4173 --directory public"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.26.0"
+  }
+}

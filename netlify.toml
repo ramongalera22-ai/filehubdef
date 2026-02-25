@@ -1,0 +1,39 @@
+[build]
+  command = "npm run build"
+  functions = "functions"
+  publish = "dist"
+
+[build.environment]
+  VITE_SUPABASE_URL = "https://ztigttazrdzkpxrzyast.supabase.co"
+  VITE_SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp0aWd0dGF6cmR6a3B4cnp5YXN0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzY0NDk5NzMsImV4cCI6MjA1MjAyNTk3M30.oPTHYc8us9Miq22Mo1zNZ8T6n6c9jKl2vZ4X5Y6Z7K8"
+  GEMINI_API_KEY = "AIzaSyC4Z7X5Y6-8K9L0M1N2O3P4Q5R6S7T8U9V"
+  VITE_OLLAMA_URL = "http://172.29.42.22:9999"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/sw.js"
+  [headers.values]
+    Cache-Control = "no-cache, no-store, must-revalidate"
+
+[[headers]]
+  for = "/*.html"
+  [headers.values]
+    Cache-Control = "no-cache"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "SAMEORIGIN"
+    X-XSS-Protection = "1; mode=block"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=()"

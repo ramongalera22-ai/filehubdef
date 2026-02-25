@@ -1,19 +1,19 @@
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || process.env.VITE_SUPABASE_URL || 'https://ztigttazrdzkpxrzyast.supabase.co';
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || process.env.VITE_SUPABASE_ANON_KEY || '';
+// ═══════════════════════════════════════════════
+// Supabase Client
+// ═══════════════════════════════════════════════
 
-if (!supabaseUrl || !supabaseAnonKey) {
-  console.warn(
-    '[FILEHUB] Supabase URL or Anon Key not configured. ' +
-    'Create a .env file with VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY. ' +
-    'The app will run in offline/demo mode.'
-  );
-}
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || 'https://ztigttazrdzkpxrzyast.supabase.co';
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || '';
+
+export const isSupabaseConfigured = (): boolean => {
+  return !!(supabaseUrl && supabaseAnonKey && supabaseAnonKey.length > 20);
+};
 
 export const supabase: SupabaseClient = createClient(
-  supabaseUrl || 'https://placeholder.supabase.co',
-  supabaseAnonKey || 'placeholder-key',
+  supabaseUrl,
+  supabaseAnonKey || 'placeholder-key-configure-in-env',
   {
     auth: {
       autoRefreshToken: true,
@@ -22,7 +22,3 @@ export const supabase: SupabaseClient = createClient(
     },
   }
 );
-
-export const isSupabaseConfigured = (): boolean => {
-  return !!(supabaseUrl && supabaseAnonKey);
-};

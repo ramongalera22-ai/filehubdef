@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { supabase, isSupabaseConfigured } from '../services/supabaseClient';
-import { Zap, Mail, Lock, AlertCircle } from 'lucide-react';
+import { Zap, Mail, Lock, AlertCircle, Info } from 'lucide-react';
 
 interface AuthViewProps {
   onLogin: (user: any) => void;
@@ -18,25 +18,36 @@ const AuthView: React.FC<AuthViewProps> = ({ onLogin }) => {
     setError('');
     setLoading(true);
 
-    if (!isSupabaseConfigured()) {
-      setError('Supabase no configurado. Crea un archivo .env con VITE_SUPABASE_URL y VITE_SUPABASE_ANON_KEY');
-      setLoading(false);
-      return;
-    }
-
-    try {
-      if (isSignUp) {
-        const { data, error: err } = await supabase.auth.signUp({ email, password });
-        if (err) throw err;
-        if (data.user) onLogin(data.user);
-      } else {
-        const { data, error: err } = await supabase.auth.signInWithPassword({ email, password });
-        if (err) throw err;
-        if (data.user) onLogin(data.user);
+    // If Supabase is configured, use real auth
+    if (isSupabaseConfigured()) {
+      try {
+        if (isSignUp) {
+          const { data, error: err } = await supabase.auth.signUp({ email, password });
+          if (err) throw err;
+          if (data.user) onLogin(data.user);
+        } else {
+          const { data, error: err } = await supabase.auth.signInWithPassword({ email, password });
+          if (err) throw err;
+          if (data.user) onLogin(data.user);
+        }
+      } catch (err: any) {
+        setError(err.message || 'Error de autenticación');
+      } finally {
+        setLoading(false);
       }
-    } catch (err: any) {
-      setError(err.message || 'Error de autenticación');
-    } finally {
+    } else {
+      // Demo/local mode — accept any credentials
+      if (email && password.length >= 4) {
+        const demoUser = {
+          id: 'local-' + btoa(email).slice(0, 12),
+          email: email,
+          user_metadata: { name: email.split('@')[0] }
+        };
+        localStorage.setItem('filehub_demo_user', JSON.stringify(demoUser));
+        onLogin(demoUser);
+      } else {
+        setError('Introduce un email y contraseña (mín. 4 caracteres)');
+      }
       setLoading(false);
     }
   };
@@ -56,6 +67,13 @@ const AuthView: React.FC<AuthViewProps> = ({ onLogin }) => {
             <p className="text-[10px] font-bold text-indigo-300/60 uppercase tracking-[0.2em] mt-1">Inteligencia de Gestión</p>
           </div>
 
+          {!isSupabaseConfigured() && (
+            <div className="flex items-start gap-2 text-amber-300 text-[11px] font-semibold bg-amber-500/10 border border-amber-500/20 rounded-lg px-3 py-2 mb-4">
+              <Info size={14} className="mt-0.5 flex-shrink-0" />
+              <span>Modo local — datos guardados en tu navegador. Configura Supabase para sincronización cloud.</span>
+            </div>
+          )}
+
           <form onSubmit={handleSubmit} className="space-y-3">
             <div className="relative">
               <Mail size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500" />
@@ -64,7 +82,7 @@ const AuthView: React.FC<AuthViewProps> = ({ onLogin }) => {
             </div>
             <div className="relative">
               <Lock size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500" />
-              <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Contraseña" required minLength={6}
+              <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Contraseña" required
                 className="w-full bg-slate-950/60 border border-indigo-500/20 rounded-xl py-3.5 pl-11 pr-4 text-white text-sm font-semibold placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/30" />
             </div>
 
@@ -80,10 +98,12 @@ const AuthView: React.FC<AuthViewProps> = ({ onLogin }) => {
             </button>
           </form>
 
-          <button onClick={() => { setIsSignUp(!isSignUp); setError(''); }}
-            className="w-full text-center text-xs text-indigo-400/60 font-semibold mt-4 hover:text-indigo-400 transition-colors">
-            {isSignUp ? '¿Ya tienes cuenta? Inicia sesión' : '¿No tienes cuenta? Regístrate'}
-          </button>
+          {isSupabaseConfigured() && (
+            <button onClick={() => { setIsSignUp(!isSignUp); setError(''); }}
+              className="w-full text-center text-xs text-indigo-400/60 font-semibold mt-4 hover:text-indigo-400 transition-colors">
+              {isSignUp ? '¿Ya tienes cuenta? Inicia sesión' : '¿No tienes cuenta? Regístrate'}
+            </button>
+          )}
         </div>
       </div>
     </div>

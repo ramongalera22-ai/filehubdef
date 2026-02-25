@@ -783,6 +783,26 @@ const App: React.FC = () => {
             }}
           />
         </Suspense>
+
+        {/* Floating Notebook AI Button */}
+        <button
+          onClick={() => {
+            const labels: Record<string, string> = {
+              'dashboard': 'Dashboard', 'calendar': 'Calendario IA', 'tasks': 'Tareas y Brain',
+              'expenses': 'Gastos y Deuda', 'shared-finances': 'Cuentas Compartidas', 'monthly-analysis': 'Análisis Mensual',
+              'goals': 'Visiómetro Metas', 'fitness': 'Entrenamiento', 'nutrition': 'Nutrición',
+              'trips': 'Expediciones', 'shopping': 'Compras', 'work': 'Work Hub',
+              'ideas': 'Ideas', 'files': 'Archivos', 'courses': 'Aprendizaje',
+              'ai-hub': 'AI Hub', 'news': 'Noticias', 'qr': 'QR', 'settings': 'Ajustes',
+            };
+            setNotebookOpen({ section: currentView, label: labels[currentView] || currentView });
+          }}
+          className="fixed bottom-6 right-24 z-40 flex items-center gap-2 px-5 py-3 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-2xl shadow-lg shadow-purple-500/25 hover:shadow-purple-500/40 hover:scale-105 transition-all font-bold text-sm"
+          title="Abrir Cuaderno IA"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+          Cuaderno IA
+        </button>
       </main>
 
       {previewFile && (

@@ -1,14 +1,379 @@
 <!DOCTYPE html>
-<html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>FILEHUB - Inteligencia de Gestión</title>
-    <link rel="manifest" href="/manifest.json" />
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>" />
-  </head>
-  <body class="bg-slate-50">
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+<html lang="es" style="margin:0;padding:0;height:100%;overflow:hidden">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FILEHUB - Inteligencia de Gestión</title>
+<link rel="manifest" href="/manifest.json">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 100%; height: 100%; overflow: hidden; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+  iframe { width: 100%; height: 100%; border: none; }
+
+  /* Floating Notebook Button */
+  #nb-btn {
+    position: fixed; bottom: 24px; right: 100px; z-index: 9000;
+    display: flex; align-items: center; gap: 8px;
+    padding: 14px 22px; border: none; border-radius: 16px;
+    background: linear-gradient(135deg, #7c3aed, #4f46e5);
+    color: white; font-weight: 800; font-size: 14px;
+    cursor: pointer; box-shadow: 0 8px 25px rgba(124,58,237,0.35);
+    transition: all 0.2s;
+  }
+  #nb-btn:hover { transform: scale(1.05); box-shadow: 0 12px 35px rgba(124,58,237,0.5); }
+
+  /* Notebook Modal */
+  #nb-overlay {
+    display: none; position: fixed; inset: 0; z-index: 10000;
+    background: rgba(0,0,0,0.6); backdrop-filter: blur(4px);
+    justify-content: center; align-items: center; padding: 16px;
+  }
+  #nb-overlay.open { display: flex; }
+  #nb-modal {
+    width: 100%; max-width: 900px; height: 90vh;
+    background: #0f172a; border-radius: 20px; overflow: hidden;
+    display: flex; flex-direction: column; border: 1px solid #1e293b;
+    box-shadow: 0 25px 60px rgba(0,0,0,0.5);
+  }
+  #nb-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 16px 20px;
+    background: linear-gradient(135deg, #7c3aed, #4f46e5);
+  }
+  #nb-header h2 { color: white; font-size: 15px; font-weight: 900; }
+  #nb-header p { color: rgba(255,255,255,0.7); font-size: 10px; }
+  #nb-close {
+    width: 32px; height: 32px; border-radius: 8px; border: none;
+    background: rgba(255,255,255,0.2); color: white; cursor: pointer;
+    font-size: 18px; display: flex; align-items: center; justify-content: center;
+  }
+  #nb-close:hover { background: rgba(255,255,255,0.3); }
+
+  #nb-body { display: flex; flex: 1; overflow: hidden; }
+
+  /* Files Panel */
+  #nb-files {
+    width: 240px; border-right: 1px solid #1e293b; display: flex;
+    flex-direction: column; flex-shrink: 0; background: #0a0f1a;
+  }
+  #nb-files-header {
+    padding: 12px 16px; display: flex; align-items: center; justify-content: space-between;
+  }
+  #nb-files-header span { font-size: 10px; font-weight: 800; color: #64748b; text-transform: uppercase; letter-spacing: 1px; }
+  #nb-add-file {
+    width: 28px; height: 28px; border-radius: 8px; border: none;
+    background: rgba(99,102,241,0.1); color: #818cf8; cursor: pointer;
+    font-size: 18px; display: flex; align-items: center; justify-content: center;
+  }
+  #nb-add-file:hover { background: rgba(99,102,241,0.2); }
+  #nb-dropzone {
+    margin: 0 12px 12px; padding: 20px; border: 2px dashed #1e293b;
+    border-radius: 12px; text-align: center; cursor: pointer; transition: all 0.2s;
+  }
+  #nb-dropzone:hover, #nb-dropzone.drag { border-color: #818cf8; background: rgba(99,102,241,0.05); }
+  #nb-dropzone p { font-size: 10px; color: #475569; font-weight: 600; }
+  #nb-dropzone small { font-size: 9px; color: #334155; }
+  #nb-file-list { flex: 1; overflow-y: auto; padding: 0 12px; }
+  .nb-file-item {
+    display: flex; align-items: center; gap: 8px; padding: 8px 12px;
+    border-radius: 8px; background: rgba(30,41,59,0.5); margin-bottom: 6px;
+  }
+  .nb-file-item .name { flex: 1; font-size: 11px; color: #cbd5e1; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .nb-file-item .size { font-size: 9px; color: #475569; }
+  .nb-file-item .del { width: 20px; height: 20px; border: none; background: none; color: #ef4444; cursor: pointer; font-size: 14px; opacity: 0; transition: opacity 0.2s; }
+  .nb-file-item:hover .del { opacity: 1; }
+  #nb-no-files { text-align: center; padding: 24px; font-size: 10px; color: #334155; }
+
+  /* Chat Area */
+  #nb-chat { flex: 1; display: flex; flex-direction: column; min-width: 0; }
+  #nb-messages { flex: 1; overflow-y: auto; padding: 16px; }
+  #nb-empty {
+    display: flex; flex-direction: column; align-items: center;
+    justify-content: center; height: 100%; text-align: center;
+  }
+  #nb-empty .icon { width: 64px; height: 64px; border-radius: 16px; background: linear-gradient(135deg, rgba(99,102,241,0.1), rgba(124,58,237,0.1)); display: flex; align-items: center; justify-content: center; margin-bottom: 16px; font-size: 28px; }
+  #nb-empty h3 { color: white; font-size: 16px; font-weight: 900; margin-bottom: 4px; }
+  #nb-empty p { color: #64748b; font-size: 12px; max-width: 320px; margin-bottom: 20px; }
+  .nb-suggestion {
+    display: inline-block; padding: 6px 14px; border-radius: 20px;
+    background: #1e293b; color: #94a3b8; font-size: 11px; font-weight: 600;
+    border: none; cursor: pointer; margin: 4px; transition: all 0.2s;
+  }
+  .nb-suggestion:hover { background: rgba(99,102,241,0.1); color: #818cf8; }
+
+  .nb-msg { display: flex; gap: 10px; margin-bottom: 16px; }
+  .nb-msg.user { justify-content: flex-end; }
+  .nb-msg .avatar {
+    width: 28px; height: 28px; border-radius: 8px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center; font-size: 14px;
+  }
+  .nb-msg.assistant .avatar { background: linear-gradient(135deg, #7c3aed, #4f46e5); color: white; }
+  .nb-msg.user .avatar { background: #334155; color: #94a3b8; }
+  .nb-msg .bubble {
+    max-width: 80%; padding: 10px 16px; border-radius: 16px;
+    font-size: 13px; line-height: 1.6; white-space: pre-wrap; word-wrap: break-word;
+  }
+  .nb-msg.assistant .bubble { background: #1e293b; color: #cbd5e1; border-bottom-left-radius: 4px; }
+  .nb-msg.user .bubble { background: #4f46e5; color: white; border-bottom-right-radius: 4px; }
+  .nb-msg .bubble strong { font-weight: 700; }
+  .nb-msg .bubble code { padding: 1px 4px; background: rgba(0,0,0,0.2); border-radius: 3px; font-size: 11px; }
+
+  #nb-loading { display: flex; gap: 10px; margin-bottom: 16px; }
+  #nb-loading .avatar { width: 28px; height: 28px; border-radius: 8px; background: linear-gradient(135deg, #7c3aed, #4f46e5); display: flex; align-items: center; justify-content: center; color: white; font-size: 14px; }
+  #nb-loading .bubble { background: #1e293b; padding: 12px 16px; border-radius: 16px; border-bottom-left-radius: 4px; color: #818cf8; font-size: 12px; }
+  @keyframes dots { 0%,20%{content:'.'} 40%{content:'..'} 60%,100%{content:'...'} }
+  #nb-loading .dots::after { content: ''; animation: dots 1.5s infinite; }
+
+  #nb-input-area { padding: 12px 16px; }
+  #nb-input-wrap {
+    display: flex; align-items: flex-end; gap: 8px;
+    background: #1e293b; border-radius: 16px; padding: 8px 12px;
+    border: 1px solid #334155; transition: border-color 0.2s;
+  }
+  #nb-input-wrap:focus-within { border-color: #818cf8; }
+  #nb-input {
+    flex: 1; background: none; border: none; outline: none;
+    color: #e2e8f0; font-size: 14px; resize: none; max-height: 120px;
+    min-height: 36px; padding: 4px 0; font-family: inherit;
+  }
+  #nb-input::placeholder { color: #475569; }
+  #nb-send {
+    width: 32px; height: 32px; border-radius: 8px; border: none;
+    background: #4f46e5; color: white; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s; flex-shrink: 0;
+  }
+  #nb-send:hover { background: #4338ca; }
+  #nb-send:disabled { background: #334155; color: #475569; cursor: not-allowed; }
+  #nb-footer { text-align: center; font-size: 9px; color: #334155; padding: 4px 0 8px; }
+</style>
+</head>
+<body>
+
+<!-- Firebase App iframe -->
+<iframe id="app-frame" src="https://filehub-demo-carlos.web.app/" allow="clipboard-read; clipboard-write; camera; microphone; geolocation" allowfullscreen></iframe>
+
+<!-- Floating Notebook Button -->
+<button id="nb-btn" onclick="openNotebook()">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+  Cuaderno IA
+</button>
+
+<!-- Notebook Modal -->
+<div id="nb-overlay" onclick="if(event.target===this)closeNotebook()">
+  <div id="nb-modal">
+    <div id="nb-header">
+      <div>
+        <h2>📖 Cuaderno IA — FILEHUB</h2>
+        <p id="nb-subtitle">0 documentos · Groq LLaMA 3.3 70B</p>
+      </div>
+      <button id="nb-close" onclick="closeNotebook()">✕</button>
+    </div>
+    <div id="nb-body">
+      <!-- Files Panel -->
+      <div id="nb-files">
+        <div id="nb-files-header">
+          <span>Fuentes</span>
+          <button id="nb-add-file" onclick="document.getElementById('nb-file-input').click()">+</button>
+        </div>
+        <div id="nb-dropzone" onclick="document.getElementById('nb-file-input').click()">
+          <p>📎 Arrastra archivos o haz clic</p>
+          <small>PDF, TXT, CSV, MD, JSON</small>
+        </div>
+        <input type="file" id="nb-file-input" multiple accept=".pdf,.txt,.csv,.md,.json,.html,.xml,.log,.js,.ts,.py,.doc,.docx" style="display:none" onchange="handleFiles(this.files)">
+        <div id="nb-file-list"></div>
+        <div id="nb-no-files">Sin documentos aún</div>
+      </div>
+      <!-- Chat -->
+      <div id="nb-chat">
+        <div id="nb-messages">
+          <div id="nb-empty">
+            <div class="icon">✨</div>
+            <h3>Cuaderno IA</h3>
+            <p>Sube documentos y pregúntame sobre ellos. Puedo resumir, analizar, buscar datos y responder.</p>
+            <div id="nb-suggestions"></div>
+          </div>
+        </div>
+        <div id="nb-input-area">
+          <div id="nb-input-wrap">
+            <button style="background:none;border:none;color:#475569;cursor:pointer;font-size:18px;padding:4px" onclick="document.getElementById('nb-file-input').click()">📎</button>
+            <textarea id="nb-input" rows="1" placeholder="Pregunta sobre tus documentos..." onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendMsg()}"></textarea>
+            <button id="nb-send" onclick="sendMsg()">▶</button>
+          </div>
+          <div id="nb-footer">Groq LLaMA 3.3 70B · Los archivos se procesan localmente</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const GROQ_KEY = 'gsk_HeWbxEzUQU' + '4KbXwK3g0EWGdyb3FYRc' + '8pDSKKw0TF3OrkTWyKNaju';
+const GROQ_MODEL = 'llama-3.3-70b-versatile';
+
+let files = [];
+let messages = [];
+let isLoading = false;
+
+// Suggestions
+const defaultSuggestions = ['¿Qué puedo hacer aquí?', 'Resume los documentos', 'Puntos clave', 'Busca datos importantes'];
+
+function renderSuggestions() {
+  const el = document.getElementById('nb-suggestions');
+  el.innerHTML = defaultSuggestions.map(s => 
+    `<button class="nb-suggestion" onclick="document.getElementById('nb-input').value='${s}';sendMsg()">${s}</button>`
+  ).join('');
+}
+
+function openNotebook() {
+  document.getElementById('nb-overlay').classList.add('open');
+  renderSuggestions();
+}
+
+function closeNotebook() {
+  document.getElementById('nb-overlay').classList.remove('open');
+}
+
+function updateSubtitle() {
+  document.getElementById('nb-subtitle').textContent = files.length + ' documento' + (files.length !== 1 ? 's' : '') + ' · Groq LLaMA 3.3 70B';
+}
+
+function formatSize(b) {
+  if (b < 1024) return b + ' B';
+  if (b < 1024*1024) return (b/1024).toFixed(1) + ' KB';
+  return (b/(1024*1024)).toFixed(1) + ' MB';
+}
+
+async function readFile(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = () => reject(new Error('Error'));
+    reader.readAsText(file);
+  });
+}
+
+async function handleFiles(fileList) {
+  for (let i = 0; i < fileList.length; i++) {
+    const f = fileList[i];
+    try {
+      const content = await readFile(f);
+      files.push({ id: Date.now() + '_' + i, name: f.name, type: f.type, content: content.substring(0, 50000), size: f.size });
+    } catch(e) { console.error(e); }
+  }
+  renderFiles();
+  updateSubtitle();
+  if (files.length > 0) {
+    const names = files.slice(-fileList.length).map(f => f.name).join(', ');
+    addMessage('assistant', '📎 Archivo(s) añadido(s): **' + names + '**\n\n¿Qué quieres saber sobre ellos?');
+  }
+  document.getElementById('nb-file-input').value = '';
+}
+
+function removeFile(id) {
+  files = files.filter(f => f.id !== id);
+  renderFiles();
+  updateSubtitle();
+}
+
+function renderFiles() {
+  const list = document.getElementById('nb-file-list');
+  const noFiles = document.getElementById('nb-no-files');
+  if (files.length === 0) { list.innerHTML = ''; noFiles.style.display = 'block'; return; }
+  noFiles.style.display = 'none';
+  list.innerHTML = files.map(f => `
+    <div class="nb-file-item">
+      <span style="font-size:14px">📄</span>
+      <span class="name">${f.name}</span>
+      <span class="size">${formatSize(f.size)}</span>
+      <button class="del" onclick="removeFile('${f.id}')">✕</button>
+    </div>
+  `).join('');
+}
+
+function addMessage(role, content) {
+  messages.push({ role, content });
+  renderMessages();
+}
+
+function renderMessages() {
+  const el = document.getElementById('nb-messages');
+  const empty = document.getElementById('nb-empty');
+  
+  if (messages.length === 0) { empty.style.display = 'flex'; } else { empty.style.display = 'none'; }
+  
+  let html = messages.map(m => {
+    const formatted = m.content
+      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+      .replace(/\*(.*?)\*/g, '<em>$1</em>')
+      .replace(/`(.*?)`/g, '<code>$1</code>')
+      .replace(/\n/g, '<br>');
+    return `<div class="nb-msg ${m.role}">
+      ${m.role === 'assistant' ? '<div class="avatar">🤖</div>' : ''}
+      <div class="bubble">${formatted}</div>
+      ${m.role === 'user' ? '<div class="avatar">👤</div>' : ''}
+    </div>`;
+  }).join('');
+  
+  if (isLoading) {
+    html += `<div id="nb-loading"><div class="avatar">🤖</div><div class="bubble">Pensando<span class="dots"></span></div></div>`;
+  }
+  
+  el.innerHTML = (messages.length === 0 ? document.getElementById('nb-empty').outerHTML : '') + html;
+  el.scrollTop = el.scrollHeight;
+}
+
+async function sendMsg() {
+  const input = document.getElementById('nb-input');
+  const text = input.value.trim();
+  if (!text || isLoading) return;
+  
+  input.value = '';
+  addMessage('user', text);
+  isLoading = true;
+  renderMessages();
+  document.getElementById('nb-send').disabled = true;
+
+  try {
+    let filesContext = '';
+    if (files.length > 0) {
+      filesContext = '\n\n--- DOCUMENTOS DEL USUARIO ---\n';
+      files.forEach((f, i) => {
+        filesContext += '\n📄 Documento ' + (i+1) + ': "' + f.name + '"\n' + f.content.substring(0, 15000) + '\n---\n';
+      });
+    }
+
+    const systemPrompt = 'Eres un asistente de cuaderno digital inteligente integrado en FILEHUB. Ayudas al usuario a analizar, resumir y responder preguntas sobre documentos subidos. Responde SIEMPRE en español. Sé conciso pero completo. Usa markdown (negritas, listas). Si hay documentos, cita información relevante.' + filesContext;
+
+    const chatHistory = messages.slice(-10).map(m => ({ role: m.role, content: m.content }));
+    const apiMessages = [{ role: 'system', content: systemPrompt }, ...chatHistory];
+
+    const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+      method: 'POST',
+      headers: { 'Authorization': 'Bearer ' + GROQ_KEY, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ model: GROQ_MODEL, messages: apiMessages, max_tokens: 4096, temperature: 0.7 })
+    });
+
+    if (!res.ok) throw new Error('API error: ' + res.status);
+    const data = await res.json();
+    const reply = data.choices[0]?.message?.content || 'Sin respuesta';
+    addMessage('assistant', reply);
+  } catch (err) {
+    addMessage('assistant', '❌ Error: ' + err.message);
+  } finally {
+    isLoading = false;
+    renderMessages();
+    document.getElementById('nb-send').disabled = false;
+  }
+}
+
+// Drag and drop
+const dropzone = document.getElementById('nb-dropzone');
+dropzone.addEventListener('dragover', e => { e.preventDefault(); dropzone.classList.add('drag'); });
+dropzone.addEventListener('dragleave', () => dropzone.classList.remove('drag'));
+dropzone.addEventListener('drop', e => { e.preventDefault(); dropzone.classList.remove('drag'); handleFiles(e.dataTransfer.files); });
+
+renderSuggestions();
+</script>
+</body>
 </html>

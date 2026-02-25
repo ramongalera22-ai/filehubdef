@@ -3,6 +3,7 @@ import React, { useState, useEffect, useRef, lazy, Suspense, useCallback, useMem
 import { ViewType, Expense, Project, Trip, CalendarEvent, Goal, Task, ShoppingItem, ShoppingOrder, Idea, OllamaConfig, OpenNotebookConfig, Debt, Investment, Presentation, SharedExpense, SharedDebt, StoredFile, WeightEntry, NutritionPlan, TrainingSession, TrainingPlan, Partnership } from './types';
 import Sidebar from './components/Sidebar';
 import ErrorBoundary from './components/ErrorBoundary';
+const SmartNotebook = lazy(() => import('./components/SmartNotebook'));
 import { processUniversalDocument } from './services/geminiService';
 import { supabase } from './services/supabaseClient';
 import {
@@ -100,6 +101,7 @@ const App: React.FC = () => {
   const [scanResults, setScanResults] = useState<any>(null);
   const [isDBReady, setIsDBReady] = useState(false);
   const [previewFile, setPreviewFile] = useState<File | null>(null);
+  const [notebookOpen, setNotebookOpen] = useState<{ section: string; label: string } | null>(null);
 
   const getBackendUrl = useCallback((port: number) => {
     const host = window.location.hostname;
@@ -727,7 +729,7 @@ const App: React.FC = () => {
     <div className={`min-h-screen flex flex-col md:flex-row bg-[#f8fafc] dark:bg-slate-950 text-slate-900 dark:text-slate-100 overflow-x-hidden ${darkMode ? 'dark' : ''}`}>
       <div className={`fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-sm transition-opacity md:hidden ${isSidebarOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`} onClick={() => setIsSidebarOpen(false)} />
       <div className={`fixed left-0 top-0 h-full z-50 transition-transform duration-300 md:translate-x-0 ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'} md:relative md:flex`}>
-        <Sidebar currentView={currentView} onViewChange={(v) => { setCurrentView(v); setIsSidebarOpen(false); }} onScanClick={handleScanClick} onLogout={handleLogout} />
+        <Sidebar currentView={currentView} onViewChange={(v) => { setCurrentView(v); setIsSidebarOpen(false); }} onScanClick={handleScanClick} onLogout={handleLogout} onOpenNotebook={(section, label) => setNotebookOpen({ section, label })} />
       </div>
 
       <input type="file" accept="image/*,application/pdf" className="hidden" ref={scanInputRef} onChange={handleFileSelection} />
@@ -803,6 +805,16 @@ const App: React.FC = () => {
           <h2 className="text-2xl font-black mt-8 tracking-widest uppercase">Analizando con IA</h2>
           <p className="text-indigo-300 mt-2 font-bold text-xs">Extrayendo transacciones y flujos...</p>
         </div>
+      )}
+
+      {notebookOpen && (
+        <Suspense fallback={null}>
+          <SmartNotebook
+            section={notebookOpen.section}
+            sectionLabel={notebookOpen.label}
+            onClose={() => setNotebookOpen(null)}
+          />
+        </Suspense>
       )}
     </div>
   );

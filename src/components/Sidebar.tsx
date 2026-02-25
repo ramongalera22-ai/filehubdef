@@ -12,6 +12,7 @@ interface SidebarProps {
   onViewChange: (view: ViewType) => void;
   onScanClick: () => void;
   onLogout: () => void;
+  onOpenNotebook?: (section: string, label: string) => void;
 }
 
 const NAV_SECTIONS = [
@@ -19,32 +20,32 @@ const NAV_SECTIONS = [
     label: 'Principal',
     items: [
       { id: 'dashboard' as ViewType, label: 'Dashboard', icon: LayoutDashboard },
-      { id: 'calendar' as ViewType, label: 'Calendario', icon: Calendar },
-      { id: 'tasks' as ViewType, label: 'Tareas', icon: CheckSquare },
+      { id: 'calendar' as ViewType, label: 'Calendario IA', icon: Calendar },
+      { id: 'tasks' as ViewType, label: 'Tareas y Brain', icon: CheckSquare },
     ],
   },
   {
     label: 'Finanzas',
     items: [
-      { id: 'expenses' as ViewType, label: 'Gastos', icon: DollarSign },
-      { id: 'shared-finances' as ViewType, label: 'Compartidos', icon: Users },
-      { id: 'monthly-analysis' as ViewType, label: 'Análisis', icon: BarChart2 },
+      { id: 'expenses' as ViewType, label: 'Gastos y Deuda', icon: DollarSign },
+      { id: 'shared-finances' as ViewType, label: 'Cuentas Compartidas', icon: Users },
+      { id: 'monthly-analysis' as ViewType, label: 'Análisis Mensual', icon: BarChart2 },
     ],
   },
   {
     label: 'Vida',
     items: [
-      { id: 'goals' as ViewType, label: 'Metas', icon: Target },
-      { id: 'fitness' as ViewType, label: 'Fitness', icon: Dumbbell },
+      { id: 'goals' as ViewType, label: 'Visiómetro Metas', icon: Target },
+      { id: 'fitness' as ViewType, label: 'Entrenamiento', icon: Dumbbell },
       { id: 'nutrition' as ViewType, label: 'Nutrición', icon: Apple },
-      { id: 'trips' as ViewType, label: 'Viajes', icon: MapPin },
+      { id: 'trips' as ViewType, label: 'Expediciones', icon: MapPin },
       { id: 'shopping' as ViewType, label: 'Compras', icon: ShoppingCart },
     ],
   },
   {
     label: 'Trabajo',
     items: [
-      { id: 'work' as ViewType, label: 'Proyectos', icon: Briefcase },
+      { id: 'work' as ViewType, label: 'Work Hub', icon: Briefcase },
       { id: 'ideas' as ViewType, label: 'Ideas', icon: Lightbulb },
       { id: 'files' as ViewType, label: 'Archivos', icon: FolderOpen },
       { id: 'courses' as ViewType, label: 'Aprendizaje', icon: BookOpen },
@@ -61,7 +62,7 @@ const NAV_SECTIONS = [
   },
 ];
 
-const Sidebar: React.FC<SidebarProps> = ({ currentView, onViewChange, onScanClick, onLogout }) => {
+const Sidebar: React.FC<SidebarProps> = ({ currentView, onViewChange, onScanClick, onLogout, onOpenNotebook }) => {
   return (
     <div className="w-[260px] h-screen bg-white dark:bg-slate-950 border-r border-slate-100 dark:border-slate-800 flex flex-col overflow-y-auto custom-scrollbar">
       {/* Logo */}
@@ -96,18 +97,31 @@ const Sidebar: React.FC<SidebarProps> = ({ currentView, onViewChange, onScanClic
             {section.items.map((item) => {
               const active = currentView === item.id;
               return (
-                <button
-                  key={item.id}
-                  onClick={() => onViewChange(item.id)}
-                  className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-[13px] font-semibold transition-all ${
-                    active
-                      ? 'bg-indigo-50 dark:bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 font-bold'
-                      : 'text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800/50'
-                  }`}
-                >
-                  <item.icon size={18} />
-                  {item.label}
-                </button>
+                <div key={item.id} className="group relative flex items-center">
+                  <button
+                    onClick={() => onViewChange(item.id)}
+                    className={`flex-1 flex items-center gap-3 px-3 py-2.5 rounded-xl text-[13px] font-semibold transition-all ${
+                      active
+                        ? 'bg-indigo-50 dark:bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 font-bold'
+                        : 'text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800/50'
+                    }`}
+                  >
+                    <item.icon size={18} />
+                    {item.label}
+                  </button>
+                  {onOpenNotebook && (
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onOpenNotebook(item.id, item.label);
+                      }}
+                      title={`Cuaderno IA — ${item.label}`}
+                      className="absolute right-1 w-6 h-6 rounded-lg bg-transparent opacity-0 group-hover:opacity-100 hover:bg-purple-100 dark:hover:bg-purple-500/20 flex items-center justify-center transition-all"
+                    >
+                      <BookOpen size={12} className="text-purple-500" />
+                    </button>
+                  )}
+                </div>
               );
             })}
           </div>

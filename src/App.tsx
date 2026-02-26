@@ -47,6 +47,7 @@ const OpenWebUIView = lazy(() => import('./components/OpenWebUIView'));
 const MonthlyAnalysisView = lazy(() => import('./components/MonthlyAnalysisView'));
 const SocialView = lazy(() => import('./components/SocialView'));
 const CoordinadorView = lazy(() => import('./components/CoordinadorView'));
+const BlogPublisherView = lazy(() => import('./components/BlogPublisherView'));
 
 // ============================================
 // OPTIMIZACIÓN 4: LOADING SKELETON
@@ -719,6 +720,7 @@ const App: React.FC = () => {
       case 'coordinador': return (
         <CoordinadorView events={calendarEvents} tasks={tasks} onAddEvent={handleAddEvent} onDeleteEvent={handleDeleteEvent} />
       );
+      case 'blog': return <BlogPublisherView />;
       default: return (
         <Dashboard expenses={expenses} tasks={tasks} events={calendarEvents} onAddTask={handleAddTask} onDeleteTask={handleDeleteTask} onToggleTask={handleToggleTask} />
       );

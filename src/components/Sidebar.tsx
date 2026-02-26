@@ -55,6 +55,7 @@ const NAV_SECTIONS = [
     label: 'AI & Tools',
     items: [
       { id: 'ai-hub' as ViewType, label: 'AI Hub', icon: Brain },
+      { id: 'blog' as ViewType, label: 'Blog Publisher', icon: Globe },
       { id: 'news' as ViewType, label: 'Noticias', icon: Newspaper },
       { id: 'qr' as ViewType, label: 'QR', icon: QrCode },
       { id: 'settings' as ViewType, label: 'Ajustes', icon: Settings },

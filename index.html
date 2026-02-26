@@ -451,18 +451,22 @@ async function blogGeneratePost(text, imgUrls) {
   if (imgUrls && imgUrls.length > 0) {
     imgCtx = '\n\nEl post incluye ' + imgUrls.length + ' imagen(es). URLs:\n' + imgUrls.map((u,i) => (i+1) + '. ' + u).join('\n') + '\nIncorpóralas con <img src="URL" alt="desc" style="max-width:100%;height:auto;border-radius:8px;margin:16px 0" />.';
   }
-  const res = await fetch('https://api.anthropic.com/v1/messages', {
+  const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: { 'Authorization': 'Bearer ' + GROQ_KEY, 'Content-Type': 'application/json' },
     body: JSON.stringify({
-      model: 'claude-sonnet-4-20250514', max_tokens: 4000,
-      messages: [{ role: 'user', content: 'Eres el editor del blog cartagenaeste.es (zona este de Cartagena, Murcia, España).\nGenera entrada COMPLETA. Devuelve SOLO JSON (sin backticks):\n{"title":"Título SEO","content":"<p>HTML del post</p>","excerpt":"Resumen","tags":["tag1"],"category_suggestion":"cat"}\nReglas: HTML limpio, tono cercano/local, NO inventes datos.' + imgCtx + '\n\nContenido:\n' + text }]
+      model: 'llama-3.3-70b-versatile', max_tokens: 4000, temperature: 0.7,
+      messages: [
+        { role: 'system', content: 'Eres el editor del blog cartagenaeste.es (zona este de Cartagena, Murcia, España). Generas entradas de blog completas. Responde SOLO con un JSON válido, sin backticks ni explicación.' },
+        { role: 'user', content: 'Genera una entrada COMPLETA con este formato JSON exacto:\n{"title":"Título atractivo SEO","content":"<p>HTML completo del post con párrafos, negritas, subtítulos</p>","excerpt":"Resumen 1-2 frases","tags":["etiqueta1","etiqueta2"],"category_suggestion":"nombre categoría"}\n\nReglas:\n- HTML limpio: p, strong, em, h2, h3, ul, li, blockquote\n- Tono cercano y local, como hablando a vecinos del barrio\n- Amplía y mejora el texto manteniendo el mensaje original\n- NO inventes datos que no estén en el contenido\n- Etiquetas relevantes (cartagena, barrio, zona este, etc.)' + imgCtx + '\n\nContenido del autor:\n' + text }
+      ]
     })
   });
+  if (!res.ok) throw new Error('Groq API error: ' + res.status);
   const data = await res.json();
-  const t = data.content?.find(b => b.type === 'text')?.text || '';
-  const m = t.replace(/```json?\n?/g,'').replace(/```/g,'').match(/\{[\s\S]*\}/);
-  if (!m) throw new Error('IA no devolvió JSON');
+  const t = data.choices?.[0]?.message?.content || '';
+  const m = t.replace(/```json?\n?/g,'').replace(/```/g,'').trim().match(/\{[\s\S]*\}/);
+  if (!m) throw new Error('IA no devolvió JSON válido');
   return JSON.parse(m[0]);
 }
 
@@ -479,8 +483,9 @@ async function blogPublish() {
   document.getElementById('blog-success').style.display = 'none';
 
   try {
-    // 1. Upload files
+    // 1. Upload files (skip if permission error)
     let media = [];
+    let uploadFailed = false;
     if (blogFiles.length > 0) {
       blogLog('📤 Subiendo ' + blogFiles.length + ' archivo(s)...', 'info');
       for (const f of blogFiles) {
@@ -489,7 +494,15 @@ async function blogPublish() {
           const m = await blogUploadFile(f);
           media.push(m);
           blogLog('  ✅ ' + f.name + ' → ID:' + m.id, 'ok');
-        } catch (e) { blogLog('  ❌ ' + f.name + ': ' + e.message, 'err'); }
+        } catch (e) {
+          blogLog('  ⚠️ ' + f.name + ': ' + e.message, 'err');
+          uploadFailed = true;
+        }
+      }
+      if (uploadFailed && media.length === 0) {
+        blogLog('⚠️ No se pudieron subir archivos (permisos). Publicando solo texto...', 'info');
+        blogLog('💡 Para subir archivos, tu usuario WordPress necesita rol "Autor" o superior.', 'info');
+        blogLog('   Ve a wp-admin → Usuarios → tu perfil → cambia Perfil a "Autor" o "Editor"', 'info');
       }
     }
 

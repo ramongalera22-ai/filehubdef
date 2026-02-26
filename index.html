@@ -364,11 +364,8 @@
 // ═══════════════════════════════════════════════
 const BLOG_WP = {
   url: 'https://cartagenaeste.es',
-  user: 'Carlosyjosefina95',
-  pass: '1vMk qPf9 2jkq DwUX GNQZ h5to',
-  // Fallback admin account
-  user2: 'carlosgalera2roman@gmail.com',
-  pass2: 'Carlosyjosefina95.',
+  user: 'carlosgalera2roman@gmail.com',
+  pass: 'htj4 GUcB GKt1 1Bvn PMRh yp6k',
 };
 
 let blogFiles = [];
@@ -389,45 +386,25 @@ function blogLog(msg, type) {
 }
 
 async function blogWP(method, endpoint, body) {
-  const accounts = [
-    { user: BLOG_WP.user, pass: BLOG_WP.pass },
-    { user: BLOG_WP.user2, pass: BLOG_WP.pass2 }
-  ];
-  let lastErr;
-  for (const acc of accounts) {
-    try {
-      const auth = blogB64(acc.user + ':' + acc.pass);
-      const url = BLOG_WP.url + '/wp-json/wp/v2/' + endpoint;
-      const opts = { method: method.toUpperCase(), headers: { 'Authorization': 'Basic ' + auth, 'Content-Type': 'application/json' } };
-      if (body) opts.body = JSON.stringify(body);
-      const res = await fetch(url, opts);
-      const data = await res.json();
-      if (!res.ok) throw new Error(data?.message || 'HTTP ' + res.status);
-      return data;
-    } catch (e) { lastErr = e; }
-  }
-  throw lastErr;
+  const auth = blogB64(BLOG_WP.user + ':' + BLOG_WP.pass);
+  const url = BLOG_WP.url + '/wp-json/wp/v2/' + endpoint;
+  const opts = { method: method.toUpperCase(), headers: { 'Authorization': 'Basic ' + auth, 'Content-Type': 'application/json' } };
+  if (body) opts.body = JSON.stringify(body);
+  const res = await fetch(url, opts);
+  const data = await res.json();
+  if (!res.ok) throw new Error(data?.message || 'HTTP ' + res.status);
+  return data;
 }
 
 async function blogUploadFile(file) {
-  const accounts = [
-    { user: BLOG_WP.user, pass: BLOG_WP.pass },
-    { user: BLOG_WP.user2, pass: BLOG_WP.pass2 }
-  ];
-  let lastErr;
-  for (const acc of accounts) {
-    try {
-      const auth = blogB64(acc.user + ':' + acc.pass);
-      const fd = new FormData(); fd.append('file', file);
-      const res = await fetch(BLOG_WP.url + '/wp-json/wp/v2/media', {
-        method: 'POST', headers: { 'Authorization': 'Basic ' + auth }, body: fd
-      });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data?.message || 'HTTP ' + res.status);
-      return data;
-    } catch (e) { lastErr = e; }
-  }
-  throw lastErr;
+  const auth = blogB64(BLOG_WP.user + ':' + BLOG_WP.pass);
+  const fd = new FormData(); fd.append('file', file);
+  const res = await fetch(BLOG_WP.url + '/wp-json/wp/v2/media', {
+    method: 'POST', headers: { 'Authorization': 'Basic ' + auth }, body: fd
+  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data?.message || 'HTTP ' + res.status);
+  return data;
 }
 
 async function blogLoadCats() {

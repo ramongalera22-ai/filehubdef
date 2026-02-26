@@ -438,7 +438,7 @@ async function blogGeneratePost(text, imgUrls) {
     method: 'POST',
     headers: { 'Authorization': 'Bearer ' + GROQ_KEY, 'Content-Type': 'application/json' },
     body: JSON.stringify({ model: 'llama-3.3-70b-versatile', max_tokens: 4000, temperature: 0.7, messages: [
-      { role: 'system', content: 'Editor blog cartagenaeste.es. Responde SOLO JSON: {"title":"","content":"<p>HTML</p>","excerpt":"","tags":[],"category_suggestion":""}' },
+      { role: 'system', content: 'Editor blog cartagenaeste.es. Responde SOLO JSON: {"title":"","content":"<p>HTML</p>","excerpt":"","tags":[],"category_suggestion":""}. Si hay documentos adjuntos, incluye al final del HTML una seccion con enlaces de descarga usando: <div style="background:#f0f9ff;padding:16px;border-radius:12px;margin-top:24px"><h3>📎 Documentos adjuntos</h3><ul><li><a href="URL" target="_blank">NOMBRE</a></li></ul></div>' },
       { role: 'user', content: 'Genera entrada completa. HTML limpio, tono local Cartagena.' + imgCtx + '\n\nContenido:\n' + text }
     ]})
   });
@@ -466,7 +466,9 @@ async function blogPublish() {
       for (const f of blogFiles) { try { blogLog('  ↳ ' + f.name, 'info'); const m = await blogUploadFile(f); media.push(m); blogLog('  ✅ ID:' + m.id, 'ok'); } catch (e) { blogLog('  ⚠️ ' + e.message, 'err'); } }
     }
     const imgUrls = media.filter(m => m.mime_type?.startsWith('image/')).map(m => m.source_url);
+    const docLinks = media.filter(m => !m.mime_type?.startsWith('image/')).map(m => ({ name: m.title || 'Documento', url: m.source_url }));
     let fullText = content || 'Publicación con archivos';
+    if (docLinks.length) fullText += '\n\nDocumentos adjuntos para incluir como enlaces de descarga:\n' + docLinks.map(f => '- ' + f.name + ': ' + f.url).join('\n');
     blogLog('🤖 Generando con IA...', 'info');
     const post = await blogGeneratePost(fullText, imgUrls);
     blogLog('✅ Título: "' + post.title + '"', 'ok');

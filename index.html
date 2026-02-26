@@ -146,6 +146,108 @@
   #nb-send:hover { background: #4338ca; }
   #nb-send:disabled { background: #334155; color: #475569; cursor: not-allowed; }
   #nb-footer { text-align: center; font-size: 9px; color: #334155; padding: 4px 0 8px; }
+
+  /* ═══ BLOG PUBLISHER ═══ */
+  #blog-btn {
+    position: fixed; bottom: 24px; right: 280px; z-index: 9000;
+    display: flex; align-items: center; gap: 8px;
+    padding: 14px 22px; border: none; border-radius: 16px;
+    background: linear-gradient(135deg, #0284c7, #0369a1);
+    color: white; font-weight: 800; font-size: 14px;
+    cursor: pointer; box-shadow: 0 8px 25px rgba(2,132,199,0.35);
+    transition: all 0.2s;
+  }
+  #blog-btn:hover { transform: scale(1.05); box-shadow: 0 12px 35px rgba(2,132,199,0.5); }
+
+  #blog-overlay {
+    display: none; position: fixed; inset: 0; z-index: 10000;
+    background: rgba(0,0,0,0.6); backdrop-filter: blur(4px);
+    justify-content: center; align-items: center; padding: 16px;
+  }
+  #blog-overlay.open { display: flex; }
+  #blog-modal {
+    width: 100%; max-width: 700px; max-height: 92vh;
+    background: #0f172a; border-radius: 20px; overflow: hidden;
+    display: flex; flex-direction: column; border: 1px solid #1e293b;
+    box-shadow: 0 25px 60px rgba(0,0,0,0.5);
+  }
+  #blog-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 16px 20px;
+    background: linear-gradient(135deg, #0284c7, #0369a1);
+  }
+  #blog-header h2 { color: white; font-size: 15px; font-weight: 900; }
+  #blog-header p { color: rgba(255,255,255,0.7); font-size: 10px; }
+  #blog-close {
+    width: 32px; height: 32px; border-radius: 8px; border: none;
+    background: rgba(255,255,255,0.2); color: white; cursor: pointer;
+    font-size: 18px; display: flex; align-items: center; justify-content: center;
+  }
+  #blog-close:hover { background: rgba(255,255,255,0.3); }
+  #blog-body { flex: 1; overflow-y: auto; padding: 20px; }
+  .blog-field { margin-bottom: 14px; }
+  .blog-field label { display: block; font-size: 10px; font-weight: 800; color: #64748b; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+  .blog-field textarea, .blog-field input, .blog-field select {
+    width: 100%; padding: 12px 14px; background: #1e293b; border: 1px solid #334155;
+    border-radius: 12px; color: #e2e8f0; font-size: 13px; font-family: inherit;
+    outline: none; transition: border 0.2s; resize: vertical;
+  }
+  .blog-field textarea:focus, .blog-field input:focus, .blog-field select:focus { border-color: #0284c7; }
+  .blog-field textarea { min-height: 120px; line-height: 1.6; }
+  .blog-field textarea::placeholder, .blog-field input::placeholder { color: #475569; }
+  .blog-field select option { background: #1e293b; }
+
+  #blog-dropzone {
+    border: 2px dashed #334155; border-radius: 12px; padding: 24px; text-align: center;
+    cursor: pointer; transition: all 0.2s; margin-bottom: 14px;
+  }
+  #blog-dropzone:hover, #blog-dropzone.drag { border-color: #0284c7; background: rgba(2,132,199,0.05); }
+  #blog-dropzone p { font-size: 12px; color: #64748b; font-weight: 600; }
+  #blog-dropzone small { font-size: 10px; color: #475569; }
+
+  #blog-files-preview { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
+  .blog-file-thumb {
+    position: relative; width: 72px; height: 72px; border-radius: 10px;
+    border: 1px solid #334155; overflow: hidden; background: #1e293b;
+  }
+  .blog-file-thumb img { width: 100%; height: 100%; object-fit: cover; }
+  .blog-file-thumb .del {
+    position: absolute; top: 2px; right: 2px; width: 18px; height: 18px;
+    border-radius: 50%; background: rgba(239,68,68,0.9); color: white;
+    border: none; cursor: pointer; font-size: 10px; display: flex;
+    align-items: center; justify-content: center;
+  }
+  .blog-file-thumb .info {
+    position: absolute; bottom: 0; left: 0; right: 0; background: rgba(0,0,0,0.7);
+    font-size: 7px; color: #94a3b8; text-align: center; padding: 1px 2px;
+  }
+
+  .blog-row { display: flex; gap: 10px; }
+  .blog-row > * { flex: 1; }
+
+  #blog-publish-btn {
+    width: 100%; padding: 14px; border: none; border-radius: 14px;
+    background: linear-gradient(135deg, #0284c7, #0369a1);
+    color: white; font-weight: 800; font-size: 14px; cursor: pointer;
+    box-shadow: 0 6px 20px rgba(2,132,199,0.3); transition: all 0.2s;
+  }
+  #blog-publish-btn:hover { box-shadow: 0 10px 30px rgba(2,132,199,0.4); }
+  #blog-publish-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  #blog-status { margin-top: 12px; font-size: 12px; line-height: 1.6; }
+  .blog-log { font-family: 'Courier New', monospace; font-size: 11px; padding: 2px 0; }
+  .blog-log.ok { color: #34d399; }
+  .blog-log.err { color: #f87171; }
+  .blog-log.info { color: #60a5fa; }
+
+  #blog-success {
+    margin-top: 14px; padding: 16px; background: rgba(52,211,153,0.08);
+    border: 1px solid rgba(52,211,153,0.2); border-radius: 14px;
+  }
+  #blog-success h3 { font-size: 14px; font-weight: 900; color: #34d399; margin-bottom: 6px; }
+  #blog-success a { color: #38bdf8; font-size: 12px; word-break: break-all; }
+  #blog-success .tags { margin-top: 8px; display: flex; gap: 4px; flex-wrap: wrap; }
+  #blog-success .tag { font-size: 9px; padding: 2px 10px; border-radius: 20px; background: rgba(99,102,241,0.1); color: #818cf8; font-weight: 700; }
 </style>
 </head>
 <body>
@@ -157,6 +259,12 @@
 <button id="nb-btn" onclick="openNotebook()">
   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
   Cuaderno IA
+</button>
+
+<!-- Floating Blog Publisher Button -->
+<button id="blog-btn" onclick="openBlog()">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+  Blog
 </button>
 
 <!-- Notebook Modal -->
@@ -206,6 +314,247 @@
     </div>
   </div>
 </div>
+
+<!-- Blog Publisher Modal -->
+<div id="blog-overlay" onclick="if(event.target===this)closeBlog()">
+  <div id="blog-modal">
+    <div id="blog-header">
+      <div>
+        <h2>🌐 Blog Publisher — cartagenaeste.es</h2>
+        <p id="blog-subtitle">Escribe → IA formatea → Se publica automáticamente</p>
+      </div>
+      <button id="blog-close" onclick="closeBlog()">✕</button>
+    </div>
+    <div id="blog-body">
+      <div class="blog-field">
+        <label>Tu contenido</label>
+        <textarea id="blog-content" placeholder="Escribe lo que quieras publicar: noticia, evento, aviso del barrio...&#10;&#10;La IA generará título, formato HTML, etiquetas y lo subirá automáticamente."></textarea>
+      </div>
+      <div id="blog-dropzone" onclick="document.getElementById('blog-file-input').click()">
+        <p>📎 Arrastra fotos o archivos aquí</p>
+        <small>Imágenes, PDFs, documentos...</small>
+      </div>
+      <input type="file" id="blog-file-input" multiple accept="image/*,.pdf,.doc,.docx,.xls,.xlsx" style="display:none" onchange="blogAddFiles(this.files)">
+      <div id="blog-files-preview"></div>
+      <div class="blog-row">
+        <div class="blog-field">
+          <label>Estado</label>
+          <select id="blog-post-status">
+            <option value="publish">🚀 Publicar</option>
+            <option value="draft">📋 Borrador</option>
+          </select>
+        </div>
+        <div class="blog-field">
+          <label>Categoría</label>
+          <select id="blog-post-cat">
+            <option value="">🤖 Auto (IA elige)</option>
+          </select>
+        </div>
+      </div>
+      <button id="blog-publish-btn" onclick="blogPublish()">⚡ Publicar automáticamente</button>
+      <div id="blog-status"></div>
+      <div id="blog-success" style="display:none"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════
+// BLOG PUBLISHER — cartagenaeste.es
+// ═══════════════════════════════════════════════
+const BLOG_WP = {
+  url: 'https://cartagenaeste.es',
+  user: 'Carlosyjosefina95',
+  pass: 'jHEn x34a oGRP kvTL jmK1 BqIU',
+};
+
+let blogFiles = [];
+let blogCats = [];
+
+function blogB64(s) { try { return btoa(unescape(encodeURIComponent(s))); } catch { return btoa(s); } }
+
+function openBlog() {
+  document.getElementById('blog-overlay').classList.add('open');
+  if (blogCats.length === 0) blogLoadCats();
+}
+function closeBlog() { document.getElementById('blog-overlay').classList.remove('open'); }
+
+function blogLog(msg, type) {
+  const el = document.getElementById('blog-status');
+  el.innerHTML += '<div class="blog-log ' + (type||'info') + '">' + msg + '</div>';
+  el.scrollTop = el.scrollHeight;
+}
+
+async function blogWP(method, endpoint, body) {
+  const auth = blogB64(BLOG_WP.user + ':' + BLOG_WP.pass);
+  const url = BLOG_WP.url + '/wp-json/wp/v2/' + endpoint;
+  const opts = { method: method.toUpperCase(), headers: { 'Authorization': 'Basic ' + auth, 'Content-Type': 'application/json' } };
+  if (body) opts.body = JSON.stringify(body);
+  const res = await fetch(url, opts);
+  const data = await res.json();
+  if (!res.ok) throw new Error(data?.message || 'HTTP ' + res.status);
+  return data;
+}
+
+async function blogUploadFile(file) {
+  const auth = blogB64(BLOG_WP.user + ':' + BLOG_WP.pass);
+  const fd = new FormData(); fd.append('file', file);
+  const res = await fetch(BLOG_WP.url + '/wp-json/wp/v2/media', {
+    method: 'POST', headers: { 'Authorization': 'Basic ' + auth }, body: fd
+  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data?.message || 'HTTP ' + res.status);
+  return data;
+}
+
+async function blogLoadCats() {
+  try {
+    const cats = await blogWP('get', 'categories?per_page=100');
+    if (Array.isArray(cats)) {
+      blogCats = cats;
+      const sel = document.getElementById('blog-post-cat');
+      cats.forEach(c => { const o = document.createElement('option'); o.value = c.id; o.textContent = c.name; sel.appendChild(o); });
+    }
+    blogLog('✅ WordPress conectado', 'ok');
+  } catch (e) { blogLog('❌ WP: ' + e.message, 'err'); }
+}
+
+function blogAddFiles(fileList) {
+  for (let i = 0; i < fileList.length; i++) blogFiles.push(fileList[i]);
+  blogRenderFiles();
+  document.getElementById('blog-file-input').value = '';
+}
+
+function blogRemoveFile(idx) {
+  blogFiles.splice(idx, 1);
+  blogRenderFiles();
+}
+
+function blogRenderFiles() {
+  const el = document.getElementById('blog-files-preview');
+  if (blogFiles.length === 0) { el.innerHTML = ''; return; }
+  el.innerHTML = blogFiles.map((f, i) => {
+    const isImg = f.type.startsWith('image/');
+    const thumb = isImg ? '<img src="' + URL.createObjectURL(f) + '">' : '<div style="display:flex;align-items:center;justify-content:center;height:100%;font-size:22px">📎</div>';
+    return '<div class="blog-file-thumb">' + thumb + '<button class="del" onclick="blogRemoveFile(' + i + ')">✕</button><div class="info">' + (f.size/1024).toFixed(0) + 'KB</div></div>';
+  }).join('');
+}
+
+// Drag and drop
+const blogDZ = document.getElementById('blog-dropzone');
+blogDZ.addEventListener('dragover', e => { e.preventDefault(); blogDZ.classList.add('drag'); });
+blogDZ.addEventListener('dragleave', () => blogDZ.classList.remove('drag'));
+blogDZ.addEventListener('drop', e => { e.preventDefault(); blogDZ.classList.remove('drag'); blogAddFiles(e.dataTransfer.files); });
+
+async function blogGeneratePost(text, imgUrls) {
+  let imgCtx = '';
+  if (imgUrls && imgUrls.length > 0) {
+    imgCtx = '\n\nEl post incluye ' + imgUrls.length + ' imagen(es). URLs:\n' + imgUrls.map((u,i) => (i+1) + '. ' + u).join('\n') + '\nIncorpóralas con <img src="URL" alt="desc" style="max-width:100%;height:auto;border-radius:8px;margin:16px 0" />.';
+  }
+  const res = await fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      model: 'claude-sonnet-4-20250514', max_tokens: 4000,
+      messages: [{ role: 'user', content: 'Eres el editor del blog cartagenaeste.es (zona este de Cartagena, Murcia, España).\nGenera entrada COMPLETA. Devuelve SOLO JSON (sin backticks):\n{"title":"Título SEO","content":"<p>HTML del post</p>","excerpt":"Resumen","tags":["tag1"],"category_suggestion":"cat"}\nReglas: HTML limpio, tono cercano/local, NO inventes datos.' + imgCtx + '\n\nContenido:\n' + text }]
+    })
+  });
+  const data = await res.json();
+  const t = data.content?.find(b => b.type === 'text')?.text || '';
+  const m = t.replace(/```json?\n?/g,'').replace(/```/g,'').match(/\{[\s\S]*\}/);
+  if (!m) throw new Error('IA no devolvió JSON');
+  return JSON.parse(m[0]);
+}
+
+async function blogPublish() {
+  const content = document.getElementById('blog-content').value.trim();
+  const status = document.getElementById('blog-post-status').value;
+  const catId = document.getElementById('blog-post-cat').value;
+  
+  if (!content && blogFiles.length === 0) { blogLog('⚠️ Escribe algo o adjunta archivos', 'err'); return; }
+  
+  const btn = document.getElementById('blog-publish-btn');
+  btn.disabled = true; btn.textContent = '⏳ Publicando...';
+  document.getElementById('blog-status').innerHTML = '';
+  document.getElementById('blog-success').style.display = 'none';
+
+  try {
+    // 1. Upload files
+    let media = [];
+    if (blogFiles.length > 0) {
+      blogLog('📤 Subiendo ' + blogFiles.length + ' archivo(s)...', 'info');
+      for (const f of blogFiles) {
+        try {
+          blogLog('  ↳ ' + f.name + '...', 'info');
+          const m = await blogUploadFile(f);
+          media.push(m);
+          blogLog('  ✅ ' + f.name + ' → ID:' + m.id, 'ok');
+        } catch (e) { blogLog('  ❌ ' + f.name + ': ' + e.message, 'err'); }
+      }
+    }
+
+    const imgUrls = media.filter(m => m.mime_type?.startsWith('image/')).map(m => m.source_url);
+    const docLinks = media.filter(m => !m.mime_type?.startsWith('image/')).map(m => ({ name: m.title?.rendered || m.slug, url: m.source_url }));
+    let fullText = content || (imgUrls.length ? 'Publicación con imágenes' : 'Archivo compartido');
+    if (docLinks.length) fullText += '\n\nAdjuntos:\n' + docLinks.map(f => '- ' + f.name + ': ' + f.url).join('\n');
+
+    // 2. AI generates post
+    blogLog('🤖 Generando con IA...', 'info');
+    const post = await blogGeneratePost(fullText, imgUrls);
+    blogLog('✅ Título: "' + post.title + '"', 'ok');
+
+    // 3. Tags
+    let tagIds = [];
+    if (post.tags?.length) {
+      for (const n of post.tags) {
+        try {
+          const s = await blogWP('get', 'tags?search=' + encodeURIComponent(n));
+          if (Array.isArray(s) && s.length) tagIds.push(s[0].id);
+          else { const c = await blogWP('post', 'tags', { name: n }); if (c?.id) tagIds.push(c.id); }
+        } catch {}
+      }
+    }
+
+    // 4. Category
+    let catIds = [];
+    if (catId) catIds = [parseInt(catId)];
+    else if (post.category_suggestion && blogCats.length) {
+      const match = blogCats.find(c => c.name.toLowerCase().includes(post.category_suggestion.toLowerCase()));
+      if (match) catIds = [match.id];
+    }
+
+    // 5. Publish
+    blogLog('📤 Publicando (' + status + ')...', 'info');
+    const wpData = { title: post.title, content: post.content, excerpt: post.excerpt || '', status: status };
+    if (tagIds.length) wpData.tags = tagIds;
+    if (catIds.length) wpData.categories = catIds;
+    const firstImg = media.find(m => m.mime_type?.startsWith('image/'));
+    if (firstImg) wpData.featured_media = firstImg.id;
+
+    const result = await blogWP('post', 'posts', wpData);
+    blogLog('✅ ¡' + (status === 'publish' ? 'PUBLICADO' : 'BORRADOR') + '! → ' + result.link, 'ok');
+
+    // Show success
+    const successEl = document.getElementById('blog-success');
+    let tagsHtml = (post.tags || []).map(t => '<span class="tag">' + t + '</span>').join('');
+    successEl.innerHTML = '<h3>✅ ¡' + (status === 'publish' ? 'Publicado' : 'Borrador guardado') + '!</h3>' +
+      '<p style="font-size:13px;color:#cbd5e1;margin-bottom:6px;font-weight:700">' + post.title + '</p>' +
+      (post.excerpt ? '<p style="font-size:11px;color:#64748b;font-style:italic;margin-bottom:8px">' + post.excerpt + '</p>' : '') +
+      '<a href="' + result.link + '" target="_blank">🔗 ' + result.link + '</a>' +
+      (tagsHtml ? '<div class="tags">' + tagsHtml + '</div>' : '');
+    successEl.style.display = 'block';
+
+    // Clear form
+    document.getElementById('blog-content').value = '';
+    blogFiles = []; blogRenderFiles();
+
+  } catch (e) {
+    blogLog('❌ Error: ' + e.message, 'err');
+  } finally {
+    btn.disabled = false; btn.textContent = '⚡ Publicar automáticamente';
+  }
+}
+</script>
 
 <script>
 const GROQ_KEY = 'gsk_sv9ihruX8Oym' + 'DKX8d6RJWGdyb3FY' + 'IoFSrTjLUrj6dJIanPUukjxE';

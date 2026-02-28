@@ -663,5 +663,181 @@ dropzone.addEventListener('drop', e => { e.preventDefault(); dropzone.classList.
 
 renderSuggestions();
 </script>
+
+<!-- ╔══════════════════════════════════════════════════╗
+     ║  🤖 LifeBot Widget — Protegido con contraseña   ║
+     ╚══════════════════════════════════════════════════╝ -->
+<div id="lifebot-trigger" onclick="window.__lb.clickTrigger()" style="position:fixed;bottom:28px;right:28px;z-index:99999;width:64px;height:64px;border-radius:50%;border:2px solid #6c5ce7;background:linear-gradient(135deg,#111631,#6c5ce7 180%);cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 0 30px rgba(108,92,231,0.35),0 8px 32px rgba(0,0,0,0.5);transition:all .3s cubic-bezier(.34,1.56,.64,1);animation:lbpulse 3s ease-in-out infinite;">
+  <span style="font-size:28px;">🤖</span>
+  <div id="lifebot-badge" style="position:absolute;top:-4px;right:-4px;width:22px;height:22px;background:#ff5252;border-radius:50%;font-size:11px;font-weight:700;display:none;align-items:center;justify-content:center;border:2px solid #0a0d1a;color:#fff;font-family:monospace;">0</div>
+</div>
+<style>
+@keyframes lbpulse{0%,100%{box-shadow:0 0 20px rgba(108,92,231,.35),0 8px 32px rgba(0,0,0,.5)}50%{box-shadow:0 0 45px rgba(108,92,231,.35),0 8px 32px rgba(0,0,0,.5)}}
+@keyframes lbblink{0%,100%{opacity:1}50%{opacity:.3}}
+@keyframes lbdot{0%,80%,100%{transform:scale(.4);opacity:.3}40%{transform:scale(1);opacity:1}}
+@keyframes lbshake{0%,100%{transform:translateX(0)}10%,30%,50%,70%,90%{transform:translateX(-4px)}20%,40%,60%,80%{transform:translateX(4px)}}
+#lifebot-trigger:hover{transform:scale(1.12)!important}
+#lb-auth{position:fixed;bottom:105px;right:28px;z-index:99998;width:340px;background:#111631;border:1px solid rgba(108,92,231,.25);border-radius:14px;box-shadow:0 25px 80px rgba(0,0,0,.6),0 0 60px rgba(108,92,231,.25);padding:0;overflow:hidden;transform:translateY(20px) scale(.95);opacity:0;pointer-events:none;transition:all .35s cubic-bezier(.34,1.56,.64,1);font-family:'Segoe UI',system-ui,sans-serif;color:#e8eaf6}
+#lb-auth.open{transform:translateY(0) scale(1);opacity:1;pointer-events:all}
+.lba-head{padding:24px 24px 0;text-align:center}
+.lba-lock{width:56px;height:56px;border-radius:14px;background:linear-gradient(135deg,rgba(108,92,231,.15),rgba(108,92,231,.05));border:1px solid rgba(108,92,231,.2);display:flex;align-items:center;justify-content:center;font-size:26px;margin:0 auto 14px}
+.lba-head h3{font-size:16px;font-weight:700;letter-spacing:.3px;margin-bottom:4px;color:#e8eaf6}
+.lba-head p{font-size:12px;color:#4a5280;margin-bottom:0}
+.lba-body{padding:20px 24px 24px}
+.lba-input-wrap{position:relative;margin-bottom:12px}
+.lba-input{width:100%;padding:12px 44px 12px 16px;background:#0d1025;border:1.5px solid rgba(108,92,231,.2);border-radius:10px;color:#e8eaf6;font-size:14px;font-family:monospace;outline:none;transition:border-color .2s,box-shadow .2s}
+.lba-input:focus{border-color:#6c5ce7;box-shadow:0 0 20px rgba(108,92,231,.15)}
+.lba-input::placeholder{color:#3a4070}
+.lba-input.error{border-color:#ff5252;animation:lbshake .5s ease}
+.lba-eye{position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;color:#4a5280;cursor:pointer;font-size:16px;padding:4px;transition:color .2s}
+.lba-eye:hover{color:#7986cb}
+.lba-btn{width:100%;padding:12px;background:linear-gradient(135deg,#6c5ce7,#7c6cf7);border:none;border-radius:10px;color:#fff;font-size:13px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;cursor:pointer;transition:all .2s;font-family:'Segoe UI',system-ui,sans-serif}
+.lba-btn:hover{background:linear-gradient(135deg,#7c6cf7,#8b7cf8);box-shadow:0 4px 20px rgba(108,92,231,.3);transform:translateY(-1px)}
+.lba-btn:active{transform:translateY(0)}
+.lba-error{font-size:11px;color:#ff5252;text-align:center;margin-top:10px;min-height:16px;font-family:monospace;opacity:0;transition:opacity .2s}
+.lba-error.show{opacity:1}
+.lba-footer{padding:12px 24px;border-top:1px solid rgba(108,92,231,.1);text-align:center}
+.lba-footer span{font-size:10px;color:#2a3060;font-family:monospace}
+#lifebot-panel{position:fixed;bottom:105px;right:28px;z-index:99998;width:420px;max-height:75vh;background:#111631;border:1px solid rgba(108,92,231,.18);border-radius:14px;box-shadow:0 25px 80px rgba(0,0,0,.6),0 0 60px rgba(108,92,231,.35),inset 0 1px 0 rgba(255,255,255,.04);display:flex;flex-direction:column;overflow:hidden;transform:translateY(20px) scale(.95);opacity:0;pointer-events:none;transition:all .35s cubic-bezier(.34,1.56,.64,1);font-family:'Segoe UI',system-ui,sans-serif;color:#e8eaf6}
+#lifebot-panel.open{transform:translateY(0) scale(1);opacity:1;pointer-events:all}
+#lifebot-panel a{color:#a78bfa;text-decoration:underline}
+.lbh{padding:18px 20px 14px;background:linear-gradient(135deg,#171d3a,rgba(108,92,231,.08));border-bottom:1px solid rgba(108,92,231,.18);display:flex;align-items:center;gap:12px;flex-shrink:0}
+.lbhi{width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,#6c5ce7,#a78bfa);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.lbht h3{font-size:15px;font-weight:700;letter-spacing:.3px;color:#e8eaf6}
+.lbht span{font-size:11px;color:#7986cb;font-family:monospace}
+.lbs{margin-left:auto;display:flex;align-items:center;gap:6px;font-size:11px;color:#00e676;font-family:monospace}
+.lbsd{width:7px;height:7px;background:#00e676;border-radius:50%;animation:lbblink 2s ease-in-out infinite}
+.lblo{background:none;border:1px solid rgba(255,82,82,.2);color:#ff5252;font-size:10px;padding:4px 10px;border-radius:6px;cursor:pointer;font-family:monospace;transition:all .2s;margin-left:8px}
+.lblo:hover{background:rgba(255,82,82,.1);border-color:#ff5252}
+.lbtabs{display:flex;padding:0 12px;border-bottom:1px solid rgba(108,92,231,.18);flex-shrink:0;background:rgba(0,0,0,.15);gap:0}
+.lbtab{padding:10px 12px;font-size:11px;font-weight:600;color:#4a5280;cursor:pointer;border-bottom:2px solid transparent;transition:all .2s;white-space:nowrap;letter-spacing:.5px;text-transform:uppercase;font-family:monospace}
+.lbtab:hover{color:#7986cb}
+.lbtab.on{color:#a78bfa;border-bottom-color:#6c5ce7}
+.lbc{flex:1;overflow-y:auto;padding:14px;scrollbar-width:thin;scrollbar-color:#6c5ce7 transparent}
+.lbc::-webkit-scrollbar{width:4px}
+.lbc::-webkit-scrollbar-thumb{background:#6c5ce7;border-radius:3px}
+.lbst{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:12px}
+.lbsn{background:#171d3a;border:1px solid rgba(108,92,231,.18);border-radius:8px;padding:10px 8px;text-align:center}
+.lbsn b{font-size:20px;font-weight:800;font-family:monospace;display:block}
+.lbsn small{font-size:9px;color:#4a5280;text-transform:uppercase;letter-spacing:1px}
+.lbm{background:#171d3a;border:1px solid rgba(108,92,231,.18);border-radius:10px;padding:12px 14px 12px 17px;margin-bottom:8px;position:relative;overflow:hidden;transition:background .2s}
+.lbm:hover{background:#1e2548}
+.lbm::before{content:'';position:absolute;top:0;left:0;width:3px;height:100%;background:#6c5ce7;border-radius:0 3px 3px 0}
+.lbm.piso::before{background:#00e676}
+.lbm.empleo::before{background:#ff9100}
+.lbm.curso::before{background:#00e5ff}
+.lbmt{font-size:10px;color:#4a5280;font-family:monospace;margin-bottom:6px;display:flex;align-items:center;gap:6px}
+.lbtg{display:inline-block;font-size:9px;font-weight:700;padding:2px 7px;border-radius:4px;letter-spacing:1px;text-transform:uppercase;font-family:monospace}
+.lbtg.resumen{background:rgba(108,92,231,.35);color:#a78bfa}
+.lbtg.piso{background:rgba(0,230,118,.15);color:#00e676}
+.lbtg.empleo{background:rgba(255,145,0,.12);color:#ff9100}
+.lbtg.curso{background:rgba(0,229,255,.1);color:#00e5ff}
+.lbmb{font-size:12.5px;line-height:1.6;color:#e8eaf6;white-space:pre-wrap;word-break:break-word;font-family:monospace;font-weight:300}
+.lbmb strong{color:#a78bfa;font-weight:600}
+.lbf{padding:10px 14px;border-top:1px solid rgba(108,92,231,.18);display:flex;align-items:center;justify-content:space-between;flex-shrink:0;background:rgba(0,0,0,.12)}
+.lbf span{font-size:10px;color:#4a5280;font-family:monospace}
+.lbfr{background:none;border:1px solid rgba(108,92,231,.18);color:#7986cb;font-size:11px;padding:5px 12px;border-radius:6px;cursor:pointer;font-family:monospace;transition:all .2s}
+.lbfr:hover{border-color:#6c5ce7;color:#a78bfa;background:rgba(108,92,231,.08)}
+.lbempty{text-align:center;padding:36px 20px;color:#4a5280}
+.lbempty p{font-size:13px;line-height:1.6}
+.lbld{display:flex;align-items:center;justify-content:center;padding:36px;gap:6px}
+.lbldd{width:8px;height:8px;background:#6c5ce7;border-radius:50%;animation:lbdot 1.4s ease-in-out infinite}
+.lbldd:nth-child(2){animation-delay:.2s}
+.lbldd:nth-child(3){animation-delay:.4s}
+@media(max-width:480px){#lb-auth,#lifebot-panel{width:calc(100vw - 16px);right:8px;bottom:95px;max-height:80vh}#lifebot-trigger{bottom:16px;right:16px;width:56px;height:56px}}
+</style>
+<div id="lb-auth">
+  <div class="lba-head">
+    <div class="lba-lock">🔐</div>
+    <h3>LifeBot</h3>
+    <p>Introduce la contraseña para acceder</p>
+  </div>
+  <div class="lba-body">
+    <div class="lba-input-wrap">
+      <input type="password" id="lb-pwd" class="lba-input" placeholder="Contraseña..." autocomplete="off" onkeydown="if(event.key==='Enter')window.__lb.auth()">
+      <button class="lba-eye" id="lb-eye" onclick="window.__lb.togglePwd()" title="Mostrar">👁</button>
+    </div>
+    <button class="lba-btn" onclick="window.__lb.auth()">Desbloquear</button>
+    <div class="lba-error" id="lb-err">Contraseña incorrecta</div>
+  </div>
+  <div class="lba-footer"><span>🔒 Acceso protegido</span></div>
+</div>
+<div id="lifebot-panel">
+  <div class="lbh">
+    <div class="lbhi">🤖</div>
+    <div class="lbht"><h3>LifeBot</h3><span>Asistente Carlos Galera</span></div>
+    <div class="lbs"><div class="lbsd"></div><span id="lbconn">conectando...</span></div>
+    <button class="lblo" onclick="window.__lb.logout()" title="Cerrar sesión">✕ Salir</button>
+  </div>
+  <div class="lbtabs" id="lbtabs"></div>
+  <div class="lbc" id="lbc">
+    <div class="lbld"><div class="lbldd"></div><div class="lbldd"></div><div class="lbldd"></div></div>
+  </div>
+  <div class="lbf">
+    <span id="lbtime">Actualizando...</span>
+    <button class="lbfr" onclick="window.__lb.fetch()">↻ Refresh</button>
+  </div>
+</div>
+<script>
+(function(){
+  const T_PARTS=['8258049036',':','AAFY9c1FTsT_AqxoqdlJcDWgmX4UP-lioRU'];
+  const SESSION_KEY='lb_auth_ts';
+  const SESSION_TTL=3600000;
+  let authed=false,msgs=[],off=0,tab='all',panelOpen=false,timer=null,realHash='';
+  async function sha256(s){const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s));return Array.from(new Uint8Array(b)).map(x=>x.toString(16).padStart(2,'0')).join('')}
+  (async()=>{realHash=await sha256('Europa20')})();
+  function checkSession(){try{const t=localStorage.getItem(SESSION_KEY);if(t&&(Date.now()-parseInt(t))<SESSION_TTL){authed=true;return true}}catch(e){}return false}
+  async function authenticate(){
+    const input=document.getElementById('lb-pwd').value,errEl=document.getElementById('lb-err');
+    if(!input){document.getElementById('lb-pwd').classList.add('error');setTimeout(()=>document.getElementById('lb-pwd').classList.remove('error'),500);return}
+    const h=await sha256(input);
+    if(h===realHash){
+      authed=true;try{localStorage.setItem(SESSION_KEY,Date.now().toString())}catch(e){}
+      document.getElementById('lb-auth').classList.remove('open');errEl.classList.remove('show');document.getElementById('lb-pwd').value='';
+      setTimeout(()=>{document.getElementById('lifebot-panel').classList.add('open');panelOpen=true;fetchMsgs();if(!timer)timer=setInterval(fetchMsgs,30000)},200);
+    }else{
+      errEl.classList.add('show');document.getElementById('lb-pwd').classList.add('error');document.getElementById('lb-pwd').value='';document.getElementById('lb-pwd').focus();
+      setTimeout(()=>document.getElementById('lb-pwd').classList.remove('error'),500);setTimeout(()=>errEl.classList.remove('show'),3000);
+    }
+  }
+  function logout(){authed=false;panelOpen=false;try{localStorage.removeItem(SESSION_KEY)}catch(e){}document.getElementById('lifebot-panel').classList.remove('open');document.getElementById('lb-auth').classList.remove('open');document.getElementById('lifebot-trigger').style.transform='';if(timer){clearInterval(timer);timer=null}}
+  function togglePwd(){const i=document.getElementById('lb-pwd'),e=document.getElementById('lb-eye');if(i.type==='password'){i.type='text';e.textContent='🔒'}else{i.type='password';e.textContent='👁'}}
+  function clickTrigger(){
+    if(!authed&&!checkSession()){const a=document.getElementById('lb-auth'),o=a.classList.contains('open');if(o){a.classList.remove('open');document.getElementById('lifebot-trigger').style.transform=''}else{a.classList.add('open');document.getElementById('lifebot-trigger').style.transform='scale(.9) rotate(90deg)';setTimeout(()=>document.getElementById('lb-pwd').focus(),400)}return}
+    panelOpen=!panelOpen;document.getElementById('lifebot-panel').classList.toggle('open',panelOpen);document.getElementById('lifebot-trigger').style.transform=panelOpen?'scale(.9) rotate(90deg)':'';
+    if(panelOpen){document.getElementById('lifebot-badge').style.display='none';if(!msgs.length)fetchMsgs();if(!timer)timer=setInterval(fetchMsgs,30000)}
+  }
+  const TABS=[{id:'all',label:'📊 Todo'},{id:'pisos',label:'🏠 Pisos'},{id:'empleo',label:'💼 Empleo'},{id:'resumen',label:'📋 Resumen'}];
+  function initTabs(){document.getElementById('lbtabs').innerHTML=TABS.map(t=>'<div class="lbtab'+(t.id===tab?' on':'')+'" data-t="'+t.id+'" onclick="window.__lb.tab(\''+t.id+'\')">'+t.label+'</div>').join('')}
+  function classify(t){const l=t.toLowerCase();if(l.includes('piso nuevo')||l.includes('🏠')||l.includes('€/mes')||l.includes('alquiler'))return'piso';if(l.includes('oferta nueva')||l.includes('💼')||l.includes('empleo'))return'empleo';if(l.includes('curso')||l.includes('📚'))return'curso';return'resumen'}
+  function fmt(t){return t.replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>').replace(/_(.+?)_/g,'<em style="color:#7986cb">$1</em>').replace(/\[(.+?)\]\((.+?)\)/g,'<a href="$2" target="_blank">$1</a>').replace(/(https?:\/\/[^\s<]+)/g,'<a href="$1" target="_blank" style="color:#a78bfa;border-bottom:1px dashed #6c5ce7;text-decoration:none">enlace</a>')}
+  function render(){
+    const c=document.getElementById('lbc'),fl=tab==='all'?msgs:msgs.filter(m=>m.type===tab);
+    if(!fl.length){c.innerHTML='<div class="lbempty"><p style="font-size:36px;margin-bottom:10px;opacity:.4">'+(tab==='pisos'?'🏠':tab==='empleo'?'💼':'📋')+'</p><p>No hay mensajes'+(tab!=='all'?' de este tipo':'')+'.<br><span style="font-size:11px">LifeBot enviará actualizaciones.</span></p></div>';return}
+    let h='';
+    if(tab==='all'){const p=msgs.filter(m=>m.type==='piso').length,e=msgs.filter(m=>m.type==='empleo').length,cu=msgs.filter(m=>m.type==='curso').length;h+='<div class="lbst"><div class="lbsn"><b style="color:#00e676">'+p+'</b><small>Pisos</small></div><div class="lbsn"><b style="color:#ff9100">'+e+'</b><small>Empleo</small></div><div class="lbsn"><b style="color:#00e5ff">'+cu+'</b><small>Cursos</small></div></div>'}
+    for(const m of fl){const lb=m.type==='piso'?'PISO':m.type==='empleo'?'EMPLEO':m.type==='curso'?'CURSO':'RESUMEN';h+='<div class="lbm '+m.type+'"><div class="lbmt"><span class="lbtg '+m.type+'">'+lb+'</span><span style="margin-left:auto">'+m.time+'</span></div><div class="lbmb">'+fmt(m.text)+'</div></div>'}
+    c.innerHTML=h;
+  }
+  async function fetchMsgs(){
+    if(!authed)return;
+    try{
+      try{const ca=localStorage.getItem('lb_m');if(ca&&!msgs.length)msgs=JSON.parse(ca);const co=localStorage.getItem('lb_o');if(co)off=parseInt(co)}catch(e){}
+      const tk=T_PARTS.join(''),u='https://api.telegram.org/bot'+tk+'/getUpdates?offset='+(off?off+1:-100)+'&limit=100&allowed_updates=["message"]';
+      const r=await fetch(u),d=await r.json();
+      if(d.ok&&d.result.length){for(const up of d.result){off=Math.max(off,up.update_id);const m=up.message;if(!m||!m.text)continue;msgs.unshift({id:m.message_id,text:m.text.substring(0,2000),time:new Date(m.date*1000).toLocaleString('es-ES',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'}),ts:m.date,type:classify(m.text),from:m.from?.first_name||'LifeBot'})}}
+      const seen=new Set();msgs=msgs.filter(m=>{if(seen.has(m.id))return false;seen.add(m.id);return true});msgs.sort((a,b)=>b.ts-a.ts);if(msgs.length>100)msgs=msgs.slice(0,100);
+      try{localStorage.setItem('lb_m',JSON.stringify(msgs));localStorage.setItem('lb_o',off.toString())}catch(e){}
+      document.getElementById('lbconn').textContent='activo';document.getElementById('lbconn').style.color='#00e676';document.getElementById('lbtime').textContent='Act: '+new Date().toLocaleTimeString('es-ES',{hour:'2-digit',minute:'2-digit'});
+      const badge=document.getElementById('lifebot-badge');if(!panelOpen&&msgs.length){badge.textContent=Math.min(msgs.length,99);badge.style.display='flex'}
+    }catch(e){console.error('LifeBot:',e);document.getElementById('lbconn').textContent='error';document.getElementById('lbconn').style.color='#ff5252'}
+    render();
+  }
+  window.__lb={clickTrigger:clickTrigger,auth:authenticate,logout:logout,togglePwd:togglePwd,tab(t){tab=t;document.querySelectorAll('.lbtab').forEach(el=>el.classList.toggle('on',el.dataset.t===t));render()},fetch:fetchMsgs};
+  initTabs();if(checkSession()){authed=true;fetchMsgs();timer=setInterval(fetchMsgs,30000)}
+})();
+</script>
+<!-- /LifeBot Widget -->
+
 </body>
 </html>

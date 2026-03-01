@@ -1,7 +1,7 @@
 // netlify/functions/telegram-webhook.js
 // Telegram Webhook for LifeBot - works 24/7 without dashboard open
 
-const TG_TOKEN = '8612858547:AAGjkDnJ9NfLgSqs6j1WqjNWA0c2ze_h7eI';
+const TG_TOKEN = '8466601397:AAG4Ky7-mziSPUQbHtE6G9iyg_Gpc70WLVU';
 const TG_CHAT = '596831448';
 const GROQ_KEY = ['gsk','_9BzwjsPO7LaJ','zMyXcw9cWGdyb3FY','cVR7CwkAfZvShxoS','UNrMgzUb'].join('');
 const GROQ_URL = 'https://api.groq.com/openai/v1/chat/completions';

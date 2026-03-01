@@ -1,0 +1,1134 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>LifeBot Dashboard — Carlos Galera</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0b0e14;
+  --surface: #131720;
+  --card: #171c28;
+  --card-h: #1c2233;
+  --border: #232a3b;
+  --border-a: #3a4460;
+  --text: #e2e5ec;
+  --text-s: #8891a5;
+  --text-d: #545d73;
+  --cyan: #22d3ee;
+  --green: #34d399;
+  --amber: #f59e0b;
+  --red: #ef4444;
+  --purple: #a78bfa;
+  --blue: #3b82f6;
+  --pink: #ec4899;
+  --lime: #84cc16;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Outfit', system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  max-width: 520px;
+  margin: 0 auto;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+* { scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
+
+/* ── Header ── */
+.header {
+  padding: 16px 18px 10px;
+  background: linear-gradient(180deg, #161a25 0%, var(--bg) 100%);
+  border-bottom: 1px solid var(--border);
+  position: sticky; top: 0; z-index: 30;
+}
+.header-row { display: flex; align-items: center; justify-content: space-between; }
+.header-left { display: flex; align-items: center; gap: 10px; }
+.header-avatar {
+  width: 36px; height: 36px; border-radius: 10px;
+  background: linear-gradient(135deg, var(--cyan), var(--purple));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px;
+}
+.header-title { font-weight: 700; font-size: 15px; letter-spacing: -0.3px; }
+.header-sub {
+  font-size: 11px; color: var(--text-d);
+  font-family: 'JetBrains Mono', monospace;
+}
+.online-badge {
+  background: rgba(34,211,238,0.1);
+  border: 1px solid rgba(34,211,238,0.2);
+  border-radius: 6px; padding: 3px 8px;
+  font-size: 10px; font-family: 'JetBrains Mono', monospace;
+  color: var(--cyan); display: flex; align-items: center; gap: 4px;
+}
+.dot-live {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--green); box-shadow: 0 0 6px var(--green);
+  animation: pulse-dot 2s infinite;
+}
+@keyframes pulse-dot { 0%,100%{opacity:1} 50%{opacity:.4} }
+
+/* ── Quick Stats ── */
+.stats-row {
+  display: flex; gap: 7px; margin-top: 10px;
+  overflow-x: auto; padding-bottom: 2px;
+  scrollbar-width: none;
+}
+.stats-row::-webkit-scrollbar { display: none; }
+.stat-chip {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px; padding: 5px 10px;
+  min-width: 82px; text-align: center; flex: 0 0 auto;
+}
+.stat-label {
+  font-size: 9px; color: var(--text-d);
+  text-transform: uppercase; letter-spacing: .5px;
+  font-family: 'JetBrains Mono', monospace;
+}
+.stat-val {
+  font-size: 14px; font-weight: 700; margin-top: 1px;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* ── Tabs ── */
+.tabs {
+  display: flex; overflow-x: auto;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+  position: sticky; top: 90px; z-index: 29;
+  scrollbar-width: none;
+}
+.tabs::-webkit-scrollbar { display: none; }
+.tab {
+  flex: 0 0 auto;
+  padding: 10px 13px;
+  background: none; border: none;
+  border-bottom: 2px solid transparent;
+  color: var(--text-d);
+  cursor: pointer; font-family: 'Outfit', sans-serif;
+  font-size: 11px; font-weight: 600;
+  display: flex; align-items: center; gap: 5px;
+  white-space: nowrap; transition: all .2s;
+}
+.tab:hover { color: var(--text-s); }
+.tab.active {
+  color: var(--cyan);
+  border-bottom-color: var(--cyan);
+  background: rgba(34,211,238,0.06);
+}
+.tab svg { width: 14px; height: 14px; }
+
+/* ── Content ── */
+.content { padding: 14px 16px 120px; }
+.panel { display: none; flex-direction: column; gap: 14px; }
+.panel.active { display: flex; }
+
+/* ── Card ── */
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 14px 16px;
+  position: relative; overflow: hidden;
+  transition: border-color .2s;
+}
+.card:hover { border-color: var(--border-a); }
+.card-accent {
+  position: absolute; top: 0; left: 0;
+  width: 3px; height: 100%;
+  border-radius: 3px 0 0 3px;
+}
+.card-title {
+  font-size: 13px; font-weight: 700;
+  margin-bottom: 10px;
+}
+
+/* ── Event Row ── */
+.ev-row {
+  display: flex; align-items: center; gap: 10px;
+  padding: 7px 0;
+}
+.ev-icon { font-size: 16px; flex-shrink: 0; }
+.ev-time {
+  font-size: 10px; color: var(--text-d); min-width: 38px;
+  font-family: 'JetBrains Mono', monospace;
+}
+.ev-title { font-size: 12.5px; font-weight: 500; }
+.ev-dot {
+  margin-left: auto; width: 6px; height: 6px;
+  border-radius: 50%; flex-shrink: 0;
+}
+
+/* ── Guardia Row ── */
+.guardia-row {
+  display: flex; align-items: center; gap: 10px;
+  padding: 8px 0;
+}
+.guardia-row + .guardia-row { border-top: 1px solid var(--border); }
+.guardia-day {
+  width: 40px; text-align: center;
+  border-radius: 6px; padding: 4px 0;
+  font-size: 10px; font-weight: 700;
+  font-family: 'JetBrains Mono', monospace;
+}
+.guardia-info { flex: 1; }
+.guardia-name { font-size: 13px; font-weight: 600; }
+.guardia-detail { font-size: 10px; color: var(--text-d); }
+.guardia-badge {
+  font-size: 9px; font-weight: 700; padding: 2px 6px;
+  border-radius: 4px; font-family: 'JetBrains Mono', monospace;
+}
+
+/* ── Week Day ── */
+.week-day { margin-bottom: 10px; }
+.week-day-label {
+  font-size: 11px; font-weight: 700;
+  font-family: 'JetBrains Mono', monospace;
+  margin-bottom: 4px; text-transform: uppercase;
+}
+.week-item {
+  display: flex; align-items: center; gap: 8px;
+  padding: 3px 0; font-size: 12px; color: var(--text-s);
+}
+.week-item-icon { font-size: 13px; }
+.week-item-time {
+  font-size: 10px; color: var(--text-d); min-width: 36px;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* ── Payment Row ── */
+.pay-row {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 7px 0;
+}
+.pay-row + .pay-row { border-top: 1px solid var(--border); }
+.pay-name { font-size: 12px; font-weight: 500; }
+.pay-date { font-size: 10px; color: var(--text-d); }
+.pay-amount {
+  font-size: 13px; font-weight: 700;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* ── Chat ── */
+.chat-wrap {
+  display: flex; flex-direction: column;
+  height: calc(100vh - 230px);
+}
+.chat-msgs {
+  flex: 1; overflow-y: auto;
+  display: flex; flex-direction: column; gap: 10px;
+  padding-bottom: 10px;
+}
+.msg {
+  max-width: 85%; padding: 10px 14px;
+  font-size: 13px; line-height: 1.5;
+  white-space: pre-wrap; word-break: break-word;
+}
+.msg.user {
+  align-self: flex-end;
+  background: linear-gradient(135deg, var(--cyan), var(--blue));
+  border-radius: 16px 16px 4px 16px;
+  color: #fff;
+}
+.msg.bot {
+  align-self: flex-start;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px 16px 16px 4px;
+}
+.msg-label { font-size: 10px; color: var(--cyan); font-weight: 600; margin-bottom: 4px; }
+.chat-input-row {
+  display: flex; gap: 8px;
+  padding: 10px 0;
+  border-top: 1px solid var(--border);
+}
+.chat-input {
+  flex: 1; background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px; padding: 10px 14px;
+  color: var(--text); font-size: 13px;
+  font-family: 'Outfit', sans-serif; outline: none;
+  transition: border-color .2s;
+}
+.chat-input:focus { border-color: var(--cyan); }
+.chat-input::placeholder { color: var(--text-d); }
+.chat-send {
+  width: 44px; height: 44px; border-radius: 12px;
+  background: var(--surface); border: none;
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  color: #fff; transition: all .2s;
+}
+.chat-send.active { background: linear-gradient(135deg, var(--cyan), var(--blue)); }
+.chat-send:disabled { opacity: .5; cursor: default; }
+
+/* ── Dots Loading ── */
+.loading-dots { display: flex; gap: 4px; padding: 4px 0; }
+.loading-dots span {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--cyan); animation: dot-pulse 1.4s infinite;
+}
+.loading-dots span:nth-child(2) { animation-delay: .2s; }
+.loading-dots span:nth-child(3) { animation-delay: .4s; }
+@keyframes dot-pulse { 0%,100%{opacity:.3;transform:scale(1)} 50%{opacity:1;transform:scale(1.2)} }
+
+/* ── Liquidity Big ── */
+.liq-big {
+  font-size: 32px; font-weight: 800;
+  font-family: 'JetBrains Mono', monospace;
+  margin-bottom: 12px;
+}
+.accounts-row { display: flex; gap: 8px; }
+.account-chip {
+  flex: 1; background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px; padding: 8px 10px; text-align: center;
+}
+.account-name { font-size: 10px; color: var(--text-d); margin-bottom: 2px; }
+.account-val {
+  font-size: 14px; font-weight: 700;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* ── Debt Bar ── */
+.debt-row { margin-bottom: 10px; }
+.debt-header { display: flex; justify-content: space-between; margin-bottom: 3px; }
+.debt-name { font-size: 12px; font-weight: 500; }
+.debt-total {
+  font-size: 12px; font-weight: 700;
+  font-family: 'JetBrains Mono', monospace;
+}
+.debt-bar { height: 8px; background: var(--surface); border-radius: 4px; overflow: hidden; }
+.debt-fill { height: 100%; border-radius: 4px; transition: width .8s ease; }
+.debt-sub { font-size: 10px; color: var(--text-d); margin-top: 2px; }
+.debt-summary {
+  margin-top: 8px; padding: 8px 10px;
+  background: rgba(239,68,68,.08);
+  border: 1px solid rgba(239,68,68,.15);
+  border-radius: 8px; font-size: 11px; color: var(--text-s);
+}
+
+/* ── Progress Bar ── */
+.progress-track { height: 6px; background: var(--surface); border-radius: 3px; overflow: hidden; }
+.progress-fill { height: 100%; border-radius: 3px; transition: width .4s; }
+.progress-bar-sm { height: 4px; background: var(--surface); border-radius: 2px; overflow: hidden; }
+.progress-fill-sm { height: 100%; border-radius: 2px; }
+
+/* ── Objective Row ── */
+.obj-row {
+  display: flex; align-items: center; gap: 10px;
+  padding: 8px 0; cursor: pointer; transition: opacity .2s;
+}
+.obj-row + .obj-row { border-top: 1px solid var(--border); }
+.obj-row.done { opacity: .45; }
+.obj-check {
+  width: 20px; height: 20px; border-radius: 6px;
+  border: 2px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; transition: all .2s;
+}
+.obj-check.checked {
+  background: var(--green); border-color: var(--green);
+}
+.obj-check svg { width: 14px; height: 14px; stroke: #fff; stroke-width: 3; fill: none; }
+.obj-text { font-size: 12.5px; font-weight: 500; flex: 1; }
+.obj-text.crossed { text-decoration: line-through; }
+.obj-cat {
+  font-size: 9px; color: var(--text-d);
+  font-family: 'JetBrains Mono', monospace;
+  text-transform: uppercase; margin-top: 1px;
+}
+
+/* ── Course Card ── */
+.course-item { padding: 10px 0; }
+.course-item + .course-item { border-top: 1px solid var(--border); }
+.course-top { display: flex; justify-content: space-between; align-items: flex-start; }
+.course-name { font-size: 13px; font-weight: 600; margin-bottom: 2px; flex: 1; }
+.course-meta {
+  font-size: 10px; color: var(--text-d);
+  display: flex; gap: 8px;
+}
+.course-badge {
+  font-size: 9px; font-weight: 700; padding: 2px 6px;
+  border-radius: 4px; font-family: 'JetBrains Mono', monospace;
+  text-transform: uppercase; flex-shrink: 0;
+}
+.course-progress { margin-top: 6px; }
+.course-pct-row { display: flex; justify-content: space-between; margin-bottom: 3px; }
+.course-pct-label { font-size: 10px; color: var(--text-d); }
+.course-pct-val { font-size: 10px; color: var(--cyan); font-family: 'JetBrains Mono', monospace; }
+
+/* ── Time Suggestion ── */
+.time-row { padding: 10px 0; }
+.time-row + .time-row { border-top: 1px solid var(--border); }
+.time-header { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
+.time-icon { font-size: 18px; }
+.time-title { font-size: 13px; font-weight: 600; }
+.time-tip { font-size: 12px; color: var(--text-s); line-height: 1.5; padding-left: 30px; }
+
+/* ── Distribution bar ── */
+.dist-row { margin-bottom: 8px; }
+.dist-header { display: flex; justify-content: space-between; margin-bottom: 3px; }
+.dist-label { font-size: 12px; }
+.dist-val { font-size: 11px; font-family: 'JetBrains Mono', monospace; }
+.dist-track { height: 6px; background: var(--surface); border-radius: 3px; overflow: hidden; }
+.dist-fill { height: 100%; border-radius: 3px; }
+
+/* ── Purchase Row ── */
+.purch-row {
+  display: flex; align-items: center; gap: 10px;
+  padding: 9px 0;
+}
+.purch-row + .purch-row { border-top: 1px solid var(--border); }
+.purch-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.purch-info { flex: 1; }
+.purch-name { font-size: 12.5px; font-weight: 500; }
+.purch-meta { font-size: 10px; color: var(--text-d); display: flex; gap: 8px; margin-top: 1px; }
+.purch-status {
+  font-weight: 600; text-transform: uppercase;
+  font-family: 'JetBrains Mono', monospace; font-size: 9px;
+}
+.purch-price {
+  font-size: 13px; font-weight: 700;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* ── Chart bars ── */
+.chart-container { display: flex; gap: 8px; justify-content: space-around; }
+.chart-col { text-align: center; flex: 1; }
+.chart-bars { display: flex; gap: 3px; justify-content: center; align-items: flex-end; height: 80px; margin-bottom: 4px; }
+.chart-bar { width: 14px; border-radius: 3px 3px 0 0; }
+.chart-label { font-size: 10px; font-weight: 600; color: var(--text-s); }
+.chart-net { font-size: 10px; font-weight: 700; margin-top: 2px; font-family: 'JetBrains Mono', monospace; }
+.chart-legend { display: flex; justify-content: center; gap: 14px; margin-top: 10px; }
+.chart-legend-item { display: flex; align-items: center; gap: 4px; font-size: 10px; color: var(--text-d); }
+.chart-legend-dot { width: 8px; height: 8px; border-radius: 2px; }
+
+/* ── Info Box ── */
+.info-box {
+  margin-top: 10px; padding: 8px 10px;
+  border-radius: 8px; font-size: 11px;
+}
+
+/* ── Feedback Tags ── */
+.tag-row { display: flex; gap: 6px; margin-top: 8px; flex-wrap: wrap; }
+.tag {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 6px; padding: 3px 8px;
+  font-size: 10px; color: var(--text-s);
+}
+
+/* ── Pay Dot ── */
+.pay-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  flex-shrink: 0; margin-right: 4px; display: inline-block;
+}
+
+/* ── Animation ── */
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.card { animation: fade-in .35s ease both; }
+.card:nth-child(2) { animation-delay: .05s; }
+.card:nth-child(3) { animation-delay: .1s; }
+.card:nth-child(4) { animation-delay: .15s; }
+.card:nth-child(5) { animation-delay: .2s; }
+</style>
+</head>
+<body>
+
+<!-- ════════════ HEADER ════════════ -->
+<div class="header">
+  <div class="header-row">
+    <div class="header-left">
+      <div class="header-avatar">🤖</div>
+      <div>
+        <div class="header-title">LifeBot Dashboard</div>
+        <div class="header-sub" id="headerDate">Carlos Galera · MIR</div>
+      </div>
+    </div>
+    <div class="online-badge"><span class="dot-live"></span> ONLINE</div>
+  </div>
+  <div class="stats-row" id="statsRow"></div>
+</div>
+
+<!-- ════════════ TABS ════════════ -->
+<div class="tabs" id="tabBar"></div>
+
+<!-- ════════════ CONTENT ════════════ -->
+<div class="content">
+  <div class="panel" id="panel-overview"></div>
+  <div class="panel" id="panel-chat"></div>
+  <div class="panel" id="panel-finance"></div>
+  <div class="panel" id="panel-goals"></div>
+  <div class="panel" id="panel-courses"></div>
+  <div class="panel" id="panel-time"></div>
+  <div class="panel" id="panel-packages"></div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════════
+//  DATA
+// ═══════════════════════════════════════════════════════════
+const DATA = {
+  todayEvents: [
+    { time:"10:00", title:"Vuelo Barcelona → Murcia (Volotea)", icon:"✈️", type:"travel" },
+    { time:"14:00", title:"Llegada y descanso", icon:"🏠", type:"personal" },
+    { time:"19:00", title:"Preparar material semana", icon:"📋", type:"task" },
+  ],
+  week: [
+    { day:"Lun 2", items:[
+      { time:"08:00", title:"Consulta Atención Primaria", icon:"🏥", type:"work" },
+      { time:"15:00", title:"Estudio — Cuidados Paliativos (semFYC)", icon:"📖", type:"course" },
+    ]},
+    { day:"Mar 3", items:[
+      { time:"08:00", title:"Rotación Hospital", icon:"🏥", type:"work" },
+      { time:"14:00", title:"Pago aplazado Aula 10: 10,00€", icon:"💳", type:"payment" },
+      { time:"14:00", title:"Pago eDreams: 19,99€", icon:"💳", type:"payment" },
+    ]},
+    { day:"Mié 4", items:[
+      { time:"08:00", title:"Consulta + Urgencias", icon:"🏥", type:"work" },
+      { time:"16:00", title:"TFM Bioética — Revisión capítulo 2", icon:"📝", type:"course" },
+    ]},
+    { day:"Jue 5", items:[
+      { time:"08:00", title:"Rotación Digestivo", icon:"🏥", type:"work" },
+      { time:"20:00", title:"Curso Catalán CPNL (online)", icon:"🗣️", type:"course" },
+    ]},
+    { day:"Vie 6", items:[
+      { time:"08:00", title:"Consulta", icon:"🏥", type:"work" },
+      { time:"15:00", title:"Cirugía Menor — Módulo online", icon:"🔬", type:"course" },
+    ]},
+    { day:"Sáb 7", items:[
+      { time:"10:00", title:"Estudio libre + Competencias Digitales OMC", icon:"💻", type:"course" },
+    ]},
+    { day:"Dom 8", items:[
+      { time:"10:00", title:"Descanso / Deporte", icon:"🏃", type:"personal" },
+      { time:"18:00", title:"Planificación semana siguiente", icon:"📋", type:"task" },
+    ]},
+  ],
+  guardias: [
+    { date:"Mar 10", day:"10", shift:"16:00–21:00", loc:"Sindicato Médico", type:"Ecografía (ECO)", isGuardia:false, isCourse:true },
+    { date:"Mié 11", day:"11", shift:"16:00–21:00", loc:"Sindicato Médico", type:"Ecografía (ECO)", isGuardia:false, isCourse:true },
+    { date:"Vie 13", day:"13", shift:"17:00–08:00+1", loc:"Hospital — Urgencias", type:"Guardia 24h", isGuardia:true },
+    { date:"Sáb 21", day:"21", shift:"08:00–08:00+1", loc:"Hospital — Digestivo", type:"Guardia Digestivo", isGuardia:true },
+  ],
+  accounts: [
+    { name:"CaixaBank", balance:1247.06, color:"var(--blue)" },
+    { name:"N26", balance:325.91, color:"var(--purple)" },
+    { name:"Revolut", balance:5.12, color:"var(--pink)" },
+  ],
+  totalLiq: 1578.09,
+  payments: [
+    { name:"VW T-Cross (cuota)", amount:229.79, date:"28 feb", status:"paid" },
+    { name:"Cofidis", amount:77.36, date:"2 mar", status:"pending" },
+    { name:"Aula 10 Formación", amount:10.00, date:"3 mar", status:"pending" },
+    { name:"eDreams vacaciones", amount:19.99, date:"3 mar", status:"pending" },
+    { name:"Préstamo Casa", amount:450.00, date:"1 mar", status:"pending" },
+    { name:"Just Eat aplazado", amount:14.55, date:"15 mar", status:"upcoming" },
+    { name:"SeQura", amount:46.00, date:"mensual", status:"upcoming" },
+    { name:"Recibos (Luz/O2/Agua)", amount:260.00, date:"mediados", status:"upcoming" },
+    { name:"Gasolina presupuesto", amount:200.00, date:"mes", status:"upcoming" },
+  ],
+  debts: [
+    { name:"Hipoteca", total:85000, monthly:450, color:"var(--red)" },
+    { name:"VW T-Cross", total:12500, monthly:229.79, color:"#fb923c" },
+    { name:"Cofidis", total:2800, monthly:77.36, color:"var(--amber)" },
+    { name:"SeQura", total:460, monthly:46, color:"#a3e635" },
+    { name:"Klarna (fallido)", total:272.84, monthly:272.84, color:"var(--pink)" },
+  ],
+  courses: [
+    { name:"Ecografía (ECO) — Sindicato Médico", dates:"10-11 Mar", hours:"10h", price:"Gratis", progress:0, status:"upcoming" },
+    { name:"Cuidados Paliativos — semFYC", dates:"Online", hours:"15h", price:"69,90€", progress:15, status:"active" },
+    { name:"Competencias Digitales — OMC", dates:"Online", hours:"Libre", price:"Gratis", progress:30, status:"active" },
+    { name:"Cirugía Menor en AP", dates:"Online", hours:"6.7 CFC", price:"Gratis", progress:5, status:"active" },
+    { name:"Curso CAMFiC", dates:"Online", hours:"Libre", price:"Gratis", progress:0, status:"pending" },
+    { name:"Catalán — CPNL", dates:"Online", hours:"Libre", price:"Gratis", progress:20, status:"active" },
+    { name:"TFM Bioética — UNIR", dates:"Entrega 23 Abr", hours:"~80h", price:"Máster", progress:60, status:"active" },
+  ],
+  objectives: [
+    { text:"Completar módulo 3 de Cuidados Paliativos", done:false, cat:"curso" },
+    { text:"Enviar borrador cap. 2 TFM al tutor", done:false, cat:"tfm" },
+    { text:"Registrarse curso Ecografía (10-11 Mar)", done:true, cat:"curso" },
+    { text:"Revisar agenda guardias marzo", done:true, cat:"residencia" },
+    { text:"Actualizar CV con rotación Digestivo", done:false, cat:"personal" },
+    { text:"Configurar LifeBot cron jobs en mini PC", done:false, cat:"tech" },
+  ],
+  resTasks: [
+    { text:"Rotación Digestivo — sesión clínica", done:false },
+    { text:"Preparar caso clínico para sesión viernes", done:false },
+    { text:"Revisar protocolo endoscopias", done:true },
+  ],
+  timeTips: [
+    { icon:"🌅", title:"Bloque matutino (6:30–7:30)", tip:"Usa esta hora para TFM o estudio de cursos online. Sin interrupciones." },
+    { icon:"🍽️", title:"Pausa almuerzo (14:00–15:00)", tip:"30 min comida + 20 min de microestudio (Competencias Digitales OMC es ideal por módulos cortos)." },
+    { icon:"🌙", title:"Bloque nocturno (21:00–22:30)", tip:"Curso de Catalán o lectura de TFM. Evita pantallas después de las 22:30." },
+    { icon:"📦", title:"Batch de admin (domingo 11:00)", tip:"Agrupa: revisar pagos, actualizar agenda, planificar semana, compras online." },
+    { icon:"⏱️", title:"Técnica Pomodoro para TFM", tip:"25 min escritura + 5 min descanso × 4 bloques = avance real sin agotamiento." },
+    { icon:"🛒", title:"Lista de compras semanal", tip:"Haz la compra grande el sábado. Meal prep domingo = ahorro de tiempo y dinero." },
+  ],
+  distribution: [
+    { label:"Trabajo clínico", hours:40, color:"var(--blue)", pct:48 },
+    { label:"Cursos / Formación", hours:10, color:"var(--purple)", pct:12 },
+    { label:"TFM Bioética", hours:8, color:"var(--cyan)", pct:10 },
+    { label:"Admin & Gestión", hours:3, color:"var(--amber)", pct:4 },
+    { label:"Descanso / Deporte", hours:14, color:"var(--green)", pct:17 },
+    { label:"Tiempo libre", hours:8, color:"var(--pink)", pct:9 },
+  ],
+  purchases: [
+    { item:"Fonendoscopio Littmann (reservado)", status:"en_camino", date:"Est. 5 Mar", price:"89€" },
+    { item:"Libro Farreras — Medicina Interna", status:"pendiente", date:"—", price:"~65€" },
+    { item:"Material ecografía (gel + funda sonda)", status:"pendiente", date:"Antes 10 Mar", price:"~25€" },
+    { item:"Reparación coche (presupuesto)", status:"pendiente", date:"Este mes", price:"300€" },
+    { item:"Vente Privee — cuota 3/3", status:"programado", date:"28 Mar", price:"12,32€" },
+    { item:"Pc Componentes — cuota 3/3", status:"programado", date:"28 Mar", price:"27,65€" },
+  ],
+};
+
+// ═══════════════════════════════════════════════════════════
+//  STATE
+// ═══════════════════════════════════════════════════════════
+let activeTab = 'overview';
+let chatMessages = [
+  { role:'assistant', content:'¡Hola Carlos! 👋 Soy LifeBot. Hoy es domingo 1 de marzo. Tienes tu vuelo Barcelona→Murcia a las 10:00. ¿En qué puedo ayudarte?' }
+];
+let chatLoading = false;
+
+// ═══════════════════════════════════════════════════════════
+//  HELPERS
+// ═══════════════════════════════════════════════════════════
+const esc = s => s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+const typeColors = { travel:'var(--blue)', work:'var(--red)', personal:'var(--green)', task:'var(--amber)', course:'var(--purple)', payment:'var(--amber)' };
+const statusColors = { paid:'var(--green)', pending:'var(--amber)', upcoming:'var(--text-d)' };
+const checkSVG = '<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><polyline points="20 6 9 17 4 12"/></svg>';
+
+function getDateStr() {
+  const d = new Date();
+  const opts = { weekday:'long', day:'numeric', month:'long' };
+  return d.toLocaleDateString('es-ES', opts);
+}
+
+function completedCount() { return DATA.objectives.filter(o=>o.done).length; }
+function pendingPayTotal() { return DATA.payments.filter(p=>p.status==='pending').reduce((s,p)=>s+p.amount,0); }
+function guardiasCount() { return DATA.guardias.filter(g=>g.isGuardia).length; }
+
+// ═══════════════════════════════════════════════════════════
+//  INIT
+// ═══════════════════════════════════════════════════════════
+document.getElementById('headerDate').textContent = `Carlos Galera · MIR · ${getDateStr()}`;
+
+// ── Stats Row ──
+function renderStats() {
+  const stats = [
+    { label:'Liquidez', val:'1.578€', color:'var(--green)' },
+    { label:'Pagos pend.', val:pendingPayTotal().toFixed(0)+'€', color:'var(--amber)' },
+    { label:'Objetivos', val:`${completedCount()}/${DATA.objectives.length}`, color:'var(--cyan)' },
+    { label:'Guardias', val:guardiasCount().toString(), color:'var(--red)' },
+  ];
+  document.getElementById('statsRow').innerHTML = stats.map(s => `
+    <div class="stat-chip">
+      <div class="stat-label">${s.label}</div>
+      <div class="stat-val" style="color:${s.color}">${s.val}</div>
+    </div>
+  `).join('');
+}
+renderStats();
+
+// ── Tabs ──
+const TABS = [
+  { id:'overview', label:'General', svg:'<rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>' },
+  { id:'chat', label:'Chat', svg:'<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>' },
+  { id:'finance', label:'Finanzas', svg:'<line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>' },
+  { id:'goals', label:'Objetivos', svg:'<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>' },
+  { id:'courses', label:'Cursos', svg:'<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>' },
+  { id:'time', label:'Tiempo', svg:'<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>' },
+  { id:'packages', label:'Compras', svg:'<line x1="16.5" y1="9.4" x2="7.5" y2="4.21"/><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>' },
+];
+
+function renderTabs() {
+  document.getElementById('tabBar').innerHTML = TABS.map(t => `
+    <button class="tab ${t.id===activeTab?'active':''}" data-tab="${t.id}">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${t.svg}</svg>
+      ${t.label}
+    </button>
+  `).join('');
+  document.querySelectorAll('.tab').forEach(btn => {
+    btn.addEventListener('click', () => { switchTab(btn.dataset.tab); });
+  });
+}
+
+function switchTab(id) {
+  activeTab = id;
+  renderTabs();
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('panel-'+id).classList.add('active');
+  if (id==='chat') setTimeout(()=>scrollChatBottom(), 50);
+}
+
+renderTabs();
+
+// ═══════════════════════════════════════════════════════════
+//  OVERVIEW PANEL
+// ═══════════════════════════════════════════════════════════
+function renderOverview() {
+  const el = document.getElementById('panel-overview');
+  let h = '';
+
+  // Today
+  h += card('📅 Hoy — Domingo 1 de Marzo', 'var(--cyan)',
+    DATA.todayEvents.map(e => `
+      <div class="ev-row">
+        <span class="ev-icon">${e.icon}</span>
+        <span class="ev-time">${e.time}</span>
+        <span class="ev-title">${esc(e.title)}</span>
+        <span class="ev-dot" style="background:${typeColors[e.type]}"></span>
+      </div>
+    `).join('')
+  );
+
+  // Guardias
+  h += card('🚨 Próximas Guardias', 'var(--red)',
+    DATA.guardias.filter(g=>g.isGuardia).map(g => `
+      <div class="guardia-row">
+        <div class="guardia-day" style="background:rgba(239,68,68,.1);color:var(--red)">${g.day}</div>
+        <div class="guardia-info">
+          <div class="guardia-name">${esc(g.type)}</div>
+          <div class="guardia-detail">${g.shift} · ${esc(g.loc)}</div>
+        </div>
+        <div class="guardia-badge" style="background:rgba(239,68,68,.12);color:var(--red);border:1px solid rgba(239,68,68,.2)">24H</div>
+      </div>
+    `).join('')
+  );
+
+  // Upcoming Courses
+  h += card('📖 Cursos Presenciales', 'var(--purple)',
+    DATA.guardias.filter(g=>g.isCourse).map(c => `
+      <div class="guardia-row">
+        <div class="guardia-day" style="background:rgba(167,139,250,.1);color:var(--purple)">${c.day}</div>
+        <div class="guardia-info">
+          <div class="guardia-name">${esc(c.type)}</div>
+          <div class="guardia-detail">${c.shift} · ${esc(c.loc)}</div>
+        </div>
+      </div>
+    `).join('')
+  );
+
+  // Week
+  h += card('📆 Esta Semana', 'var(--blue)',
+    DATA.week.map(d => `
+      <div class="week-day">
+        <div class="week-day-label" style="color:var(--blue)">${d.day}</div>
+        ${d.items.map(i => `
+          <div class="week-item">
+            <span class="week-item-icon">${i.icon}</span>
+            <span class="week-item-time">${i.time}</span>
+            <span style="color:${i.type==='payment'?'var(--amber)':'var(--text)'};font-size:12px">${esc(i.title)}</span>
+          </div>
+        `).join('')}
+      </div>
+    `).join('')
+  );
+
+  // Payments
+  h += card('💳 Pagos Pendientes', 'var(--amber)',
+    DATA.payments.filter(p=>p.status==='pending').map(p => `
+      <div class="pay-row">
+        <div>
+          <div class="pay-name">${esc(p.name)}</div>
+          <div class="pay-date">${p.date}</div>
+        </div>
+        <div class="pay-amount" style="color:var(--amber)">-${p.amount.toFixed(2)}€</div>
+      </div>
+    `).join('')
+  );
+
+  el.innerHTML = h;
+}
+
+// ═══════════════════════════════════════════════════════════
+//  CHAT PANEL
+// ═══════════════════════════════════════════════════════════
+function renderChat() {
+  const el = document.getElementById('panel-chat');
+  el.innerHTML = `
+    <div class="chat-wrap">
+      <div class="chat-msgs" id="chatMsgs"></div>
+      <div class="chat-input-row">
+        <input class="chat-input" id="chatInput" placeholder="Escribe a LifeBot..." />
+        <button class="chat-send" id="chatSend">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+        </button>
+      </div>
+    </div>
+  `;
+  renderChatMessages();
+  const inp = document.getElementById('chatInput');
+  const btn = document.getElementById('chatSend');
+  inp.addEventListener('keydown', e => { if(e.key==='Enter') sendChat(); });
+  inp.addEventListener('input', () => { btn.className = inp.value.trim() ? 'chat-send active' : 'chat-send'; });
+  btn.addEventListener('click', sendChat);
+}
+
+function renderChatMessages() {
+  const el = document.getElementById('chatMsgs');
+  if(!el) return;
+  let h = chatMessages.map(m => {
+    if(m.role==='user') return `<div class="msg user">${esc(m.content)}</div>`;
+    return `<div class="msg bot"><div class="msg-label">🤖 LifeBot</div>${esc(m.content)}</div>`;
+  }).join('');
+  if(chatLoading) h += `<div class="msg bot"><div class="loading-dots"><span></span><span></span><span></span></div></div>`;
+  el.innerHTML = h;
+  scrollChatBottom();
+}
+
+function scrollChatBottom() {
+  const el = document.getElementById('chatMsgs');
+  if(el) el.scrollTop = el.scrollHeight;
+}
+
+async function sendChat() {
+  const inp = document.getElementById('chatInput');
+  const text = inp.value.trim();
+  if(!text || chatLoading) return;
+  inp.value = '';
+  document.getElementById('chatSend').className = 'chat-send';
+  chatMessages.push({ role:'user', content:text });
+  chatLoading = true;
+  renderChatMessages();
+
+  try {
+    const systemPrompt = `Eres LifeBot, el asistente personal de Carlos Galera, médico residente (MIR) en España. 
+Hoy es domingo 1 de marzo de 2026. Carlos vive entre Barcelona y Murcia.
+Datos clave:
+- Liquidez: 1.578,09€ (CaixaBank 1.247€, N26 325€, Revolut 5€)
+- Pagos pendientes: hipoteca 450€, VW T-Cross 229€, Cofidis 77€, recibos ~260€, gasolina ~200€
+- Deuda total: ~101.033€ (hipoteca 85.000€, coche 12.500€, Cofidis 2.800€, SeQura 460€, Klarna 272€)
+- Guardias próximas: 13 Mar (Urgencias 24h), 21 Mar (Digestivo 24h)
+- Cursos activos: Ecografía 10-11 Mar, Cuid. Paliativos semFYC, TFM Bioética UNIR (entrega 23 Abr), Catalán CPNL, Cirugía Menor, Comp. Digitales OMC
+- Hoy: Vuelo Barcelona→Murcia Volotea 10:00
+- Objetivos semana: completar módulo 3 Paliativos, enviar borrador TFM cap 2, actualizar CV
+Responde en español, conciso, útil. Usa emojis con moderación. Máximo 150 palabras.`;
+
+    const msgs = chatMessages.slice(-10).map(m => ({ role:m.role, content:m.content }));
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type':'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        system: systemPrompt,
+        messages: msgs,
+      }),
+    });
+    const data = await res.json();
+    const reply = data.content?.map(b=>b.text||'').join('') || 'Error de conexión.';
+    chatMessages.push({ role:'assistant', content:reply });
+  } catch(e) {
+    chatMessages.push({ role:'assistant', content:'⚠️ Error de conexión. Intenta de nuevo.' });
+  }
+  chatLoading = false;
+  renderChatMessages();
+}
+
+// ═══════════════════════════════════════════════════════════
+//  FINANCE PANEL
+// ═══════════════════════════════════════════════════════════
+function renderFinance() {
+  const el = document.getElementById('panel-finance');
+  let h = '';
+
+  // Liquidity
+  h += card('💰 Liquidez Total', 'var(--green)', `
+    <div class="liq-big" style="color:var(--green)">${DATA.totalLiq.toFixed(2)} €</div>
+    <div class="accounts-row">
+      ${DATA.accounts.map(a => `
+        <div class="account-chip">
+          <div class="account-name">${a.name}</div>
+          <div class="account-val" style="color:${a.color}">${a.balance.toFixed(2)}€</div>
+        </div>
+      `).join('')}
+    </div>
+  `);
+
+  // Debts
+  const maxDebt = Math.max(...DATA.debts.map(d=>d.total));
+  const totalDebt = DATA.debts.reduce((s,d)=>s+d.total,0);
+  const totalMonthly = DATA.debts.reduce((s,d)=>s+d.monthly,0);
+  h += card('📊 Deudas Activas', 'var(--red)', `
+    ${DATA.debts.map(d => `
+      <div class="debt-row">
+        <div class="debt-header">
+          <span class="debt-name">${esc(d.name)}</span>
+          <span class="debt-total" style="color:${d.color}">${d.total.toLocaleString()}€</span>
+        </div>
+        <div class="debt-bar">
+          <div class="debt-fill" style="width:${(d.total/maxDebt)*100}%;background:linear-gradient(90deg,${d.color},${d.color}88)"></div>
+        </div>
+        <div class="debt-sub">Cuota mensual: ${d.monthly}€/mes</div>
+      </div>
+    `).join('')}
+    <div class="debt-summary">
+      <strong style="color:var(--red)">Total deuda:</strong> ${totalDebt.toLocaleString()}€ · Cuota mensual total: <strong>${totalMonthly.toFixed(2)}€</strong>
+    </div>
+  `);
+
+  // All Payments
+  h += card('📋 Pagos del Mes', 'var(--amber)',
+    DATA.payments.map(p => `
+      <div class="pay-row">
+        <div style="display:flex;align-items:center;gap:8px">
+          <span class="pay-dot" style="background:${statusColors[p.status]}"></span>
+          <div>
+            <div class="pay-name" style="${p.status==='paid'?'text-decoration:line-through;opacity:.5':''}">${esc(p.name)}</div>
+            <div class="pay-date">${p.date}</div>
+          </div>
+        </div>
+        <div class="pay-amount" style="color:${p.status==='paid'?'var(--green)':'var(--text)'};${p.status==='paid'?'text-decoration:line-through;opacity:.5':''}">-${p.amount.toFixed(2)}€</div>
+      </div>
+    `).join('')
+  );
+
+  // Chart
+  const months = [
+    { label:'Ene', income:2200, expenses:2047, net:153 },
+    { label:'Feb', income:2200, expenses:1900, net:300 },
+    { label:'Mar', income:2200, expenses:2100, net:100 },
+  ];
+  h += card('📈 Proyección Trimestral', 'var(--blue)', `
+    <div class="chart-container">
+      ${months.map(m => `
+        <div class="chart-col">
+          <div class="chart-bars">
+            <div class="chart-bar" style="height:${(m.income/2500)*80}px;background:var(--green)"></div>
+            <div class="chart-bar" style="height:${(m.expenses/2500)*80}px;background:var(--red);opacity:.7"></div>
+          </div>
+          <div class="chart-label">${m.label}</div>
+          <div class="chart-net" style="color:${m.net>=0?'var(--green)':'var(--red)'}">${m.net>=0?'+':''}${m.net}€</div>
+        </div>
+      `).join('')}
+    </div>
+    <div class="chart-legend">
+      <div class="chart-legend-item"><div class="chart-legend-dot" style="background:var(--green)"></div> Ingresos</div>
+      <div class="chart-legend-item"><div class="chart-legend-dot" style="background:var(--red);opacity:.7"></div> Gastos</div>
+    </div>
+  `);
+
+  el.innerHTML = h;
+}
+
+// ═══════════════════════════════════════════════════════════
+//  GOALS PANEL
+// ═══════════════════════════════════════════════════════════
+function renderGoals() {
+  const el = document.getElementById('panel-goals');
+  let h = '';
+
+  // Weekly objectives
+  const done = completedCount();
+  const total = DATA.objectives.length;
+  h += card('🎯 Objetivos de la Semana', 'var(--cyan)', `
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
+      <div class="progress-track" style="flex:1">
+        <div class="progress-fill" style="width:${(done/total)*100}%;background:linear-gradient(90deg,var(--cyan),var(--green))"></div>
+      </div>
+      <span style="font-size:12px;font-weight:700;color:var(--cyan);font-family:'JetBrains Mono',monospace">${done}/${total}</span>
+    </div>
+    <div id="objList">
+      ${DATA.objectives.map((o,i) => objRow(o,i,'obj')).join('')}
+    </div>
+  `);
+
+  // Residencia
+  h += card('🏥 Tareas Residencia', 'var(--red)', `
+    <div id="resList">
+      ${DATA.resTasks.map((t,i) => objRow(t,i,'res')).join('')}
+    </div>
+  `);
+
+  // Feedback
+  h += card('📝 Feedback del Día', 'var(--purple)', `
+    <div style="font-size:12px;color:var(--text-s);line-height:1.6">
+      Hoy es domingo — día de viaje y preparación. Al final del día, LifeBot evaluará:
+    </div>
+    <div class="tag-row">
+      <span class="tag">Productividad</span>
+      <span class="tag">Descanso</span>
+      <span class="tag">Estudio</span>
+      <span class="tag">Admin</span>
+    </div>
+    <div class="info-box" style="background:rgba(167,139,250,.08);border:1px solid rgba(167,139,250,.15);color:var(--purple)">
+      💡 Consejo: Usa el vuelo para revisar el módulo 3 de Cuidados Paliativos (semFYC) — son ~45 min de lectura.
+    </div>
+  `);
+
+  el.innerHTML = h;
+  bindObjectiveClicks();
+}
+
+function objRow(o, i, prefix) {
+  return `
+    <div class="obj-row ${o.done?'done':''}" data-idx="${i}" data-prefix="${prefix}">
+      <div class="obj-check ${o.done?'checked':''}">${o.done?checkSVG:''}</div>
+      <div style="flex:1">
+        <div class="obj-text ${o.done?'crossed':''}">${esc(o.text)}</div>
+        ${o.cat ? `<div class="obj-cat">${o.cat}</div>` : ''}
+      </div>
+    </div>
+  `;
+}
+
+function bindObjectiveClicks() {
+  document.querySelectorAll('.obj-row').forEach(row => {
+    row.addEventListener('click', () => {
+      const idx = parseInt(row.dataset.idx);
+      const prefix = row.dataset.prefix;
+      if(prefix==='obj') DATA.objectives[idx].done = !DATA.objectives[idx].done;
+      else DATA.resTasks[idx].done = !DATA.resTasks[idx].done;
+      renderGoals();
+      renderStats();
+    });
+  });
+}
+
+// ═══════════════════════════════════════════════════════════
+//  COURSES PANEL
+// ═══════════════════════════════════════════════════════════
+function renderCourses() {
+  const el = document.getElementById('panel-courses');
+  const badgeStyle = s => {
+    if(s==='active') return 'background:rgba(34,211,238,.1);color:var(--cyan);border:1px solid rgba(34,211,238,.2)';
+    if(s==='upcoming') return 'background:rgba(251,191,36,.1);color:var(--amber);border:1px solid rgba(251,191,36,.2)';
+    return 'background:rgba(90,95,114,.1);color:var(--text-d);border:1px solid rgba(90,95,114,.2)';
+  };
+  const badgeLabel = s => s==='active'?'ACTIVO':s==='upcoming'?'PRÓXIMO':'PEND.';
+  const barColor = p => p>50?'var(--green)':p>20?'var(--cyan)':'var(--amber)';
+
+  el.innerHTML = card('📚 Cursos de Formación', 'var(--purple)',
+    DATA.courses.map(c => `
+      <div class="course-item">
+        <div class="course-top">
+          <div style="flex:1">
+            <div class="course-name">${esc(c.name)}</div>
+            <div class="course-meta">
+              <span>📅 ${c.dates}</span>
+              <span>⏱ ${c.hours}</span>
+              <span>💰 ${c.price}</span>
+            </div>
+          </div>
+          <span class="course-badge" style="${badgeStyle(c.status)}">${badgeLabel(c.status)}</span>
+        </div>
+        <div class="course-progress">
+          <div class="course-pct-row">
+            <span class="course-pct-label">Progreso</span>
+            <span class="course-pct-val">${c.progress}%</span>
+          </div>
+          <div class="progress-bar-sm">
+            <div class="progress-fill-sm" style="width:${c.progress}%;background:${barColor(c.progress)}"></div>
+          </div>
+        </div>
+      </div>
+    `).join('')
+  );
+}
+
+// ═══════════════════════════════════════════════════════════
+//  TIME PANEL
+// ═══════════════════════════════════════════════════════════
+function renderTime() {
+  const el = document.getElementById('panel-time');
+  let h = '';
+
+  h += card('⏰ Sugerencias de Gestión del Tiempo', 'var(--lime)',
+    DATA.timeTips.map(t => `
+      <div class="time-row">
+        <div class="time-header">
+          <span class="time-icon">${t.icon}</span>
+          <span class="time-title">${esc(t.title)}</span>
+        </div>
+        <div class="time-tip">${esc(t.tip)}</div>
+      </div>
+    `).join('')
+  );
+
+  h += card('📊 Distribución Semanal Ideal', 'var(--blue)',
+    DATA.distribution.map(d => `
+      <div class="dist-row">
+        <div class="dist-header">
+          <span class="dist-label">${d.label}</span>
+          <span class="dist-val" style="color:${d.color}">${d.hours}h (${d.pct}%)</span>
+        </div>
+        <div class="dist-track">
+          <div class="dist-fill" style="width:${d.pct}%;background:${d.color}"></div>
+        </div>
+      </div>
+    `).join('')
+  );
+
+  el.innerHTML = h;
+}
+
+// ═══════════════════════════════════════════════════════════
+//  PACKAGES PANEL
+// ═══════════════════════════════════════════════════════════
+function renderPackages() {
+  const el = document.getElementById('panel-packages');
+  const dotColor = s => s==='en_camino'?'var(--green)':s==='programado'?'var(--blue)':'var(--amber)';
+  const statusLabel = s => s==='en_camino'?'EN CAMINO':s==='programado'?'PROGRAMADO':'PENDIENTE';
+  const statusColor = s => s==='en_camino'?'var(--green)':s==='programado'?'var(--blue)':'var(--amber)';
+
+  el.innerHTML = card('📦 Compras y Paquetes Pendientes', 'var(--pink)',
+    DATA.purchases.map(p => `
+      <div class="purch-row">
+        <div class="purch-dot" style="background:${dotColor(p.status)}"></div>
+        <div class="purch-info">
+          <div class="purch-name">${esc(p.item)}</div>
+          <div class="purch-meta">
+            <span>${p.date}</span>
+            <span class="purch-status" style="color:${statusColor(p.status)}">${statusLabel(p.status)}</span>
+          </div>
+        </div>
+        <div class="purch-price">${p.price}</div>
+      </div>
+    `).join('')
+  );
+}
+
+// ═══════════════════════════════════════════════════════════
+//  CARD BUILDER
+// ═══════════════════════════════════════════════════════════
+function card(title, accent, content) {
+  return `
+    <div class="card">
+      <div class="card-accent" style="background:${accent}"></div>
+      <div class="card-title">${title}</div>
+      ${content}
+    </div>
+  `;
+}
+
+// ═══════════════════════════════════════════════════════════
+//  RENDER ALL & ACTIVATE DEFAULT
+// ═══════════════════════════════════════════════════════════
+renderOverview();
+renderChat();
+renderFinance();
+renderGoals();
+renderCourses();
+renderTime();
+renderPackages();
+switchTab('overview');
+
+</script>
+</body>
+</html>

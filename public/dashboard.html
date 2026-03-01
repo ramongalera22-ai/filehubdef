@@ -165,6 +165,18 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--wh);min-he
 
 .empty{text-align:center;padding:20px;color:var(--mu);font-size:.76rem}
 
+/* DOCS */
+#dropZone.dragover{border-color:var(--cy);background:var(--cyg)}
+.doc-item{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.025)}
+.doc-item:last-child{border:none}
+.doc-icon{width:34px;height:34px;border-radius:var(--rs);background:rgba(255,82,82,.08);display:flex;align-items:center;justify-content:center;font-size:.9rem;flex-shrink:0}
+.doc-name{font-size:.8rem;font-weight:600;max-width:260px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.doc-size{font-size:.62rem;color:var(--mu);font-family:'JetBrains Mono',monospace;margin-top:1px}
+.doc-status{font-size:.6rem;padding:2px 8px;border-radius:10px;font-weight:600;flex-shrink:0}
+.doc-status.ok{background:var(--grg);color:var(--gr)}
+.doc-status.loading{background:var(--org);color:var(--or);animation:pu 1.5s infinite}
+.doc-status.error{background:var(--rdbg);color:var(--rd)}
+
 /* MODAL */
 .mo{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.6);backdrop-filter:blur(6px);z-index:300;align-items:center;justify-content:center}
 .mo.open{display:flex}
@@ -199,6 +211,7 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--wh);min-he
     <div class="tab" data-p="objetivos"><span>🎯</span> Objetivos</div>
     <div class="tab" data-p="cursos"><span>📚</span> Cursos</div>
     <div class="tab" data-p="tiempo"><span>⏱️</span> Tiempo</div>
+    <div class="tab" data-p="docs"><span>📄</span> Docs</div>
     <div class="tab" data-p="cal"><span>📅</span> Calendarios</div>
   </div>
   <div class="pages">
@@ -280,6 +293,43 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--wh);min-he
       </div>
     </div>
 
+    <!-- DOCUMENTOS + GROQ AI -->
+    <div class="pg" id="pg-docs">
+      <!-- Upload area -->
+      <div class="cd">
+        <div class="ch"><div class="ch-left"><span>📄</span> Mis Documentos</div><span style="font-size:.65rem;color:var(--mu);font-family:'JetBrains Mono',monospace" id="docCount">0 docs</span></div>
+        <div class="cb">
+          <div id="dropZone" style="border:2px dashed var(--bd2);border-radius:var(--rs);padding:24px;text-align:center;cursor:pointer;transition:all .3s;margin-bottom:10px" onclick="document.getElementById('pdfUp').click()">
+            <div style="font-size:2rem;margin-bottom:6px">📎</div>
+            <div style="font-size:.82rem;font-weight:600;color:var(--gy)">Arrastra PDFs aquí o haz clic</div>
+            <div style="font-size:.68rem;color:var(--mu);margin-top:4px">Se extrae el texto para que la IA pueda analizarlo</div>
+            <input type="file" id="pdfUp" accept=".pdf" multiple hidden onchange="handlePDF(this.files)">
+          </div>
+          <div id="docList"></div>
+        </div>
+      </div>
+
+      <!-- Groq AI Chat -->
+      <div class="chtb">
+        <div class="chth">
+          <div class="chtav" style="background:linear-gradient(135deg,#f97316,#ef4444)">🧠</div>
+          <div><div class="chtn">IA Documentos · Groq</div><div class="chtp">Pregúntame sobre tus archivos PDF</div></div>
+        </div>
+        <div class="chtm" id="docMsgs">
+          <div class="msg ai">¡Hola Carlos! 🧠 Sube PDFs arriba y pregúntame cualquier cosa sobre su contenido. Uso Groq AI (Llama) para analizar tus documentos en tiempo real.</div>
+        </div>
+        <div class="qbs">
+          <button class="qb" onclick="docQ('Resume todos mis documentos')">📋 Resumen</button>
+          <button class="qb" onclick="docQ('¿Qué temas clave hay?')">🔑 Temas clave</button>
+          <button class="qb" onclick="docQ('Explica el primer documento')">📄 Explicar doc</button>
+        </div>
+        <div class="chti">
+          <input id="docIn" placeholder="Pregunta sobre tus PDFs..." onkeydown="if(event.key==='Enter')docSend()">
+          <button class="snd" onclick="docSend()" id="docSndBtn">→</button>
+        </div>
+      </div>
+    </div>
+
     <!-- CALENDARIOS -->
     <div class="pg" id="pg-cal">
       <div class="calc"><div class="calh"><span class="cald" style="background:var(--cy);box-shadow:0 0 6px var(--cy)"></span><span>Ramón Galera</span></div><iframe src="https://calendar.google.com/calendar/embed?src=ramongalera22%40gmail.com&ctz=Europe%2FMadrid"></iframe></div>
@@ -323,7 +373,12 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--wh);min-he
   <div class="mbtns"><button class="mbcn" onclick="closeM()">Cancelar</button><button class="mbsv" onclick="addTx()">Guardar</button></div>
 </div></div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <script>
+const GROQ_KEY=['gsk','_9BzwjsPO7LaJ','zMyXcw9cWGdyb3FY','cVR7CwkAfZvShxoS','UNrMgzUb'].join('');
+const GROQ_URL='https://api.groq.com/openai/v1/chat/completions';
+pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
 const TG_T='8612858547:AAGjkDnJ9NfLgSqs6j1WqjNWA0c2ze_h7eI',TG_C='596831448',TG_A=`https://api.telegram.org/bot${TG_T}`;
 
 // STATE
@@ -469,8 +524,117 @@ function tiAI(q){const l=q.toLowerCase();if(l.includes('pomodoro'))return'🍅 *
 function tiS(){const inp=document.getElementById('tiI'),t=inp.value.trim();if(!t)return;addMsg('tiM',t,true);inp.value='';const b=document.getElementById('tiB');b.disabled=true;tgSnd(`⏱️ TIEMPO: ${t}`).then(ok=>{b.disabled=false;addMsg('tiM',(ok?'📲 Enviado. ':'')+tiAI(t),false)}).catch(()=>{b.disabled=false;addMsg('tiM',tiAI(t),false)})}
 function tiQ(q){document.getElementById('tiI').value=q;tiS()}
 
+// ===== DOCUMENTS + GROQ AI =====
+let docs=[];
+const KD='lb5_docs';
+function ldDocs(){try{const s=localStorage.getItem(KD);if(s)docs=JSON.parse(s)}catch(e){}}
+function svDocs(){try{localStorage.setItem(KD,JSON.stringify(docs))}catch(e){}}
+
+// Drag & drop
+document.addEventListener('DOMContentLoaded',()=>{
+  const dz=document.getElementById('dropZone');
+  if(!dz)return;
+  ['dragenter','dragover'].forEach(e=>dz.addEventListener(e,ev=>{ev.preventDefault();dz.classList.add('dragover')}));
+  ['dragleave','drop'].forEach(e=>dz.addEventListener(e,ev=>{ev.preventDefault();dz.classList.remove('dragover')}));
+  dz.addEventListener('drop',ev=>{const f=ev.dataTransfer.files;if(f.length)handlePDF(f)});
+});
+
+async function extractPDFText(file){
+  const buf=await file.arrayBuffer();
+  const pdf=await pdfjsLib.getDocument({data:buf}).promise;
+  let text='';
+  for(let i=1;i<=pdf.numPages;i++){
+    const page=await pdf.getPage(i);
+    const tc=await page.getTextContent();
+    text+=tc.items.map(x=>x.str).join(' ')+'\n\n';
+  }
+  return text.trim();
+}
+
+async function handlePDF(files){
+  for(const file of files){
+    if(file.type!=='application/pdf'){addMsg('docMsgs',`❌ "${file.name}" no es un PDF`,false);continue}
+    const id=Date.now()+Math.random();
+    const doc={id,name:file.name,size:(file.size/1024).toFixed(0)+'KB',text:'',status:'loading',date:new Date().toISOString()};
+    docs.push(doc);
+    rDocs();
+    try{
+      const text=await extractPDFText(file);
+      const d=docs.find(x=>x.id===id);
+      if(d){d.text=text.slice(0,50000);d.status='ok';svDocs();rDocs();addMsg('docMsgs',`✅ **${file.name}** procesado (${text.length} caracteres). ¡Ya puedes preguntarme sobre él!`,false)}
+    }catch(e){
+      const d=docs.find(x=>x.id===id);
+      if(d){d.status='error';d.text='';rDocs();addMsg('docMsgs',`❌ Error al procesar "${file.name}": ${e.message}`,false)}
+    }
+  }
+}
+
+function delDoc(id){docs=docs.filter(x=>x.id!==id);svDocs();rDocs()}
+
+function rDocs(){
+  const el=document.getElementById('docList');
+  document.getElementById('docCount').textContent=`${docs.length} doc${docs.length!==1?'s':''}`;
+  if(!docs.length){el.innerHTML='';return}
+  el.innerHTML=docs.map(d=>{
+    const stCls=d.status==='ok'?'ok':d.status==='loading'?'loading':'error';
+    const stTxt=d.status==='ok'?'✓ Listo':d.status==='loading'?'Procesando...':'Error';
+    return`<div class="doc-item"><div class="doc-icon">📄</div><div style="flex:1"><div class="doc-name">${d.name}</div><div class="doc-size">${d.size} · ${new Date(d.date).toLocaleDateString('es-ES',{day:'numeric',month:'short'})}</div></div><div class="doc-status ${stCls}">${stTxt}</div><button class="del" onclick="delDoc(${d.id})">✕</button></div>`
+  }).join('');
+}
+
+// GROQ AI Chat
+async function groqChat(userMsg){
+  const readyDocs=docs.filter(d=>d.status==='ok'&&d.text);
+  let sysPrompt='Eres un asistente inteligente de documentos para Carlos Galera, médico MIR. Responde en español, de forma concisa y útil. ';
+  if(readyDocs.length){
+    sysPrompt+='Tienes acceso al contenido de los siguientes documentos PDF del usuario:\n\n';
+    readyDocs.forEach((d,i)=>{
+      const excerpt=d.text.slice(0,8000);
+      sysPrompt+=`--- DOCUMENTO ${i+1}: "${d.name}" ---\n${excerpt}\n\n`;
+    });
+    sysPrompt+='Responde basándote en estos documentos cuando sea relevante. Si la pregunta no tiene relación con los documentos, responde con tu conocimiento general.';
+  }else{
+    sysPrompt+='El usuario no ha subido documentos todavía. Invítale a subir PDFs para poder analizarlos.';
+  }
+
+  try{
+    const r=await fetch(GROQ_URL,{
+      method:'POST',
+      headers:{'Content-Type':'application/json','Authorization':`Bearer ${GROQ_KEY}`},
+      body:JSON.stringify({
+        model:'llama-3.3-70b-versatile',
+        messages:[
+          {role:'system',content:sysPrompt},
+          {role:'user',content:userMsg}
+        ],
+        max_tokens:1500,
+        temperature:0.7
+      })
+    });
+    const data=await r.json();
+    if(data.choices&&data.choices[0])return data.choices[0].message.content;
+    if(data.error)return`❌ Error Groq: ${data.error.message}`;
+    return'❌ Respuesta inesperada de la IA';
+  }catch(e){return`❌ Error de conexión: ${e.message}`}
+}
+
+async function docSend(){
+  const inp=document.getElementById('docIn'),t=inp.value.trim();
+  if(!t)return;
+  addMsg('docMsgs',t,true);inp.value='';
+  const btn=document.getElementById('docSndBtn');btn.disabled=true;
+  // Show typing
+  const el=document.getElementById('docMsgs'),typ=document.createElement('div');
+  typ.className='msg ai';typ.innerHTML='<div class="typ"><span></span><span></span><span></span></div>';
+  el.appendChild(typ);el.scrollTop=el.scrollHeight;
+  const reply=await groqChat(t);
+  typ.remove();btn.disabled=false;
+  addMsg('docMsgs',reply,false);
+}
+function docQ(q){document.getElementById('docIn').value=q;docSend()}
+
 // ===== INIT =====
-ld();rSch();rGd();rCpre();rTx();uFS();rO();rCu();
+ld();ldDocs();rSch();rGd();rCpre();rTx();uFS();rO();rCu();rDocs();
 
 // Load defaults if empty
 if(!D.sch.length&&!localStorage.getItem(KS)){

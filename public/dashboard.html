@@ -646,7 +646,7 @@ Estado actual del dashboard:
 - Cursos: ${JSON.stringify(D.cur.map(c=>c.t))}`;
 
     const r=await fetch(GROQ_URL,{method:'POST',headers:{'Content-Type':'application/json','Authorization':`Bearer ${GROQ_KEY}`},
-      body:JSON.stringify({model:'llama-3.3-70b-versatile',messages:[{role:'system',content:sysP},{role:'user',content:t}],max_tokens:500,temperature:0.3})});
+      body:JSON.stringify({model:'llama-3.1-8b-instant',messages:[{role:'system',content:sysP},{role:'user',content:t}],max_tokens:400,temperature:0.3})});
     const data=await r.json();
     let resp=data.choices?.[0]?.message?.content||'';
     // Extract JSON
@@ -757,7 +757,7 @@ async function handlePDF(files){
     try{
       const text=await extractPDFText(file);
       const d=docs.find(x=>x.id===id);
-      if(d){d.text=text.slice(0,50000);d.status='ok';svDocs();rDocs();addMsg('docMsgs',`✅ **${file.name}** procesado (${text.length} caracteres). ¡Ya puedes preguntarme sobre él!`,false)}
+      if(d){d.text=text.slice(0,10000);d.status='ok';svDocs();rDocs();addMsg('docMsgs',`✅ **${file.name}** procesado (${text.length} caracteres). ¡Ya puedes preguntarme sobre él!`,false)}
     }catch(e){
       const d=docs.find(x=>x.id===id);
       if(d){d.status='error';d.text='';rDocs();addMsg('docMsgs',`❌ Error al procesar "${file.name}": ${e.message}`,false)}
@@ -781,16 +781,18 @@ function rDocs(){
 // GROQ AI Chat
 async function groqChat(userMsg){
   const readyDocs=docs.filter(d=>d.status==='ok'&&d.text);
-  let sysPrompt='Eres un asistente inteligente de documentos para Carlos Galera, médico MIR. Responde en español, de forma concisa y útil. ';
+  let sysPrompt='Eres un asistente de documentos para Carlos Galera, MIR. Responde en español, conciso. ';
   if(readyDocs.length){
-    sysPrompt+='Tienes acceso al contenido de los siguientes documentos PDF del usuario:\n\n';
-    readyDocs.forEach((d,i)=>{
-      const excerpt=d.text.slice(0,8000);
-      sysPrompt+=`--- DOCUMENTO ${i+1}: "${d.name}" ---\n${excerpt}\n\n`;
+    sysPrompt+='Documentos PDF del usuario:\n\n';
+    // Limit: ~2000 chars per doc, max 3 docs = ~6000 chars total context
+    const maxPerDoc=Math.min(2000,Math.floor(6000/readyDocs.length));
+    readyDocs.slice(0,3).forEach((d,i)=>{
+      sysPrompt+=`[DOC${i+1}: "${d.name}"]\n${d.text.slice(0,maxPerDoc)}\n\n`;
     });
-    sysPrompt+='Responde basándote en estos documentos cuando sea relevante. Si la pregunta no tiene relación con los documentos, responde con tu conocimiento general.';
+    if(readyDocs.length>3)sysPrompt+=`(+${readyDocs.length-3} docs más no mostrados)\n`;
+    sysPrompt+='Responde basándote en estos documentos.';
   }else{
-    sysPrompt+='El usuario no ha subido documentos todavía. Invítale a subir PDFs para poder analizarlos.';
+    sysPrompt+='No hay documentos subidos. Invita a subir PDFs.';
   }
 
   try{
@@ -798,12 +800,12 @@ async function groqChat(userMsg){
       method:'POST',
       headers:{'Content-Type':'application/json','Authorization':`Bearer ${GROQ_KEY}`},
       body:JSON.stringify({
-        model:'llama-3.3-70b-versatile',
+        model:'llama-3.1-8b-instant',
         messages:[
           {role:'system',content:sysPrompt},
           {role:'user',content:userMsg}
         ],
-        max_tokens:1500,
+        max_tokens:800,
         temperature:0.7
       })
     });

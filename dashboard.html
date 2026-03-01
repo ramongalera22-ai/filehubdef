@@ -2,7 +2,10 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#0d1117">
 <title>🏢 LifeBot Dashboard</title>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
@@ -19,8 +22,12 @@
   --bd:rgba(0,229,255,.07);--bd2:rgba(0,229,255,.14);
   --r:14px;--rs:10px;
 }
-body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--wh);min-height:100vh;display:flex;align-items:flex-start;justify-content:center;padding:24px 12px}
+body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--wh);min-height:100vh;min-height:100dvh;display:flex;align-items:flex-start;justify-content:center;padding:16px 8px;-webkit-text-size-adjust:100%}
 .db{width:100%;max-width:640px;background:var(--bgm);border-radius:18px;border:1px solid var(--bd2);box-shadow:0 8px 60px rgba(0,0,0,.5),0 0 80px rgba(0,229,255,.04);overflow:hidden}
+@media(max-width:480px){
+  body{padding:0}
+  .db{border-radius:0;border:none;min-height:100vh;min-height:100dvh}
+}
 
 /* TITLEBAR */
 .tb{background:linear-gradient(135deg,#00bcd4,#00e5ff 50%,#00bcd4);padding:14px 20px;display:flex;align-items:center;justify-content:space-between}
@@ -54,12 +61,60 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--wh);min-he
 .tab.active{color:var(--cy);border-bottom-color:var(--cy);text-shadow:0 0 10px rgba(0,229,255,.3)}
 
 /* PAGES */
-.pages{max-height:68vh;overflow-y:auto}
+.pages{overflow-y:auto;-webkit-overflow-scrolling:touch}
 .pages::-webkit-scrollbar{width:3px}
 .pages::-webkit-scrollbar-thumb{background:var(--bd2);border-radius:3px}
 .pg{display:none;padding:16px 20px}
 .pg.active{display:block;animation:fi .3s ease}
 @keyframes fi{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* MOBILE RESPONSIVE */
+@media(max-width:480px){
+  body{padding:0}
+  .db{border-radius:0;border:none;min-height:100vh;min-height:100dvh}
+  .tb{padding:12px 14px}
+  .tb h1{font-size:.9rem}
+  .prf{padding:12px 14px 10px}
+  .sts{padding:0 14px 10px;gap:6px}
+  .s{padding:8px 4px}
+  .s .sv{font-size:.9rem}
+  .s .sl{font-size:.48rem;letter-spacing:.8px}
+  .tabs{padding:0 8px}
+  .tab{padding:10px 8px;font-size:.66rem;gap:3px}
+  .tab span{font-size:.72rem}
+  .pg{padding:12px 12px}
+  .ch{padding:10px 12px;font-size:.78rem}
+  .cb{padding:10px 12px}
+  .ab{font-size:.62rem;padding:4px 9px}
+  .chth{padding:9px 12px}
+  .chtm{padding:10px}
+  .chti{padding:7px 10px}
+  .chti input{padding:7px 9px;font-size:.74rem}
+  .snd{width:32px;height:32px;font-size:.85rem}
+  .qbs{padding:0 10px 6px;gap:3px}
+  .qb{font-size:.58rem;padding:3px 7px}
+  .ftop{grid-template-columns:1fr;gap:6px}
+  .fval{font-size:1.1rem}
+  .calc iframe{height:280px}
+  .msg{font-size:.73rem;padding:8px 10px}
+  .arow{gap:4px}
+  .ainp{padding:7px 8px;font-size:.73rem;min-width:70px}
+  .asel{padding:7px 6px;font-size:.68rem;min-width:65px}
+  .moc{padding:16px;width:96vw}
+  .mf input,.mf select,.mf textarea{font-size:.78rem;padding:8px 10px}
+  .itm{gap:8px;padding:7px 0}
+  .gdd{width:32px;height:32px;font-size:.75rem}
+  .gdn{font-size:.76rem}
+  .gdt{font-size:.6rem}
+  .xb{display:none}
+  .onl{font-size:.58rem;padding:3px 8px}
+  #dropZone{padding:16px}
+  .doc-name{max-width:160px}
+}
+@media(max-width:360px){
+  .sts{grid-template-columns:repeat(2,1fr)}
+  .tab{padding:9px 6px;font-size:.6rem}
+}
 
 /* CARDS */
 .cd{background:var(--bgc);border:1px solid var(--bd);border-radius:var(--r);margin-bottom:14px;overflow:hidden}
@@ -241,6 +296,18 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--wh);min-he
         <div class="fbox"><div class="fl">Este Mes</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:4px"><div><div class="fmv" style="color:var(--gr)" id="fI">€0</div><div class="fml">Ingresos</div></div><div><div class="fmv" style="color:var(--rd)" id="fE">€0</div><div class="fml">Gastos</div></div></div></div>
       </div>
       <div class="cd"><div class="cb"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px"><div class="fl" style="margin:0">Movimientos</div><button class="ab" onclick="openM('tx')">+ Añadir</button></div><div id="txL"></div></div></div>
+      <!-- PDF Finanzas -->
+      <div class="cd">
+        <div class="ch"><div class="ch-left"><span>📄</span> Documentos Financieros</div><span style="font-size:.62rem;color:var(--mu);font-family:'JetBrains Mono',monospace" id="finDocCount">0 docs</span></div>
+        <div class="cb">
+          <div id="finDropZone" style="border:2px dashed var(--bd2);border-radius:var(--rs);padding:18px;text-align:center;cursor:pointer;transition:all .3s;margin-bottom:8px" onclick="document.getElementById('finPdfUp').click()">
+            <div style="font-size:1.5rem;margin-bottom:4px">📎</div>
+            <div style="font-size:.78rem;font-weight:600;color:var(--gy)">Sube facturas, nóminas, extractos (PDF)</div>
+            <input type="file" id="finPdfUp" accept=".pdf" multiple hidden onchange="handleFinPDF(this.files)">
+          </div>
+          <div id="finDocList"></div>
+        </div>
+      </div>
       <div class="chtb">
         <div class="chth"><div class="chtav" style="background:linear-gradient(135deg,var(--cy),var(--bl))">₿</div><div><div class="chtn">Asistente Financiero</div><div class="chtp">Pregúntame sobre tus finanzas</div></div></div>
         <div class="chtm" id="fM"><div class="msg ai">¡Hola! Pregúntame sobre tus finanzas. 👋</div></div>
@@ -690,19 +757,93 @@ Estado actual del dashboard:
   }
 }
 
-// ===== FINANCE CHAT =====
-function fAI(q){
+// ===== FINANCE PDFs =====
+let finDocs=[];
+const KFD='lb5_findocs';
+function ldFinDocs(){try{const s=localStorage.getItem(KFD);if(s)finDocs=JSON.parse(s)}catch(e){}}
+function svFinDocs(){try{localStorage.setItem(KFD,JSON.stringify(finDocs))}catch(e){}}
+
+document.addEventListener('DOMContentLoaded',()=>{
+  const dz=document.getElementById('finDropZone');
+  if(!dz)return;
+  ['dragenter','dragover'].forEach(e=>dz.addEventListener(e,ev=>{ev.preventDefault();dz.classList.add('dragover')}));
+  ['dragleave','drop'].forEach(e=>dz.addEventListener(e,ev=>{ev.preventDefault();dz.classList.remove('dragover')}));
+  dz.addEventListener('drop',ev=>{const f=ev.dataTransfer.files;if(f.length)handleFinPDF(f)});
+});
+
+async function handleFinPDF(files){
+  for(const file of files){
+    if(file.type!=='application/pdf'){addMsg('fM',`❌ "${file.name}" no es PDF`,false);continue}
+    const id=Date.now()+Math.random();
+    finDocs.push({id,name:file.name,size:(file.size/1024).toFixed(0)+'KB',text:'',status:'loading',date:new Date().toISOString()});
+    rFinDocs();
+    try{
+      const text=await extractPDFText(file);
+      const d=finDocs.find(x=>x.id===id);
+      if(d){d.text=text.slice(0,10000);d.status='ok';svFinDocs();rFinDocs();addMsg('fM',`✅ **${file.name}** procesado. Pregúntame sobre él.`,false)}
+    }catch(e){
+      const d=finDocs.find(x=>x.id===id);
+      if(d){d.status='error';rFinDocs();addMsg('fM',`❌ Error: ${e.message}`,false)}
+    }
+  }
+}
+function delFinDoc(id){finDocs=finDocs.filter(x=>x.id!==id);svFinDocs();rFinDocs()}
+function rFinDocs(){
+  const el=document.getElementById('finDocList');
+  document.getElementById('finDocCount').textContent=`${finDocs.length} doc${finDocs.length!==1?'s':''}`;
+  if(!finDocs.length){el.innerHTML='';return}
+  el.innerHTML=finDocs.map(d=>{
+    const stCls=d.status==='ok'?'ok':d.status==='loading'?'loading':'error';
+    const stTxt=d.status==='ok'?'✓ Listo':d.status==='loading'?'Procesando...':'Error';
+    return`<div class="doc-item"><div class="doc-icon">📄</div><div style="flex:1"><div class="doc-name">${d.name}</div><div class="doc-size">${d.size} · ${new Date(d.date).toLocaleDateString('es-ES',{day:'numeric',month:'short'})}</div></div><div class="doc-status ${stCls}">${stTxt}</div><button class="del" onclick="delFinDoc(${d.id})">✕</button></div>`
+  }).join('');
+}
+
+// ===== FINANCE CHAT (Groq when PDFs, local otherwise) =====
+function fAILocal(q){
   const n=new Date(),mo=D.tx.filter(t=>{const d=new Date(t.dt);return d.getMonth()===n.getMonth()&&d.getFullYear()===n.getFullYear()});
   const inc=mo.filter(t=>t.tp==='income').reduce((s,t)=>s+t.am,0),exp=mo.filter(t=>t.tp==='expense').reduce((s,t)=>s+t.am,0),bal=D.tx.reduce((s,t)=>t.tp==='income'?s+t.am:s-t.am,0),cats={},l=q.toLowerCase(),net=inc-exp;
   mo.filter(t=>t.tp==='expense').forEach(t=>{cats[t.ct]=(cats[t.ct]||0)+t.am});
-  if(!D.tx.length)return"Añade movimientos con **+ Añadir**. 📝";
+  if(!D.tx.length&&!finDocs.length)return"Añade movimientos o sube PDFs financieros. 📝";
   if(l.includes('balance')||l.includes('tengo'))return`Balance: **€${bal.toFixed(2)}** ${bal>=0?'🟢':'🔴'}\nMes: €${inc.toFixed(2)} in — €${exp.toFixed(2)} out → €${net.toFixed(2)}`;
   if(l.includes('gasto')||l.includes('top')){const cs=Object.entries(cats).sort((a,b)=>b[1]-a[1]);if(!cs.length)return"Sin gastos este mes.";return"📊 **Gastos:**\n\n"+cs.map(([k,v],i)=>`${i+1}. ${k}: €${v.toFixed(2)} (${exp>0?((v/exp)*100).toFixed(0):0}%)`).join('\n')}
   if(l.includes('resumen'))return`📋 Balance: €${bal.toFixed(2)} | In: €${inc.toFixed(2)} | Out: €${exp.toFixed(2)} | Neto: €${net.toFixed(2)} ${net>=0?'✅':'⚠️'}`;
   if(l.includes('ahorr')||l.includes('consejo')){const cs=Object.entries(cats).sort((a,b)=>b[1]-a[1]);return"💡 "+(cs.length?`Reduce **${cs[0][0]}** un 10-15%. `:'')+(net<0?`Déficit €${Math.abs(net).toFixed(2)}. `:'')+"Regla 50/30/20."}
   return`**${D.tx.length}** movimientos, balance **€${bal.toFixed(2)}**. ¿Más detalle?`;
 }
-function fS(){const inp=document.getElementById('fIn'),t=inp.value.trim();if(!t)return;addMsg('fM',t,true);inp.value='';setTimeout(()=>addMsg('fM',fAI(t),false),400+Math.random()*500)}
+
+async function fAIGroq(q){
+  const readyFDocs=finDocs.filter(d=>d.status==='ok'&&d.text);
+  const n=new Date(),mo=D.tx.filter(t=>{const d=new Date(t.dt);return d.getMonth()===n.getMonth()&&d.getFullYear()===n.getFullYear()});
+  const inc=mo.filter(t=>t.tp==='income').reduce((s,t)=>s+t.am,0),exp=mo.filter(t=>t.tp==='expense').reduce((s,t)=>s+t.am,0),bal=D.tx.reduce((s,t)=>t.tp==='income'?s+t.am:s-t.am,0);
+  let sys=`Eres un asistente financiero para Carlos Galera, MIR. Responde en español, conciso.\nDatos: Balance €${bal.toFixed(2)}, Ingresos mes €${inc.toFixed(2)}, Gastos mes €${exp.toFixed(2)}.\n`;
+  const maxPer=Math.min(2000,Math.floor(5000/readyFDocs.length));
+  readyFDocs.slice(0,3).forEach((d,i)=>{sys+=`\n[DOC${i+1}: "${d.name}"]\n${d.text.slice(0,maxPer)}\n`});
+  try{
+    const r=await fetch(GROQ_URL,{method:'POST',headers:{'Content-Type':'application/json','Authorization':`Bearer ${GROQ_KEY}`},
+      body:JSON.stringify({model:'llama-3.1-8b-instant',messages:[{role:'system',content:sys},{role:'user',content:q}],max_tokens:800,temperature:0.7})});
+    const data=await r.json();
+    if(data.choices?.[0])return data.choices[0].message.content;
+    if(data.error)return`❌ Error: ${data.error.message}`;
+    return'❌ Sin respuesta';
+  }catch(e){return`❌ ${e.message}`}
+}
+
+async function fS(){
+  const inp=document.getElementById('fIn'),t=inp.value.trim();if(!t)return;
+  addMsg('fM',t,true);inp.value='';
+  const hasFinDocs=finDocs.some(d=>d.status==='ok'&&d.text);
+  if(hasFinDocs){
+    // Use Groq with PDF context
+    const el=document.getElementById('fM'),typ=document.createElement('div');
+    typ.className='msg ai';typ.innerHTML='<div class="typ"><span></span><span></span><span></span></div>';
+    el.appendChild(typ);el.scrollTop=el.scrollHeight;
+    const reply=await fAIGroq(t);
+    typ.remove();addMsg('fM',reply,false);
+  }else{
+    setTimeout(()=>addMsg('fM',fAILocal(t),false),400+Math.random()*500);
+  }
+}
 function fQ(q){document.getElementById('fIn').value=q;fS()}
 
 // ===== OBJ CHAT =====
@@ -832,7 +973,7 @@ async function docSend(){
 function docQ(q){document.getElementById('docIn').value=q;docSend()}
 
 // ===== INIT =====
-ld();ldDocs();rSch();rGd();rCpre();rTx();uFS();rO();rCu();rDocs();
+ld();ldDocs();ldFinDocs();rSch();rGd();rCpre();rTx();uFS();rO();rCu();rDocs();rFinDocs();
 setTimeout(tgPoll,2000); // Start Telegram polling after 2s
 
 // Load defaults if empty

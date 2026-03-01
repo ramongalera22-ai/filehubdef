@@ -225,12 +225,12 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--wh);min-he
 
     <!-- CHAT TELEGRAM -->
     <div class="pg" id="pg-chat">
-      <div class="tgs"><span class="tgd"></span>Bot Telegram conectado</div>
+      <div class="tgs"><span class="tgd"></span>Bot Telegram conectado · Escuchando comandos 📡</div>
       <div class="chtb">
-        <div class="chth"><div class="chtav" style="background:linear-gradient(135deg,#0088cc,#00aaff)">✈</div><div><div class="chtn">LifeBot · Telegram</div><div class="chtp">Chat con tu bot personal</div></div></div>
-        <div class="chtm" id="tgM"><div class="msg ai">¡Conectado con Telegram! 🤖 Escribe y se enviará a tu bot.</div></div>
-        <div class="qbs"><button class="qb" onclick="tgQ('/start')">🚀 /start</button><button class="qb" onclick="tgQ('¿Qué tengo hoy?')">📅 Hoy</button><button class="qb" onclick="tgQ('Guardias')">🚨 Guardias</button></div>
-        <div class="chti"><input id="tgI" placeholder="Escribe al bot..." onkeydown="if(event.key==='Enter')tgS()"><button class="snd" onclick="tgS()" id="tgB">→</button></div>
+        <div class="chth"><div class="chtav" style="background:linear-gradient(135deg,#0088cc,#00aaff)">✈</div><div><div class="chtn">LifeBot · Telegram</div><div class="chtp">Bidireccional — Envía y recibe comandos</div></div></div>
+        <div class="chtm" id="tgM"><div class="msg ai">🤖 ¡LifeBot activo! Escucho comandos desde Telegram. Escribe <strong>/help</strong> en Telegram para ver todos los comandos, o simplemente dime en lenguaje natural qué quieres hacer (ej: "añade una guardia el día 15").</div></div>
+        <div class="qbs"><button class="qb" onclick="tgQ('/help')">❓ Ayuda</button><button class="qb" onclick="tgQ('/resumen')">📋 Resumen</button><button class="qb" onclick="tgQ('/guardias')">🚨 Guardias</button><button class="qb" onclick="tgQ('/eventos')">📅 Eventos</button><button class="qb" onclick="tgQ('/balance')">💰 Balance</button></div>
+        <div class="chti"><input id="tgI" placeholder="Enviar mensaje al bot..." onkeydown="if(event.key==='Enter')tgS()"><button class="snd" onclick="tgS()" id="tgB">→</button></div>
       </div>
     </div>
 
@@ -494,6 +494,202 @@ async function tgSnd(t){try{const r=await fetch(`${TG_A}/sendMessage`,{method:'P
 function tgS(){const inp=document.getElementById('tgI'),t=inp.value.trim();if(!t)return;addMsg('tgM',t,true);inp.value='';const b=document.getElementById('tgB');b.disabled=true;tgSnd(t).then(ok=>{b.disabled=false;addMsg('tgM',ok?'✅ Enviado a Telegram':'❌ Error al enviar',false)})}
 function tgQ(q){document.getElementById('tgI').value=q;tgS()}
 
+// ===== TELEGRAM POLLING (receive commands) =====
+let tgOffset=0;
+const TG_POLL_KEY='lb5_tg_offset';
+try{const o=localStorage.getItem(TG_POLL_KEY);if(o)tgOffset=parseInt(o)}catch(e){}
+
+async function tgPoll(){
+  try{
+    const r=await fetch(`${TG_A}/getUpdates?offset=${tgOffset}&timeout=5&allowed_updates=["message"]`);
+    const d=await r.json();
+    if(d.ok&&d.result.length){
+      for(const u of d.result){
+        tgOffset=u.update_id+1;
+        try{localStorage.setItem(TG_POLL_KEY,tgOffset)}catch(e){}
+        if(u.message&&u.message.text&&String(u.message.chat.id)===TG_C){
+          const txt=u.message.text;
+          addMsg('tgM','📲 '+txt,false);
+          await processTgCommand(txt);
+        }
+      }
+    }
+  }catch(e){}
+  setTimeout(tgPoll,6000);
+}
+
+async function processTgCommand(txt){
+  const t=txt.trim();
+  const lo=t.toLowerCase();
+
+  // Direct commands first
+  if(lo==='/start'||lo==='/help'){
+    const help=`🤖 <b>LifeBot Commands:</b>\n\n`+
+      `📅 <b>Eventos:</b>\n/evento 10:00 Reunión equipo\n/eventos (ver todos)\n/delevento [texto parcial]\n\n`+
+      `🚨 <b>Guardias:</b>\n/guardia 15 Guardia UCI 08:00-08:00+1\n/guardias (ver todas)\n/delguardia [día]\n\n`+
+      `💰 <b>Finanzas:</b>\n/gasto 50 Supermercado\n/ingreso 1500 Nómina\n/balance\n/deltx [texto parcial]\n\n`+
+      `🎯 <b>Objetivos:</b>\n/objetivo Estudiar ECO\n/objetivos (ver todos)\n/delobj [texto parcial]\n\n`+
+      `📚 <b>Cursos:</b>\n/curso Ecografía avanzada\n/cursos (ver todos)\n\n`+
+      `📋 /resumen — Estado general\n\nO simplemente escribe en lenguaje natural y la IA interpretará tu petición.`;
+    await tgSnd(help);
+    addMsg('tgM','📤 Ayuda enviada',false);
+    return;
+  }
+
+  // /evento HH:MM descripción
+  if(lo.startsWith('/evento ')){
+    const m=t.match(/\/evento\s+(\d{1,2}:\d{2})\s+(.+)/i);
+    if(m){D.sch.push({id:Date.now(),time:m[1],icon:'📌',desc:m[2],col:'bl'});D.sch.sort((a,b)=>a.time.localeCompare(b.time));sv();rSch();await tgSnd(`✅ Evento añadido: ${m[1]} — ${m[2]}`);addMsg('tgM','✅ Evento añadido al dashboard',false);return}
+  }
+  if(lo==='/eventos'){
+    if(!D.sch.length){await tgSnd('📅 Sin eventos hoy');return}
+    await tgSnd('📅 <b>Eventos hoy:</b>\n'+D.sch.map(s=>`${s.time} ${s.icon} ${s.desc}`).join('\n'));return;
+  }
+  if(lo.startsWith('/delevento ')){
+    const q=t.slice(11).toLowerCase();const i=D.sch.findIndex(s=>s.desc.toLowerCase().includes(q));
+    if(i>=0){const nm=D.sch[i].desc;D.sch.splice(i,1);sv();rSch();await tgSnd(`🗑️ Evento eliminado: ${nm}`);addMsg('tgM','🗑️ Evento eliminado',false)}else await tgSnd('❌ No encontrado');return;
+  }
+
+  // /guardia día nombre detalle
+  if(lo.startsWith('/guardia ')){
+    const m=t.match(/\/guardia\s+(\d{1,2})\s+(.+)/i);
+    if(m){const parts=m[2].split(/\s+/),name=parts.slice(0,2).join(' '),det=parts.slice(2).join(' ')||'08:00–08:00+1 · Hospital';
+    D.gd.push({id:Date.now(),day:parseInt(m[1]),name,detail:det});D.gd.sort((a,b)=>a.day-b.day);sv();rGd();await tgSnd(`✅ Guardia añadida: Día ${m[1]} — ${name}`);addMsg('tgM','✅ Guardia añadida',false);return}
+  }
+  if(lo==='/guardias'){
+    if(!D.gd.length){await tgSnd('🚨 Sin guardias');return}
+    await tgSnd('🚨 <b>Guardias:</b>\n'+D.gd.map(g=>`Día ${g.day}: ${g.name} (${g.detail})`).join('\n'));return;
+  }
+  if(lo.startsWith('/delguardia ')){
+    const day=parseInt(t.slice(12));const i=D.gd.findIndex(g=>g.day===day);
+    if(i>=0){const nm=D.gd[i].name;D.gd.splice(i,1);sv();rGd();await tgSnd(`🗑️ Guardia eliminada: ${nm}`);addMsg('tgM','🗑️ Guardia eliminada',false)}else await tgSnd('❌ No encontrada');return;
+  }
+
+  // /gasto cantidad descripción
+  if(lo.startsWith('/gasto ')){
+    const m=t.match(/\/gasto\s+([\d.]+)\s+(.+)/i);
+    if(m){D.tx.unshift({id:Date.now(),nm:m[2],am:parseFloat(m[1]),tp:'expense',ct:'🎁 Otros',dt:new Date().toISOString().split('T')[0]});sv();rTx();uFS();await tgSnd(`✅ Gasto: -€${parseFloat(m[1]).toFixed(2)} — ${m[2]}`);addMsg('tgM','✅ Gasto registrado',false);return}
+  }
+  if(lo.startsWith('/ingreso ')){
+    const m=t.match(/\/ingreso\s+([\d.]+)\s+(.+)/i);
+    if(m){D.tx.unshift({id:Date.now(),nm:m[2],am:parseFloat(m[1]),tp:'income',ct:'💼 Trabajo',dt:new Date().toISOString().split('T')[0]});sv();rTx();uFS();await tgSnd(`✅ Ingreso: +€${parseFloat(m[1]).toFixed(2)} — ${m[2]}`);addMsg('tgM','✅ Ingreso registrado',false);return}
+  }
+  if(lo==='/balance'){
+    const bal=D.tx.reduce((s,t)=>t.tp==='income'?s+t.am:s-t.am,0);
+    await tgSnd(`💰 Balance: €${bal.toFixed(2)} ${bal>=0?'🟢':'🔴'}`);return;
+  }
+  if(lo.startsWith('/deltx ')){
+    const q=t.slice(7).toLowerCase();const i=D.tx.findIndex(x=>x.nm.toLowerCase().includes(q));
+    if(i>=0){const nm=D.tx[i].nm;D.tx.splice(i,1);sv();rTx();uFS();await tgSnd(`🗑️ Movimiento eliminado: ${nm}`);addMsg('tgM','🗑️ Movimiento eliminado',false)}else await tgSnd('❌ No encontrado');return;
+  }
+
+  // /objetivo texto
+  if(lo.startsWith('/objetivo ')){
+    const txt2=t.slice(10).trim();D.obj.push({id:Date.now(),t:txt2,pri:'media',done:false});sv();rO();await tgSnd(`✅ Objetivo añadido: ${txt2}`);addMsg('tgM','✅ Objetivo añadido',false);return;
+  }
+  if(lo==='/objetivos'){
+    if(!D.obj.length){await tgSnd('🎯 Sin objetivos');return}
+    await tgSnd('🎯 <b>Objetivos:</b>\n'+D.obj.map((o,i)=>`${o.done?'✅':'⬜'} ${o.t} (${o.pri})`).join('\n'));return;
+  }
+  if(lo.startsWith('/delobj ')){
+    const q=t.slice(8).toLowerCase();const i=D.obj.findIndex(o=>o.t.toLowerCase().includes(q));
+    if(i>=0){const nm=D.obj[i].t;D.obj.splice(i,1);sv();rO();await tgSnd(`🗑️ Objetivo eliminado: ${nm}`);addMsg('tgM','🗑️ Objetivo eliminado',false)}else await tgSnd('❌ No encontrado');return;
+  }
+
+  // /curso texto
+  if(lo.startsWith('/curso ')){
+    const txt2=t.slice(7).trim();D.cur.push({id:Date.now(),t:txt2,tp:'presencial',done:false});sv();rCu();await tgSnd(`✅ Curso añadido: ${txt2}`);addMsg('tgM','✅ Curso añadido',false);return;
+  }
+  if(lo==='/cursos'){
+    if(!D.cur.length){await tgSnd('📚 Sin cursos');return}
+    await tgSnd('📚 <b>Cursos:</b>\n'+D.cur.map(c=>`${c.done?'✅':'⬜'} ${c.t} (${c.tp})`).join('\n'));return;
+  }
+
+  // /resumen
+  if(lo==='/resumen'){
+    const bal=D.tx.reduce((s,t)=>t.tp==='income'?s+t.am:s-t.am,0);
+    const dn=D.obj.filter(o=>o.done).length;
+    let r=`📋 <b>Resumen LifeBot:</b>\n\n`;
+    r+=`📅 Eventos hoy: ${D.sch.length}\n`;
+    r+=`🚨 Guardias: ${D.gd.length}\n`;
+    r+=`💰 Balance: €${bal.toFixed(2)}\n`;
+    r+=`🎯 Objetivos: ${dn}/${D.obj.length}\n`;
+    r+=`📚 Cursos: ${D.cur.length}\n`;
+    r+=`🎓 Cursos presenciales: ${D.cpre.length}`;
+    await tgSnd(r);return;
+  }
+
+  // Natural language → Groq interprets as command
+  try{
+    const sysP=`Eres LifeBot, asistente de Carlos Galera (MIR). El usuario te envía mensajes por Telegram para gestionar su dashboard.
+Interpreta su mensaje y responde con UN JSON con esta estructura (solo el JSON, nada más):
+{"action":"add_evento|del_evento|add_guardia|del_guardia|add_gasto|add_ingreso|add_objetivo|del_objetivo|add_curso|ver_resumen|respuesta_libre","params":{...},"reply":"texto confirmación para el usuario"}
+
+Parámetros por acción:
+- add_evento: {"time":"HH:MM","desc":"texto"}
+- del_evento: {"query":"texto parcial"}
+- add_guardia: {"day":N,"name":"texto","detail":"texto"}
+- del_guardia: {"day":N}
+- add_gasto: {"amount":N,"desc":"texto","cat":"categoría"}
+- add_ingreso: {"amount":N,"desc":"texto"}
+- add_objetivo: {"text":"texto","pri":"alta|media|baja"}
+- del_objetivo: {"query":"texto parcial"}
+- add_curso: {"name":"texto","type":"presencial|online|mixto"}
+- ver_resumen: {}
+- respuesta_libre: {} (cuando no es un comando, solo conversación)
+
+Estado actual del dashboard:
+- Eventos: ${JSON.stringify(D.sch.map(s=>s.time+' '+s.desc))}
+- Guardias: ${JSON.stringify(D.gd.map(g=>'Día '+g.day+': '+g.name))}
+- Balance: €${D.tx.reduce((s,t)=>t.tp==='income'?s+t.am:s-t.am,0).toFixed(2)}
+- Objetivos: ${JSON.stringify(D.obj.map(o=>(o.done?'✅':'⬜')+o.t))}
+- Cursos: ${JSON.stringify(D.cur.map(c=>c.t))}`;
+
+    const r=await fetch(GROQ_URL,{method:'POST',headers:{'Content-Type':'application/json','Authorization':`Bearer ${GROQ_KEY}`},
+      body:JSON.stringify({model:'llama-3.3-70b-versatile',messages:[{role:'system',content:sysP},{role:'user',content:t}],max_tokens:500,temperature:0.3})});
+    const data=await r.json();
+    let resp=data.choices?.[0]?.message?.content||'';
+    // Extract JSON
+    const jm=resp.match(/\{[\s\S]*\}/);
+    if(jm){
+      const cmd=JSON.parse(jm[0]);
+      const p=cmd.params||{};
+      switch(cmd.action){
+        case 'add_evento':
+          if(p.time&&p.desc){D.sch.push({id:Date.now(),time:p.time,icon:'📌',desc:p.desc,col:'bl'});D.sch.sort((a,b)=>a.time.localeCompare(b.time));sv();rSch()}break;
+        case 'del_evento':
+          if(p.query){const i=D.sch.findIndex(s=>s.desc.toLowerCase().includes(p.query.toLowerCase()));if(i>=0){D.sch.splice(i,1);sv();rSch()}}break;
+        case 'add_guardia':
+          if(p.day&&p.name){D.gd.push({id:Date.now(),day:p.day,name:p.name,detail:p.detail||'Hospital'});D.gd.sort((a,b)=>a.day-b.day);sv();rGd()}break;
+        case 'del_guardia':
+          if(p.day){const i=D.gd.findIndex(g=>g.day===p.day);if(i>=0){D.gd.splice(i,1);sv();rGd()}}break;
+        case 'add_gasto':
+          if(p.amount&&p.desc){D.tx.unshift({id:Date.now(),nm:p.desc,am:p.amount,tp:'expense',ct:p.cat||'🎁 Otros',dt:new Date().toISOString().split('T')[0]});sv();rTx();uFS()}break;
+        case 'add_ingreso':
+          if(p.amount&&p.desc){D.tx.unshift({id:Date.now(),nm:p.desc,am:p.amount,tp:'income',ct:'💼 Trabajo',dt:new Date().toISOString().split('T')[0]});sv();rTx();uFS()}break;
+        case 'add_objetivo':
+          if(p.text){D.obj.push({id:Date.now(),t:p.text,pri:p.pri||'media',done:false});sv();rO()}break;
+        case 'del_objetivo':
+          if(p.query){const i=D.obj.findIndex(o=>o.t.toLowerCase().includes(p.query.toLowerCase()));if(i>=0){D.obj.splice(i,1);sv();rO()}}break;
+        case 'add_curso':
+          if(p.name){D.cur.push({id:Date.now(),t:p.name,tp:p.type||'presencial',done:false});sv();rCu()}break;
+        case 'ver_resumen':
+          // reply handles it
+          break;
+      }
+      const reply=cmd.reply||'✅ Hecho';
+      await tgSnd(reply);
+      addMsg('tgM','🤖 '+reply,false);
+    }else{
+      await tgSnd(resp||'No entendí. Escribe /help para ver comandos.');
+      addMsg('tgM','🤖 '+(resp||'No entendido'),false);
+    }
+  }catch(e){
+    await tgSnd('⚠️ Error procesando. Usa /help para ver comandos.');
+    addMsg('tgM','⚠️ Error IA: '+e.message,false);
+  }
+}
+
 // ===== FINANCE CHAT =====
 function fAI(q){
   const n=new Date(),mo=D.tx.filter(t=>{const d=new Date(t.dt);return d.getMonth()===n.getMonth()&&d.getFullYear()===n.getFullYear()});
@@ -635,6 +831,7 @@ function docQ(q){document.getElementById('docIn').value=q;docSend()}
 
 // ===== INIT =====
 ld();ldDocs();rSch();rGd();rCpre();rTx();uFS();rO();rCu();rDocs();
+setTimeout(tgPoll,2000); // Start Telegram polling after 2s
 
 // Load defaults if empty
 if(!D.sch.length&&!localStorage.getItem(KS)){

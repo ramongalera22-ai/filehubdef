@@ -247,6 +247,30 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--wh);min-he
 .mbsv{flex:1;padding:9px;border-radius:var(--rs);background:linear-gradient(135deg,var(--cy),var(--bl));border:none;color:var(--bg);font-weight:700;font-size:.82rem;cursor:pointer;font-family:'Outfit',sans-serif}
 .mbsv:hover{box-shadow:0 0 14px rgba(0,229,255,.25)}
 .mbcn{padding:9px 14px;border-radius:var(--rs);background:transparent;border:1px solid var(--bd);color:var(--gy);font-size:.82rem;cursor:pointer;font-family:'Outfit',sans-serif}
+
+/* DIGITAL NOTEBOOK */
+.nb{background:var(--bgc);border:1px solid var(--bd);border-radius:var(--r);margin-bottom:14px;overflow:hidden}
+.nb-h{padding:12px 16px;border-bottom:1px solid var(--bd);display:flex;align-items:center;justify-content:space-between}
+.nb-h-left{display:flex;align-items:center;gap:8px;font-size:.84rem;font-weight:700}
+.nb-cnt{font-size:.62rem;color:var(--mu);font-family:'JetBrains Mono',monospace}
+.nb-add{display:flex;gap:6px;padding:12px 16px;border-bottom:1px solid var(--bd);background:rgba(255,255,255,.01)}
+.nb-add input,.nb-add textarea{flex:1;background:var(--bgi);border:1px solid var(--bd);border-radius:7px;padding:8px 10px;color:var(--wh);font-size:.78rem;font-family:'Outfit',sans-serif;outline:none;resize:none}
+.nb-add input:focus,.nb-add textarea:focus{border-color:var(--cy)}
+.nb-add input::placeholder,.nb-add textarea::placeholder{color:var(--mu)}
+.nb-body{max-height:320px;overflow-y:auto;padding:0}
+.nb-body::-webkit-scrollbar{width:2px}
+.nb-body::-webkit-scrollbar-thumb{background:var(--bd2);border-radius:2px}
+.note{padding:12px 16px;border-bottom:1px solid rgba(255,255,255,.025);transition:background .2s;cursor:default}
+.note:last-child{border:none}
+.note:hover{background:rgba(0,229,255,.02)}
+.note-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:4px}
+.note-title{font-size:.82rem;font-weight:700;color:var(--cy);word-break:break-word}
+.note-date{font-size:.58rem;color:var(--mu);font-family:'JetBrains Mono',monospace;white-space:nowrap;margin-top:2px}
+.note-text{font-size:.76rem;color:var(--gy);line-height:1.55;word-break:break-word;white-space:pre-wrap}
+.note-acts{display:flex;gap:4px;margin-top:6px}
+.note-edit{background:none;border:1px solid var(--bd);color:var(--mu);font-size:.6rem;padding:2px 7px;border-radius:5px;cursor:pointer;font-family:'Outfit',sans-serif;transition:all .2s}
+.note-edit:hover{color:var(--cy);border-color:var(--cy)}
+.nb-empty{text-align:center;padding:20px;color:var(--mu);font-size:.76rem}
 </style>
 </head>
 <body>
@@ -308,6 +332,18 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--wh);min-he
           <div id="finDocList"></div>
         </div>
       </div>
+      <!-- Cuaderno Finanzas -->
+      <div class="nb">
+        <div class="nb-h"><div class="nb-h-left">📓 Cuaderno Financiero</div><span class="nb-cnt" id="fnCnt">0 notas</span></div>
+        <div class="nb-add">
+          <div style="display:flex;flex-direction:column;gap:4px;flex:1">
+            <input id="fnT" placeholder="Título (ej: Presupuesto marzo)..." style="font-weight:600">
+            <textarea id="fnX" rows="2" placeholder="Escribe tu nota..."></textarea>
+          </div>
+          <button class="ab" onclick="addNote('fin')" style="align-self:flex-end;height:34px">+ Nota</button>
+        </div>
+        <div class="nb-body" id="fnL"></div>
+      </div>
       <div class="chtb">
         <div class="chth"><div class="chtav" style="background:linear-gradient(135deg,var(--cy),var(--bl))">₿</div><div><div class="chtn">Asistente Financiero</div><div class="chtp">Pregúntame sobre tus finanzas</div></div></div>
         <div class="chtm" id="fM"><div class="msg ai">¡Hola! Pregúntame sobre tus finanzas. 👋</div></div>
@@ -325,6 +361,18 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--wh);min-he
         <button class="ab" onclick="addO()">+ Añadir</button>
       </div>
       <div id="oL"></div>
+      <!-- Cuaderno Objetivos -->
+      <div class="nb">
+        <div class="nb-h"><div class="nb-h-left">📓 Cuaderno de Objetivos</div><span class="nb-cnt" id="onCnt">0 notas</span></div>
+        <div class="nb-add">
+          <div style="display:flex;flex-direction:column;gap:4px;flex:1">
+            <input id="onT" placeholder="Título (ej: Plan semanal)..." style="font-weight:600">
+            <textarea id="onX" rows="2" placeholder="Detalla tu plan, reflexión, ideas..."></textarea>
+          </div>
+          <button class="ab" onclick="addNote('obj')" style="align-self:flex-end;height:34px">+ Nota</button>
+        </div>
+        <div class="nb-body" id="onL"></div>
+      </div>
       <div class="chtb">
         <div class="chth"><div class="chtav" style="background:linear-gradient(135deg,var(--or),var(--yl))">🎯</div><div><div class="chtn">Asistente Objetivos</div><div class="chtp">Te ayudo con tus metas</div></div></div>
         <div class="chtm" id="oM"><div class="msg ai">¡Añade objetivos y pregúntame! 🎯</div></div>
@@ -341,6 +389,18 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--wh);min-he
         <button class="ab" onclick="addCu()">+ Añadir</button>
       </div>
       <div id="cuL"></div>
+      <!-- Cuaderno Cursos -->
+      <div class="nb">
+        <div class="nb-h"><div class="nb-h-left">📓 Cuaderno de Cursos</div><span class="nb-cnt" id="cnCnt">0 notas</span></div>
+        <div class="nb-add">
+          <div style="display:flex;flex-direction:column;gap:4px;flex:1">
+            <input id="cnT" placeholder="Título (ej: Apuntes ECO sesión 1)..." style="font-weight:600">
+            <textarea id="cnX" rows="2" placeholder="Apuntes, resúmenes, dudas..."></textarea>
+          </div>
+          <button class="ab" onclick="addNote('cur')" style="align-self:flex-end;height:34px">+ Nota</button>
+        </div>
+        <div class="nb-body" id="cnL"></div>
+      </div>
       <div class="chtb">
         <div class="chth"><div class="chtav" style="background:linear-gradient(135deg,var(--pu),var(--bl))">📚</div><div><div class="chtn">Asistente Cursos</div><div class="chtp">Gestión de formación MIR</div></div></div>
         <div class="chtm" id="cuM"><div class="msg ai">¡Gestiona tu formación MIR! 📚</div></div>
@@ -972,8 +1032,63 @@ async function docSend(){
 }
 function docQ(q){document.getElementById('docIn').value=q;docSend()}
 
+// ===== DIGITAL NOTEBOOKS =====
+const NB_KEYS={fin:'lb5_nb_fin',obj:'lb5_nb_obj',cur:'lb5_nb_cur'};
+let notebooks={fin:[],obj:[],cur:[]};
+
+function ldNB(){for(const k in NB_KEYS){try{const s=localStorage.getItem(NB_KEYS[k]);if(s)notebooks[k]=JSON.parse(s)}catch(e){}}}
+function svNB(k){try{localStorage.setItem(NB_KEYS[k],JSON.stringify(notebooks[k]))}catch(e){}}
+
+const NB_CFG={
+  fin:{title:'fnT',text:'fnX',list:'fnL',cnt:'fnCnt',color:'var(--cy)',icon:'💰'},
+  obj:{title:'onT',text:'onX',list:'onL',cnt:'onCnt',color:'var(--or)',icon:'🎯'},
+  cur:{title:'cnT',text:'cnX',list:'cnL',cnt:'cnCnt',color:'var(--pu)',icon:'📚'}
+};
+
+function addNote(k){
+  const c=NB_CFG[k];
+  const tEl=document.getElementById(c.title),xEl=document.getElementById(c.text);
+  const title=tEl.value.trim(),text=xEl.value.trim();
+  if(!title&&!text)return;
+  notebooks[k].unshift({id:Date.now(),title:title||'Sin título',text,date:new Date().toISOString()});
+  svNB(k);tEl.value='';xEl.value='';rNB(k);
+}
+
+function delNote(k,id){notebooks[k]=notebooks[k].filter(n=>n.id!==id);svNB(k);rNB(k)}
+
+function editNote(k,id){
+  const note=notebooks[k].find(n=>n.id===id);
+  if(!note)return;
+  const newTitle=prompt('Título:',note.title);
+  if(newTitle===null)return;
+  const newText=prompt('Contenido:',note.text);
+  if(newText===null)return;
+  note.title=newTitle||note.title;
+  note.text=newText;
+  note.date=new Date().toISOString();
+  svNB(k);rNB(k);
+}
+
+function fmtDate(iso){
+  const d=new Date(iso);
+  const mn=['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+  return`${d.getDate()} ${mn[d.getMonth()]} ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;
+}
+
+function rNB(k){
+  const c=NB_CFG[k],el=document.getElementById(c.list),notes=notebooks[k];
+  document.getElementById(c.cnt).textContent=`${notes.length} nota${notes.length!==1?'s':''}`;
+  if(!notes.length){el.innerHTML='<div class="nb-empty">Sin notas aún. ¡Escribe algo!</div>';return}
+  el.innerHTML=notes.map(n=>{
+    const txt=n.text.length>200?n.text.slice(0,200)+'…':n.text;
+    return`<div class="note"><div class="note-top"><div class="note-title" style="color:${c.color}">${esc(n.title)}</div><div class="note-date">${fmtDate(n.date)}</div></div>${n.text?`<div class="note-text">${esc(txt)}</div>`:''}<div class="note-acts"><button class="note-edit" onclick="editNote('${k}',${n.id})">✏️ Editar</button><button class="note-edit" onclick="delNote('${k}',${n.id})" style="color:var(--rd);border-color:var(--rdb)">🗑️</button></div></div>`
+  }).join('');
+}
+
+function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+
 // ===== INIT =====
-ld();ldDocs();ldFinDocs();rSch();rGd();rCpre();rTx();uFS();rO();rCu();rDocs();rFinDocs();
+ld();ldDocs();ldFinDocs();ldNB();rSch();rGd();rCpre();rTx();uFS();rO();rCu();rDocs();rFinDocs();rNB('fin');rNB('obj');rNB('cur');
 setTimeout(tgPoll,2000); // Start Telegram polling after 2s
 
 // Load defaults if empty

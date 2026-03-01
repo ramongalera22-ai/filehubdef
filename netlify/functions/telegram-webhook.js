@@ -7,6 +7,15 @@ const GROQ_KEY = ['gsk','_9BzwjsPO7LaJ','zMyXcw9cWGdyb3FY','cVR7CwkAfZvShxoS','U
 const GROQ_URL = 'https://api.groq.com/openai/v1/chat/completions';
 const TG_API = `https://api.telegram.org/bot${TG_TOKEN}`;
 
+// Supabase
+const SB_URL = 'https://ztigttazrdzkpxrzyast.supabase.co';
+const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp0aWd0dGF6cmR6a3B4cnp5YXN0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIwMTg5MzcsImV4cCI6MjA4NzU5NDkzN30.d-PQ0S_dXsTRXGdRrZDJiJOXcXFF4hEOaAGWpT3WaSM';
+const SB_HDR = {'Content-Type':'application/json','apikey':SB_KEY,'Authorization':`Bearer ${SB_KEY}`,'Prefer':'return=representation'};
+
+async function sbInsert(table, data) {
+  try { await fetch(`${SB_URL}/rest/v1/${table}`, { method: 'POST', headers: SB_HDR, body: JSON.stringify(data) }); } catch(e) {}
+}
+
 async function tgSend(text, chatId) {
   await fetch(`${TG_API}/sendMessage`, {
     method: 'POST',
@@ -74,7 +83,12 @@ exports.handler = async (event) => {
         `/gasto 50 Supermercado\n` +
         `/ingreso 1500 Nómina\n` +
         `/objetivo Estudiar ECO\n` +
-        `/curso Ecografía avanzada\n\n` +
+        `/curso Ecografía avanzada\n` +
+        `/piso Murcia centro 2hab 500€ — enlace\n` +
+        `/trabajo MFyC Centro Salud — 2000€/mes\n\n` +
+        `📋 <b>Ver listas:</b>\n` +
+        `/pisos — Ver pisos guardados\n` +
+        `/trabajos — Ver ofertas guardadas\n\n` +
         `🗑️ <b>Eliminar:</b>\n` +
         `/delevento reunión\n` +
         `/delguardia 15\n` +
@@ -152,6 +166,54 @@ exports.handler = async (event) => {
     if (lo.startsWith('/curso ')) {
       const t2 = text.slice(7).trim();
       await tgSend(`✅ <b>Curso añadido:</b>\n📚 ${t2}\n\n📲 Se sincronizará con el dashboard.`, chatId);
+      return { statusCode: 200, body: 'ok' };
+    }
+
+    // /piso título — detalles
+    if (lo.startsWith('/piso ')) {
+      const raw = text.slice(6).trim();
+      const parts = raw.split('—').map(s => s.trim());
+      const title = parts[0] || raw;
+      const detail = parts[1] || '';
+      const id = String(Date.now());
+      await sbInsert('lifebot_pisos', { id, title, detail, status: 'nuevo', created_at: new Date().toISOString() });
+      await tgSend(`✅ <b>Piso guardado:</b>\n🏠 ${title}${detail ? '\n📝 ' + detail : ''}\n\n📲 Visible en el dashboard → Pisos`, chatId);
+      return { statusCode: 200, body: 'ok' };
+    }
+
+    if (lo === '/pisos') {
+      try {
+        const r = await fetch(`${SB_URL}/rest/v1/lifebot_pisos?select=*&order=created_at.desc&limit=10`, { headers: SB_HDR });
+        const pisos = await r.json();
+        if (!pisos.length) { await tgSend('🏠 Sin pisos guardados. Usa /piso título — detalles', chatId); return { statusCode: 200, body: 'ok' }; }
+        let msg = '🏠 <b>Tus pisos:</b>\n\n';
+        pisos.forEach((p, i) => { msg += `${i+1}. ${p.title} [${p.status}]${p.detail ? '\n   📝 ' + p.detail : ''}\n`; });
+        await tgSend(msg, chatId);
+      } catch(e) { await tgSend('❌ Error al obtener pisos', chatId); }
+      return { statusCode: 200, body: 'ok' };
+    }
+
+    // /trabajo título — detalles
+    if (lo.startsWith('/trabajo ')) {
+      const raw = text.slice(9).trim();
+      const parts = raw.split('—').map(s => s.trim());
+      const title = parts[0] || raw;
+      const detail = parts[1] || '';
+      const id = String(Date.now());
+      await sbInsert('lifebot_trabajos', { id, title, detail, status: 'nuevo', created_at: new Date().toISOString() });
+      await tgSend(`✅ <b>Oferta guardada:</b>\n💼 ${title}${detail ? '\n📝 ' + detail : ''}\n\n📲 Visible en el dashboard → Trabajo`, chatId);
+      return { statusCode: 200, body: 'ok' };
+    }
+
+    if (lo === '/trabajos') {
+      try {
+        const r = await fetch(`${SB_URL}/rest/v1/lifebot_trabajos?select=*&order=created_at.desc&limit=10`, { headers: SB_HDR });
+        const trabajos = await r.json();
+        if (!trabajos.length) { await tgSend('💼 Sin ofertas guardadas. Usa /trabajo título — detalles', chatId); return { statusCode: 200, body: 'ok' }; }
+        let msg = '💼 <b>Tus ofertas:</b>\n\n';
+        trabajos.forEach((t, i) => { msg += `${i+1}. ${t.title} [${t.status}]${t.detail ? '\n   📝 ' + t.detail : ''}\n`; });
+        await tgSend(msg, chatId);
+      } catch(e) { await tgSend('❌ Error al obtener ofertas', chatId); }
       return { statusCode: 200, body: 'ok' };
     }
 

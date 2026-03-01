@@ -290,6 +290,8 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--wh);min-he
     <div class="tab" data-p="objetivos"><span>🎯</span> Objetivos</div>
     <div class="tab" data-p="cursos"><span>📚</span> Cursos</div>
     <div class="tab" data-p="tiempo"><span>⏱️</span> Tiempo</div>
+    <div class="tab" data-p="pisos"><span>🏠</span> Pisos</div>
+    <div class="tab" data-p="trabajo"><span>💼</span> Trabajo</div>
     <div class="tab" data-p="docs"><span>📄</span> Docs</div>
     <div class="tab" data-p="cal"><span>📅</span> Calendarios</div>
   </div>
@@ -420,6 +422,50 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--wh);min-he
       </div>
     </div>
 
+    <!-- PISOS -->
+    <div class="pg" id="pg-pisos">
+      <div class="tgs"><span class="tgd"></span>Envía pisos desde Telegram con /piso</div>
+      <div class="arow">
+        <input class="ainp" id="piT" placeholder="Título (ej: Piso Murcia centro 2hab)..." style="flex:2" onkeydown="if(event.key==='Enter')addPiso()">
+        <button class="ab" onclick="addPiso()">+ Piso</button>
+      </div>
+      <div id="piL"></div>
+      <!-- Cuaderno Pisos -->
+      <div class="nb">
+        <div class="nb-h"><div class="nb-h-left">📓 Cuaderno de Pisos</div><span class="nb-cnt" id="piNbCnt">0 notas</span></div>
+        <div class="nb-add">
+          <div style="display:flex;flex-direction:column;gap:4px;flex:1">
+            <input id="piNbT" placeholder="Título (ej: Piso Calle Mayor — pros/contras)..." style="font-weight:600">
+            <textarea id="piNbX" rows="2" placeholder="Notas, precio, zona, contacto, enlace..."></textarea>
+          </div>
+          <button class="ab" onclick="addNote('pis')" style="align-self:flex-end;height:34px">+ Nota</button>
+        </div>
+        <div class="nb-body" id="piNbL"></div>
+      </div>
+    </div>
+
+    <!-- TRABAJO -->
+    <div class="pg" id="pg-trabajo">
+      <div class="tgs"><span class="tgd"></span>Envía ofertas desde Telegram con /trabajo</div>
+      <div class="arow">
+        <input class="ainp" id="trT" placeholder="Título (ej: MFyC Centro Salud Murcia)..." style="flex:2" onkeydown="if(event.key==='Enter')addTrabajo()">
+        <button class="ab" onclick="addTrabajo()">+ Oferta</button>
+      </div>
+      <div id="trL"></div>
+      <!-- Cuaderno Trabajo -->
+      <div class="nb">
+        <div class="nb-h"><div class="nb-h-left">📓 Cuaderno de Ofertas</div><span class="nb-cnt" id="trNbCnt">0 notas</span></div>
+        <div class="nb-add">
+          <div style="display:flex;flex-direction:column;gap:4px;flex:1">
+            <input id="trNbT" placeholder="Título (ej: Oferta Hospital X — seguimiento)..." style="font-weight:600">
+            <textarea id="trNbX" rows="2" placeholder="Detalles, salario, contacto, plazo, enlace..."></textarea>
+          </div>
+          <button class="ab" onclick="addNote('trb')" style="align-self:flex-end;height:34px">+ Nota</button>
+        </div>
+        <div class="nb-body" id="trNbL"></div>
+      </div>
+    </div>
+
     <!-- DOCUMENTOS + GROQ AI -->
     <div class="pg" id="pg-docs">
       <!-- Upload area -->
@@ -508,8 +554,18 @@ pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/p
 
 const TG_T='8612858547:AAGjkDnJ9NfLgSqs6j1WqjNWA0c2ze_h7eI',TG_C='596831448',TG_A=`https://api.telegram.org/bot${TG_T}`;
 
+// SUPABASE
+const SB_URL='https://ztigttazrdzkpxrzyast.supabase.co';
+const SB_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp0aWd0dGF6cmR6a3B4cnp5YXN0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIwMTg5MzcsImV4cCI6MjA4NzU5NDkzN30.d-PQ0S_dXsTRXGdRrZDJiJOXcXFF4hEOaAGWpT3WaSM';
+const SB_HDR={'Content-Type':'application/json','apikey':SB_KEY,'Authorization':`Bearer ${SB_KEY}`,'Prefer':'return=representation'};
+
+async function sbGet(table){try{const r=await fetch(`${SB_URL}/rest/v1/${table}?select=*&order=created_at.desc`,{headers:SB_HDR});if(r.ok)return await r.json();return[]}catch(e){return[]}}
+async function sbInsert(table,data){try{await fetch(`${SB_URL}/rest/v1/${table}`,{method:'POST',headers:SB_HDR,body:JSON.stringify(data)})}catch(e){}}
+async function sbDelete(table,id){try{await fetch(`${SB_URL}/rest/v1/${table}?id=eq.${id}`,{method:'DELETE',headers:SB_HDR})}catch(e){}}
+async function sbUpdate(table,id,data){try{await fetch(`${SB_URL}/rest/v1/${table}?id=eq.${id}`,{method:'PATCH',headers:SB_HDR,body:JSON.stringify(data)})}catch(e){}}
+
 // STATE
-let D={sch:[],gd:[],cpre:[],tx:[],obj:[],cur:[]};
+let D={sch:[],gd:[],cpre:[],tx:[],obj:[],cur:[],pisos:[],trabajos:[]};
 const KS='lb5_data';
 function ld(){try{const s=localStorage.getItem(KS);if(s)D=JSON.parse(s)}catch(e){}}
 function sv(){try{localStorage.setItem(KS,JSON.stringify(D))}catch(e){}}
@@ -732,6 +788,32 @@ async function processTgCommand(txt){
     await tgSnd('📚 <b>Cursos:</b>\n'+D.cur.map(c=>`${c.done?'✅':'⬜'} ${c.t} (${c.tp})`).join('\n'));return;
   }
 
+  // /piso título — detalle
+  if(lo.startsWith('/piso ')){
+    const raw=t.slice(6).trim(),parts=raw.split('—').map(s=>s.trim());
+    const p={id:Date.now(),title:parts[0]||raw,detail:parts[1]||'',status:'nuevo',date:new Date().toISOString()};
+    D.pisos.unshift(p);sv();rPisos();
+    sbInsert('lifebot_pisos',{id:String(p.id),title:p.title,detail:p.detail,status:p.status,created_at:p.date});
+    await tgSnd(`✅ Piso guardado: 🏠 ${p.title}`);addMsg('tgM','✅ Piso añadido al dashboard',false);return;
+  }
+  if(lo==='/pisos'){
+    if(!D.pisos.length){await tgSnd('🏠 Sin pisos');return}
+    await tgSnd('🏠 <b>Pisos:</b>\n'+D.pisos.map((p,i)=>`${i+1}. ${p.title} [${p.status}]`).join('\n'));return;
+  }
+
+  // /trabajo título — detalle
+  if(lo.startsWith('/trabajo ')){
+    const raw=t.slice(9).trim(),parts=raw.split('—').map(s=>s.trim());
+    const j={id:Date.now(),title:parts[0]||raw,detail:parts[1]||'',status:'nuevo',date:new Date().toISOString()};
+    D.trabajos.unshift(j);sv();rTrabajos();
+    sbInsert('lifebot_trabajos',{id:String(j.id),title:j.title,detail:j.detail,status:j.status,created_at:j.date});
+    await tgSnd(`✅ Oferta guardada: 💼 ${j.title}`);addMsg('tgM','✅ Oferta añadida al dashboard',false);return;
+  }
+  if(lo==='/trabajos'){
+    if(!D.trabajos.length){await tgSnd('💼 Sin ofertas');return}
+    await tgSnd('💼 <b>Ofertas:</b>\n'+D.trabajos.map((j,i)=>`${i+1}. ${j.title} [${j.status}]`).join('\n'));return;
+  }
+
   // /resumen
   if(lo==='/resumen'){
     const bal=D.tx.reduce((s,t)=>t.tp==='income'?s+t.am:s-t.am,0);
@@ -742,6 +824,8 @@ async function processTgCommand(txt){
     r+=`💰 Balance: €${bal.toFixed(2)}\n`;
     r+=`🎯 Objetivos: ${dn}/${D.obj.length}\n`;
     r+=`📚 Cursos: ${D.cur.length}\n`;
+    r+=`🏠 Pisos: ${D.pisos.length}\n`;
+    r+=`💼 Ofertas: ${D.trabajos.length}\n`;
     r+=`🎓 Cursos presenciales: ${D.cpre.length}`;
     await tgSnd(r);return;
   }
@@ -1032,9 +1116,41 @@ async function docSend(){
 }
 function docQ(q){document.getElementById('docIn').value=q;docSend()}
 
+// ===== PISOS =====
+function addPiso(){
+  const inp=document.getElementById('piT'),t=inp.value.trim();if(!t)return;
+  const p={id:Date.now(),title:t,detail:'',status:'nuevo',date:new Date().toISOString()};
+  D.pisos.unshift(p);sv();inp.value='';rPisos();
+  sbInsert('lifebot_pisos',{id:String(p.id),title:p.title,detail:p.detail,status:p.status,created_at:p.date});
+}
+function delPiso(id){D.pisos=D.pisos.filter(x=>x.id!==id);sv();rPisos();sbDelete('lifebot_pisos',id)}
+function rPisos(){
+  const el=document.getElementById('piL');
+  if(!D.pisos.length){el.innerHTML='<div class="cd"><div class="cb"><div class="empty">Sin pisos guardados. Envía /piso desde Telegram o añade uno aquí.</div></div></div>';return}
+  const stC={nuevo:['var(--cyg)','var(--cy)'],visto:['var(--org)','var(--or)'],favorito:['var(--grg)','var(--gr)'],descartado:['var(--rdbg)','var(--rd)']};
+  el.innerHTML='<div class="cd"><div class="cb">'+D.pisos.map(p=>{const[bg,co]=stC[p.status]||stC.nuevo;return`<div class="itm"><div style="font-size:1.1rem;flex-shrink:0">🏠</div><div style="flex:1"><div style="font-size:.82rem;font-weight:600">${esc(p.title)}</div>${p.detail?`<div style="font-size:.66rem;color:var(--mu)">${esc(p.detail.slice(0,80))}</div>`:''}<div style="font-size:.58rem;color:var(--mu);font-family:'JetBrains Mono',monospace;margin-top:2px">${fmtDate(p.date)}</div></div><select style="background:${bg};color:${co};border:1px solid ${co};border-radius:8px;font-size:.58rem;padding:2px 4px;font-family:'Outfit',sans-serif;cursor:pointer" onchange="chPisoSt(${p.id},this.value)"><option value="nuevo" ${p.status==='nuevo'?'selected':''}>Nuevo</option><option value="visto" ${p.status==='visto'?'selected':''}>Visto</option><option value="favorito" ${p.status==='favorito'?'selected':''}>⭐ Fav</option><option value="descartado" ${p.status==='descartado'?'selected':''}>✗</option></select><button class="del" onclick="delPiso(${p.id})">✕</button></div>`}).join('')+'</div></div>';
+}
+function chPisoSt(id,st){const p=D.pisos.find(x=>x.id===id);if(p){p.status=st;sv();rPisos();sbUpdate('lifebot_pisos',id,{status:st})}}
+
+// ===== TRABAJOS =====
+function addTrabajo(){
+  const inp=document.getElementById('trT'),t=inp.value.trim();if(!t)return;
+  const j={id:Date.now(),title:t,detail:'',status:'nuevo',date:new Date().toISOString()};
+  D.trabajos.unshift(j);sv();inp.value='';rTrabajos();
+  sbInsert('lifebot_trabajos',{id:String(j.id),title:j.title,detail:j.detail,status:j.status,created_at:j.date});
+}
+function delTrabajo(id){D.trabajos=D.trabajos.filter(x=>x.id!==id);sv();rTrabajos();sbDelete('lifebot_trabajos',id)}
+function rTrabajos(){
+  const el=document.getElementById('trL');
+  if(!D.trabajos.length){el.innerHTML='<div class="cd"><div class="cb"><div class="empty">Sin ofertas guardadas. Envía /trabajo desde Telegram o añade una aquí.</div></div></div>';return}
+  const stC={nuevo:['var(--cyg)','var(--cy)'],aplicado:['var(--org)','var(--or)'],entrevista:['var(--pug)','var(--pu)'],aceptado:['var(--grg)','var(--gr)'],descartado:['var(--rdbg)','var(--rd)']};
+  el.innerHTML='<div class="cd"><div class="cb">'+D.trabajos.map(j=>{const[bg,co]=stC[j.status]||stC.nuevo;return`<div class="itm"><div style="font-size:1.1rem;flex-shrink:0">💼</div><div style="flex:1"><div style="font-size:.82rem;font-weight:600">${esc(j.title)}</div>${j.detail?`<div style="font-size:.66rem;color:var(--mu)">${esc(j.detail.slice(0,80))}</div>`:''}<div style="font-size:.58rem;color:var(--mu);font-family:'JetBrains Mono',monospace;margin-top:2px">${fmtDate(j.date)}</div></div><select style="background:${bg};color:${co};border:1px solid ${co};border-radius:8px;font-size:.58rem;padding:2px 4px;font-family:'Outfit',sans-serif;cursor:pointer" onchange="chTrabajoSt(${j.id},this.value)"><option value="nuevo" ${j.status==='nuevo'?'selected':''}>Nuevo</option><option value="aplicado" ${j.status==='aplicado'?'selected':''}>Aplicado</option><option value="entrevista" ${j.status==='entrevista'?'selected':''}>Entrevista</option><option value="aceptado" ${j.status==='aceptado'?'selected':''}>✅ OK</option><option value="descartado" ${j.status==='descartado'?'selected':''}>✗</option></select><button class="del" onclick="delTrabajo(${j.id})">✕</button></div>`}).join('')+'</div></div>';
+}
+function chTrabajoSt(id,st){const j=D.trabajos.find(x=>x.id===id);if(j){j.status=st;sv();rTrabajos();sbUpdate('lifebot_trabajos',id,{status:st})}}
+
 // ===== DIGITAL NOTEBOOKS =====
-const NB_KEYS={fin:'lb5_nb_fin',obj:'lb5_nb_obj',cur:'lb5_nb_cur'};
-let notebooks={fin:[],obj:[],cur:[]};
+const NB_KEYS={fin:'lb5_nb_fin',obj:'lb5_nb_obj',cur:'lb5_nb_cur',pis:'lb5_nb_pis',trb:'lb5_nb_trb'};
+let notebooks={fin:[],obj:[],cur:[],pis:[],trb:[]};
 
 function ldNB(){for(const k in NB_KEYS){try{const s=localStorage.getItem(NB_KEYS[k]);if(s)notebooks[k]=JSON.parse(s)}catch(e){}}}
 function svNB(k){try{localStorage.setItem(NB_KEYS[k],JSON.stringify(notebooks[k]))}catch(e){}}
@@ -1042,7 +1158,9 @@ function svNB(k){try{localStorage.setItem(NB_KEYS[k],JSON.stringify(notebooks[k]
 const NB_CFG={
   fin:{title:'fnT',text:'fnX',list:'fnL',cnt:'fnCnt',color:'var(--cy)',icon:'💰'},
   obj:{title:'onT',text:'onX',list:'onL',cnt:'onCnt',color:'var(--or)',icon:'🎯'},
-  cur:{title:'cnT',text:'cnX',list:'cnL',cnt:'cnCnt',color:'var(--pu)',icon:'📚'}
+  cur:{title:'cnT',text:'cnX',list:'cnL',cnt:'cnCnt',color:'var(--pu)',icon:'📚'},
+  pis:{title:'piNbT',text:'piNbX',list:'piNbL',cnt:'piNbCnt',color:'var(--gr)',icon:'🏠'},
+  trb:{title:'trNbT',text:'trNbX',list:'trNbL',cnt:'trNbCnt',color:'var(--bl)',icon:'💼'}
 };
 
 function addNote(k){
@@ -1050,11 +1168,13 @@ function addNote(k){
   const tEl=document.getElementById(c.title),xEl=document.getElementById(c.text);
   const title=tEl.value.trim(),text=xEl.value.trim();
   if(!title&&!text)return;
-  notebooks[k].unshift({id:Date.now(),title:title||'Sin título',text,date:new Date().toISOString()});
+  const note={id:Date.now(),title:title||'Sin título',text,date:new Date().toISOString()};
+  notebooks[k].unshift(note);
   svNB(k);tEl.value='';xEl.value='';rNB(k);
+  sbInsert('lifebot_notes',{id:String(note.id),category:k,title:note.title,content:note.text,created_at:note.date});
 }
 
-function delNote(k,id){notebooks[k]=notebooks[k].filter(n=>n.id!==id);svNB(k);rNB(k)}
+function delNote(k,id){notebooks[k]=notebooks[k].filter(n=>n.id!==id);svNB(k);rNB(k);sbDelete('lifebot_notes',id)}
 
 function editNote(k,id){
   const note=notebooks[k].find(n=>n.id===id);
@@ -1067,6 +1187,7 @@ function editNote(k,id){
   note.text=newText;
   note.date=new Date().toISOString();
   svNB(k);rNB(k);
+  sbUpdate('lifebot_notes',id,{title:note.title,content:note.text,created_at:note.date});
 }
 
 function fmtDate(iso){
@@ -1088,8 +1209,20 @@ function rNB(k){
 function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
 
 // ===== INIT =====
-ld();ldDocs();ldFinDocs();ldNB();rSch();rGd();rCpre();rTx();uFS();rO();rCu();rDocs();rFinDocs();rNB('fin');rNB('obj');rNB('cur');
-setTimeout(tgPoll,2000); // Start Telegram polling after 2s
+ld();ldDocs();ldFinDocs();ldNB();rSch();rGd();rCpre();rTx();uFS();rO();rCu();rDocs();rFinDocs();rPisos();rTrabajos();
+rNB('fin');rNB('obj');rNB('cur');rNB('pis');rNB('trb');
+setTimeout(tgPoll,2000);
+
+// Sync from Supabase on load (merge cloud data)
+async function syncFromCloud(){
+  try{
+    const [pisos,trabajos,notes]=await Promise.all([sbGet('lifebot_pisos'),sbGet('lifebot_trabajos'),sbGet('lifebot_notes')]);
+    if(pisos.length){const ids=new Set(D.pisos.map(p=>String(p.id)));pisos.forEach(p=>{if(!ids.has(p.id)){D.pisos.push({id:Number(p.id)||Date.now(),title:p.title,detail:p.detail||'',status:p.status||'nuevo',date:p.created_at})}});sv();rPisos()}
+    if(trabajos.length){const ids=new Set(D.trabajos.map(t=>String(t.id)));trabajos.forEach(t=>{if(!ids.has(t.id)){D.trabajos.push({id:Number(t.id)||Date.now(),title:t.title,detail:t.detail||'',status:t.status||'nuevo',date:t.created_at})}});sv();rTrabajos()}
+    if(notes.length){for(const n of notes){const k=n.category;if(notebooks[k]){const ids=new Set(notebooks[k].map(x=>String(x.id)));if(!ids.has(n.id)){notebooks[k].unshift({id:Number(n.id)||Date.now(),title:n.title,text:n.content||'',date:n.created_at});svNB(k);rNB(k)}}}}
+  }catch(e){}
+}
+syncFromCloud(); // Start Telegram polling after 2s
 
 // Load defaults if empty
 if(!D.sch.length&&!localStorage.getItem(KS)){

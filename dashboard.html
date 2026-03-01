@@ -983,6 +983,23 @@ if(!D.sch.length&&!localStorage.getItem(KS)){
   D.cpre=[{id:7,icon:'🔊',name:'Ecografía (ECO)',detail:'Hospital Clínico · Presencial',st:'activo'},{id:8,icon:'💉',name:'Soporte Vital Avanzado',detail:'Online + Presencial',st:'pendiente'}];
   sv();rSch();rGd();rCpre();
 }
+
+// Load courses v2 (one-time migration)
+if(!localStorage.getItem('lb5_courses_v2')){
+  // Cursos Presenciales
+  D.cpre=D.cpre.filter(c=>c.name!=='Ecografía (ECO)'); // remove old duplicate if exists
+  D.cpre.push({id:100,icon:'🔊',name:'Ecografía (ECO) — Sindicato Médico',detail:'10-11 marzo · 16:00-21:00 · Gratuito · 10h',st:'activo'});
+  // Cursos Notebook
+  D.cur.push(
+    {id:101,t:'Cuidados Paliativos en AP (semFYC) — 69,90€ socios · 15h · Online 45 días',tp:'online',done:false},
+    {id:102,t:'Competencias Digitales para Medicina (OMC) — Gratuito · Online',tp:'online',done:false},
+    {id:103,t:'Cirugía Menor en AP — Gratuito · 6,7 créditos CFC · Online',tp:'online',done:false},
+    {id:104,t:'Curso CAMFiC — Gratuito · Online',tp:'online',done:false},
+    {id:105,t:'Curso de Catalán (CPNL) — Gratuito · Online',tp:'online',done:false}
+  );
+  sv();rCpre();rCu();
+  localStorage.setItem('lb5_courses_v2','1');
+}
 </script>
 </body>
 </html>

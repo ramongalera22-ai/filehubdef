@@ -1,7 +1,7 @@
 // netlify/functions/telegram-webhook.js
 // LifeBot Webhook — Full CRUD, Supabase persistence, Groq AI, 24/7
 
-const TG_TOKEN = '8545718889:AAE5gdkbO7iPUfp_M4i8dpoZtAcUBZvjZqo';
+const TG_TOKEN = '8258049036:AAFY9c1FTsT_AqxoqdlJcDWgmX4UP-lioRU';
 const TG_CHAT = '596831448';
 const GROQ_KEY = ['gsk','_9BzwjsPO7LaJ','zMyXcw9cWGdyb3FY','cVR7CwkAfZvShxoS','UNrMgzUb'].join('');
 const GROQ_URL = 'https://api.groq.com/openai/v1/chat/completions';

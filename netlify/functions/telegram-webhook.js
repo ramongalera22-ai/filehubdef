@@ -7,7 +7,7 @@ const GROQ_KEY = ['gsk','_9BzwjsPO7LaJ','zMyXcw9cWGdyb3FY','cVR7CwkAfZvShxoS','U
 const GROQ_URL = 'https://api.groq.com/openai/v1/chat/completions';
 const TG_API = `https://api.telegram.org/bot${TG_TOKEN}`;
 const NUCBOX_URL = 'http://100.69.142.77:3000/telegram-webhook';
-const MATON_KEY = 'tI9PZqIP37D-yDtYeHm8hS5PiJyXQBSy7dORUzh9fu02ODd3VJFgEuQZu6FUR1Ybe8otja4BBcDWajMFrJOmf9Z4ikjx_YgspXcb6ZZMSA';
+const MATON_KEY = 'iLBE6Iwn1WRtas_R7Mq6cx3k1fcGl8bAF4yFJbCl42Br9n-MvCfiP1yUt5pKs6xetIWMqAUDIzBiljSytTtB8qvvQDA4MfMJ4ZM5tGWyfw';
 
 const SB_URL = 'https://ztigttazrdzkpxrzyast.supabase.co';
 const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp0aWd0dGF6cmR6a3B4cnp5YXN0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIwMTg5MzcsImV4cCI6MjA4NzU5NDkzN30.d-PQ0S_dXsTRXGdRrZDJiJOXcXFF4hEOaAGWpT3WaSM';
@@ -38,8 +38,18 @@ async function maton(method,path,data=null){
 async function calEvents(days=7){
   try{
     const n=new Date(),f=new Date(n.getTime()+days*86400000);
-    const d=await maton('GET',`/google-calendar/calendar/v3/calendars/primary/events?timeMin=${encodeURIComponent(n.toISOString())}&timeMax=${encodeURIComponent(f.toISOString())}&singleEvents=true&orderBy=startTime`);
-    return d.items||[];
+    const tMin=encodeURIComponent(n.toISOString()),tMax=encodeURIComponent(f.toISOString());
+    const q=`?timeMin=${tMin}&timeMax=${tMax}&singleEvents=true&orderBy=startTime`;
+    // Read both primary and ramongalera22 calendars
+    const [primary, ramon] = await Promise.all([
+      maton('GET',`/google-calendar/calendar/v3/calendars/primary/events${q}`),
+      maton('GET',`/google-calendar/calendar/v3/calendars/${encodeURIComponent('ramongalera22@gmail.com')}/events${q}`)
+    ]);
+    const all = [...(primary.items||[]), ...(ramon.items||[])];
+    // Sort by start time and deduplicate by summary+start
+    all.sort((a,b)=>new Date(a.start?.dateTime||a.start?.date||0)-new Date(b.start?.dateTime||b.start?.date||0));
+    const seen=new Set();
+    return all.filter(e=>{const k=(e.summary||'')+(e.start?.dateTime||e.start?.date||'');if(seen.has(k))return false;seen.add(k);return true;});
   }catch(e){return[];}
 }
 

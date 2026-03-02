@@ -329,3 +329,4 @@ Si es conversación/consulta, responde texto normal. Sé motivador y práctico.`
     return {statusCode:200,body:'ok'};
   } catch(e) { console.error(e); return {statusCode:200,body:'err'}; }
 };
+// Deploy trigger: Mon Mar  2 06:32:34 UTC 2026

@@ -70,25 +70,20 @@ exports.handler = async (event) => {
     // If LifeBot command → handle it
     if (isLB(lo)) { await handle(text, lo, chatId); return { statusCode: 200, body: 'ok' }; }
 
-    // Natural language → Groq AI (only if not handled by OpenClaw patterns)
-    // Skip AI if OpenClaw will handle it (general messages go to OpenClaw)
-    // Only use Groq for dashboard-related queries
-    const dashKeys = ['guardia','curso','objetivo','tarea','piso','trabajo','gasto','ingreso','evento','balance','resumen','añad','elimin','borra','complet'];
-    const isDashQ = dashKeys.some(k => lo.includes(k));
-    
-    if (isDashQ) {
-      const [gd,cu,ob,ta,pi,tr] = await Promise.all([
-        sbGet('lifebot_data','&type=eq.guardia&limit=5'),sbGet('lifebot_data','&type=eq.curso&limit=5'),
-        sbGet('lifebot_data','&type=eq.objetivo&limit=5'),sbGet('lifebot_data','&type=eq.tarea&limit=5'),
-        sbGet('lifebot_pisos','&limit=3'),sbGet('lifebot_trabajos','&limit=3')
-      ]);
-      const sysP=`Eres LifeBot de Carlos Galera, MIR Murcia. Español conciso. Hoy: ${new Date().toLocaleDateString('es-ES')}.\nDATOS: Guardias:${gd.map(g=>'D'+g.day+':'+g.title).join(',')||'0'} Cursos:${cu.map(c=>c.title).join(',')||'0'} Obj:${ob.map(o=>o.title).join(',')||'0'} Tareas:${ta.map(t=>t.title).join(',')||'0'} Pisos:${pi.map(p=>p.title).join(',')||'0'} Ofertas:${tr.map(t=>t.title).join(',')||'0'}\nSi quiere MODIFICAR datos responde SOLO JSON: {"action":"add|del|done","type":"guardia|evento|curso|objetivo|gasto|ingreso|tarea|piso|trabajo","data":{"title":"","detail":"","day":0,"amount":0},"reply":"confirmación"}\nSi consulta, texto normal.`;
-      const resp=await ai(sysP,text);
-      const jm=resp.match(/\{[\s\S]*\}/);
-      if(jm){try{const cmd=JSON.parse(jm[0]);const p=cmd.data||{};if(cmd.action==='add'){if(cmd.type==='piso')await sbInsert('lifebot_pisos',{id:uid(),title:p.title||'',detail:p.detail||'',status:'nuevo',created_at:now()});else if(cmd.type==='trabajo')await sbInsert('lifebot_trabajos',{id:uid(),title:p.title||'',detail:p.detail||'',status:'nuevo',created_at:now()});else{const e={id:uid(),type:cmd.type,title:p.title||'',detail:p.detail||'',status:'pendiente',created_at:now()};if(p.day)e.day=p.day;if(p.amount)e.amount=p.amount;await sbInsert('lifebot_data',e);}}if(cmd.action==='del'){const q=(p.query||p.title||'').toLowerCase();if(cmd.type==='piso'){const it=await sbGet('lifebot_pisos');const f=it.find(i=>i.title.toLowerCase().includes(q));if(f)await sbDelete('lifebot_pisos',f.id);}else if(cmd.type==='trabajo'){const it=await sbGet('lifebot_trabajos');const f=it.find(i=>i.title.toLowerCase().includes(q));if(f)await sbDelete('lifebot_trabajos',f.id);}else{const it=await sbGet('lifebot_data',`&type=eq.${cmd.type}`);const f=it.find(i=>i.title.toLowerCase().includes(q));if(f)await sbDelete('lifebot_data',f.id);}}if(cmd.action==='done'){const q=(p.query||p.title||'').toLowerCase();const it=await sbGet('lifebot_data',`&type=eq.${cmd.type}`);const f=it.find(i=>i.title.toLowerCase().includes(q));if(f)await sbUpdate('lifebot_data',f.id,{status:'completado'});}await tg(cmd.reply||'✅',chatId);}catch(e){await tg(resp.replace(/\{[\s\S]*\}/,'').trim()||'✅',chatId);}}
-      else{await tg(resp,chatId);}
-    }
-    // If not dashboard-related, OpenClaw handles it (already forwarded)
+    // Natural language → Groq AI responds to EVERYTHING
+    const [gd,cu,ob,ta,pi,tr] = await Promise.all([
+      sbGet('lifebot_data','&type=eq.guardia&limit=5'),sbGet('lifebot_data','&type=eq.curso&limit=5'),
+      sbGet('lifebot_data','&type=eq.objetivo&limit=5'),sbGet('lifebot_data','&type=eq.tarea&limit=5'),
+      sbGet('lifebot_pisos','&limit=3'),sbGet('lifebot_trabajos','&limit=3')
+    ]);
+    const sysP=`Eres LifeBot, asistente personal de Carlos Galera, MIR en Murcia. Siempre respondes en español, de forma concisa y útil. Hoy: ${new Date().toLocaleDateString('es-ES')}.
+DATOS ACTUALES: Guardias:${gd.map(g=>'D'+g.day+':'+g.title).join(',')||'ninguna'} Cursos:${cu.map(c=>c.title+'['+c.status+']').join(',')||'ninguno'} Objetivos:${ob.map(o=>o.title).join(',')||'ninguno'} Tareas:${ta.map(t=>t.title).join(',')||'ninguna'} Pisos:${pi.map(p=>p.title).join(',')||'ninguno'} Ofertas:${tr.map(t=>t.title).join(',')||'ninguna'}
+Si el usuario quiere AÑADIR, ELIMINAR o COMPLETAR algo, responde SOLO con JSON: {"action":"add|del|done","type":"guardia|evento|curso|objetivo|gasto|ingreso|tarea|piso|trabajo","data":{"title":"","detail":"","day":0,"amount":0},"reply":"texto de confirmación"}
+Si es conversación general, saludo, pregunta o consulta, responde con texto normal. Sé motivador, práctico y amable.`;
+    const resp=await ai(sysP,text);
+    const jm=resp.match(/\{[\s\S]*\}/);
+    if(jm){try{const cmd=JSON.parse(jm[0]);const p=cmd.data||{};if(cmd.action==='add'){if(cmd.type==='piso')await sbInsert('lifebot_pisos',{id:uid(),title:p.title||'',detail:p.detail||'',status:'nuevo',created_at:now()});else if(cmd.type==='trabajo')await sbInsert('lifebot_trabajos',{id:uid(),title:p.title||'',detail:p.detail||'',status:'nuevo',created_at:now()});else{const e={id:uid(),type:cmd.type,title:p.title||'',detail:p.detail||'',status:'pendiente',created_at:now()};if(p.day)e.day=p.day;if(p.amount)e.amount=p.amount;await sbInsert('lifebot_data',e);}}if(cmd.action==='del'){const q=(p.query||p.title||'').toLowerCase();if(cmd.type==='piso'){const it=await sbGet('lifebot_pisos');const f=it.find(i=>i.title.toLowerCase().includes(q));if(f)await sbDelete('lifebot_pisos',f.id);}else if(cmd.type==='trabajo'){const it=await sbGet('lifebot_trabajos');const f=it.find(i=>i.title.toLowerCase().includes(q));if(f)await sbDelete('lifebot_trabajos',f.id);}else{const it=await sbGet('lifebot_data',`&type=eq.${cmd.type}`);const f=it.find(i=>i.title.toLowerCase().includes(q));if(f)await sbDelete('lifebot_data',f.id);}}if(cmd.action==='done'){const q=(p.query||p.title||'').toLowerCase();const it=await sbGet('lifebot_data',`&type=eq.${cmd.type}`);const f=it.find(i=>i.title.toLowerCase().includes(q));if(f)await sbUpdate('lifebot_data',f.id,{status:'completado'});}await tg(cmd.reply||'✅',chatId);}catch(e){await tg(resp.replace(/\{[\s\S]*\}/,'').trim()||'✅',chatId);}}
+    else{await tg(resp,chatId);}
 
     return {statusCode:200,body:'ok'};
   } catch(e) { console.error(e); return {statusCode:200,body:'err'}; }

@@ -7,6 +7,7 @@ const GROQ_KEY = ['gsk','_9BzwjsPO7LaJ','zMyXcw9cWGdyb3FY','cVR7CwkAfZvShxoS','U
 const GROQ_URL = 'https://api.groq.com/openai/v1/chat/completions';
 const TG_API = `https://api.telegram.org/bot${TG_TOKEN}`;
 const NUCBOX_URL = 'http://100.69.142.77:3000/telegram-webhook';
+const MATON_KEY = 'iLBE6Iwn1WRtas_R7Mq6cx3k1fcGl8bAF4yFJbCl42Br9n-MvCfiP1yUt5pKs6xetIWMqAUDIzBiljSytTtB8qvvQDA4MfMJ4ZM5tGWyfw';
 
 const SB_URL = 'https://ztigttazrdzkpxrzyast.supabase.co';
 const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp0aWd0dGF6cmR6a3B4cnp5YXN0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIwMTg5MzcsImV4cCI6MjA4NzU5NDkzN30.d-PQ0S_dXsTRXGdRrZDJiJOXcXFF4hEOaAGWpT3WaSM';
@@ -24,8 +25,27 @@ const now=()=>new Date().toISOString();
 // Forward to OpenClaw NucBox (fire & forget, never blocks)
 function fwd(body){fetch(NUCBOX_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)}).catch(()=>{});}
 
+// Google Calendar via Maton API
+async function calEvents(days=7){
+  try{
+    const n=new Date(),f=new Date(n.getTime()+days*86400000);
+    const url=`https://gateway.maton.ai/google-calendar/calendar/v3/calendars/primary/events?timeMin=${encodeURIComponent(n.toISOString())}&timeMax=${encodeURIComponent(f.toISOString())}&singleEvents=true&orderBy=startTime`;
+    const r=await fetch(url,{headers:{'Authorization':`Bearer ${MATON_KEY}`,'Content-Type':'application/json'}});
+    const d=await r.json();
+    return d.items||[];
+  }catch(e){return[];}
+}
+
+function fmtEvent(e){
+  const s=new Date(e.start?.dateTime||e.start?.date);
+  const allDay=!e.start?.dateTime;
+  const dia=s.toLocaleDateString('es-ES',{weekday:'short',day:'numeric',month:'short'});
+  const hora=allDay?'Todo el día':s.toLocaleTimeString('es-ES',{hour:'2-digit',minute:'2-digit',timeZone:'Europe/Madrid'});
+  return `📅 ${dia} · ${hora}\n   <b>${e.summary||'Sin título'}</b>`;
+}
+
 // LifeBot command list
-const LB_CMDS = ['/help','/start','/resumen','/balance','/guardias','/eventos','/cursos','/objetivos','/tareas','/pisos','/trabajos'];
+const LB_CMDS = ['/help','/start','/resumen','/balance','/guardias','/eventos','/cursos','/objetivos','/tareas','/pisos','/trabajos','/calendario','/hoy','/semana'];
 const LB_PRE = ['/guardia ','/evento ','/curso ','/objetivo ','/gasto ','/ingreso ','/piso ','/trabajo ','/tarea ','/nota ','/del '];
 function isLB(lo){return LB_CMDS.includes(lo)||LB_PRE.some(p=>lo.startsWith(p));}
 
@@ -50,7 +70,9 @@ async function handle(text,lo,cid){
   if(lo==='/tareas'){const d=await sbGet('lifebot_data','&type=eq.tarea');if(!d.length){await tg('📌 Sin tareas',cid);return;}await tg('📌 <b>Tareas:</b>\n\n'+d.map(t=>`${t.status==='completado'?'✅':'⬜'} ${t.title}`).join('\n'),cid);return;}
   if(lo.startsWith('/nota ')){const r=text.slice(6).trim();const secs={finanzas:'fin',objetivos:'obj',cursos:'cur',pisos:'pis',trabajo:'trb'};const fw=r.split(/\s+/)[0].toLowerCase();const cat=secs[fw]||'fin';const rest=r.slice(fw.length).trim(),p=rest.split('—').map(s=>s.trim());await sbInsert('lifebot_notes',{id:uid(),category:cat,title:p[0]||'Nota',content:p[1]||'',created_at:now()});await tg(`✅ 📝 ${p[0]||'Nota'}`,cid);return;}
   if(lo.startsWith('/del ')){const pts=text.slice(5).trim().split(/\s+/);const tm={guardia:'guardia',evento:'evento',curso:'curso',objetivo:'objetivo',gasto:'gasto',ingreso:'ingreso',tarea:'tarea'};const tw=pts[0].toLowerCase(),q=pts.slice(1).join(' ').toLowerCase();if(tw==='piso'){const it=await sbGet('lifebot_pisos');const f=it.find(i=>i.title.toLowerCase().includes(q));if(f){await sbDelete('lifebot_pisos',f.id);await tg(`🗑️ ${f.title}`,cid);}else await tg('❌ No encontrado',cid);}else if(tw==='trabajo'){const it=await sbGet('lifebot_trabajos');const f=it.find(i=>i.title.toLowerCase().includes(q));if(f){await sbDelete('lifebot_trabajos',f.id);await tg(`🗑️ ${f.title}`,cid);}else await tg('❌ No encontrado',cid);}else if(tm[tw]){const it=await sbGet('lifebot_data',`&type=eq.${tm[tw]}`);let f;if(tw==='guardia'&&/^\d+$/.test(q))f=it.find(i=>i.day===parseInt(q));else f=it.find(i=>i.title.toLowerCase().includes(q));if(f){await sbDelete('lifebot_data',f.id);await tg(`🗑️ ${f.title}`,cid);}else await tg('❌ No encontrado',cid);}else await tg('⚠️ /del TIPO búsqueda',cid);return;}
-  if(lo==='/resumen'){const[gd,ev,cu,ob,ga,ig,ta,pi,tr]=await Promise.all([sbGet('lifebot_data','&type=eq.guardia'),sbGet('lifebot_data','&type=eq.evento'),sbGet('lifebot_data','&type=eq.curso'),sbGet('lifebot_data','&type=eq.objetivo'),sbGet('lifebot_data','&type=eq.gasto'),sbGet('lifebot_data','&type=eq.ingreso'),sbGet('lifebot_data','&type=eq.tarea'),sbGet('lifebot_pisos'),sbGet('lifebot_trabajos')]);const tG=ga.reduce((s,x)=>s+(x.amount||0),0),tI=ig.reduce((s,x)=>s+(x.amount||0),0);await tg(`📋 <b>RESUMEN</b>\n🚨${gd.length} 📅${ev.length} 📚${cu.length} 🎯${ob.filter(o=>o.status==='completado').length}/${ob.length} 📌${ta.filter(t=>t.status==='completado').length}/${ta.length} 🏠${pi.length} 💼${tr.length}\n💰€${(tI-tG).toFixed(2)}${tI-tG>=0?' 🟢':' 🔴'}`,cid);return;}
+  if(lo==='/hoy'||lo==='/calendario'){const evs=await calEvents(1);if(!evs.length){await tg('📅 No tienes eventos hoy en Google Calendar',cid);return;}await tg('📅 <b>Hoy en tu calendario:</b>\n\n'+evs.map(fmtEvent).join('\n\n'),cid);return;}
+  if(lo==='/semana'){const evs=await calEvents(7);if(!evs.length){await tg('📅 Sin eventos esta semana',cid);return;}await tg('📅 <b>Esta semana:</b>\n\n'+evs.map(fmtEvent).join('\n\n'),cid);return;}
+  if(lo==='/resumen'){const[gd,ev,cu,ob,ga,ig,ta,pi,tr]=await Promise.all([sbGet('lifebot_data','&type=eq.guardia'),sbGet('lifebot_data','&type=eq.evento'),sbGet('lifebot_data','&type=eq.curso'),sbGet('lifebot_data','&type=eq.objetivo'),sbGet('lifebot_data','&type=eq.gasto'),sbGet('lifebot_data','&type=eq.ingreso'),sbGet('lifebot_data','&type=eq.tarea'),sbGet('lifebot_pisos'),sbGet('lifebot_trabajos')]);const tG=ga.reduce((s,x)=>s+(x.amount||0),0),tI=ig.reduce((s,x)=>s+(x.amount||0),0);const calEvs=await calEvents(1);const calTxt=calEvs.length?`\n\n📅 <b>Hoy:</b>\n`+calEvs.map(e=>`· ${e.summary||'?'}`).join('\n'):'';await tg(`📋 <b>RESUMEN</b>\n🚨${gd.length} 📅${ev.length} 📚${cu.length} 🎯${ob.filter(o=>o.status==='completado').length}/${ob.length} 📌${ta.filter(t=>t.status==='completado').length}/${ta.length} 🏠${pi.length} 💼${tr.length}\n💰€${(tI-tG).toFixed(2)}${tI-tG>=0?' 🟢':' 🔴'}${calTxt}`,cid);return;}
 }
 
 exports.handler = async (event) => {
@@ -71,14 +93,17 @@ exports.handler = async (event) => {
     if (isLB(lo)) { await handle(text, lo, chatId); return { statusCode: 200, body: 'ok' }; }
 
     // Natural language → Groq AI responds to EVERYTHING
-    const [gd,cu,ob,ta,pi,tr] = await Promise.all([
+    const [gd,cu,ob,ta,pi,tr,calEvs] = await Promise.all([
       sbGet('lifebot_data','&type=eq.guardia&limit=5'),sbGet('lifebot_data','&type=eq.curso&limit=5'),
       sbGet('lifebot_data','&type=eq.objetivo&limit=5'),sbGet('lifebot_data','&type=eq.tarea&limit=5'),
-      sbGet('lifebot_pisos','&limit=3'),sbGet('lifebot_trabajos','&limit=3')
+      sbGet('lifebot_pisos','&limit=3'),sbGet('lifebot_trabajos','&limit=3'),calEvents(3)
     ]);
+    const calTxt=calEvs.length?calEvs.map(e=>{const s=new Date(e.start?.dateTime||e.start?.date);return s.toLocaleDateString('es-ES',{weekday:'short',day:'numeric'})+' '+(!e.start?.dateTime?'todo el día':s.toLocaleTimeString('es-ES',{hour:'2-digit',minute:'2-digit',timeZone:'Europe/Madrid'}))+': '+e.summary;}).join(', '):'vacío';
     const sysP=`Eres LifeBot, asistente personal de Carlos Galera, MIR en Murcia. Siempre respondes en español, de forma concisa y útil. Hoy: ${new Date().toLocaleDateString('es-ES')}.
 DATOS ACTUALES: Guardias:${gd.map(g=>'D'+g.day+':'+g.title).join(',')||'ninguna'} Cursos:${cu.map(c=>c.title+'['+c.status+']').join(',')||'ninguno'} Objetivos:${ob.map(o=>o.title).join(',')||'ninguno'} Tareas:${ta.map(t=>t.title).join(',')||'ninguna'} Pisos:${pi.map(p=>p.title).join(',')||'ninguno'} Ofertas:${tr.map(t=>t.title).join(',')||'ninguna'}
+GOOGLE CALENDAR (próximos 3 días): ${calTxt}
 Si el usuario quiere AÑADIR, ELIMINAR o COMPLETAR algo, responde SOLO con JSON: {"action":"add|del|done","type":"guardia|evento|curso|objetivo|gasto|ingreso|tarea|piso|trabajo","data":{"title":"","detail":"","day":0,"amount":0},"reply":"texto de confirmación"}
+Si pregunta por su calendario, agenda u horario, usa los datos de GOOGLE CALENDAR para responder.
 Si es conversación general, saludo, pregunta o consulta, responde con texto normal. Sé motivador, práctico y amable.`;
     const resp=await ai(sysP,text);
     const jm=resp.match(/\{[\s\S]*\}/);

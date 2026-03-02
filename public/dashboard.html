@@ -1216,11 +1216,45 @@ setTimeout(tgPoll,2000);
 // Sync from Supabase on load (merge cloud data)
 async function syncFromCloud(){
   try{
-    const [pisos,trabajos,notes]=await Promise.all([sbGet('lifebot_pisos'),sbGet('lifebot_trabajos'),sbGet('lifebot_notes')]);
+    const [allData,pisos,trabajos,notes]=await Promise.all([
+      sbGet('lifebot_data'),sbGet('lifebot_pisos'),sbGet('lifebot_trabajos'),sbGet('lifebot_notes')
+    ]);
+
+    // Sync guardias from cloud
+    const cloudGuardias=allData.filter(d=>d.type==='guardia');
+    if(cloudGuardias.length){const ids=new Set(D.gd.map(g=>String(g.id)));cloudGuardias.forEach(g=>{if(!ids.has(g.id)){D.gd.push({id:Number(g.id)||Date.now(),day:g.day||1,name:g.title,detail:g.detail||'Hospital'})}});D.gd.sort((a,b)=>a.day-b.day);sv();rGd()}
+
+    // Sync eventos
+    const cloudEventos=allData.filter(d=>d.type==='evento');
+    if(cloudEventos.length){const ids=new Set(D.sch.map(s=>String(s.id)));cloudEventos.forEach(e=>{if(!ids.has(e.id)){D.sch.push({id:Number(e.id)||Date.now(),time:e.detail||'00:00',icon:'📌',desc:e.title,col:'bl'})}});D.sch.sort((a,b)=>a.time.localeCompare(b.time));sv();rSch()}
+
+    // Sync cursos
+    const cloudCursos=allData.filter(d=>d.type==='curso');
+    if(cloudCursos.length){const ids=new Set(D.cur.map(c=>String(c.id)));cloudCursos.forEach(c=>{if(!ids.has(c.id)){D.cur.push({id:Number(c.id)||Date.now(),t:c.title+(c.detail?' — '+c.detail:''),tp:'online',done:c.status==='completado'})}});sv();rCu()}
+
+    // Sync objetivos
+    const cloudObjs=allData.filter(d=>d.type==='objetivo');
+    if(cloudObjs.length){const ids=new Set(D.obj.map(o=>String(o.id)));cloudObjs.forEach(o=>{if(!ids.has(o.id)){D.obj.push({id:Number(o.id)||Date.now(),t:o.title,pri:'media',done:o.status==='completado'})}});sv();rO()}
+
+    // Sync gastos/ingresos
+    const cloudTx=allData.filter(d=>d.type==='gasto'||d.type==='ingreso');
+    if(cloudTx.length){const ids=new Set(D.tx.map(t=>String(t.id)));cloudTx.forEach(t=>{if(!ids.has(t.id)){D.tx.unshift({id:Number(t.id)||Date.now(),nm:t.title,am:t.amount||0,tp:t.type==='ingreso'?'income':'expense',ct:t.type==='ingreso'?'💼 Trabajo':'🎁 Otros',dt:(t.created_at||'').split('T')[0]})}});sv();rTx();uFS()}
+
+    // Sync tareas VIP
+    const cloudTareas=allData.filter(d=>d.type==='tarea');
+    if(cloudTareas.length){const ids=new Set(D.obj.map(o=>String(o.id)));cloudTareas.forEach(t=>{if(!ids.has(t.id)){D.obj.push({id:Number(t.id)||Date.now(),t:'📌 '+t.title,pri:'alta',done:t.status==='completado'})}});sv();rO()}
+
+    // Sync pisos
     if(pisos.length){const ids=new Set(D.pisos.map(p=>String(p.id)));pisos.forEach(p=>{if(!ids.has(p.id)){D.pisos.push({id:Number(p.id)||Date.now(),title:p.title,detail:p.detail||'',status:p.status||'nuevo',date:p.created_at})}});sv();rPisos()}
+
+    // Sync trabajos
     if(trabajos.length){const ids=new Set(D.trabajos.map(t=>String(t.id)));trabajos.forEach(t=>{if(!ids.has(t.id)){D.trabajos.push({id:Number(t.id)||Date.now(),title:t.title,detail:t.detail||'',status:t.status||'nuevo',date:t.created_at})}});sv();rTrabajos()}
+
+    // Sync notes
     if(notes.length){for(const n of notes){const k=n.category;if(notebooks[k]){const ids=new Set(notebooks[k].map(x=>String(x.id)));if(!ids.has(n.id)){notebooks[k].unshift({id:Number(n.id)||Date.now(),title:n.title,text:n.content||'',date:n.created_at});svNB(k);rNB(k)}}}}
-  }catch(e){}
+
+    console.log('☁️ Sync completado');
+  }catch(e){console.error('Sync error:',e)}
 }
 syncFromCloud(); // Start Telegram polling after 2s
 

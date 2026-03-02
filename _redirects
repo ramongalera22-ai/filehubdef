@@ -1,3 +1,5 @@
+/api/telegram-webhook /.netlify/functions/telegram-webhook 200!
+/api/setup /.netlify/functions/setup 200!
 /dashboard /dashboard.html 200
 /dashboard.html /dashboard.html 200
 /* /index.html 200

@@ -9,25 +9,17 @@
   from = "/api/telegram-webhook"
   to = "/.netlify/functions/telegram-webhook"
   status = 200
+  force = true
 
 [[redirects]]
   from = "/api/setup"
   to = "/.netlify/functions/setup"
   status = 200
+  force = true
 
 [[redirects]]
   from = "/dashboard"
   to = "/dashboard.html"
-  status = 200
-
-[[redirects]]
-  from = "/setup"
-  to = "/setup-webhook.html"
-  status = 200
-
-[[redirects]]
-  from = "/setup-webhook"
-  to = "/setup-webhook.html"
   status = 200
 
 [[redirects]]

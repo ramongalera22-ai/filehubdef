@@ -79,7 +79,27 @@ const Dashboard: React.FC = () => {
         fetchCalendar(30)
       ]);
       const data: DataItem[] = dRes.data || [];
-      setGuardias(data.filter(d => d.type === 'guardia'));
+      
+      // Auto-clean: delete past guardias & eventos from Supabase
+      const todayDay = new Date().getDate();
+      const todayMonth = new Date().getMonth();
+      const allGuardias = data.filter(d => d.type === 'guardia');
+      const allEventos = data.filter(d => d.type === 'evento');
+      const pastGuardias = allGuardias.filter(g => {
+        if (!g.day) return false;
+        // If day is less than today and we're in the same month, it's past
+        // Also clean if created_at month is before current month
+        const created = new Date(g.created_at);
+        const createdMonth = created.getMonth();
+        if (createdMonth < todayMonth) return true; // past month entirely
+        return g.day < todayDay;
+      });
+      // Delete past guardias silently
+      for (const pg of pastGuardias) {
+        supabase.from('lifebot_data').delete().eq('id', pg.id).then(() => {});
+      }
+      
+      setGuardias(allGuardias.filter(g => !pastGuardias.some(pg => pg.id === g.id)));
       setCursos(data.filter(d => d.type === 'curso'));
       setObjetivos(data.filter(d => d.type === 'objetivo'));
       setTareas(data.filter(d => d.type === 'tarea'));

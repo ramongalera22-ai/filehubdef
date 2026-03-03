@@ -1211,7 +1211,8 @@ function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g
 // ===== INIT =====
 ld();ldDocs();ldFinDocs();ldNB();rSch();rGd();rCpre();rTx();uFS();rO();rCu();rDocs();rFinDocs();rPisos();rTrabajos();
 rNB('fin');rNB('obj');rNB('cur');rNB('pis');rNB('trb');
-setTimeout(tgPoll,2000);
+// Telegram polling disabled — using webhook instead
+// setTimeout(tgPoll,2000);
 
 // Sync from Supabase on load (merge cloud data)
 async function syncFromCloud(){
@@ -1316,7 +1317,12 @@ async function loadGCal(){
 
     // Calendar guardias -> guardias section (clear old calendar guardias first)
     D.gd=D.gd.filter(g=>!g.fromCal); // remove old calendar guardias
-    const calGuardias=unique.filter(e=>(e.summary||'').toLowerCase().match(/guardia|suap|turno|saliente/));
+    const calGuardias=unique.filter(e=>{
+      const s=(e.summary||'').toLowerCase();
+      if(!s.match(/guardia|suap/))return false;
+      const d=new Date(e.start?.dateTime||e.start?.date||'');
+      return d>=now && d<=new Date(now.getTime()+14*86400000);
+    });
     const gdSeen=new Set(D.gd.map(g=>g.name+'-'+g.day));
     for(const g of calGuardias){
       const d=new Date(g.start?.dateTime||g.start?.date||'');

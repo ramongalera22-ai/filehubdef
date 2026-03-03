@@ -555,8 +555,8 @@ pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/p
 const TG_T='8466601397:AAG4Ky7-mziSPUQbHtE6G9iyg_Gpc70WLVU',TG_C='596831448',TG_A=`https://api.telegram.org/bot${TG_T}`;
 
 // SUPABASE
-const SB_URL='https://ztigttazrdzkpxrzyast.supabase.co';
-const SB_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp0aWd0dGF6cmR6a3B4cnp5YXN0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIwMTg5MzcsImV4cCI6MjA4NzU5NDkzN30.d-PQ0S_dXsTRXGdRrZDJiJOXcXFF4hEOaAGWpT3WaSM';
+const SB_URL='https://igvadjgjpyuvzailjqwg.supabase.co';
+const SB_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlndmFkamdqcHl1dnphaWxqcXdnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI0NDI3MTAsImV4cCI6MjA4ODAxODcxMH0.eAqKCHDzrkvMTseaBP0I_JICP1owX60-cp3agYqRz4Q';
 const SB_HDR={'Content-Type':'application/json','apikey':SB_KEY,'Authorization':`Bearer ${SB_KEY}`,'Prefer':'return=representation'};
 
 async function sbGet(table){try{const r=await fetch(`${SB_URL}/rest/v1/${table}?select=*&order=created_at.desc`,{headers:SB_HDR});if(r.ok)return await r.json();return[]}catch(e){return[]}}

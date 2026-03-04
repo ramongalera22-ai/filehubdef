@@ -319,6 +319,37 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--wh);min-he
       </div>
     </div>
 
+
+    <!-- WHATSAPP -->
+    <div class="pg" id="pg-whatsapp">
+      <div class="tgs" style="background:linear-gradient(135deg,#25d366,#128c7e)">
+        <span class="tgd" style="background:#25d366"></span>
+        📱 WhatsApp · Arditi · Tiempo real
+      </div>
+      <div class="chtb" style="height:calc(100vh - 320px);min-height:300px">
+        <div id="waM" class="chts" style="padding:12px;display:flex;flex-direction:column;gap:8px;overflow-y:auto;height:100%">
+          <div class="msg ai" style="background:rgba(37,211,102,0.1);border:1px solid rgba(37,211,102,0.2)">
+            📱 <b>WhatsApp conectado</b><br>
+            <span style="font-size:.75rem;opacity:.7">Los mensajes de WhatsApp aparecerán aquí en tiempo real</span>
+          </div>
+        </div>
+      </div>
+      <div style="padding:8px 12px;background:rgba(37,211,102,0.05);border-top:1px solid rgba(37,211,102,0.2);border-radius:0 0 12px 12px">
+        <div style="display:flex;gap:8px;align-items:center">
+          <input id="waI" class="chi" placeholder="Enviar mensaje via WhatsApp..." 
+            onkeydown="if(event.key==='Enter')waSend()"
+            style="border-color:rgba(37,211,102,0.3)">
+          <button class="snd" onclick="waSend()" id="waB" style="background:#25d366">→</button>
+        </div>
+        <div style="margin-top:6px;display:flex;gap:6px;flex-wrap:wrap">
+          <button class="qb" onclick="waQ('busca pisos Barcelona máximo 900€')">🏠 Pisos</button>
+          <button class="qb" onclick="waQ('¿cuándo es mi próxima guardia?')">🚨 Guardias</button>
+          <button class="qb" onclick="waQ('resumen financiero del mes')">💰 Finanzas</button>
+          <button class="qb" onclick="waQ('busca trabajos medicina interna barcelona')">💼 Trabajo</button>
+        </div>
+      </div>
+    </div>
+
     <!-- FINANZAS -->
     <div class="pg" id="pg-finanzas">
       <div class="ftop">
@@ -1051,6 +1082,63 @@ function autoDetectTrabajo(txt){
   const tab=document.querySelector('[data-p="pisos"]');
   if(tab){tab.style.outline='2px solid #6366f1';setTimeout(()=>tab.style.outline='',4000);}
 }
+
+
+// WhatsApp mirror — poll Telegram for WhatsApp messages
+let waOffset = tgOffset;
+
+async function waSend() {
+  const inp = document.getElementById('waI'), t = inp.value.trim();
+  if (!t) return;
+  addWaMsg(t, true);
+  inp.value = '';
+  document.getElementById('waB').disabled = true;
+
+  const sentAt = Date.now();
+  await tgSnd('📱 ' + t); // Send via Telegram to OpenClaw
+
+  // Poll for reply
+  const poll = async () => {
+    try {
+      const r = await fetch(`${TG_A}?action=getUpdates&offset=${tgOffset}`);
+      const d = await r.json();
+      if (d.ok && d.result) {
+        for (const u of d.result) {
+          tgOffset = u.update_id + 1;
+          try { localStorage.setItem(TG_POLL_KEY, tgOffset); } catch(e) {}
+          const msg = u.message;
+          if (!msg) continue;
+          const fromBot = msg.from && msg.from.is_bot;
+          if (fromBot && msg.date * 1000 >= sentAt - 2000) {
+            addWaMsg('🤖 ' + (msg.text || ''), false);
+            document.getElementById('waB').disabled = false;
+            return;
+          }
+        }
+      }
+    } catch(e) {}
+    if (Date.now() - sentAt < 30000) setTimeout(poll, 1500);
+    else {
+      addWaMsg('⏱️ Sin respuesta. Revisa WhatsApp.', false);
+      document.getElementById('waB').disabled = false;
+    }
+  };
+  setTimeout(poll, 2000);
+}
+
+function waQ(q) { document.getElementById('waI').value = q; waSend(); }
+
+function addWaMsg(text, isUser) {
+  const el = document.createElement('div');
+  el.className = 'msg ' + (isUser ? 'usr' : 'ai');
+  if (!isUser) el.style.cssText = 'background:rgba(37,211,102,0.08);border:1px solid rgba(37,211,102,0.15)';
+  el.innerHTML = text.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\n/g,'<br>');
+  const container = document.getElementById('waM');
+  if (container) { container.appendChild(el); el.scrollIntoView({behavior:'smooth'}); }
+}
+
+// Mirror incoming Telegram messages to WhatsApp panel too
+const _origTgPoll = tgPoll;
 
 async function tgPoll(){
   try{

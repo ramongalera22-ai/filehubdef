@@ -19,7 +19,7 @@ async function sbUpdate(t,id,d){try{await fetch(`${SB_URL}/rest/v1/${t}?id=eq.${
 async function sbDelete(t,id){try{await fetch(`${SB_URL}/rest/v1/${t}?id=eq.${id}`,{method:'DELETE',headers:SB_HDR});}catch(e){}}
 async function tg(text,chatId){await fetch(`${TG_API}/sendMessage`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({chat_id:chatId,text,parse_mode:'HTML'})});}
 // Claude Haiku 4.5 via OpenRouter — mismo modelo que el dashboard
-const OR_KEY='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';
+const OR_KEY='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';
 const OR_URL='https://openrouter.ai/api/v1/chat/completions';
 async function ai(sys,msg,history=[]){
   try{

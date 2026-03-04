@@ -886,7 +886,7 @@ function addMsg(cid,t,u){const el=document.getElementById(cid),d=document.create
 async function tgSnd(t){try{const r=await fetch(`${TG_A}/sendMessage`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({chat_id:TG_C,text:t,parse_mode:'HTML'})});const d=await r.json();return d.ok}catch(e){return false}}
 
 // ===== OPENCLAW2 CHAT (Haiku 4.5 via OpenRouter) =====
-const OC_KEY='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';
+const OC_KEY='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';
 let ocHistory=[];
 
 function getOCSystemPrompt(){

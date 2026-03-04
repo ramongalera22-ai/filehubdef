@@ -1435,7 +1435,7 @@ async function loadGCal(){
   try{
     const now=new Date(),eod=new Date(now);eod.setHours(23,59,59,999);
     const past30=new Date(now.getTime()-30*86400000);
-    const q=`?timeMin=${encodeURIComponent(past30.toISOString())}&timeMax=${encodeURIComponent(new Date(now.getTime()+90*86400000).toISOString())}&singleEvents=true&orderBy=startTime`;
+    const q=`?timeMin=${encodeURIComponent(past30.toISOString())}&timeMax=${encodeURIComponent(new Date(now.getTime()+90*86400000).toISOString())}&singleEvents=true&orderBy=startTime&maxResults=250`;
     const hdr={'Authorization':`Bearer ${MATON_KEY}`,'Content-Type':'application/json'};
     const [r1,r2]=await Promise.all([
       fetch(`https://gateway.maton.ai/google-calendar/calendar/v3/calendars/primary/events${q}`,{headers:hdr}).then(r=>r.json()).catch(()=>({items:[]})),
@@ -1452,7 +1452,7 @@ async function loadGCal(){
     D.sch=D.sch.filter(s=>!s.fromCal); // remove old calendar entries
     for(const e of todayEvents){
       const dt=e.start?.dateTime?new Date(e.start.dateTime).toLocaleTimeString('es-ES',{hour:'2-digit',minute:'2-digit',timeZone:'Europe/Madrid'}):'00:00';
-      const isG=(e.summary||'').toLowerCase().match(/guardia|suap|hsl|ume|saliente|montse/);
+      const isG=(e.summary||'').toLowerCase().match(/guardia|suap|hsl|ume|saliente|montse|turno/);
       D.sch.push({id:Date.now()+Math.random()*999|0,time:dt,icon:isG?'🚨':'📅',desc:e.summary||'Evento',col:isG?'rd':'bl',fromCal:true});
     }
     D.sch.sort((a,b)=>a.time.localeCompare(b.time));
@@ -1462,8 +1462,10 @@ async function loadGCal(){
     D.gd=D.gd.filter(g=>!g.fromCal); // remove old calendar guardias
     const calGuardias=unique.filter(e=>{
       const s=(e.summary||'').toLowerCase();
-      if(!s.match(/guardia|suap|hsl|ume|saliente|montse/))return false;
-      return true;
+      const d=(e.description||'').toLowerCase();
+      if(s.match(/guardia|suap|hsl|ume|saliente|montse|turno/))return true;
+      if(d.match(/guardia/))return true;
+      return false;
     });
     const gdSeen=new Set(D.gd.map(g=>g.name+'-'+g.day+'-'+g.month));
     for(const g of calGuardias){
@@ -1479,7 +1481,9 @@ async function loadGCal(){
     }
     D.gd.sort((a,b)=>{if(a.month!==undefined&&b.month!==undefined&&a.month!==b.month)return a.month-b.month;return a.day-b.day});
     sv();rGd();
-    console.log('📅 Calendar sync:',todayEvents.length,'hoy,',calGuardias.length,'guardias');
+    const months=['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+    const byMonth={};D.gd.forEach(g=>{const m=g.month!==undefined?g.month:now.getMonth();byMonth[months[m]]=(byMonth[months[m]]||0)+1;});
+    console.log('📅 Calendar sync:',todayEvents.length,'hoy,',calGuardias.length,'guardias totales. Por mes:',byMonth,'Montse:',D.gd.filter(g=>g.isMontse).length);
   }catch(e){console.error('Calendar error:',e)}
 }
 

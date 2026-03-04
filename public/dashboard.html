@@ -45,6 +45,7 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--wh);min-he
 .onl{display:flex;align-items:center;gap:5px;padding:4px 12px;border-radius:16px;background:var(--grg);border:1px solid var(--grb);font-size:.65rem;font-weight:700;color:var(--gr);text-transform:uppercase;letter-spacing:.8px}
 .onl::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--gr);box-shadow:0 0 6px var(--gr);animation:pu 2s infinite}
 @keyframes pu{0%,100%{opacity:1}50%{opacity:.3}}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
 
 /* STATS */
 .sts{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:0 20px 14px}
@@ -307,11 +308,11 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--wh);min-he
 
     <!-- CHAT TELEGRAM -->
     <div class="pg" id="pg-chat">
-      <div class="tgs"><span class="tgd"></span>Bot Telegram conectado · Escuchando comandos 📡</div>
+      <div class="tgs"><span class="tgd"></span>OpenClaw2 conectado · GPT-5 Nano + Telegram 🤖</div>
       <div class="chtb">
-        <div class="chth"><div class="chtav" style="background:linear-gradient(135deg,#0088cc,#00aaff)">✈</div><div><div class="chtn">LifeBot · Telegram</div><div class="chtp">Bidireccional — Envía y recibe comandos</div></div></div>
-        <div class="chtm" id="tgM"><div class="msg ai">🤖 ¡LifeBot activo! Escucho comandos desde Telegram. Escribe <strong>/help</strong> en Telegram para ver todos los comandos, o simplemente dime en lenguaje natural qué quieres hacer (ej: "añade una guardia el día 15").</div></div>
-        <div class="qbs"><button class="qb" onclick="tgQ('/help')">❓ Ayuda</button><button class="qb" onclick="tgQ('/resumen')">📋 Resumen</button><button class="qb" onclick="tgQ('/guardias')">🚨 Guardias</button><button class="qb" onclick="tgQ('/eventos')">📅 Eventos</button><button class="qb" onclick="tgQ('/balance')">💰 Balance</button></div>
+        <div class="chth"><div class="chtav" style="background:linear-gradient(135deg,#10b981,#6366f1)">🤖</div><div><div class="chtn">OpenClaw2 · GPT-5 Nano</div><div class="chtp">Chat IA directo — Responde aquí + Telegram</div></div></div>
+        <div class="chtm" id="tgM"><div class="msg ai">🤖 ¡OpenClaw2 activo! (GPT-5 Nano) Pregúntame lo que quieras sobre tus guardias, eventos, finanzas, objetivos... También puedo organizar tu semana o dar consejos. Todo lo que escribas aquí también se envía a Telegram.</div></div>
+        <div class="qbs"><button class="qb" onclick="tgQ('¿Qué tengo hoy?')">📅 Hoy</button><button class="qb" onclick="tgQ('/resumen')">📋 Resumen</button><button class="qb" onclick="tgQ('¿Cuándo es mi próxima guardia?')">🚨 Guardias</button><button class="qb" onclick="tgQ('¿Qué eventos tengo mañana?')">📅 Mañana</button><button class="qb" onclick="tgQ('¿Cuál es mi balance?')">💰 Balance</button></div>
         <div class="chti"><input id="tgI" placeholder="Enviar mensaje al bot..." onkeydown="if(event.key==='Enter')tgS()"><button class="snd" onclick="tgS()" id="tgB">→</button></div>
       </div>
     </div>
@@ -816,8 +817,70 @@ function addMsg(cid,t,u){const el=document.getElementById(cid),d=document.create
 
 // ===== TELEGRAM =====
 async function tgSnd(t){try{const r=await fetch(`${TG_A}/sendMessage`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({chat_id:TG_C,text:t,parse_mode:'HTML'})});const d=await r.json();return d.ok}catch(e){return false}}
-function tgS(){const inp=document.getElementById('tgI'),t=inp.value.trim();if(!t)return;addMsg('tgM',t,true);inp.value='';const b=document.getElementById('tgB');b.disabled=true;tgSnd(t).then(ok=>{b.disabled=false;addMsg('tgM',ok?'✅ Enviado a Telegram':'❌ Error al enviar',false)})}
-function tgQ(q){document.getElementById('tgI').value=q;tgS()}
+
+// ===== OPENCLAW2 CHAT (GPT-5 Nano via OpenRouter) =====
+const OC_KEY='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';
+let ocHistory=[];
+
+function getOCSystemPrompt(){
+  const today=new Date().toLocaleDateString('es-ES',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+  const guardiasList=D.gd.filter(g=>!g.isMontse).map(g=>`Día ${g.day}: ${g.name}`).join(', ');
+  const montseList=D.gd.filter(g=>g.isMontse).map(g=>`Día ${g.day}: ${g.name}`).join(', ');
+  const eventosHoy=D.sch.map(s=>`${s.time} ${s.desc}`).join(', ')||'ninguno';
+  const bal=D.tx.reduce((s,t)=>t.tp==='income'?s+t.am:s-t.am,0);
+  return `Eres OpenClaw2, asistente personal de Carlos/Ramón Galera, médico MIR en Murcia, España. Fecha: ${today}.
+Guardias de Carlos: ${guardiasList||'ninguna'}.
+Guardias de Montse: ${montseList||'ninguna'}.
+Eventos hoy: ${eventosHoy}.
+Balance: €${bal.toFixed(2)}.
+Objetivos: ${D.obj.map(o=>(o.done?'✅':'⬜')+o.t).join(', ')||'ninguno'}.
+Cursos: ${D.cur.map(c=>c.t).join(', ')||'ninguno'}.
+Responde SIEMPRE en español, conciso y útil. Usa emojis. Los días de saliente (post-guardia) son los menos productivos.`;
+}
+
+async function ocSend(){
+  const inp=document.getElementById('tgI'),t=inp.value.trim();
+  if(!t)return;
+  addMsg('tgM',t,true);
+  inp.value='';
+  const b=document.getElementById('tgB');b.disabled=true;
+
+  // Show typing
+  const typingId='typing-'+Date.now();
+  const typingEl=document.createElement('div');
+  typingEl.className='msg ai';typingEl.id=typingId;
+  typingEl.innerHTML='<div style="display:flex;gap:4px;padding:4px 0"><div style="width:6px;height:6px;border-radius:50%;background:#10b981;animation:bounce .6s infinite"></div><div style="width:6px;height:6px;border-radius:50%;background:#10b981;animation:bounce .6s infinite .15s"></div><div style="width:6px;height:6px;border-radius:50%;background:#10b981;animation:bounce .6s infinite .3s"></div></div>';
+  document.getElementById('tgM').appendChild(typingEl);
+  typingEl.scrollIntoView({behavior:'smooth'});
+
+  // Also send to Telegram in background
+  tgSnd(t);
+
+  try{
+    ocHistory.push({role:'user',content:t});
+    const res=await fetch('https://openrouter.ai/api/v1/chat/completions',{
+      method:'POST',
+      headers:{'Authorization':'Bearer '+OC_KEY,'Content-Type':'application/json','HTTP-Referer':window.location.origin,'X-Title':'FILEHUB OpenClaw2'},
+      body:JSON.stringify({model:'openai/gpt-5-nano',messages:[{role:'system',content:getOCSystemPrompt()},...ocHistory],max_tokens:1000,temperature:1})
+    });
+    const data=await res.json();
+    const reply=data?.choices?.[0]?.message?.content||'No he podido procesar tu consulta.';
+    ocHistory.push({role:'assistant',content:reply});
+    // Keep history manageable
+    if(ocHistory.length>20)ocHistory=ocHistory.slice(-16);
+    // Remove typing, show reply
+    const te=document.getElementById(typingId);if(te)te.remove();
+    addMsg('tgM','🤖 '+reply.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\n/g,'<br>'),false);
+    // Also send reply to Telegram
+    tgSnd('🤖 '+reply);
+  }catch(e){
+    const te=document.getElementById(typingId);if(te)te.remove();
+    addMsg('tgM','❌ Error de conexión con OpenClaw2',false);
+  }
+  b.disabled=false;
+}
+function tgS(){ocSend()}
+function tgQ(q){document.getElementById('tgI').value=q;ocSend()}
 
 // ===== TELEGRAM POLLING (receive commands) =====
 let tgOffset=0;

@@ -609,7 +609,96 @@ function rGd(){
   const el=document.getElementById('gdList');
   document.getElementById('hG').textContent=D.gd.length;
   if(!D.gd.length){el.innerHTML='<div class="empty">Sin guardias programadas</div>';return}
-  el.innerHTML=D.gd.map(g=>`<div class="itm"><div class="gdd">${g.day}</div><div style="flex:1"><div class="gdn">${g.name}</div><div class="gdt">${g.detail}</div></div><div class="gdb">24H</div><button class="del" onclick="delGd(${g.id})">✕</button></div>`).join('');
+  
+  // Build calendar grid
+  const now=new Date();
+  const year=now.getFullYear(), month=now.getMonth();
+  const firstDay=new Date(year,month,1).getDay(); // 0=Sun
+  const daysInMonth=new Date(year,month+1,0).getDate();
+  const today=now.getDate();
+  const monthName=now.toLocaleDateString('es-ES',{month:'long',year:'numeric'});
+  
+  // Map guardias by day
+  const gdMap={};
+  D.gd.forEach(g=>{
+    const d=g.day;
+    if(!gdMap[d])gdMap[d]=[];
+    gdMap[d].push(g);
+  });
+  
+  // Adjust firstDay (Mon=0)
+  const startDay=(firstDay+6)%7;
+  
+  let html=`<div style="margin-bottom:8px;display:flex;align-items:center;justify-content:space-between">
+    <div style="font-size:.85rem;font-weight:700;color:var(--tx);text-transform:capitalize">📅 ${monthName}</div>
+    <div style="font-size:.6rem;color:var(--mu)">${D.gd.length} guardias</div>
+  </div>`;
+  
+  // Day headers
+  html+=`<div style="display:grid;grid-template-columns:repeat(7,1fr);gap:2px;margin-bottom:4px">`;
+  ['L','M','X','J','V','S','D'].forEach(d=>html+=`<div style="text-align:center;font-size:.55rem;font-weight:600;color:var(--mu);padding:2px 0">${d}</div>`);
+  html+=`</div>`;
+  
+  // Calendar cells
+  html+=`<div style="display:grid;grid-template-columns:repeat(7,1fr);gap:2px">`;
+  
+  // Empty cells before first day
+  for(let i=0;i<startDay;i++) html+=`<div style="aspect-ratio:1;border-radius:6px"></div>`;
+  
+  // Day cells
+  for(let d=1;d<=daysInMonth;d++){
+    const isToday=d===today;
+    const hasGd=gdMap[d];
+    const isPast=d<today;
+    
+    let bg='transparent', border='1px solid transparent', color='var(--mu)';
+    if(isToday){bg='rgba(99,102,241,.15)';border='1px solid rgba(99,102,241,.5)';color='#818cf8'}
+    if(hasGd&&!isPast){bg='var(--rdbg)';border='1px solid var(--rdb)';color='var(--rd)'}
+    if(hasGd&&isToday){bg='var(--rd)';color='#fff';border='1px solid var(--rd)'}
+    if(isPast&&!hasGd){color='rgba(255,255,255,.15)'}
+    if(isPast&&hasGd){bg='rgba(255,82,82,.08)';color='rgba(255,82,82,.3)';border='1px solid rgba(255,82,82,.1)'}
+    
+    const tooltip=hasGd?hasGd.map(g=>g.name).join(' + '):'';
+    const dotCount=hasGd?Math.min(hasGd.length,3):0;
+    
+    html+=`<div style="aspect-ratio:1;border-radius:6px;background:${bg};border:${border};display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:${hasGd?'pointer':'default'};position:relative;transition:all .2s" ${tooltip?`title="${tooltip}" onclick="showGdDetail(${d})"`:''}>`
+    html+=`<div style="font-size:.7rem;font-weight:${hasGd||isToday?'700':'400'};color:${color};line-height:1">${d}</div>`;
+    if(hasGd&&!isPast){
+      html+=`<div style="display:flex;gap:1px;margin-top:2px">`;
+      for(let i=0;i<dotCount;i++) html+=`<div style="width:3px;height:3px;border-radius:50%;background:${isToday?'#fff':'var(--rd)'}"></div>`;
+      html+=`</div>`;
+    }
+    html+=`</div>`;
+  }
+  html+=`</div>`;
+  
+  // List of upcoming guardias below calendar
+  const upcoming=D.gd.filter(g=>g.day>=today).sort((a,b)=>a.day-b.day);
+  if(upcoming.length){
+    html+=`<div style="margin-top:10px;border-top:1px solid var(--bd);padding-top:8px">`;
+    upcoming.forEach(g=>{
+      const isGdToday=g.day===today;
+      const dateStr=new Date(year,month,g.day).toLocaleDateString('es-ES',{weekday:'short',day:'numeric',month:'short'});
+      html+=`<div style="display:flex;align-items:center;gap:8px;padding:4px 0;${isGdToday?'background:rgba(255,82,82,.08);border-radius:6px;padding:6px 8px;margin:-2px -8px':''}">
+        <div style="width:6px;height:6px;border-radius:50%;background:var(--rd);flex-shrink:0"></div>
+        <div style="flex:1;min-width:0">
+          <div style="font-size:.72rem;font-weight:600;color:${isGdToday?'var(--rd)':'var(--tx)'};white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${isGdToday?'🚨 HOY — ':''}${g.name}</div>
+          <div style="font-size:.58rem;color:var(--mu);font-family:'JetBrains Mono',monospace">${dateStr}${g.detail?' · '+g.detail:''}</div>
+        </div>
+        <button class="del" onclick="delGd(${g.id})">✕</button>
+      </div>`;
+    });
+    html+=`</div>`;
+  }
+  
+  el.innerHTML=html;
+}
+
+// Show guardia detail on calendar click
+function showGdDetail(day){
+  const gds=D.gd.filter(g=>g.day===day);
+  if(!gds.length)return;
+  alert(gds.map(g=>`${g.name}\n${g.detail||'Hospital'}`).join('\n\n'));
 }
 
 // ===== CURSOS PRESENCIALES =====

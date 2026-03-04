@@ -28,3 +28,9 @@
   to = "/index.html"
   status = 200
   force = false
+
+[[redirects]]
+  from = "/api/arditi-webhook"
+  to = "/.netlify/functions/arditi-webhook"
+  status = 200
+  force = true

@@ -51,7 +51,7 @@ const server = http.createServer((req, res) => {
         const cmd = `openclaw agent --channel telegram --to ${CHAT_ID} --session-id ${sessionId} -m '${safeMsg}'`;
         
         const output = await runCommand(cmd);
-        const reply = output.trim() || 'Mensaje enviado a OpenClaw';
+        const reply = output.split('\n').filter(l => l.trim()).join('\n').trim() || 'Mensaje enviado';
 
         console.log(`✅ Respuesta: ${reply.substring(0, 100)}`);
 

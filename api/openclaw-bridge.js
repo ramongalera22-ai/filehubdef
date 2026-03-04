@@ -1,4 +1,4 @@
-const NUCBOX_URL = process.env.NUCBOX_URL || 'https://see-cutting-decades-telescope.trycloudflare.com';
+const NUCBOX_URL = process.env.NUCBOX_URL || 'https://elevation-landscape-facilitate-deserve.trycloudflare.com';
 const TG_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
 const TG_CHAT = '596831448';
 

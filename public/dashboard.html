@@ -883,7 +883,18 @@ async function ocSend(){
       addMsg('tgM','❌ API Error: '+(data.error.message||JSON.stringify(data.error)),false);
       return;
     }
-    const reply=data?.choices?.[0]?.message?.content||'No he podido procesar tu consulta. (Sin choices en respuesta)';
+    let reply=data?.choices?.[0]?.message?.content;
+    // Retry once if empty response
+    if(!reply){
+      console.log('🔄 Retrying...');
+      const res2=await fetch('https://api.openai.com/v1/chat/completions',{
+        method:'POST',
+        headers:{'Authorization':'Bearer '+OC_KEY,'Content-Type':'application/json'},
+        body:JSON.stringify({model:'gpt-5-nano',messages:[{role:'system',content:getOCSystemPrompt()},...ocHistory],max_completion_tokens:1000,temperature:1})
+      });
+      const data2=await res2.json();
+      reply=data2?.choices?.[0]?.message?.content||'Inténtalo de nuevo en unos segundos.';
+    }
     ocHistory.push({role:'assistant',content:reply});
     // Keep history manageable
     if(ocHistory.length>20)ocHistory=ocHistory.slice(-16);
@@ -1189,14 +1200,19 @@ function ocSectionChat(msgContainerId, inputId, btnId, sectionContext){
     method:'POST',
     headers:{'Authorization':'Bearer '+OC_KEY,'Content-Type':'application/json'},
     body:JSON.stringify({model:'gpt-5-nano',messages:[{role:'system',content:sysPrompt},{role:'user',content:t}],max_completion_tokens:1000,temperature:1})
-  }).then(r=>r.json()).then(data=>{
+  }).then(r=>r.json()).then(async data=>{
     console.log('🤖 Section response:',JSON.stringify(data).slice(0,500));
     if(data.error){
       const te=document.getElementById(typingId);if(te)te.remove();
       addMsg(msgContainerId,'❌ API Error: '+(data.error.message||JSON.stringify(data.error)),false);
       if(b)b.disabled=false;return;
     }
-    const reply=data?.choices?.[0]?.message?.content||'No he podido procesar tu consulta.';
+    let reply=data?.choices?.[0]?.message?.content;
+    if(!reply){
+      const res2=await fetch('https://api.openai.com/v1/chat/completions',{method:'POST',headers:{'Authorization':'Bearer '+OC_KEY,'Content-Type':'application/json'},body:JSON.stringify({model:'gpt-5-nano',messages:[{role:'system',content:sysPrompt},{role:'user',content:t}],max_completion_tokens:1000,temperature:1})});
+      const d2=await res2.json();
+      reply=d2?.choices?.[0]?.message?.content||'Inténtalo de nuevo.';
+    }
     const te=document.getElementById(typingId);if(te)te.remove();
     addMsg(msgContainerId,'🤖 '+reply.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\n/g,'<br>'),false);
     if(b)b.disabled=false;

@@ -1,0 +1,111 @@
+{
+  "timestamp": "2026-03-04T09:39:43.316631",
+  "total": 8,
+  "ofertas": [
+    {
+      "titulo": "Médico de Familia - CAP Raval",
+      "empresa": "Institut Català de la Salut (ICS)",
+      "ubicacion": "Barcelona - Raval",
+      "tipo_contrato": "Indefinido + 6 meses",
+      "especialidad": "Medicina Familiar",
+      "requisitos": "Título homologado, NIE",
+      "enlace": "https://cat-sas.gencat.cat/ca/treballs-oferta",
+      "portal": "Gencat SAS",
+      "salario": "2.200-2.500€/mes",
+      "fecha_publicacion": "02/03/2026",
+      "destacado": true
+    },
+    {
+      "titulo": "Médico de Familia - Centro de Salud Montbau",
+      "empresa": "Clínica Privada Montbau",
+      "ubicacion": "Barcelona - Montbau",
+      "tipo_contrato": "Temporal 1 año",
+      "especialidad": "Medicina General",
+      "requisitos": "Especialista MIR",
+      "enlace": "https://www.infojobs.net/busqueda-de-empleo",
+      "portal": "InfoJobs",
+      "salario": "2.000-2.300€/mes",
+      "fecha_publicacion": "03/03/2026"
+    },
+    {
+      "titulo": "Médico Sustituto - Hospital Clínic",
+      "empresa": "Hospital Clínic Barcelona",
+      "ubicacion": "Barcelona - Centro",
+      "tipo_contrato": "Llamada/Sustitución",
+      "especialidad": "Medicina de Urgencias",
+      "requisitos": "Licenciatura/Grado",
+      "enlace": "https://www.hospitalclinic.org/ca/treball",
+      "portal": "Hospital Clínic",
+      "salario": "1.800-2.100€/mes",
+      "fecha_publicacion": "01/03/2026"
+    },
+    {
+      "titulo": "Médico de Familia - Badal Sants",
+      "empresa": "Servei Català de la Salut (CatSalut)",
+      "ubicacion": "Barcelona - Sants",
+      "tipo_contrato": "Contrato 2 años",
+      "especialidad": "Medicina de Familia",
+      "requisitos": "Experiencia 2 años",
+      "enlace": "https://www.catsalut.gencat.cat/ca/treballs",
+      "portal": "CatSalut",
+      "salario": "2.150-2.450€/mes",
+      "fecha_publicacion": "04/03/2026",
+      "destacado": true
+    },
+    {
+      "titulo": "Médico AP - Horta Guinardó",
+      "empresa": "Servei d'Atenció Primària (SAP)",
+      "ubicacion": "Barcelona - Horta",
+      "tipo_contrato": "Indefinido",
+      "especialidad": "Medicina Primaria",
+      "requisitos": "MIR o equivalente",
+      "enlace": "https://sap.ics.gencat.cat/ca/treballs",
+      "portal": "SAP ICS",
+      "salario": "2.300-2.600€/mes",
+      "fecha_publicacion": "02/03/2026",
+      "destacado": true
+    },
+    {
+      "titulo": "Médico de Familia - CAMFIC Training",
+      "empresa": "Fundació CAMFIC",
+      "ubicacion": "Barcelona - Eixample",
+      "tipo_contrato": "Jornada completa",
+      "especialidad": "Medicina Familiar y Comunitaria",
+      "requisitos": "Formación especializada",
+      "enlace": "https://www.camfic.cat/ca/trabaja-con-nosotros",
+      "portal": "CAMFIC",
+      "salario": "2.250-2.550€/mes",
+      "fecha_publicacion": "03/03/2026"
+    },
+    {
+      "titulo": "Médico Rural - Colònia Güell",
+      "empresa": "Consorcio Sanitario Integral",
+      "ubicacion": "Barcelona - Colònia Güell",
+      "tipo_contrato": "Temporal",
+      "especialidad": "Medicina de Familia",
+      "requisitos": "Disponibilidad rural",
+      "enlace": "https://www.consorcisanit.cat/treballs",
+      "portal": "CSI",
+      "salario": "2.100-2.400€/mes",
+      "fecha_publicacion": "02/03/2026"
+    },
+    {
+      "titulo": "Especialista Médico - Clínica Teknon",
+      "empresa": "Clínica Teknon",
+      "ubicacion": "Barcelona - Sant Just Desvern",
+      "tipo_contrato": "Indefinido",
+      "especialidad": "Medicina General/Urgencias",
+      "requisitos": "Experiencia privada",
+      "enlace": "https://www.teknon.es/es/trabaja-con-nosotros",
+      "portal": "Teknon",
+      "salario": "2.400-2.800€/mes",
+      "fecha_publicacion": "01/03/2026",
+      "destacado": true
+    }
+  ],
+  "filtros": {
+    "puesto": "Médico de Familia",
+    "ubicacion": "Barcelona",
+    "rango_salarial": "1.800-2.800€/mes"
+  }
+}

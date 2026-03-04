@@ -1,5 +1,5 @@
 exports.handler = async (event) => {
-  const TG = '8466601397:AAG4Ky7-mziSPUQbHtE6G9iyg_Gpc70WLVU';
+  const TG = '7853838527:AAHtI2svAQgGzwx8jVUvGxSPiOe_mRJxWFo'; // OpenClaw2 — mismo que dashboard
   const host = event.headers?.host || 'phenomenal-nasturtium-5e1a1d.netlify.app';
   const whUrl = `https://${host}/api/telegram-webhook`;
   const act = event.queryStringParameters?.action || 'set';

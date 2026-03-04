@@ -18,7 +18,22 @@ async function sbInsert(t,d){try{await fetch(`${SB_URL}/rest/v1/${t}`,{method:'P
 async function sbUpdate(t,id,d){try{await fetch(`${SB_URL}/rest/v1/${t}?id=eq.${id}`,{method:'PATCH',headers:SB_HDR,body:JSON.stringify(d)});}catch(e){}}
 async function sbDelete(t,id){try{await fetch(`${SB_URL}/rest/v1/${t}?id=eq.${id}`,{method:'DELETE',headers:SB_HDR});}catch(e){}}
 async function tg(text,chatId){await fetch(`${TG_API}/sendMessage`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({chat_id:chatId,text,parse_mode:'HTML'})});}
-async function ai(sys,msg){try{const r=await fetch(GROQ_URL,{method:'POST',headers:{'Content-Type':'application/json','Authorization':`Bearer ${GROQ_KEY}`},body:JSON.stringify({model:'llama-3.1-8b-instant',messages:[{role:'system',content:sys},{role:'user',content:msg}],max_tokens:600,temperature:0.4})});const d=await r.json();return d.choices?.[0]?.message?.content||'Sin respuesta';}catch(e){return'Error IA';}}
+// Claude Haiku 4.5 via OpenRouter — mismo modelo que el dashboard
+const OR_KEY='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';
+const OR_URL='https://openrouter.ai/api/v1/chat/completions';
+async function ai(sys,msg,history=[]){
+  try{
+    const messages=[{role:'system',content:sys},...history,{role:'user',content:msg}];
+    const r=await fetch(OR_URL,{
+      method:'POST',
+      headers:{'Content-Type':'application/json','Authorization':`Bearer ${OR_KEY}`,'HTTP-Referer':'https://phenomenal-nasturtium-5e1a1d.netlify.app','X-Title':'FILEHUB OpenClaw2'},
+      body:JSON.stringify({model:'anthropic/claude-haiku-4.5',messages,max_tokens:1000,temperature:0.7})
+    });
+    const d=await r.json();
+    if(d.error) throw new Error(d.error.message);
+    return d.choices?.[0]?.message?.content||'Sin respuesta';
+  }catch(e){return'Error IA: '+e.message;}
+}
 const uid=()=>String(Date.now())+String(Math.floor(Math.random()*1000));
 const now=()=>new Date().toISOString();
 

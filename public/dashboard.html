@@ -1433,15 +1433,13 @@ async function syncFromCloud(){
 const MATON_KEY='iLBE6Iwn1WRtas_R7Mq6cx3k1fcGl8bAF4yFJbCl42Br9n-MvCfiP1yUt5pKs6xetIWMqAUDIzBiljSytTtB8qvvQDA4MfMJ4ZM5tGWyfw';
 // ===== SHIFTER DATA (from app screenshots) =====
 const SHIFTER_GUARDIAS=[
-  // MARZO 2026 — Mis guardias
+  // MARZO 2026 — Mis guardias (5 exactas)
   {day:2,month:2,name:'Guardia N',detail:'Noche',isMontse:false},
   {day:5,month:2,name:'Cambio guardia UME 15 con Elsa',detail:'Cambio',isMontse:false},
   {day:11,month:2,name:'Guardia SUAP Los Dolores',detail:'SUAP',isMontse:false},
-
-
   {day:29,month:2,name:'Guardia N',detail:'Noche',isMontse:false},
   {day:31,month:2,name:'Guardia SUAP Los Dolores',detail:'SUAP',isMontse:false},
-  // MARZO 2026 — Montse
+  // MARZO 2026 — Montse (7)
   {day:6,month:2,name:'Guardia Montse Cumple',detail:'M/T',isMontse:true},
   {day:7,month:2,name:'Guardia Montse M/T',detail:'M/T',isMontse:true},
   {day:10,month:2,name:'Guardia Montse M/T',detail:'M/T',isMontse:true},
@@ -1449,30 +1447,38 @@ const SHIFTER_GUARDIAS=[
   {day:20,month:2,name:'Guardia Montse',detail:'Montse',isMontse:true},
   {day:25,month:2,name:'Guardia Montse',detail:'Montse',isMontse:true},
   {day:28,month:2,name:'Guardia Montse Cumple N',detail:'Noche',isMontse:true},
-  // ABRIL 2026 — Mis guardias
+  // ABRIL 2026 — Mis guardias (5 exactas)
   {day:2,month:3,name:'Jueves Santo - Guardia HSL N',detail:'HSL Noche',isMontse:false},
   {day:6,month:3,name:'Guardia el 6 abril',detail:'8-15',isMontse:false},
-
   {day:10,month:3,name:'Guardia UME 15 N',detail:'UME Noche',isMontse:false},
   {day:15,month:3,name:'Guardia SUAP Los Dolores',detail:'SUAP',isMontse:false},
   {day:30,month:3,name:'Guardia SUAP Los Dolores',detail:'SUAP',isMontse:false},
-  // ABRIL 2026 — Montse
+  // ABRIL 2026 — Montse (3)
   {day:3,month:3,name:'Guardia Montse',detail:'M',isMontse:true},
   {day:4,month:3,name:'Guardia Montse',detail:'M',isMontse:true},
   {day:17,month:3,name:'Guardia Montse',detail:'M',isMontse:true},
-  // MAYO 2026 — Mis guardias
+  // MAYO 2026 — Mis guardias (5 exactas)
   {day:4,month:4,name:'Guardia UME 4 N',detail:'UME Noche',isMontse:false},
   {day:7,month:4,name:'Guardia Santa Lucía',detail:'HSL',isMontse:false},
   {day:15,month:4,name:'Guardia SUAP Los Dolores',detail:'SUAP',isMontse:false},
   {day:17,month:4,name:'Guardia Santa Lucía N',detail:'HSL Noche',isMontse:false},
   {day:25,month:4,name:'Guardia SUAP Los Dolores',detail:'SUAP',isMontse:false},
-  // MAYO 2026 — Montse
+  // MAYO 2026 — Montse (3)
   {day:3,month:4,name:'Guardia Montse',detail:'M',isMontse:true},
   {day:8,month:4,name:'Guardia Montse',detail:'M',isMontse:true},
   {day:9,month:4,name:'Guardia Montse',detail:'M',isMontse:true},
 ];
 
+// Months covered by Shifter (don't add API guardias for these months)
+const SHIFTER_MONTHS=new Set([2,3,4]); // Mar=2, Apr=3, May=4
+
 function injectShifterGuardias(){
+  // Remove any existing guardias for Shifter-covered months
+  D.gd=D.gd.filter(g=>{
+    const mo=g.month!==undefined?g.month:new Date().getMonth();
+    return !SHIFTER_MONTHS.has(mo);
+  });
+  // Add Shifter guardias
   const seen=new Set(D.gd.map(g=>`${g.day}-${g.month!==undefined?g.month:new Date().getMonth()}-${g.isMontse?'M':'R'}`));
   for(const sg of SHIFTER_GUARDIAS){
     const key=`${sg.day}-${sg.month}-${sg.isMontse?'M':'R'}`;
@@ -1533,12 +1539,13 @@ async function loadGCal(){
       const d=new Date(g.start?.dateTime||g.start?.date||'');
       const day=d.getDate();
       const mo=d.getMonth();
+      // Skip months covered by Shifter data (it's the source of truth)
+      if(SHIFTER_MONTHS.has(mo))continue;
       const key=(g.summary||'')+'-'+day+'-'+mo;
       if(gdSeen.has(key))continue;
       const dateStr=d.toLocaleDateString('es-ES',{day:'numeric',month:'short'});
       const isMontse=(g.summary||'').toLowerCase().includes('montse');
       const hasGuardiaWord=(g.summary||'').toLowerCase().match(/guardia|suap|hsl|ume/);
-      // Only add to guardias if it's actually a guardia (not just any event with montse)
       if(isMontse && !hasGuardiaWord) continue;
       D.gd.push({id:Date.now()+Math.random()*999|0,day,month:mo,name:g.summary,detail:(g.start?.dateTime?new Date(g.start.dateTime).toLocaleTimeString('es-ES',{hour:'2-digit',minute:'2-digit',timeZone:'Europe/Madrid'})+' · ':'')+ dateStr,fromCal:true,isMontse:isMontse&&hasGuardiaWord});
       gdSeen.add(key);

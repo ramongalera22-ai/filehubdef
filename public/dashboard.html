@@ -313,7 +313,7 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--wh);min-he
       <div class="chtb">
         <div class="chth"><div class="chtav" style="background:linear-gradient(135deg,#10b981,#6366f1)">🤖</div><div><div class="chtn">OpenClaw2 · Haiku 4.5</div><div class="chtp">Chat IA directo — Responde aquí + Telegram</div></div></div>
         <div class="chtm" id="tgM"><div class="msg ai">🤖 ¡OpenClaw2 activo! (Haiku 4.5) Pregúntame lo que quieras sobre tus guardias, eventos, finanzas, objetivos... También puedo organizar tu semana o dar consejos. Todo lo que escribas aquí también se envía a Telegram.</div></div>
-        <div class="qbs"><button class="qb" onclick="tgQ('¿Qué tengo hoy?')">📅 Hoy</button><button class="qb" onclick="tgQ('/resumen')">📋 Resumen</button><button class="qb" onclick="tgQ('¿Cuándo es mi próxima guardia?')">🚨 Guardias</button><button class="qb" onclick="tgQ('¿Qué eventos tengo mañana?')">📅 Mañana</button><button class="qb" onclick="tgQ('¿Cuál es mi balance?')">💰 Balance</button></div>
+        <div class="qbs"><button class="qb" onclick="tgQ('¿Qué tengo hoy?')">📅 Hoy</button><button class="qb" onclick="tgQ('/resumen')">📋 Resumen</button><button class="qb" onclick="tgQ('¿Cuándo es mi próxima guardia?')">🚨 Guardias</button><button class="qb" onclick="tgQ('¿Qué eventos tengo mañana?')">📅 Mañana</button><button class="qb" onclick="tgQ('¿Cuál es mi balance?')">💰 Balance</button><button class="qb" onclick="showDailyResumen()">📊 Conv. hoy</button></div>
         <div class="chti"><input id="tgI" placeholder="Enviar mensaje al bot..." onkeydown="if(event.key==='Enter')tgS()"><button class="snd" onclick="tgS()" id="tgB">→</button></div>
       </div>
     </div>
@@ -1002,23 +1002,92 @@ let tgOffset=0;
 const TG_POLL_KEY='lb5_tg_offset';
 try{const o=localStorage.getItem(TG_POLL_KEY);if(o)tgOffset=parseInt(o)}catch(e){}
 
+// ===== TELEGRAM FULL CHAT SYNC =====
+let tgResumenTimer=null;
+let tgResumenBuffer=[];
+
+function autoDetectPiso(txt){
+  const pisoPatterns=[/alquiler/i,/habitaci[oó]n/i,/piso/i,/apartamento/i,/€\/mes/i,/€ al mes/i,/barcelona/i,/idealista/i,/fotocasa/i];
+  if(pisoPatterns.filter(p=>p.test(txt)).length<2)return;
+  const lines=txt.split('\n');
+  const titleLine=lines.find(l=>l.trim().length>10&&!l.startsWith('http'))||lines[0]||'Piso encontrado';
+  const urlLine=lines.find(l=>l.startsWith('http')||l.includes('idealista')||l.includes('fotocasa')||l.includes('habitaclia'))||'';
+  const title=titleLine.replace(/[🏠🏡🏢*]/g,'').trim().slice(0,80);
+  const detail=urlLine||txt.slice(0,200);
+  if(D.pisos.find(p=>p.title===title))return;
+  const id=Date.now();
+  const p={id,title,detail,status:'nuevo',date:new Date().toISOString()};
+  D.pisos.unshift(p);sv();rPisos();
+  sbInsert('lifebot_pisos',{id:String(id),title,detail,status:'nuevo',created_at:p.date});
+  const tab=document.querySelector('[data-p="pisos"]');
+  if(tab){tab.style.outline='2px solid #10b981';setTimeout(()=>tab.style.outline='',4000);}
+}
+
+function autoDetectTrabajo(txt){
+  const trabajoPatterns=[/oferta/i,/empleo/i,/puesto/i,/contrato/i,/jornada/i,/salario/i,/m[eé]dico/i,/hospital/i,/cl[ií]nica/i,/linkedin/i,/infojobs/i];
+  if(trabajoPatterns.filter(p=>p.test(txt)).length<2)return;
+  const lines=txt.split('\n');
+  const titleLine=lines.find(l=>l.trim().length>10&&!l.startsWith('http'))||lines[0]||'Oferta encontrada';
+  const urlLine=lines.find(l=>l.startsWith('http')||l.includes('infojobs')||l.includes('linkedin')||l.includes('indeed'))||'';
+  const title=titleLine.replace(/[💼🏥*]/g,'').trim().slice(0,80);
+  const detail=urlLine||txt.slice(0,200);
+  if(D.trabajos.find(j=>j.title===title))return;
+  const id=Date.now()+1;
+  const j={id,title,detail,status:'nuevo',date:new Date().toISOString()};
+  D.trabajos.unshift(j);sv();rTrabajos();
+  sbInsert('lifebot_trabajos',{id:String(id),title,detail,status:'nuevo',created_at:j.date});
+  const tab=document.querySelector('[data-p="pisos"]');
+  if(tab){tab.style.outline='2px solid #6366f1';setTimeout(()=>tab.style.outline='',4000);}
+}
+
 async function tgPoll(){
   try{
-    const r=await fetch(`${TG_A}/getUpdates?offset=${tgOffset}&timeout=5&allowed_updates=["message"]`);
+    const r=await fetch(`${TG_A}/getUpdates?offset=${tgOffset}&timeout=3&allowed_updates=["message"]`);
     const d=await r.json();
     if(d.ok&&d.result.length){
       for(const u of d.result){
         tgOffset=u.update_id+1;
         try{localStorage.setItem(TG_POLL_KEY,tgOffset)}catch(e){}
-        if(u.message&&u.message.text&&String(u.message.chat.id)===TG_C){
-          const txt=u.message.text;
-          addMsg('tgM','📲 '+txt,false);
+        if(!u.message||!u.message.text)continue;
+        const txt=u.message.text;
+        const fromId=String(u.message.from?.id||'');
+        const chatId=String(u.message.chat?.id||'');
+        const isBot=u.message.from?.is_bot||false;
+        const isMyChat=chatId===TG_C||fromId===TG_C;
+        if(!isMyChat&&!isBot)continue;
+        if(isBot){
+          addMsg('tgM','🤖 '+txt.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\n/g,'<br>'),false);
+          autoDetectPiso(txt);
+          autoDetectTrabajo(txt);
+        }else{
+          addMsg('tgM','📲 <em style="color:#94a3b8;font-size:.8em">Telegram:</em> '+txt,true);
           await processTgCommand(txt);
         }
+        // Buffer for daily summary
+        tgResumenBuffer.push((isBot?'Bot: ':'Tú: ')+txt);
+        if(tgResumenTimer)clearTimeout(tgResumenTimer);
+        tgResumenTimer=setTimeout(()=>{
+          if(tgResumenBuffer.length){
+            try{const k='lb5_tg_conv_'+new Date().toDateString();localStorage.setItem(k,(localStorage.getItem(k)||'')+'\n'+tgResumenBuffer.join('\n'));}catch(e){}
+            tgResumenBuffer=[];
+          }
+        },60000);
       }
     }
   }catch(e){}
-  setTimeout(tgPoll,6000);
+  setTimeout(tgPoll,5000);
+}
+
+function showDailyResumen(){
+  const k='lb5_tg_conv_'+new Date().toDateString();
+  let conv='';
+  try{conv=localStorage.getItem(k)||'';}catch(e){}
+  if(!conv.trim()){addMsg('tgM','📊 No hay conversación guardada hoy aún. Los mensajes de Telegram aparecerán aquí automáticamente en tiempo real.',false);return;}
+  const lines=conv.trim().split('\n').filter(Boolean);
+  const html=lines.map(l=>l.startsWith('Bot: ')
+    ?'<div style="color:#10b981;margin:2px 0">'+l+'</div>'
+    :'<div style="color:#94a3b8;margin:2px 0">'+l+'</div>').join('');
+  addMsg('tgM','📊 <strong>Conversación de hoy:</strong><br><br>'+html,false);
 }
 
 async function processTgCommand(txt){

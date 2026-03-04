@@ -942,6 +942,11 @@ async function processTgCommand(txt){
   const lo=t.toLowerCase();
 
   // Direct commands first
+  if(lo==='/model'||lo==='/models'){
+    await tgSnd('🤖 <b>OpenClaw2 · Modelo activo:</b>\n\n🧠 <b>gpt-5-nano</b> (OpenAI)\n📡 API: api.openai.com\n🌡️ Temperature: 1\n📊 Max tokens: 1000\n\n💬 Chat directo en Dashboard + Telegram');
+    addMsg('tgM','🤖 Modelo: gpt-5-nano (OpenAI)',false);
+    return;
+  }
   if(lo==='/start'||lo==='/help'){
     const help=`🤖 <b>LifeBot Commands:</b>\n\n`+
       `📅 <b>Eventos:</b>\n/evento 10:00 Reunión equipo\n/eventos (ver todos)\n/delevento [texto parcial]\n\n`+

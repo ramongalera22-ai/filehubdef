@@ -1,7 +1,7 @@
 // netlify/functions/telegram-proxy.js
 // Proxy seguro para Telegram - no expone el token en el frontend
 
-const BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN || "8466601397:AAG4Ky7-mziSPUQbHtE6G9iyg_Gpc70WLVU";
+const BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN || "7853838527:AAHtI2svAQgGzwx8jVUvGxSPiOe_mRJxWFo";
 const CHAT_ID = "596831448";
 const TG_BASE = `https://api.telegram.org/bot${BOT_TOKEN}`;
 

@@ -3,6 +3,18 @@
 // NucBox IP Tailscale: 100.69.142.77 puerto 3443
 
 const NUCBOX_URL = process.env.NUCBOX_URL || 'https://100.69.142.77:3443';
+const TG_TOKEN = process.env.TELEGRAM_BOT_TOKEN || '7853838527:AAHtI2svAQgGzwx8jVUvGxSPiOe_mRJxWFo';
+const TG_CHAT = '596831448';
+
+async function sendToTelegram(text) {
+  try {
+    await fetch(`https://api.telegram.org/bot${TG_TOKEN}/sendMessage`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ chat_id: TG_CHAT, text, parse_mode: 'HTML' })
+    });
+  } catch (e) { /* silently fail */ }
+}
 
 exports.handler = async (event) => {
   const headers = {
@@ -36,7 +48,12 @@ exports.handler = async (event) => {
     }
 
     const data = await res.json();
-    return { statusCode: 200, headers, body: JSON.stringify({ reply: data.reply || data.response || 'Sin respuesta' }) };
+    const reply = data.reply || data.response || 'Sin respuesta';
+
+    // También enviar a Telegram en paralelo
+    await sendToTelegram(`💬 <b>Dashboard:</b> ${message}\n\n🤖 <b>OpenClaw:</b> ${reply}`);
+
+    return { statusCode: 200, headers, body: JSON.stringify({ reply }) };
 
   } catch (err) {
     // If NucBox is offline, fallback message

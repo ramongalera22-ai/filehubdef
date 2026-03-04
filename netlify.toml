@@ -2,6 +2,12 @@
   command = "echo 'Static site ready'"
   publish = "."
 
+# Fix: Exclude functions from SPA redirect
+[[redirects]]
+  from = "/.netlify/functions/*"
+  to = "/.netlify/functions/:splat"
+  status = 200
+
 [[redirects]]
   from = "/*"
   to = "/index.html"

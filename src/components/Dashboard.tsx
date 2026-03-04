@@ -78,10 +78,10 @@ const OpenClawChat: React.FC<{
           'X-Title': 'FILEHUB OpenClaw2',
         },
         body: JSON.stringify({
-          model: 'openai/gpt-4.1-nano',
+          model: 'openai/gpt-5-nano',
           messages: [{ role: 'system', content: systemPrompt }, ...history],
           max_tokens: 1000,
-          temperature: 0.7,
+          temperature: 1,
         }),
       });
       const data = await res.json();
@@ -98,7 +98,7 @@ const OpenClawChat: React.FC<{
       <div className={`px-4 py-2 ${accentClass} border-b border-gray-200 dark:border-gray-700 flex items-center gap-2`}>
         <span className="text-sm">🤖</span>
         <span className="text-xs font-bold">{botName}</span>
-        <span className="text-[10px] ml-auto opacity-60">GPT-4.1 Nano · OpenRouter</span>
+        <span className="text-[10px] ml-auto opacity-60">GPT-5 Nano · OpenRouter</span>
       </div>
       <div className="h-56 overflow-y-auto p-3 space-y-2 bg-gray-50/50 dark:bg-gray-900/30">
         {msgs.map((m, i) => (
@@ -375,9 +375,9 @@ const Dashboard: React.FC = () => {
 
   // ═══ CHAT ═══
   const ChatView = () => (<div className="space-y-4">
-    <div className="rounded-2xl bg-gradient-to-r from-indigo-500 to-purple-600 p-5 text-white"><div className="text-lg font-black">🤖 OpenClaw2</div><div className="text-sm opacity-80 mt-1">GPT-4.1 Nano · Calendar · Supabase</div></div>
+    <div className="rounded-2xl bg-gradient-to-r from-indigo-500 to-purple-600 p-5 text-white"><div className="text-lg font-black">🤖 OpenClaw2</div><div className="text-sm opacity-80 mt-1">GPT-5 Nano · Calendar · Supabase</div></div>
     <OpenClawChat systemPrompt={`${sysBase}\nTienes acceso a la info del calendario: ${calToday.length} eventos hoy, ${calGuardias.length} guardias, ${calMontse.length} de Montse. Tareas pendientes: ${tareasP.map(t => t.title).join(', ')}. Balance: €${bal.toFixed(2)}. Pisos nuevos: ${pisosNew.length}. Ofertas nuevas: ${trabajosNew.length}.`}
-      placeholder="Pregunta lo que quieras..." initialMsg={`¡Hola Carlos! 👋 Soy OpenClaw2 (GPT-4.1 Nano).\n\n📅 ${calToday.length} eventos hoy\n🔴 ${calGuardias.length} guardias · 🟠 ${calMontse.length} Montse\n📌 ${tareasP.length} tareas · 💰 €${bal.toFixed(2)}\n\n¿En qué te ayudo?`}
+      placeholder="Pregunta lo que quieras..." initialMsg={`¡Hola Carlos! 👋 Soy OpenClaw2 (GPT-5 Nano).\n\n📅 ${calToday.length} eventos hoy\n🔴 ${calGuardias.length} guardias · 🟠 ${calMontse.length} Montse\n📌 ${tareasP.length} tareas · 💰 €${bal.toFixed(2)}\n\n¿En qué te ayudo?`}
       accentClass="bg-indigo-50 dark:bg-indigo-900/20" botName="OpenClaw2 · General" />
   </div>);
 
@@ -514,7 +514,7 @@ const Dashboard: React.FC = () => {
             <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-purple-100 dark:bg-purple-900/30 text-purple-600 font-bold">@arddiitibot</span>
             <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-green-100 dark:bg-green-900/30 text-green-600 font-bold">@openclawfilehubbot</span>
             <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-600 font-bold">Calendar</span>
-            <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-orange-100 dark:bg-orange-900/30 text-orange-600 font-bold">GPT-4.1 Nano</span>
+            <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-orange-100 dark:bg-orange-900/30 text-orange-600 font-bold">GPT-5 Nano</span>
           </div>
         </div>
         <div className="flex items-center gap-2">

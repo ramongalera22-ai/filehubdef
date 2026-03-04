@@ -550,6 +550,7 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--wh);min-he
 <script>
 const GROQ_KEY=['gsk','_9BzwjsPO7LaJ','zMyXcw9cWGdyb3FY','cVR7CwkAfZvShxoS','UNrMgzUb'].join('');
 const GROQ_URL='https://api.groq.com/openai/v1/chat/completions';
+const CHAT_FN='/.netlify/functions/chat';
 pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 
 const TG_T='8466601397:AAG4Ky7-mziSPUQbHtE6G9iyg_Gpc70WLVU',TG_C='596831448',TG_A=`https://api.telegram.org/bot${TG_T}`;
@@ -856,10 +857,10 @@ Estado actual del dashboard:
 - Objetivos: ${JSON.stringify(D.obj.map(o=>(o.done?'✅':'⬜')+o.t))}
 - Cursos: ${JSON.stringify(D.cur.map(c=>c.t))}`;
 
-    const r=await fetch(GROQ_URL,{method:'POST',headers:{'Content-Type':'application/json','Authorization':`Bearer ${GROQ_KEY}`},
-      body:JSON.stringify({model:'llama-3.1-8b-instant',messages:[{role:'system',content:sysP},{role:'user',content:t}],max_tokens:400,temperature:0.3})});
+    const r=await fetch(CHAT_FN,{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({message:t})});
     const data=await r.json();
-    let resp=data.choices?.[0]?.message?.content||'';
+    let resp=data.reply||'';
     // Extract JSON
     const jm=resp.match(/\{[\s\S]*\}/);
     if(jm){
@@ -964,11 +965,11 @@ async function fAIGroq(q){
   const maxPer=Math.min(2000,Math.floor(5000/readyFDocs.length));
   readyFDocs.slice(0,3).forEach((d,i)=>{sys+=`\n[DOC${i+1}: "${d.name}"]\n${d.text.slice(0,maxPer)}\n`});
   try{
-    const r=await fetch(GROQ_URL,{method:'POST',headers:{'Content-Type':'application/json','Authorization':`Bearer ${GROQ_KEY}`},
-      body:JSON.stringify({model:'llama-3.1-8b-instant',messages:[{role:'system',content:sys},{role:'user',content:q}],max_tokens:800,temperature:0.7})});
+    const r=await fetch(CHAT_FN,{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({message:q})});
     const data=await r.json();
-    if(data.choices?.[0])return data.choices[0].message.content;
-    if(data.error)return`❌ Error: ${data.error.message}`;
+    if(data.reply)return data.reply;
+    if(data.error)return`❌ Error: ${data.error}`;
     return'❌ Sin respuesta';
   }catch(e){return`❌ ${e.message}`}
 }

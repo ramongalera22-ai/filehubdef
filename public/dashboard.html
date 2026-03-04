@@ -871,7 +871,7 @@ async function ocSend(){
   try{
     ocHistory.push({role:'user',content:t});
     const msgs=[{role:'system',content:getOCSystemPrompt()},...ocHistory];
-    const res=await fetch('https://api.openai.com/v1/chat/completions',{
+    const res=await fetch('https://openrouter.ai/api/v1/chat/completions',{
       method:'POST',
       headers:{'Authorization':'Bearer '+OC_KEY,'Content-Type':'application/json','HTTP-Referer':location.origin,'X-Title':'FILEHUB OpenClaw2'},
       body:JSON.stringify({model:'anthropic/claude-haiku-4-5-20251001',messages:msgs,max_tokens:1000,temperature:0.7})
@@ -1184,7 +1184,7 @@ function ocSectionChat(msgContainerId, inputId, btnId, sectionContext){
   typingEl.scrollIntoView({behavior:'smooth'});
 
   const sysPrompt=getOCSystemPrompt()+'\n\n'+sectionContext;
-  fetch('https://api.openai.com/v1/chat/completions',{
+  fetch('https://openrouter.ai/api/v1/chat/completions',{
     method:'POST',
     headers:{'Authorization':'Bearer '+OC_KEY,'Content-Type':'application/json','HTTP-Referer':location.origin,'X-Title':'FILEHUB OpenClaw2'},
     body:JSON.stringify({model:'anthropic/claude-haiku-4-5-20251001',messages:[{role:'system',content:sysPrompt},{role:'user',content:t}],max_tokens:1000,temperature:0.7})

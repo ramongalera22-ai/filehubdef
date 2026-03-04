@@ -835,21 +835,67 @@ const OC_KEY=['\x73\x6b-or-','v1-a046cd32aca6','f775699035cc3087','81c3eb238337c
 let ocHistory=[];
 
 function getOCSystemPrompt(){
-  const today=new Date().toLocaleDateString('es-ES',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
-  const guardiasList=D.gd.filter(g=>!g.isMontse).map(g=>`Día ${g.day}: ${g.name}`).join(', ');
-  const montseList=D.gd.filter(g=>g.isMontse).map(g=>`Día ${g.day}: ${g.name}`).join(', ');
-  const eventosHoy=D.sch.map(s=>`${s.time} ${s.desc}`).join(', ')||'ninguno';
-  const bal=D.tx.reduce((s,t)=>t.tp==='income'?s+t.am:s-t.am,0);
-  return `Eres OpenClaw2, asistente personal de Carlos/Ramón Galera, médico MIR en Murcia, España. Fecha: ${today}.
-Guardias de Carlos: ${guardiasList||'ninguna'}.
-Guardias de Montse: ${montseList||'ninguna'}.
-Eventos hoy: ${eventosHoy}.
-Balance: €${bal.toFixed(2)}.
-Objetivos: ${D.obj.map(o=>(o.done?'✅':'⬜')+o.t).join(', ')||'ninguno'}.
-Cursos: ${D.cur.map(c=>c.t).join(', ')||'ninguno'}.
-Responde SIEMPRE en español, conciso y útil. Usa emojis. Los días de saliente (post-guardia) son los menos productivos.`;
-}
+  const now=new Date();
+  const today=now.toLocaleDateString('es-ES',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+  const hora=now.toLocaleTimeString('es-ES',{hour:'2-digit',minute:'2-digit'});
+  const mes=now.getMonth(),anio=now.getFullYear(),dia=now.getDate();
+  const diaSemana=now.getDay();
 
+  // GUARDIAS
+  const misG=D.gd.filter(g=>!g.isMontse);
+  const montG=D.gd.filter(g=>g.isMontse);
+  const gStr=misG.map(g=>g.day+'/'+(g.month!==undefined?g.month+1:'')+': '+g.name+(g.detail?' ('+g.detail+')':'')).join(' | ')||'ninguna';
+  const mStr=montG.map(g=>g.day+'/'+(g.month!==undefined?g.month+1:'')+': '+g.name).join(' | ')||'ninguna';
+
+  // Proxima guardia
+  const prox=misG.filter(g=>{
+    const m=g.month!==undefined?g.month:mes;
+    return new Date(anio,m,g.day)>=new Date(anio,mes,dia);
+  }).sort((a,b)=>((a.month||mes)*31+a.day)-((b.month||mes)*31+b.day))[0];
+  const proxStr=prox?'Dia '+prox.day+': '+prox.name:'no hay';
+
+  const hoyG=misG.find(g=>g.day===dia&&(g.month===undefined||g.month===mes));
+  const ayerG=misG.find(g=>g.day===dia-1&&(g.month===undefined||g.month===mes));
+
+  // EVENTOS
+  const evHoy=D.sch.map(s=>s.time+' '+s.desc).join(', ')||'ninguno';
+
+  // FINANZAS
+  const bal=D.tx.reduce((s,t)=>t.tp==='income'?s+t.am:s-t.am,0);
+  const inc=D.tx.filter(t=>t.tp==='income').reduce((s,t)=>s+t.am,0);
+  const exp=D.tx.filter(t=>t.tp==='expense').reduce((s,t)=>s+t.am,0);
+  const movs=D.tx.slice(0,8).map(t=>(t.tp==='income'?'+':'-')+'E'+t.am+' '+t.nm).join(' | ')||'sin movimientos';
+  const liq=document.getElementById('lqV')?.textContent||'?';
+  const pag=document.getElementById('ppV')?.textContent||'?';
+
+  // OBJETIVOS
+  const oDone=D.obj.filter(o=>o.done).length,oTot=D.obj.length;
+  const oPend=D.obj.filter(o=>!o.done).map(o=>o.t+' ['+o.pri+']').join(' | ')||'ninguno';
+  const oComp=D.obj.filter(o=>o.done).map(o=>o.t).join(' | ')||'ninguno';
+
+  // CURSOS
+  const curStr=D.cur.map(c=>c.t+' ('+c.tp+(c.done?' OK':' pend')+')').join(' | ')||'ninguno';
+
+  // PISOS Y TRABAJO
+  const piStr=(D.pis||[]).map(p=>p.title).join(' | ')||'ninguno';
+  const trStr=(D.trb||[]).map(t=>t.title).join(' | ')||'ninguna';
+
+  return 'Eres OpenClaw2, asistente personal IA de Carlos (Ramon) Galera, medico MIR de Familia (R4) en Murcia, Espana.'+
+  '\n\nFECHA: '+today+', '+hora+'h.'+
+  '\n\nGUARDIAS DE CARLOS (proximos 3 meses): '+gStr+
+  '\nProxima guardia: '+proxStr+
+  (hoyG?'\nHOY ES GUARDIA: '+hoyG.name:'')+
+  (ayerG?'\nHOY ES SALIENTE (post-guardia). Dia de baja productividad.':'')+
+  '\n\nGUARDIAS DE MONTSE: '+mStr+
+  '\n\nEVENTOS DE HOY: '+evHoy+
+  '\n\nFINANZAS: Liquidez: '+liq+'. Balance: E'+bal.toFixed(2)+'. Ingresos: E'+inc.toFixed(2)+'. Gastos: E'+exp.toFixed(2)+'. Pagos pend: '+pag+'. Movimientos: '+movs+
+  '\n\nOBJETIVOS ('+oDone+'/'+oTot+'): Pendientes: '+oPend+'. Completados: '+oComp+
+  '\n\nCURSOS: '+curStr+
+  '\n\nPISOS GUARDADOS: '+piStr+
+  '\n\nOFERTAS TRABAJO: '+trStr+
+  '\n\nRUTINA: Piscina L/X/V/D 21:00.'+
+  '\n\nINSTRUCCIONES: Responde en espanol, conciso, con emojis. Dias de saliente = baja productividad. Si preguntan que tengo hoy/manana, usa guardias+eventos. Si preguntan finanzas, usa datos reales. Se proactivo: avisa si hay guardia manana, recuerda objetivos pendientes. Carlos busca piso y trabajo post-residencia.';
+}
 async function ocSend(){
   const inp=document.getElementById('tgI'),t=inp.value.trim();
   if(!t)return;

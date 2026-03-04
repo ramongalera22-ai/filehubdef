@@ -295,6 +295,7 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--wh);min-he
     <div class="tab" data-p="trabajo"><span>💼</span> Trabajo</div>
     <div class="tab" data-p="docs"><span>📄</span> Docs</div>
     <div class="tab" data-p="cal"><span>📅</span> Calendarios</div>
+    <div class="tab" data-p="tareas"><span>✅</span> Tareas</div>
   </div>
   <div class="pages">
 
@@ -443,9 +444,12 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--wh);min-he
     <!-- PISOS -->
     <div class="pg" id="pg-pisos">
       <div class="tgs"><span class="tgd"></span>Envía pisos desde Telegram con /piso</div>
-      <div class="arow">
-        <input class="ainp" id="piT" placeholder="Título (ej: Piso Murcia centro 2hab)..." style="flex:2" onkeydown="if(event.key==='Enter')addPiso()">
-        <button class="ab" onclick="addPiso()">+ Piso</button>
+      <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:8px">
+        <div class="arow" style="gap:6px">
+          <input class="ainp" id="piT" placeholder="Título (ej: Piso Murcia centro 2hab, 600€/mes)..." style="flex:2" onkeydown="if(event.key==='Enter')addPiso()">
+          <button class="ab" onclick="addPiso()">+ Piso</button>
+        </div>
+        <input class="ainp" id="piURL" placeholder="🔗 Enlace del anuncio (Idealista, Fotocasa...)" style="font-size:.75rem">
       </div>
       <div id="piL"></div>
       <!-- Cuaderno Pisos -->
@@ -538,6 +542,41 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--wh);min-he
       <div class="calc"><div class="calh"><span class="cald" style="background:var(--cy);box-shadow:0 0 6px var(--cy)"></span><span>Ramón Galera</span></div><iframe src="https://calendar.google.com/calendar/embed?src=ramongalera22%40gmail.com&ctz=Europe%2FMadrid"></iframe></div>
       <div class="calc"><div class="calh"><span class="cald" style="background:var(--gr);box-shadow:0 0 6px var(--gr)"></span><span>Carlos Galera</span></div><iframe src="https://calendar.google.com/calendar/embed?src=carlosgalera2roman%40gmail.com&ctz=Europe%2FMadrid"></iframe></div>
       <div class="calc"><div class="calh"><span class="cald" style="background:var(--or);box-shadow:0 0 6px var(--or)"></span><span>Compartido</span></div><iframe src="https://calendar.google.com/calendar/embed?src=838bca7aa84102ae5a93751ff27002419268f9a711e464d40650365de5765c58%40group.calendar.google.com&ctz=Europe%2FMadrid"></iframe></div>
+    </div>
+
+    <!-- TAREAS -->
+    <div class="pg" id="pg-tareas">
+      <div class="tgs"><span class="tgd"></span>Tareas pendientes &middot; Organizadas con IA</div>
+      <div style="display:flex;gap:6px;margin-bottom:10px;align-items:center">
+        <input class="ainp" id="tkInp" placeholder="Nueva tarea (ej: Renovar tarjeta sanitaria)..." style="flex:1" onkeydown="if(event.key==='Enter')addTk()">
+        <select class="asel" id="tkPri" style="font-size:.75rem">
+          <option value="alta">&#x1F534; Alta</option>
+          <option value="media" selected>&#x1F7E1; Media</option>
+          <option value="baja">&#x1F7E2; Baja</option>
+        </select>
+        <button class="ab" onclick="addTk()">+ A&ntilde;adir</button>
+      </div>
+      <div style="margin-bottom:6px;display:flex;justify-content:space-between;align-items:center">
+        <span style="font-size:.72rem;font-weight:700;color:var(--mu);text-transform:uppercase;letter-spacing:.08em">Pendientes</span>
+        <span id="tkCntPend" style="font-size:.7rem;color:var(--mu)">0 tareas</span>
+      </div>
+      <div id="tkPendList" style="margin-bottom:12px"></div>
+      <div style="margin-bottom:6px;display:flex;justify-content:space-between;align-items:center">
+        <span style="font-size:.72rem;font-weight:700;color:var(--mu);text-transform:uppercase;letter-spacing:.08em">Completadas</span>
+        <button onclick="clearDoneTk()" style="font-size:.7rem;color:var(--rd);background:none;border:none;cursor:pointer">Limpiar &times;</button>
+      </div>
+      <div id="tkDoneList" style="margin-bottom:14px"></div>
+      <div class="chtb">
+        <div class="chth"><div class="chtav" style="background:linear-gradient(135deg,#10b981,#6366f1)">&#x2705;</div><div><div class="chtn">OpenClaw2 &middot; Tareas</div><div class="chtp">Haiku 4.5 &middot; Gesti&oacute;n seg&uacute;n tu tiempo</div></div></div>
+        <div class="chtm" id="tkM"><div class="msg ai">&#x1F916; OpenClaw2 (Haiku 4.5). D&iacute;me cu&aacute;nto tiempo tienes y te ayudo a priorizar tus tareas seg&uacute;n tus guardias y d&iacute;as disponibles.</div></div>
+        <div class="qbs">
+          <button class="qb" onclick="tkQ('Tengo 1 hora libre, que tarea hago?')">&#x26A1; 1 hora</button>
+          <button class="qb" onclick="tkQ('Organiza mis tareas por prioridad')">&#x1F4CB; Priorizar</button>
+          <button class="qb" onclick="tkQ('Que puedo hacer en dias de saliente?')">&#x1F3E5; Saliente</button>
+          <button class="qb" onclick="tkQ('Tengo toda la tarde libre, planifica')">&#x1F305; Tarde libre</button>
+        </div>
+        <div class="chti"><input id="tkCI" placeholder="Pregunta como gestionar tus tareas..." onkeydown="if(event.key==='Enter')tkS()"><button class="snd" onclick="tkS()">&#x2192;</button></div>
+      </div>
     </div>
 
   </div>
@@ -1440,9 +1479,11 @@ function docQ(q){document.getElementById('docIn').value=q;docSend()}
 
 // ===== PISOS =====
 function addPiso(){
-  const inp=document.getElementById('piT'),t=inp.value.trim();if(!t)return;
-  const p={id:Date.now(),title:t,detail:'',status:'nuevo',date:new Date().toISOString()};
-  D.pisos.unshift(p);sv();inp.value='';rPisos();
+  const inp=document.getElementById('piT'),urlInp=document.getElementById('piURL');
+  const t=inp.value.trim();if(!t)return;
+  const url=urlInp?urlInp.value.trim():'';
+  const p={id:Date.now(),title:t,detail:'',url,status:'nuevo',date:new Date().toISOString()};
+  D.pisos.unshift(p);sv();inp.value='';if(urlInp)urlInp.value='';rPisos();
   sbInsert('lifebot_pisos',{id:String(p.id),title:p.title,detail:p.detail,status:p.status,created_at:p.date});
 }
 function delPiso(id){D.pisos=D.pisos.filter(x=>x.id!==id);sv();rPisos();sbDelete('lifebot_pisos',id)}
@@ -1450,7 +1491,54 @@ function rPisos(){
   const el=document.getElementById('piL');
   if(!D.pisos.length){el.innerHTML='<div class="cd"><div class="cb"><div class="empty">Sin pisos guardados. Envía /piso desde Telegram o añade uno aquí.</div></div></div>';return}
   const stC={nuevo:['var(--cyg)','var(--cy)'],visto:['var(--org)','var(--or)'],favorito:['var(--grg)','var(--gr)'],descartado:['var(--rdbg)','var(--rd)']};
-  el.innerHTML='<div class="cd"><div class="cb">'+D.pisos.map(p=>{const[bg,co]=stC[p.status]||stC.nuevo;return`<div class="itm"><div style="font-size:1.1rem;flex-shrink:0">🏠</div><div style="flex:1"><div style="font-size:.82rem;font-weight:600">${esc(p.title)}</div>${p.detail?`<div style="font-size:.66rem;color:var(--mu)">${esc(p.detail.slice(0,80))}</div>`:''}<div style="font-size:.58rem;color:var(--mu);font-family:'JetBrains Mono',monospace;margin-top:2px">${fmtDate(p.date)}</div></div><select style="background:${bg};color:${co};border:1px solid ${co};border-radius:8px;font-size:.58rem;padding:2px 4px;font-family:'Outfit',sans-serif;cursor:pointer" onchange="chPisoSt(${p.id},this.value)"><option value="nuevo" ${p.status==='nuevo'?'selected':''}>Nuevo</option><option value="visto" ${p.status==='visto'?'selected':''}>Visto</option><option value="favorito" ${p.status==='favorito'?'selected':''}>⭐ Fav</option><option value="descartado" ${p.status==='descartado'?'selected':''}>✗</option></select><button class="del" onclick="delPiso(${p.id})">✕</button></div>`}).join('')+'</div></div>';
+  el.innerHTML='<div class="cd"><div class="cb">'+D.pisos.map(p=>{
+    const[bg,co]=stC[p.status]||stC.nuevo;
+    const urlBtn=p.url?`<a href="${p.url}" target="_blank" style="display:inline-flex;align-items:center;gap:3px;padding:3px 8px;background:rgba(99,102,241,.15);border:1px solid rgba(99,102,241,.4);border-radius:6px;color:#818cf8;font-size:.65rem;font-weight:600;text-decoration:none;margin-top:3px">🔗 Ver anuncio</a>`:'';
+    const contactBtn=`<button onclick="contactarPiso(${p.id})" style="display:inline-flex;align-items:center;gap:3px;padding:3px 8px;background:rgba(16,185,129,.15);border:1px solid rgba(16,185,129,.4);border-radius:6px;color:#10b981;font-size:.65rem;font-weight:600;cursor:pointer;margin-top:3px;margin-left:4px">📩 Contactar</button>`;
+    return`<div class="itm" style="flex-direction:column;align-items:flex-start;gap:4px">
+      <div style="display:flex;width:100%;align-items:center;gap:6px">
+        <span style="font-size:1.1rem">🏠</span>
+        <div style="flex:1">
+          <div style="font-size:.82rem;font-weight:600">${esc(p.title)}</div>
+          ${p.detail?`<div style="font-size:.66rem;color:var(--mu)">${esc(p.detail.slice(0,100))}</div>`:''}
+          <div style="font-size:.58rem;color:var(--mu);margin-top:2px">${fmtDate(p.date)}</div>
+        </div>
+        <select style="background:${bg};color:${co};border:1px solid ${co};border-radius:8px;font-size:.58rem;padding:2px 4px;cursor:pointer" onchange="chPisoSt(${p.id},this.value)">
+          <option value="nuevo" ${p.status==='nuevo'?'selected':''}>Nuevo</option>
+          <option value="visto" ${p.status==='visto'?'selected':''}>Visto</option>
+          <option value="favorito" ${p.status==='favorito'?'selected':''}>⭐ Fav</option>
+          <option value="descartado" ${p.status==='descartado'?'selected':''}>✗</option>
+        </select>
+        <button class="del" onclick="delPiso(${p.id})">✕</button>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:4px;padding-left:28px">
+        ${urlBtn}${contactBtn}
+      </div>
+    </div>`;
+  }).join('')+'</div></div>';
+}
+function contactarPiso(id){
+  const p=D.pisos.find(x=>x.id===id);if(!p)return;
+  const msg=`Buenas tardes,\n\nSomos dos residentes de Medicina del Hospital Vall d'Hebron y estamos buscando piso en la zona.\n\nHemos visto su anuncio "${p.title}" y nos gustaría poder visitarlo cuando le venga bien.\n\nQuedamos a su disposición.\n\nMuchas gracias.`;
+  const modal=document.createElement('div');
+  modal.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px';
+  modal.innerHTML=`<div style="background:#1e293b;border-radius:14px;padding:20px;max-width:500px;width:100%;border:1px solid #334155">
+    <div style="font-weight:700;font-size:.95rem;margin-bottom:12px;color:#e2e8f0">📩 Mensaje de contacto — ${esc(p.title)}</div>
+    <textarea id="contactMsg" rows="8" style="width:100%;background:#0f172a;border:1px solid #334155;border-radius:8px;padding:10px;color:#e2e8f0;font-size:.8rem;font-family:inherit;resize:vertical;box-sizing:border-box">${msg}</textarea>
+    <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap">
+      <button onclick="copyContact()" style="flex:1;padding:8px;background:linear-gradient(135deg,#6366f1,#8b5cf6);border:none;border-radius:8px;color:white;font-weight:600;cursor:pointer;font-size:.82rem">📋 Copiar mensaje</button>
+      ${p.url?`<a href="mailto:?body="+encodeURIComponent(document.getElementById('contactMsg')?.value||msg) style="flex:1;padding:8px;background:rgba(16,185,129,.2);border:1px solid rgba(16,185,129,.4);border-radius:8px;color:#10b981;font-weight:600;cursor:pointer;font-size:.82rem;text-decoration:none;text-align:center">✉️ Abrir email</a>`:''}
+      <button onclick="this.closest('[style*=fixed]').remove()" style="padding:8px 14px;background:#334155;border:none;border-radius:8px;color:#94a3b8;cursor:pointer;font-size:.82rem">Cerrar</button>
+    </div>
+  </div>`;
+  document.body.appendChild(modal);
+}
+function copyContact(){
+  const ta=document.getElementById('contactMsg');
+  navigator.clipboard.writeText(ta.value).then(()=>{
+    const btn=document.querySelector('[onclick="copyContact()"]');
+    if(btn){btn.textContent='✓ Copiado!';setTimeout(()=>btn.textContent='📋 Copiar mensaje',2000);}
+  });
 }
 function chPisoSt(id,st){const p=D.pisos.find(x=>x.id===id);if(p){p.status=st;sv();rPisos();sbUpdate('lifebot_pisos',id,{status:st})}}
 
@@ -1604,7 +1692,60 @@ function rNB(k){
 function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
 
 // ===== INIT =====
+// ===== TAREAS =====
+let tareas=[];
+const TK_KEY='lb5_tareas';
+function ldTk(){try{const s=localStorage.getItem(TK_KEY);if(s)tareas=JSON.parse(s)}catch(e){}}
+function svTk(){try{localStorage.setItem(TK_KEY,JSON.stringify(tareas))}catch(e){}}
+
+function addTk(){
+  const inp=document.getElementById('tkInp'),pri=document.getElementById('tkPri');
+  const t=inp.value.trim();if(!t)return;
+  tareas.unshift({id:Date.now(),text:t,pri:pri.value,done:false,date:new Date().toISOString()});
+  svTk();inp.value='';rTk();
+}
+function togTk(id){
+  const tk=tareas.find(x=>x.id===id);if(!tk)return;
+  tk.done=!tk.done;tk.doneDate=tk.done?new Date().toISOString():null;
+  svTk();rTk();
+}
+function delTk(id){tareas=tareas.filter(x=>x.id!==id);svTk();rTk();}
+function clearDoneTk(){tareas=tareas.filter(x=>!x.done);svTk();rTk();}
+
+function rTk(){
+  const pend=tareas.filter(x=>!x.done);
+  const done=tareas.filter(x=>x.done);
+  const priCls={alta:'#f87171',media:'#f59e0b',baja:'#3fb950'};
+  const priLbl={alta:'🔴 Alta',media:'🟡 Media',baja:'🟢 Baja'};
+  document.getElementById('tkCntPend').textContent=pend.length+' tarea'+(pend.length!==1?'s':'');
+  const pendEl=document.getElementById('tkPendList');
+  pendEl.innerHTML=pend.length?pend.map(tk=>`
+    <div style="display:flex;align-items:center;gap:8px;padding:10px 12px;background:#1e293b;border-radius:10px;border:1px solid #334155;margin-bottom:6px">
+      <input type="checkbox" onchange="togTk(${tk.id})" style="width:16px;height:16px;cursor:pointer;accent-color:#6366f1">
+      <div style="flex:1">
+        <div style="font-size:.82rem;font-weight:600;color:#e2e8f0">${esc(tk.text)}</div>
+        <div style="font-size:.65rem;color:${priCls[tk.pri]};margin-top:2px">${priLbl[tk.pri]}</div>
+      </div>
+      <button onclick="delTk(${tk.id})" style="background:none;border:none;color:#475569;cursor:pointer;font-size:.8rem">✕</button>
+    </div>`).join(''):'<div style="text-align:center;color:#475569;padding:20px;font-size:.8rem">Sin tareas pendientes 🎉</div>';
+  const doneEl=document.getElementById('tkDoneList');
+  doneEl.innerHTML=done.length?done.map(tk=>`
+    <div style="display:flex;align-items:center;gap:8px;padding:8px 12px;background:rgba(16,185,129,.05);border-radius:10px;border:1px solid rgba(16,185,129,.15);margin-bottom:4px;opacity:.7">
+      <input type="checkbox" checked onchange="togTk(${tk.id})" style="width:15px;height:15px;cursor:pointer;accent-color:#10b981">
+      <div style="font-size:.78rem;color:#64748b;text-decoration:line-through;flex:1">${esc(tk.text)}</div>
+      <button onclick="delTk(${tk.id})" style="background:none;border:none;color:#334155;cursor:pointer;font-size:.75rem">✕</button>
+    </div>`).join(''):'<div style="color:#334155;font-size:.75rem;text-align:center;padding:8px">Sin tareas completadas</div>';
+}
+
+function tkS(){
+  const pend=tareas.filter(x=>!x.done);
+  const ctx='EXPERTO EN PRODUCTIVIDAD para médico residente. Tareas pendientes ('+pend.length+'): '+pend.map(t=>'['+t.pri.toUpperCase()+'] '+t.text).join(', ')+'. Guardias próximas: '+D.gd.slice(0,5).map(g=>'Día '+g.day).join(',')+'. Responde en español, sé concreto y útil.';
+  ocSectionChat('tkM','tkCI','',ctx);
+}
+function tkQ(q){document.getElementById('tkCI').value=q;tkS();}
+
 ld();ldDocs();ldFinDocs();ldNB();rSch();rGd();rCpre();rTx();uFS();rO();rCu();rDocs();rFinDocs();rPisos();rTrabajos();
+ldTk();rTk();
 rNB('fin');rNB('obj');rNB('cur');rNB('pis');rNB('trb');
 // Telegram polling disabled — using webhook instead
 // setTimeout(tgPoll,2000);

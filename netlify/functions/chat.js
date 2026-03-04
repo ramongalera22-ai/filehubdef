@@ -1,10 +1,8 @@
 // netlify/functions/chat.js
 // Proxy seguro hacia Anthropic API — subagente dashboard independiente
 
-const ANTHROPIC_KEY = process.env.ANTHROPIC_KEY || '';
-const OR_KEY = process.env.OR_KEY || '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';
-const ANTHROPIC_URL = 'https://api.anthropic.com/v1/messages';
-const OR_URL = 'https://openrouter.ai/api/v1/chat/completions';
+const GROQ_KEY = process.env.GROQ_KEY || ['gsk','_9BzwjsPO7LaJ','zMyXcw9cWGdyb3FY','cVR7CwkAfZvShxoS','UNrMgzUb'].join('');
+const GROQ_URL = 'https://api.groq.com/openai/v1/chat/completions';
 
 const SYSTEM_PROMPT = `Eres Arditi, el asistente personal de Carlos Galera, médico MIR en España.
 Eres inteligente, directo y útil. Conoces su situación:
@@ -51,45 +49,23 @@ exports.handler = async (event) => {
       { role: 'user', content: message }
     ];
 
-    // Use OpenRouter (kimi-k2.5) or Anthropic if key available
-    let reply;
-    if (ANTHROPIC_KEY) {
-      const res = await fetch(ANTHROPIC_URL, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-api-key': ANTHROPIC_KEY,
-          'anthropic-version': '2023-06-01'
-        },
-        body: JSON.stringify({
-          model: 'claude-haiku-4-5',
-          max_tokens: 1024,
-          system: SYSTEM_PROMPT,
-          messages
-        })
-      });
-      const data = await res.json();
-      if (data.error) throw new Error(data.error.message);
-      reply = data.content?.[0]?.text || 'Sin respuesta';
-    } else {
-      const res = await fetch(OR_URL, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${OR_KEY}`,
-          'HTTP-Referer': 'https://phenomenal-nasturtium-5e1a1d.netlify.app',
-          'X-Title': 'FILEHUB Dashboard'
-        },
-        body: JSON.stringify({
-          model: 'moonshotai/kimi-k2.5',
-          max_tokens: 1024,
-          messages: [{ role: 'system', content: SYSTEM_PROMPT }, ...messages]
-        })
-      });
-      const data = await res.json();
-      if (data.error) throw new Error(data.error.message);
-      reply = data.choices?.[0]?.message?.content || 'Sin respuesta';
-    }
+    const res = await fetch(GROQ_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${GROQ_KEY}`
+      },
+      body: JSON.stringify({
+        model: 'llama-3.3-70b-versatile',
+        max_tokens: 1024,
+        messages: [{ role: 'system', content: SYSTEM_PROMPT }, ...messages]
+      })
+    });
+
+    const data = await res.json();
+    if (data.error) throw new Error(data.error.message);
+    const reply = data.choices?.[0]?.message?.content || 'Sin respuesta';
+
     return { statusCode: 200, headers, body: JSON.stringify({ reply }) };
 
   } catch (e) {

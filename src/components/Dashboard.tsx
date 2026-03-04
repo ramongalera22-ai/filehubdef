@@ -69,14 +69,14 @@ const OpenClawChat: React.FC<{
       const history = msgs.map(m => ({ role: m.role, content: m.text }));
       history.push({ role: 'user', content: fileContext ? `[Documentos cargados: ${fileContext}]\n\n${u}` : u });
 
-      const res = await fetch('https://api.openai.com/v1/chat/completions', {
+      const res = await fetch('https://openrouter.ai/api/v1/chat/completions', {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${OPENROUTER_KEY}`,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          model: 'gpt-4o-mini',
+          model: 'openai/gpt-4o-mini',
           messages: [{ role: 'system', content: systemPrompt }, ...history],
           max_tokens: 1000,
           temperature: 1,
@@ -96,7 +96,7 @@ const OpenClawChat: React.FC<{
       <div className={`px-4 py-2 ${accentClass} border-b border-gray-200 dark:border-gray-700 flex items-center gap-2`}>
         <span className="text-sm">🤖</span>
         <span className="text-xs font-bold">{botName}</span>
-        <span className="text-[10px] ml-auto opacity-60">GPT-4o Mini · OpenAI</span>
+        <span className="text-[10px] ml-auto opacity-60">GPT-4o Mini · OpenRouter</span>
       </div>
       <div className="h-56 overflow-y-auto p-3 space-y-2 bg-gray-50/50 dark:bg-gray-900/30">
         {msgs.map((m, i) => (

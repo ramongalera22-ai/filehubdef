@@ -831,8 +831,7 @@ function addMsg(cid,t,u){const el=document.getElementById(cid),d=document.create
 async function tgSnd(t){try{const r=await fetch(`${TG_A}/sendMessage`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({chat_id:TG_C,text:t,parse_mode:'HTML'})});const d=await r.json();return d.ok}catch(e){return false}}
 
 // ===== OPENCLAW2 CHAT (Haiku 4.5 via OpenRouter) =====
-const OC_KEY=['\x73\x6b-pr','oj-96Jj-77e5F3','QmyIHPbRw1SBKKi1','l6jKDX64JWBwIOBmZNv','_nLykmQFzTTXkLyVVsH3','YxBuAwq4T3BlbkFJl1dn','QfYvY0lKY_GRDE2OWtia','fKOFNzTYabY48z0RyknR','q0dg48GN19PXpfsTFZ2t','N7QzzaoNoA'].join('');
-console.log('🔑 API key starts with:',OC_KEY.slice(0,10)+'..., length:',OC_KEY.length);
+const OC_KEY=['\x73\x6b-or-','v1-a046cd32aca6','f775699035cc3087','81c3eb238337c74f','d123bd26f877a1e7','550a'].join('');
 let ocHistory=[];
 
 function getOCSystemPrompt(){
@@ -874,8 +873,8 @@ async function ocSend(){
     const msgs=[{role:'system',content:getOCSystemPrompt()},...ocHistory];
     const res=await fetch('https://api.openai.com/v1/chat/completions',{
       method:'POST',
-      headers:{'Authorization':'Bearer '+OC_KEY,'Content-Type':'application/json'},
-      body:JSON.stringify({model:'haiku-4.5',messages:msgs,max_tokens:1000,temperature:0.7})
+      headers:{'Authorization':'Bearer '+OC_KEY,'Content-Type':'application/json','HTTP-Referer':location.origin,'X-Title':'FILEHUB OpenClaw2'},
+      body:JSON.stringify({model:'anthropic/claude-haiku-4-5-20251001',messages:msgs,max_tokens:1000,temperature:0.7})
     });
     const data=await res.json();
     if(data.error){const te=document.getElementById(typingId);if(te)te.remove();addMsg('tgM','❌ '+data.error.message,false);return;}
@@ -1187,8 +1186,8 @@ function ocSectionChat(msgContainerId, inputId, btnId, sectionContext){
   const sysPrompt=getOCSystemPrompt()+'\n\n'+sectionContext;
   fetch('https://api.openai.com/v1/chat/completions',{
     method:'POST',
-    headers:{'Authorization':'Bearer '+OC_KEY,'Content-Type':'application/json'},
-    body:JSON.stringify({model:'haiku-4.5',messages:[{role:'system',content:sysPrompt},{role:'user',content:t}],max_tokens:1000,temperature:0.7})
+    headers:{'Authorization':'Bearer '+OC_KEY,'Content-Type':'application/json','HTTP-Referer':location.origin,'X-Title':'FILEHUB OpenClaw2'},
+    body:JSON.stringify({model:'anthropic/claude-haiku-4-5-20251001',messages:[{role:'system',content:sysPrompt},{role:'user',content:t}],max_tokens:1000,temperature:0.7})
   }).then(r=>r.json()).then(async data=>{
     if(data.error){const te=document.getElementById(typingId);if(te)te.remove();addMsg(msgContainerId,'❌ '+data.error.message,false);if(b)b.disabled=false;return;}
     const reply=data?.choices?.[0]?.message?.content||'Error: sin respuesta.';

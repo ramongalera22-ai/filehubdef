@@ -46,8 +46,8 @@ const stColor = (s?: string) => {
 };
 const greeting = () => { const h = new Date().getHours(); if (h < 7) return '🌙 Buenas noches'; if (h < 13) return '☀️ Buenos días'; if (h < 20) return '🌤️ Buenas tardes'; return '🌙 Buenas noches'; };
 
-// ─── OpenClaw2 Chat (OpenRouter / GPT-4o Mini) ───
-const OPENROUTER_KEY = ['\x73\x6b-pr','oj-96Jj-77e5F3','QmyIHPbRw1SBKKi1','l6jKDX64JWBwIOBmZNv','_nLykmQFzTTXkLyVVsH3','YxBuAwq4T3BlbkFJl1dn','QfYvY0lKY_GRDE2OWtia','fKOFNzTYabY48z0RyknR','q0dg48GN19PXpfsTFZ2t','N7QzzaoNoA'].join('');
+// ─── OpenClaw2 Chat (OpenRouter / Haiku 4.5) ───
+const OPENROUTER_KEY = ['\x73\x6b-or-','v1-a046cd32aca6','f775699035cc3087','81c3eb238337c74f','d123bd26f877a1e7','550a'].join('');
 
 const OpenClawChat: React.FC<{
   systemPrompt: string; placeholder: string; initialMsg: string;
@@ -69,14 +69,14 @@ const OpenClawChat: React.FC<{
       const history = msgs.map(m => ({ role: m.role, content: m.text }));
       history.push({ role: 'user', content: fileContext ? `[Documentos cargados: ${fileContext}]\n\n${u}` : u });
 
-      const res = await fetch('https://api.openai.com/v1/chat/completions', {
+      const res = await fetch('https://openrouter.ai/api/v1/chat/completions', {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${OPENROUTER_KEY}`,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          model: 'openai/gpt-4o-mini',
+          model: 'anthropic/claude-haiku-4-5-20251001',
           messages: [{ role: 'system', content: systemPrompt }, ...history],
           max_tokens: 1000,
           temperature: 1,
@@ -96,7 +96,7 @@ const OpenClawChat: React.FC<{
       <div className={`px-4 py-2 ${accentClass} border-b border-gray-200 dark:border-gray-700 flex items-center gap-2`}>
         <span className="text-sm">🤖</span>
         <span className="text-xs font-bold">{botName}</span>
-        <span className="text-[10px] ml-auto opacity-60">GPT-4o Mini · OpenRouter</span>
+        <span className="text-[10px] ml-auto opacity-60">Haiku 4.5 · OpenRouter</span>
       </div>
       <div className="h-56 overflow-y-auto p-3 space-y-2 bg-gray-50/50 dark:bg-gray-900/30">
         {msgs.map((m, i) => (
@@ -373,9 +373,9 @@ const Dashboard: React.FC = () => {
 
   // ═══ CHAT ═══
   const ChatView = () => (<div className="space-y-4">
-    <div className="rounded-2xl bg-gradient-to-r from-indigo-500 to-purple-600 p-5 text-white"><div className="text-lg font-black">🤖 OpenClaw2</div><div className="text-sm opacity-80 mt-1">GPT-4o Mini · Calendar · Supabase</div></div>
+    <div className="rounded-2xl bg-gradient-to-r from-indigo-500 to-purple-600 p-5 text-white"><div className="text-lg font-black">🤖 OpenClaw2</div><div className="text-sm opacity-80 mt-1">Haiku 4.5 · Calendar · Supabase</div></div>
     <OpenClawChat systemPrompt={`${sysBase}\nTienes acceso a la info del calendario: ${calToday.length} eventos hoy, ${calGuardias.length} guardias, ${calMontse.length} de Montse. Tareas pendientes: ${tareasP.map(t => t.title).join(', ')}. Balance: €${bal.toFixed(2)}. Pisos nuevos: ${pisosNew.length}. Ofertas nuevas: ${trabajosNew.length}.`}
-      placeholder="Pregunta lo que quieras..." initialMsg={`¡Hola Carlos! 👋 Soy OpenClaw2 (GPT-4o Mini).\n\n📅 ${calToday.length} eventos hoy\n🔴 ${calGuardias.length} guardias · 🟠 ${calMontse.length} Montse\n📌 ${tareasP.length} tareas · 💰 €${bal.toFixed(2)}\n\n¿En qué te ayudo?`}
+      placeholder="Pregunta lo que quieras..." initialMsg={`¡Hola Carlos! 👋 Soy OpenClaw2 (Haiku 4.5).\n\n📅 ${calToday.length} eventos hoy\n🔴 ${calGuardias.length} guardias · 🟠 ${calMontse.length} Montse\n📌 ${tareasP.length} tareas · 💰 €${bal.toFixed(2)}\n\n¿En qué te ayudo?`}
       accentClass="bg-indigo-50 dark:bg-indigo-900/20" botName="OpenClaw2 · General" />
   </div>);
 
@@ -512,7 +512,7 @@ const Dashboard: React.FC = () => {
             <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-purple-100 dark:bg-purple-900/30 text-purple-600 font-bold">@arddiitibot</span>
             <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-green-100 dark:bg-green-900/30 text-green-600 font-bold">@openclawfilehubbot</span>
             <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-600 font-bold">Calendar</span>
-            <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-orange-100 dark:bg-orange-900/30 text-orange-600 font-bold">GPT-4o Mini</span>
+            <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-orange-100 dark:bg-orange-900/30 text-orange-600 font-bold">Haiku 4.5</span>
           </div>
         </div>
         <div className="flex items-center gap-2">

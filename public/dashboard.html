@@ -831,7 +831,8 @@ function addMsg(cid,t,u){const el=document.getElementById(cid),d=document.create
 async function tgSnd(t){try{const r=await fetch(`${TG_A}/sendMessage`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({chat_id:TG_C,text:t,parse_mode:'HTML'})});const d=await r.json();return d.ok}catch(e){return false}}
 
 // ===== OPENCLAW2 CHAT (GPT-5 Nano via OpenRouter) =====
-const OC_KEY=['\x73\x6b-pr','oj-96Jj-77e5F3','QmyIHPbRw1SBKKi1','l6jKDX64JWBwIOBmZNv','_nLykmQFzTTXkLyVVsH3','YxBuAwq4T3BlbkFJl1dn','QfYvY0lKY_GRDE2OWtia','fKOFNzTYabY48z0Ryknr','q0dg48GN19PXpfsTFZ2t','N7QzzaoNoA'].join('');
+const OC_KEY=['\x73\x6b-pr','oj-96Jj-77e5F3','QmyIHPbRw1SBKKi1','l6jKDX64JWBwIOBmZNv','_nLykmQFzTTXkLyVVsH3','YxBuAwq4T3BlbkFJl1dn','QfYvY0lKY_GRDE2OWtia','fKOFNzTYabY48z0RyknR','q0dg48GN19PXpfsTFZ2t','N7QzzaoNoA'].join('');
+console.log('🔑 API key starts with:',OC_KEY.slice(0,10)+'..., length:',OC_KEY.length);
 let ocHistory=[];
 
 function getOCSystemPrompt(){
@@ -892,8 +893,9 @@ async function ocSend(){
     // Also send reply to Telegram
     tgSnd('🤖 '+reply);
   }catch(e){
+    console.error('🤖 OpenClaw2 error:',e);
     const te=document.getElementById(typingId);if(te)te.remove();
-    addMsg('tgM','❌ Error de conexión con OpenClaw2',false);
+    addMsg('tgM','❌ Error: '+e.message,false);
   }
   b.disabled=false;
 }

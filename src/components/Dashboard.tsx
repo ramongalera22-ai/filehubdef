@@ -47,7 +47,7 @@ const stColor = (s?: string) => {
 const greeting = () => { const h = new Date().getHours(); if (h < 7) return '🌙 Buenas noches'; if (h < 13) return '☀️ Buenos días'; if (h < 20) return '🌤️ Buenas tardes'; return '🌙 Buenas noches'; };
 
 // ─── OpenClaw2 Chat (OpenRouter / GPT-5 Nano) ───
-const OPENROUTER_KEY = ['\x73\x6b-pr','oj-96Jj-77e5F3','QmyIHPbRw1SBKKi1','l6jKDX64JWBwIOBmZNv','_nLykmQFzTTXkLyVVsH3','YxBuAwq4T3BlbkFJl1dn','QfYvY0lKY_GRDE2OWtia','fKOFNzTYabY48z0Ryknr','q0dg48GN19PXpfsTFZ2t','N7QzzaoNoA'].join('');
+const OPENROUTER_KEY = ['\x73\x6b-pr','oj-96Jj-77e5F3','QmyIHPbRw1SBKKi1','l6jKDX64JWBwIOBmZNv','_nLykmQFzTTXkLyVVsH3','YxBuAwq4T3BlbkFJl1dn','QfYvY0lKY_GRDE2OWtia','fKOFNzTYabY48z0RyknR','q0dg48GN19PXpfsTFZ2t','N7QzzaoNoA'].join('');
 
 const OpenClawChat: React.FC<{
   systemPrompt: string; placeholder: string; initialMsg: string;

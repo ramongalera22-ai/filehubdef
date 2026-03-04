@@ -78,7 +78,7 @@ const OpenClawChat: React.FC<{
         body: JSON.stringify({
           model: 'gpt-5-nano',
           messages: [{ role: 'system', content: systemPrompt }, ...history],
-          max_tokens: 1000,
+          max_completion_tokens: 1000,
           temperature: 1,
         }),
       });

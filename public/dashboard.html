@@ -874,7 +874,7 @@ async function ocSend(){
     const res=await fetch('https://api.openai.com/v1/chat/completions',{
       method:'POST',
       headers:{'Authorization':'Bearer '+OC_KEY,'Content-Type':'application/json'},
-      body:JSON.stringify({model:'gpt-5-nano',messages:[{role:'system',content:getOCSystemPrompt()},...ocHistory],max_tokens:1000,temperature:1})
+      body:JSON.stringify({model:'gpt-5-nano',messages:[{role:'system',content:getOCSystemPrompt()},...ocHistory],max_completion_tokens:1000,temperature:1})
     });
     const data=await res.json();
     console.log('🤖 OpenClaw2 response:',JSON.stringify(data).slice(0,500));
@@ -1188,7 +1188,7 @@ function ocSectionChat(msgContainerId, inputId, btnId, sectionContext){
   fetch('https://api.openai.com/v1/chat/completions',{
     method:'POST',
     headers:{'Authorization':'Bearer '+OC_KEY,'Content-Type':'application/json'},
-    body:JSON.stringify({model:'gpt-5-nano',messages:[{role:'system',content:sysPrompt},{role:'user',content:t}],max_tokens:1000,temperature:1})
+    body:JSON.stringify({model:'gpt-5-nano',messages:[{role:'system',content:sysPrompt},{role:'user',content:t}],max_completion_tokens:1000,temperature:1})
   }).then(r=>r.json()).then(data=>{
     console.log('🤖 Section response:',JSON.stringify(data).slice(0,500));
     if(data.error){

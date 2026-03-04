@@ -1,7 +1,5 @@
-const NUCBOX_URL = process.env.NUCBOX_URL;
-if (!NUCBOX_URL) {
-  console.error('❌ NUCBOX_URL no configurada en Vercel');
-}
+const NUCBOX_URL = process.env.NUCBOX_URL || 'https://elevation-landscape-facilitate-deserve.trycloudflare.com';
+
 const TG_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
 const TG_CHAT = '596831448';
 

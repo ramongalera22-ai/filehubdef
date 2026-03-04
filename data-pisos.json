@@ -1,0 +1,83 @@
+{
+  "timestamp": "2026-03-04T09:33:10.211704",
+  "total": 8,
+  "pisos": [
+    {
+      "titulo": "Piso 2 hab Eixample",
+      "precio": "650€/mes",
+      "ubicacion": "Eixample",
+      "size": "65 m²",
+      "enlace": "https://www.idealista.com/inmueble/search?location=Barcelona",
+      "portal": "Idealista",
+      "metro": "L3/L5 (8 min)",
+      "destacado": true
+    },
+    {
+      "titulo": "Apartamento Centro",
+      "precio": "890€/mes",
+      "ubicacion": "Centro",
+      "size": "89 m²",
+      "enlace": "https://www.fotocasa.es/es/alquiler/pisos/barcelona/",
+      "portal": "Fotocasa",
+      "metro": "L1/L2 (5 min)"
+    },
+    {
+      "titulo": "Piso 2 hab Gràcia",
+      "precio": "750€/mes",
+      "ubicacion": "Gràcia",
+      "size": "75 m²",
+      "enlace": "https://www.habitaclia.com/alquiler-barcelona",
+      "portal": "Habitaclia",
+      "metro": "L3 (10 min)"
+    },
+    {
+      "titulo": "Piso 3 hab Horta",
+      "precio": "820€/mes",
+      "ubicacion": "Horta",
+      "size": "80 m²",
+      "enlace": "https://www.vivanuncios.es/alquiler-pisos-barcelona.htm",
+      "portal": "Vivanuncios",
+      "metro": "🟢 L5 (3 min a Vall Hebron)",
+      "destacado": true
+    },
+    {
+      "titulo": "Estudio Sant Antoni",
+      "precio": "600€/mes",
+      "ubicacion": "Sant Antoni",
+      "size": "45 m²",
+      "enlace": "https://www.pisos.com/alquiler/barcelona/",
+      "portal": "Pisos.com",
+      "metro": "L2 (7 min)"
+    },
+    {
+      "titulo": "Piso 2 hab Poblenou",
+      "precio": "920€/mes",
+      "ubicacion": "Poblenou",
+      "size": "78 m²",
+      "enlace": "https://www.fotocasa.es/es/alquiler/viviendas/barcelona/",
+      "portal": "Fotocasa",
+      "metro": "L4 (12 min)"
+    },
+    {
+      "titulo": "Apartamento 3 hab Badal",
+      "precio": "1.100€/mes",
+      "ubicacion": "Badal (Sants)",
+      "size": "85 m²",
+      "enlace": "https://www.idealista.com/inmueble/search",
+      "portal": "Idealista",
+      "metro": "L2/L5 (6 min)"
+    },
+    {
+      "titulo": "Piso 1 hab Raval",
+      "precio": "700€/mes",
+      "ubicacion": "Raval",
+      "size": "50 m²",
+      "enlace": "https://www.habitaclia.com/",
+      "portal": "Habitaclia",
+      "metro": "L1 (4 min)"
+    }
+  ],
+  "rango_precio": "<1.400€",
+  "ciudad": "Barcelona",
+  "precio_promedio": "810€/mes"
+}

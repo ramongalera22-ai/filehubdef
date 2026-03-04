@@ -69,7 +69,7 @@ const OpenClawChat: React.FC<{
       const history = msgs.map(m => ({ role: m.role, content: m.text }));
       history.push({ role: 'user', content: fileContext ? `[Documentos cargados: ${fileContext}]\n\n${u}` : u });
 
-      const res = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+      const res = await fetch('https://api.openai.com/v1/chat/completions', {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${OPENROUTER_KEY}`,

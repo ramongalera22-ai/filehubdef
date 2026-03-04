@@ -875,7 +875,7 @@ async function ocSend(){
     const res=await fetch('https://api.openai.com/v1/chat/completions',{
       method:'POST',
       headers:{'Authorization':'Bearer '+OC_KEY,'Content-Type':'application/json'},
-      body:JSON.stringify({model:'anthropic/claude-haiku-4-5-20251001',messages:msgs,max_tokens:1000,temperature:0.7})
+      body:JSON.stringify({model:'haiku-4.5',messages:msgs,max_tokens:1000,temperature:0.7})
     });
     const data=await res.json();
     if(data.error){const te=document.getElementById(typingId);if(te)te.remove();addMsg('tgM','❌ '+data.error.message,false);return;}
@@ -927,8 +927,8 @@ async function processTgCommand(txt){
 
   // Direct commands first
   if(lo==='/model'||lo==='/models'){
-    await tgSnd('🤖 <b>OpenClaw2 · Modelo activo:</b>\n\n🧠 <b>Haiku 4.5</b> (OpenRouter)\n📡 API: openrouter.ai\n🌡️ Temperature: 1\n📊 Max tokens: 1000\n\n💬 Chat directo en Dashboard + Telegram');
-    addMsg('tgM','🤖 Modelo: Haiku 4.5 (OpenRouter)',false);
+    await tgSnd('🤖 <b>OpenClaw2 · Modelo activo:</b>\n\n🧠 <b>GPT-4o Mini</b> (OpenAI)\n📡 API: api.openai.com\n📊 Max tokens: 1000\n\n💬 Chat directo en Dashboard + Telegram');
+    addMsg('tgM','🤖 Modelo: Claude Haiku 4.5 (Anthropic)',false);
     return;
   }
   if(lo==='/start'||lo==='/help'){
@@ -1188,7 +1188,7 @@ function ocSectionChat(msgContainerId, inputId, btnId, sectionContext){
   fetch('https://api.openai.com/v1/chat/completions',{
     method:'POST',
     headers:{'Authorization':'Bearer '+OC_KEY,'Content-Type':'application/json'},
-    body:JSON.stringify({model:'anthropic/claude-haiku-4-5-20251001',messages:[{role:'system',content:sysPrompt},{role:'user',content:t}],max_tokens:1000,temperature:0.7})
+    body:JSON.stringify({model:'haiku-4.5',messages:[{role:'system',content:sysPrompt},{role:'user',content:t}],max_tokens:1000,temperature:0.7})
   }).then(r=>r.json()).then(async data=>{
     if(data.error){const te=document.getElementById(typingId);if(te)te.remove();addMsg(msgContainerId,'❌ '+data.error.message,false);if(b)b.disabled=false;return;}
     const reply=data?.choices?.[0]?.message?.content||'Error: sin respuesta.';

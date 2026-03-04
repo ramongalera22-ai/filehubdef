@@ -1,19 +1,24 @@
 import React from 'react';
+import NotebookAI from './NotebookAI';
 
-interface Props {
-  [key: string]: any;
-}
+interface Props { [key: string]: any; }
 
 const CarPlayView: React.FC<Props> = (props) => {
   return (
-    <div className="animate-in">
-      <div className="flex flex-col items-center justify-center h-64">
-        <div className="w-16 h-16 bg-indigo-50 dark:bg-indigo-500/10 rounded-2xl flex items-center justify-center mb-4">
-          <span className="text-2xl">📦</span>
+    <div className="animate-in p-4 space-y-4">
+      <div className="flex items-center gap-3 mb-2">
+        <span className="text-3xl">🚗</span>
+        <div>
+          <h2 className="text-xl font-black text-slate-900 dark:text-white">CarPlay</h2>
+          <p className="text-xs text-slate-400">Cuaderno IA activo · Groq LLaMA 3.3</p>
         </div>
-        <h2 className="text-xl font-black text-slate-900 dark:text-white">Car Play View</h2>
-        <p className="text-sm text-slate-400 mt-2">Módulo en desarrollo — conecta Supabase para datos reales</p>
       </div>
+      <NotebookAI
+        sectionName="CarPlay"
+        icon="🚗"
+        accentColor="#64748b"
+        sectionContext="El usuario está en la sección 'CarPlay' de su app personal FILEHUB."
+      />
     </div>
   );
 };

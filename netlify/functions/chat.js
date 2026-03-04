@@ -1,8 +1,8 @@
 // netlify/functions/chat.js
 // Proxy seguro hacia Anthropic API — subagente dashboard independiente
 
-const GROQ_KEY = process.env.GROQ_KEY || ['gsk','_9BzwjsPO7LaJ','zMyXcw9cWGdyb3FY','cVR7CwkAfZvShxoS','UNrMgzUb'].join('');
-const GROQ_URL = 'https://api.groq.com/openai/v1/chat/completions';
+const ANTHROPIC_KEY = process.env.ANTHROPIC_KEY || '';
+const ANTHROPIC_URL = 'https://api.anthropic.com/v1/messages';
 
 const SYSTEM_PROMPT = `Eres Arditi, el asistente personal de Carlos Galera, médico MIR en España.
 Eres inteligente, directo y útil. Conoces su situación:
@@ -49,22 +49,24 @@ exports.handler = async (event) => {
       { role: 'user', content: message }
     ];
 
-    const res = await fetch(GROQ_URL, {
+    const res = await fetch(ANTHROPIC_URL, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${GROQ_KEY}`
+        'x-api-key': ANTHROPIC_KEY,
+        'anthropic-version': '2023-06-01'
       },
       body: JSON.stringify({
-        model: 'llama-3.3-70b-versatile',
-        max_tokens: 1024,
-        messages: [{ role: 'system', content: SYSTEM_PROMPT }, ...messages]
+        model: 'claude-haiku-4-5-20251001',
+        max_tokens: 4096,
+        system: SYSTEM_PROMPT,
+        messages
       })
     });
 
     const data = await res.json();
     if (data.error) throw new Error(data.error.message);
-    const reply = data.choices?.[0]?.message?.content || 'Sin respuesta';
+    const reply = data.content?.[0]?.text || 'Sin respuesta';
 
     return { statusCode: 200, headers, body: JSON.stringify({ reply }) };
 

@@ -1,8 +1,8 @@
 // netlify/functions/telegram-webhook.js
-// LifeBot PROXY: handles LifeBot commands + forwards ALL to OpenClaw NucBox
+// LifeBot UNIFIED — Single bot: @openclawfilehubbot
 
-const TG_TOKEN = '8466601397:AAG4Ky7-mziSPUQbHtE6G9iyg_Gpc70WLVU';
-const TG_CHAT = '596831448';
+const TG_TOKEN = '7853838527:AAHtI2svAQgGzwx8jVUvGxSPiOe_mRJxWFo';
+const TG_CHAT = '882491371';
 const GROQ_KEY = ['gsk','_9BzwjsPO7LaJ','zMyXcw9cWGdyb3FY','cVR7CwkAfZvShxoS','UNrMgzUb'].join('');
 const GROQ_URL = 'https://api.groq.com/openai/v1/chat/completions';
 const TG_API = `https://api.telegram.org/bot${TG_TOKEN}`;

@@ -2,7 +2,7 @@
 // LifeBot UNIFIED — Single bot: @openclawfilehubbot
 
 const TG_TOKEN = '7853838527:AAHtI2svAQgGzwx8jVUvGxSPiOe_mRJxWFo';
-const TG_CHAT = '882491371';
+const TG_CHAT = '596831448';
 const GROQ_KEY = ['gsk','_9BzwjsPO7LaJ','zMyXcw9cWGdyb3FY','cVR7CwkAfZvShxoS','UNrMgzUb'].join('');
 const GROQ_URL = 'https://api.groq.com/openai/v1/chat/completions';
 const TG_API = `https://api.telegram.org/bot${TG_TOKEN}`;

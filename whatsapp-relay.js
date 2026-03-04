@@ -1,6 +1,5 @@
 #!/usr/bin/env node
-// whatsapp-relay.js — Lee log de OpenClaw y reenvía WA a Telegram para el dashboard
-// Ejecutar: node ~/whatsapp-relay.js &
+// whatsapp-relay.js v2 — detecta mensajes WA en log y los reenvía a Telegram
 
 const fs = require('fs');
 const https = require('https');
@@ -18,7 +17,7 @@ function tgSend(text) {
       path: `/bot${TG_TOKEN}/sendMessage`,
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'Content-Length': Buffer.byteLength(body) }
-    }, res => { res.on('data', () => {}); res.on('end', resolve); });
+    }, res => { res.resume(); res.on('end', resolve); });
     req.on('error', resolve);
     req.write(body); req.end();
   });
@@ -26,36 +25,50 @@ function tgSend(text) {
 
 let lastSize = 0;
 let lineBuffer = '';
+let pendingText = null;
+let pendingTimer = null;
 
 async function processLine(line) {
+  if (!line.trim()) return;
   try {
     const obj = JSON.parse(line);
-    const name = obj['0'] || '';
+    const subsystem = typeof obj['0'] === 'string' ? obj['0'] : JSON.stringify(obj['0']);
     const data = obj['1'];
-    const msg2 = obj['2'] || '';
+    const extra = obj['2'] || '';
 
-    // INBOUND: mensaje tuyo desde WhatsApp
-    if (typeof name === 'string' && name.includes('web-auto-reply') && 
-        typeof data === 'object' && data.body && data.body.includes('[WhatsApp')) {
-      // Extract clean message (remove the [WhatsApp ...] prefix)
-      const body = data.body.replace(/\[WhatsApp[^\]]*\]\s*/,'').trim();
-      if (body) {
-        console.log(`📱 WA entrada: ${body.substring(0, 80)}`);
-        await tgSend(`📱 <b>Tú (WhatsApp):</b>\n${body}`);
+    // INBOUND: tu mensaje desde WhatsApp
+    // Format: subsystem=web-auto-reply, data.body contains "[WhatsApp ...]"
+    if (subsystem.includes('web-auto-reply') && data && data.body) {
+      const raw = data.body || '';
+      const clean = raw.replace(/\[WhatsApp[^\]]*\]\s*/g, '').trim();
+      if (clean) {
+        console.log(`📱 Tú: ${clean.substring(0, 80)}`);
+        await tgSend(`📱 <b>Tú (WhatsApp):</b>\n${clean}`);
       }
     }
 
-    // OUTBOUND: respuesta de Arditi a WhatsApp  
-    if (typeof name === 'string' && name.includes('web-auto-reply') && 
-        typeof data === 'object' && data.text && data.text.includes('[openclaw]')) {
-      const text = data.text.replace('[openclaw]','').trim();
-      if (text) {
-        console.log(`🤖 WA salida: ${text.substring(0, 80)}`);
-        await tgSend(`🤖 <b>Arditi (WhatsApp):</b>\n${text}`);
+    // OUTBOUND: respuesta de Arditi — tiene "text" con "[openclaw]"
+    if (subsystem.includes('web-auto-reply') && data && data.text) {
+      const raw = data.text || '';
+      const clean = raw.replace(/\[openclaw\]/g, '').trim();
+      if (clean) {
+        console.log(`🤖 Arditi: ${clean.substring(0, 80)}`);
+        await tgSend(`🤖 <b>Arditi (WhatsApp):</b>\n${clean}`);
       }
     }
 
-  } catch(e) {} // skip non-JSON lines
+    // Also catch outbound via gateway/channels/whatsapp/outbound + auto-reply sent
+    if (subsystem.includes('gateway/channels/whatsapp/outbound') && extra === 'auto-reply sent (text)' && data && data.text) {
+      const clean = (data.text || '').replace(/\[openclaw\]/g, '').trim();
+      if (clean && !clean.includes('web-auto-reply')) {
+        console.log(`🤖 Arditi (outbound): ${clean.substring(0, 80)}`);
+        await tgSend(`🤖 <b>Arditi (WhatsApp):</b>\n${clean}`);
+      }
+    }
+
+  } catch(e) {
+    // Not JSON, skip
+  }
 }
 
 function checkLog() {
@@ -64,27 +77,30 @@ function checkLog() {
     const stat = fs.statSync(LOG_FILE);
     if (stat.size <= lastSize) return;
 
-    const newContent = fs.readFileSync(LOG_FILE).slice(lastSize).toString();
+    const buf = Buffer.alloc(stat.size - lastSize);
+    const fd = fs.openSync(LOG_FILE, 'r');
+    fs.readSync(fd, buf, 0, buf.length, lastSize);
+    fs.closeSync(fd);
     lastSize = stat.size;
 
-    lineBuffer += newContent;
+    lineBuffer += buf.toString();
     const lines = lineBuffer.split('\n');
     lineBuffer = lines.pop();
-    lines.forEach(processLine);
-  } catch(e) { console.error('Error:', e.message); }
+    for (const line of lines) processLine(line);
+  } catch(e) {}
 }
 
-// Init at current file end (don't replay old messages)
+// Start from end of current log
 try {
   if (fs.existsSync(LOG_FILE)) {
     lastSize = fs.statSync(LOG_FILE).size;
-    console.log(`📋 Log encontrado (${lastSize} bytes). Monitorizando nuevos mensajes...`);
+    console.log(`📋 Log: ${LOG_FILE} (${lastSize} bytes)`);
   }
 } catch(e) {}
 
-console.log('🔄 WhatsApp Relay activo');
-console.log(`📨 Reenviando WA → Telegram chat ${TG_CHAT}`);
-console.log('Escríbete por WhatsApp para probar...\n');
+console.log('🔄 WhatsApp Relay v2 activo');
+console.log(`📨 → Telegram ${TG_CHAT}`);
+console.log('Escríbete por WhatsApp...\n');
 
 setInterval(checkLog, 800);
-process.on('SIGINT', () => { console.log('\n👋 Relay detenido'); process.exit(0); });
+process.on('SIGINT', () => { console.log('\n👋 Detenido'); process.exit(0); });

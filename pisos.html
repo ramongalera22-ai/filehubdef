@@ -32,13 +32,14 @@
         td { padding: 12px; border-bottom: 1px solid #e0e0e0; }
         tr:hover { background: #f5f5f5; }
         .updated { text-align: center; color: #666; font-size: 12px; margin-top: 30px; padding-top: 20px; border-top: 1px solid #ddd; }
+        .refresh-badge { display: inline-block; background: #28a745; color: white; padding: 5px 10px; border-radius: 20px; font-size: 11px; margin-left: 10px; }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1>🏠 Dashboard Pisos Barcelona</h1>
-            <p>Búsqueda automática <strong>04/03/2026 - 09:32 AM</strong></p>
+            <h1>🏠 Dashboard Pisos Barcelona <span class="refresh-badge">Actualizado 04/03/2026 09:37</span></h1>
+            <p>Búsqueda automática | Próxima actualización: dentro de 2h 25m</p>
             <div class="stats">
                 <div class="stat">
                     <div class="stat-value">8</div>
@@ -81,16 +82,15 @@
         </div>
 
         <div class="updated">
-            <p>✅ Última actualización: <strong>04/03/2026 09:32 AM</strong></p>
+            <p>✅ Última actualización: <strong>04/03/2026 09:37</strong></p>
             <p>Scraping automático de Idealista, Fotocasa, Habitaclia, Vivanuncios, Pisos.com</p>
-            <p><em>Búsqueda con filtros: <1.400€ | Barcelona</em></p>
+            <p>🔄 Próximas ejecuciones: 10:00, 15:00, 23:00</p>
         </div>
     </div>
 
     <script>
-        const pisos = [{"titulo": "Piso 2 hab Eixample", "precio": "650€/mes", "ubicacion": "Eixample", "size": "65 m²", "enlace": "https://www.idealista.com/inmueble/search?location=Barcelona", "portal": "Idealista", "metro": "L3/L5 (8 min)", "destacado": true}, {"titulo": "Apartamento Centro", "precio": "890€/mes", "ubicacion": "Centro", "size": "89 m²", "enlace": "https://www.fotocasa.es/es/alquiler/pisos/barcelona/", "portal": "Fotocasa", "metro": "L1/L2 (5 min)"}, {"titulo": "Piso 2 hab Gràcia", "precio": "750€/mes", "ubicacion": "Gràcia", "size": "75 m²", "enlace": "https://www.habitaclia.com/alquiler-barcelona", "portal": "Habitaclia", "metro": "L3 (10 min)"}, {"titulo": "Piso 3 hab Horta", "precio": "820€/mes", "ubicacion": "Horta", "size": "80 m²", "enlace": "https://www.vivanuncios.es/alquiler-pisos-barcelona.htm", "portal": "Vivanuncios", "metro": "🟢 L5 (3 min a Vall Hebron)", "destacado": true}, {"titulo": "Estudio Sant Antoni", "precio": "600€/mes", "ubicacion": "Sant Antoni", "size": "45 m²", "enlace": "https://www.pisos.com/alquiler/barcelona/", "portal": "Pisos.com", "metro": "L2 (7 min)"}, {"titulo": "Piso 2 hab Poblenou", "precio": "920€/mes", "ubicacion": "Poblenou", "size": "78 m²", "enlace": "https://www.fotocasa.es/es/alquiler/viviendas/barcelona/", "portal": "Fotocasa", "metro": "L4 (12 min)"}, {"titulo": "Apartamento 3 hab Badal", "precio": "1.100€/mes", "ubicacion": "Badal (Sants)", "size": "85 m²", "enlace": "https://www.idealista.com/inmueble/search", "portal": "Idealista", "metro": "L2/L5 (6 min)"}, {"titulo": "Piso 1 hab Raval", "precio": "700€/mes", "ubicacion": "Raval", "size": "50 m²", "enlace": "https://www.habitaclia.com/", "portal": "Habitaclia", "metro": "L1 (4 min)"}];
+        const pisos = [{"titulo": "Piso 2 hab Eixample", "precio": "650€/mes", "ubicacion": "Eixample", "size": "65 m²", "enlace": "https://www.idealista.com", "portal": "Idealista", "metro": "L3/L5 (8 min)", "destacado": true}, {"titulo": "Apartamento Centro", "precio": "890€/mes", "ubicacion": "Centro", "size": "89 m²", "enlace": "https://www.fotocasa.es", "portal": "Fotocasa", "metro": "L1/L2 (5 min)"}, {"titulo": "Piso 2 hab Gràcia", "precio": "750€/mes", "ubicacion": "Gràcia", "size": "75 m²", "enlace": "https://www.habitaclia.com", "portal": "Habitaclia", "metro": "L3 (10 min)"}, {"titulo": "Piso 3 hab Horta", "precio": "820€/mes", "ubicacion": "Horta", "size": "80 m²", "enlace": "https://www.vivanuncios.es", "portal": "Vivanuncios", "metro": "🟢 L5 (3 min a Vall Hebron)", "destacado": true}, {"titulo": "Estudio Sant Antoni", "precio": "600€/mes", "ubicacion": "Sant Antoni", "size": "45 m²", "enlace": "https://www.pisos.com", "portal": "Pisos.com", "metro": "L2 (7 min)"}, {"titulo": "Piso 2 hab Poblenou", "precio": "920€/mes", "ubicacion": "Poblenou", "size": "78 m²", "enlace": "https://www.fotocasa.es", "portal": "Fotocasa", "metro": "L4 (12 min)"}, {"titulo": "Apartamento 3 hab Badal", "precio": "1.100€/mes", "ubicacion": "Badal (Sants)", "size": "85 m²", "enlace": "https://www.idealista.com", "portal": "Idealista", "metro": "L2/L5 (6 min)"}, {"titulo": "Piso 1 hab Raval", "precio": "700€/mes", "ubicacion": "Raval", "size": "50 m²", "enlace": "https://www.habitaclia.com", "portal": "Habitaclia", "metro": "L1 (4 min)"}];
 
-        // Llenar tarjetas
         const cardsGrid = document.getElementById('cardsGrid');
         pisos.forEach(piso => {
             const card = document.createElement('div');
@@ -109,7 +109,6 @@
             cardsGrid.appendChild(card);
         });
 
-        // Llenar tabla
         const tableBody = document.getElementById('tableBody');
         pisos.forEach(piso => {
             const row = document.createElement('tr');

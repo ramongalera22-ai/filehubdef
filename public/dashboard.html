@@ -309,9 +309,9 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--wh);min-he
 
     <!-- CHAT TELEGRAM -->
     <div class="pg" id="pg-chat">
-      <div class="tgs"><span class="tgd"></span>OpenClaw2 conectado · Haiku 4.5 + Telegram 🤖</div>
+      <div class="tgs"><span class="tgd"></span>@arddiitibot conectado · Kimi K2.5 + NucBox 🤖</div>
       <div class="chtb">
-        <div class="chth"><div class="chtav" style="background:linear-gradient(135deg,#10b981,#6366f1)">🤖</div><div><div class="chtn">OpenClaw2 · Haiku 4.5</div><div class="chtp">Chat IA directo — Responde aquí + Telegram</div></div></div>
+        <div class="chth"><div class="chtav" style="background:linear-gradient(135deg,#10b981,#6366f1)">🤖</div><div><div class="chtn">@arddiitibot · Kimi K2.5</div><div class="chtp">Chat directo con tu agente en NucBox via Telegram</div></div></div>
         <div class="chtm" id="tgM"><div class="msg ai">🤖 ¡OpenClaw2 activo! (Haiku 4.5) Pregúntame lo que quieras sobre tus guardias, eventos, finanzas, objetivos... También puedo organizar tu semana o dar consejos. Todo lo que escribas aquí también se envía a Telegram.</div></div>
         <div class="qbs"><button class="qb" onclick="tgQ('¿Qué tengo hoy?')">📅 Hoy</button><button class="qb" onclick="tgQ('/resumen')">📋 Resumen</button><button class="qb" onclick="tgQ('¿Cuándo es mi próxima guardia?')">🚨 Guardias</button><button class="qb" onclick="tgQ('¿Qué eventos tengo mañana?')">📅 Mañana</button><button class="qb" onclick="tgQ('¿Cuál es mi balance?')">💰 Balance</button><button class="qb" onclick="showDailyResumen()">📊 Conv. hoy</button></div>
         <div class="chti"><input id="tgI" placeholder="Enviar mensaje al bot..." onkeydown="if(event.key==='Enter')tgS()"><button class="snd" onclick="tgS()" id="tgB">→</button></div>
@@ -621,7 +621,7 @@ const GROQ_KEY=['gsk','_9BzwjsPO7LaJ','zMyXcw9cWGdyb3FY','cVR7CwkAfZvShxoS','UNr
 const GROQ_URL='https://api.groq.com/openai/v1/chat/completions';
 pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 
-const TG_T='7853838527:AAHtI2svAQgGzwx8jVUvGxSPiOe_mRJxWFo',TG_C='596831448',TG_A=`https://api.telegram.org/bot${TG_T}`;
+const TG_T='',TG_C='596831448',TG_A='/.netlify/functions/telegram-proxy';
 
 // SUPABASE
 const SB_URL='https://igvadjgjpyuvzailjqwg.supabase.co';
@@ -883,7 +883,7 @@ function rCu(){
 function addMsg(cid,t,u){const el=document.getElementById(cid),d=document.createElement('div');d.className=`msg ${u?'user':'ai'}`;d.innerHTML=t.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\n/g,'<br>');el.appendChild(d);el.scrollTop=el.scrollHeight}
 
 // ===== TELEGRAM =====
-async function tgSnd(t){try{const r=await fetch(`${TG_A}/sendMessage`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({chat_id:TG_C,text:t,parse_mode:'HTML'})});const d=await r.json();return d.ok}catch(e){return false}}
+async function tgSnd(t){try{const r=await fetch(`${TG_A}?action=sendMessage`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({text:t})});const d=await r.json();return d.ok}catch(e){return false}}
 
 // ===== OPENCLAW2 CHAT (Haiku 4.5 via OpenRouter) =====
 const NUCBOX_AGENT='/.netlify/functions/chat';
@@ -1041,7 +1041,7 @@ function autoDetectTrabajo(txt){
 
 async function tgPoll(){
   try{
-    const r=await fetch(`${TG_A}/getUpdates?offset=${tgOffset}&timeout=3&allowed_updates=["message"]`);
+    const r=await fetch(`${TG_A}?action=getUpdates&offset=${tgOffset}`);
     const d=await r.json();
     if(d.ok&&d.result.length){
       for(const u of d.result){

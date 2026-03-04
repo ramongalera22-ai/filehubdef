@@ -886,7 +886,7 @@ function addMsg(cid,t,u){const el=document.getElementById(cid),d=document.create
 async function tgSnd(t){try{const r=await fetch(`${TG_A}?action=sendMessage`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({text:t})});const d=await r.json();return d.ok}catch(e){return false}}
 
 // ===== OPENCLAW2 CHAT (Haiku 4.5 via OpenRouter) =====
-const NUCBOX_AGENT='/.netlify/functions/chat';
+const NUCBOX_AGENT='/.netlify/functions/openclaw-bridge';
 const OC_KEY='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';
 let ocHistory=[];
 
@@ -974,7 +974,7 @@ async function ocSend(){
     const res=await fetch(NUCBOX_AGENT,{
       method:'POST',
       headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({message:t, history:ocHistory.slice(-10)})
+      body:JSON.stringify({message:t, sessionId:'dashboard-main', history:ocHistory.slice(-10)})
     });
     const data=await res.json();
     if(data.error){const te=document.getElementById(typingId);if(te)te.remove();addMsg('tgM','❌ '+data.error,false);return;}
@@ -1364,7 +1364,7 @@ function ocSectionChat(msgContainerId, inputId, btnId, sectionContext){
   fetch(NUCBOX_AGENT,{
     method:'POST',
     headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({message:t})
+    body:JSON.stringify({message:t, sessionId:'dashboard-chat', context:sectionContext})
   }).then(r=>r.json()).then(async data=>{
     if(data.error){const te=document.getElementById(typingId);if(te)te.remove();addMsg(msgContainerId,'❌ '+data.error,false);if(b)b.disabled=false;return;}
     const reply=data.reply||'Sin respuesta.';

@@ -519,7 +519,7 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--wh);min-he
   <div class="mf"><label>Hora</label><input type="time" id="schTime"></div>
   <div class="mf"><label>Icono</label><select id="schIcon"><option>✈️</option><option>🏠</option><option>💼</option><option>📚</option><option>🏥</option><option>🍽️</option><option>🏃</option><option>🎉</option><option>📱</option><option>💊</option></select></div>
   <div class="mf"><label>Descripción</label><input id="schDesc" placeholder="Ej: Vuelo Barcelona → Murcia"></div>
-  <div class="mf"><label>Color</label><select id="schCol"><option value="bl">🔵 Azul</option><option value="gr">🟢 Verde</option><option value="or">🟠 Naranja</option></select></div>
+  <div class="mf"><label>Color</label><select id="schCol"><option value="bl">🔵 Azul</option><option value="gr">🟢 Verde</option><option value="or">🟢 Naranja</option></select></div>
   <div class="mbtns"><button class="mbcn" onclick="closeM()">Cancelar</button><button class="mbsv" onclick="addSch()">Guardar</button></div>
 </div></div>
 
@@ -647,7 +647,7 @@ function rGd(){
       <div style="font-size:.82rem;font-weight:700;color:var(--tx);text-transform:capitalize">${monthName} ${year}</div>
       <div style="display:flex;gap:4px">
         <div style="font-size:.58rem;color:var(--mu);background:var(--rdbg);padding:2px 8px;border-radius:10px;color:var(--rd)">${gdCount} guardias</div>
-        ${moCount?`<div style="font-size:.58rem;background:rgba(255,107,53,.1);padding:2px 8px;border-radius:10px;color:#FF6B35">${moCount} Montse</div>`:''}
+        ${moCount?`<div style="font-size:.58rem;background:rgba(16,185,129,.1);padding:2px 8px;border-radius:10px;color:#10b981">${moCount} Montse</div>`:''}
       </div>
     </div>`;
     
@@ -666,14 +666,14 @@ function rGd(){
       
       let bg='transparent',border='1px solid transparent',color='var(--mu)',fw='400';
       if(isToday){bg='rgba(99,102,241,.15)';border='1px solid rgba(99,102,241,.5)';color='#818cf8';fw='700'}
-      if(hasMo&&!hasGd&&!isPast){bg='rgba(255,107,53,.12)';border='1px solid rgba(255,107,53,.3)';color='#FF6B35';fw='700'}
+      if(hasMo&&!hasGd&&!isPast){bg='rgba(16,185,129,.12)';border='1px solid rgba(16,185,129,.3)';color='#10b981';fw='700'}
       if(hasGd&&!hasMo&&!isPast){bg='var(--rdbg)';border='1px solid var(--rdb)';color='var(--rd)';fw='700'}
-      if(hasGd&&hasMo&&!isPast){bg='linear-gradient(135deg,rgba(255,82,82,.15) 50%,rgba(255,107,53,.15) 50%)';border='1px solid rgba(255,82,82,.3)';color='var(--rd)';fw='700'}
+      if(hasGd&&hasMo&&!isPast){bg='linear-gradient(135deg,rgba(255,82,82,.15) 50%,rgba(16,185,129,.15) 50%)';border='1px solid rgba(255,82,82,.3)';color='var(--rd)';fw='700'}
       if(hasGd&&isToday){bg='var(--rd)';color='#fff';border='1px solid var(--rd)';fw='700'}
-      if(hasMo&&isToday&&!hasGd){bg='#FF6B35';color='#fff';border='1px solid #FF6B35';fw='700'}
+      if(hasMo&&isToday&&!hasGd){bg='#10b981';color='#fff';border='1px solid #10b981';fw='700'}
       if(isPast&&!hasGd&&!hasMo){color='rgba(255,255,255,.12)'}
       if(isPast&&hasGd){bg='rgba(255,82,82,.06)';color='rgba(255,82,82,.25)';border='1px solid rgba(255,82,82,.08)'}
-      if(isPast&&hasMo&&!hasGd){bg='rgba(255,107,53,.06)';color='rgba(255,107,53,.25)';border='1px solid rgba(255,107,53,.08)'}
+      if(isPast&&hasMo&&!hasGd){bg='rgba(16,185,129,.06)';color='rgba(16,185,129,.25)';border='1px solid rgba(16,185,129,.08)'}
       
       const allGds=[...(hasGd||[]),...(hasMo||[])];
       const tooltip=allGds.length?allGds.map(g=>g.name).join(' + '):'';
@@ -686,7 +686,7 @@ function rGd(){
       if((hasGd||hasMo)&&!isPast){
         h+=`<div style="display:flex;gap:1px;margin-top:1px">`;
         for(let i=0;i<dotsGd;i++) h+=`<div style="width:3px;height:3px;border-radius:50%;background:${isToday?'#fff':'var(--rd)'}"></div>`;
-        for(let i=0;i<dotsMo;i++) h+=`<div style="width:3px;height:3px;border-radius:50%;background:${isToday?'#fff':'#FF6B35'}"></div>`;
+        for(let i=0;i<dotsMo;i++) h+=`<div style="width:3px;height:3px;border-radius:50%;background:${isToday?'#fff':'#10b981'}"></div>`;
         h+=`</div>`;
       }
       h+=`</div>`;
@@ -695,17 +695,14 @@ function rGd(){
     return h;
   }
   
-  // Build for all months that have guardias (current + next 3)
+  // Build for all months (current + next 3 = ~90 days)
   let html='';
   for(let i=0;i<4;i++){
     const mo=(curMonth+i)%12;
     const yr=curYear+Math.floor((curMonth+i)/12);
-    const hasMonth=D.gd.some(g=>(g.month!==undefined?g.month:curMonth)===mo)||i===0;
-    if(hasMonth){
-      if(i>0)html+=`<div style="margin-top:10px;padding-top:8px;border-top:1px solid var(--bd)">`;
-      html+=buildMonthCal(yr,mo,D.gd);
-      if(i>0)html+=`</div>`;
-    }
+    if(i>0)html+=`<div style="margin-top:10px;padding-top:8px;border-top:1px solid var(--bd)">`;
+    html+=buildMonthCal(yr,mo,D.gd);
+    if(i>0)html+=`</div>`;
   }
   
   // Upcoming list
@@ -728,14 +725,14 @@ function rGd(){
       const gm=g.month!==undefined?g.month:curMonth;
       const isGdToday=g.day===today&&gm===curMonth;
       const isMontse=g.isMontse;
-      const dotColor=isMontse?'#FF6B35':'var(--rd)';
-      const nameColor=isGdToday?(isMontse?'#FF6B35':'var(--rd)'):(isMontse?'#FF6B35':'var(--tx)');
-      const bgHighlight=isGdToday?(isMontse?'background:rgba(255,107,53,.1)':'background:rgba(255,82,82,.1)'):'';
+      const dotColor=isMontse?'#10b981':'var(--rd)';
+      const nameColor=isGdToday?(isMontse?'#10b981':'var(--rd)'):(isMontse?'#10b981':'var(--tx)');
+      const bgHighlight=isGdToday?(isMontse?'background:rgba(16,185,129,.1)':'background:rgba(255,82,82,.1)'):'';
       const dateStr=new Date(curYear,gm,g.day).toLocaleDateString('es-ES',{weekday:'short',day:'numeric',month:'short'});
       html+=`<div style="display:flex;align-items:center;gap:8px;padding:4px 0;${isGdToday?bgHighlight+';border-radius:6px;padding:6px 8px;margin:2px -8px':''}">
         <div style="width:5px;height:5px;border-radius:50%;background:${dotColor};flex-shrink:0"></div>
         <div style="flex:1;min-width:0">
-          <div style="font-size:.7rem;font-weight:600;color:${nameColor};white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${isGdToday?'🚨 HOY — ':''}${isMontse?'🟠 ':''}${g.name}</div>
+          <div style="font-size:.7rem;font-weight:600;color:${nameColor};white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${isGdToday?'🚨 HOY — ':''}${isMontse?'🟢 ':''}${g.name}</div>
           <div style="font-size:.56rem;color:var(--mu);font-family:'JetBrains Mono',monospace">${dateStr}${g.detail?' · '+g.detail:''}</div>
         </div>
         ${!isMontse?`<button class="del" onclick="delGd(${g.id})">✕</button>`:''}

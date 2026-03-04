@@ -27,7 +27,7 @@ async function ai(sys,msg,history=[]){
     const r=await fetch(OR_URL,{
       method:'POST',
       headers:{'Content-Type':'application/json','Authorization':`Bearer ${OR_KEY}`,'HTTP-Referer':'https://phenomenal-nasturtium-5e1a1d.netlify.app','X-Title':'FILEHUB OpenClaw2'},
-      body:JSON.stringify({model:'moonshotai/kimi-k2.5',messages,max_tokens:1000,temperature:0.7})
+      body:JSON.stringify({model:'mistralai/mistral-small-3.1-24b-instruct:free',messages,max_tokens:1000,temperature:0.7})
     });
     const d=await r.json();
     if(d.error) throw new Error(d.error.message);

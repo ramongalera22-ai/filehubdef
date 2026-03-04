@@ -975,7 +975,7 @@ async function ocSend(){
     const res=await fetch('https://openrouter.ai/api/v1/chat/completions',{
       method:'POST',
       headers:{'Authorization':'Bearer '+OC_KEY,'Content-Type':'application/json','HTTP-Referer':location.origin,'X-Title':'FILEHUB OpenClaw2'},
-      body:JSON.stringify({model:'moonshotai/kimi-k2.5',messages:msgs,max_tokens:1000,temperature:0.7})
+      body:JSON.stringify({model:'mistralai/mistral-small-3.1-24b-instruct:free',messages:msgs,max_tokens:1000,temperature:0.7})
     });
     const data=await res.json();
     if(data.error){const te=document.getElementById(typingId);if(te)te.remove();addMsg('tgM','❌ '+data.error.message,false);return;}
@@ -1296,7 +1296,7 @@ function ocSectionChat(msgContainerId, inputId, btnId, sectionContext){
   fetch('https://openrouter.ai/api/v1/chat/completions',{
     method:'POST',
     headers:{'Authorization':'Bearer '+OC_KEY,'Content-Type':'application/json','HTTP-Referer':location.origin,'X-Title':'FILEHUB OpenClaw2'},
-    body:JSON.stringify({model:'moonshotai/kimi-k2.5',messages:[{role:'system',content:sysPrompt},{role:'user',content:t}],max_tokens:1000,temperature:0.7})
+    body:JSON.stringify({model:'mistralai/mistral-small-3.1-24b-instruct:free',messages:[{role:'system',content:sysPrompt},{role:'user',content:t}],max_tokens:1000,temperature:0.7})
   }).then(r=>r.json()).then(async data=>{
     if(data.error){const te=document.getElementById(typingId);if(te)te.remove();addMsg(msgContainerId,'❌ '+data.error.message,false);if(b)b.disabled=false;return;}
     const reply=data?.choices?.[0]?.message?.content||'Error: sin respuesta.';

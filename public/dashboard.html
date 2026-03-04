@@ -677,15 +677,17 @@ function rGd(){
     return h;
   }
   
-  // Build for current month + next month
-  let html=buildMonthCal(curYear,curMonth,D.gd);
-  const nextMonth=(curMonth+1)%12;
-  const nextYear=nextMonth===0?curYear+1:curYear;
-  const hasNextMonth=D.gd.some(g=>g.month===nextMonth);
-  if(hasNextMonth){
-    html+=`<div style="margin-top:12px;padding-top:10px;border-top:1px solid var(--bd)">`;
-    html+=buildMonthCal(nextYear,nextMonth,D.gd);
-    html+=`</div>`;
+  // Build for all months that have guardias (current + next 3)
+  let html='';
+  for(let i=0;i<4;i++){
+    const mo=(curMonth+i)%12;
+    const yr=curYear+Math.floor((curMonth+i)/12);
+    const hasMonth=D.gd.some(g=>(g.month!==undefined?g.month:curMonth)===mo)||i===0;
+    if(hasMonth){
+      if(i>0)html+=`<div style="margin-top:10px;padding-top:8px;border-top:1px solid var(--bd)">`;
+      html+=buildMonthCal(yr,mo,D.gd);
+      if(i>0)html+=`</div>`;
+    }
   }
   
   // Upcoming list
@@ -1413,7 +1415,8 @@ const MATON_KEY='iLBE6Iwn1WRtas_R7Mq6cx3k1fcGl8bAF4yFJbCl42Br9n-MvCfiP1yUt5pKs6x
 async function loadGCal(){
   try{
     const now=new Date(),eod=new Date(now);eod.setHours(23,59,59,999);
-    const q=`?timeMin=${encodeURIComponent(now.toISOString())}&timeMax=${encodeURIComponent(new Date(now.getTime()+60*86400000).toISOString())}&singleEvents=true&orderBy=startTime`;
+    const past30=new Date(now.getTime()-30*86400000);
+    const q=`?timeMin=${encodeURIComponent(past30.toISOString())}&timeMax=${encodeURIComponent(new Date(now.getTime()+90*86400000).toISOString())}&singleEvents=true&orderBy=startTime`;
     const hdr={'Authorization':`Bearer ${MATON_KEY}`,'Content-Type':'application/json'};
     const [r1,r2]=await Promise.all([
       fetch(`https://gateway.maton.ai/google-calendar/calendar/v3/calendars/primary/events${q}`,{headers:hdr}).then(r=>r.json()).catch(()=>({items:[]})),
@@ -1441,13 +1444,11 @@ async function loadGCal(){
     const calGuardias=unique.filter(e=>{
       const s=(e.summary||'').toLowerCase();
       if(!s.match(/guardia|suap|hsl|ume|saliente|montse/))return false;
-      const d=new Date(e.start?.dateTime||e.start?.date||'');
-      return d>=now;
+      return true;
     });
-    const gdSeen=new Set(D.gd.map(g=>g.name+'-'+g.day));
+    const gdSeen=new Set(D.gd.map(g=>g.name+'-'+g.day+'-'+g.month));
     for(const g of calGuardias){
       const d=new Date(g.start?.dateTime||g.start?.date||'');
-      if(d<now)continue; // skip past
       const day=d.getDate();
       const mo=d.getMonth();
       const key=(g.summary||'')+'-'+day+'-'+mo;

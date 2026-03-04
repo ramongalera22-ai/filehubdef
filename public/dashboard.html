@@ -624,21 +624,31 @@ function rGd(){
     
     // Map guardias by day for this month
     const gdMap={};
+    const moMap={};
     guardias.forEach(g=>{
       const gMonth=g.month!==undefined?g.month:curMonth;
       if(gMonth===month){
         const d=g.day;
-        if(!gdMap[d])gdMap[d]=[];
-        gdMap[d].push(g);
+        if(g.isMontse){
+          if(!moMap[d])moMap[d]=[];
+          moMap[d].push(g);
+        } else {
+          if(!gdMap[d])gdMap[d]=[];
+          gdMap[d].push(g);
+        }
       }
     });
     
     const gdCount=Object.keys(gdMap).length;
+    const moCount=Object.keys(moMap).length;
     const startDay=(firstDay+6)%7;
     
     let h=`<div style="margin-bottom:6px;display:flex;align-items:center;justify-content:space-between">
       <div style="font-size:.82rem;font-weight:700;color:var(--tx);text-transform:capitalize">${monthName} ${year}</div>
-      <div style="font-size:.58rem;color:var(--mu);background:var(--rdbg);padding:2px 8px;border-radius:10px;color:var(--rd)">${gdCount} guardias</div>
+      <div style="display:flex;gap:4px">
+        <div style="font-size:.58rem;color:var(--mu);background:var(--rdbg);padding:2px 8px;border-radius:10px;color:var(--rd)">${gdCount} guardias</div>
+        ${moCount?`<div style="font-size:.58rem;background:rgba(255,107,53,.1);padding:2px 8px;border-radius:10px;color:#FF6B35">${moCount} Montse</div>`:''}
+      </div>
     </div>`;
     
     h+=`<div style="display:grid;grid-template-columns:repeat(7,1fr);gap:2px;margin-bottom:3px">`;
@@ -651,24 +661,32 @@ function rGd(){
     for(let d=1;d<=daysInMonth;d++){
       const isToday=isCurrentMonth&&d===today;
       const hasGd=gdMap[d];
+      const hasMo=moMap[d];
       const isPast=isCurrentMonth&&d<today;
       
       let bg='transparent',border='1px solid transparent',color='var(--mu)',fw='400';
       if(isToday){bg='rgba(99,102,241,.15)';border='1px solid rgba(99,102,241,.5)';color='#818cf8';fw='700'}
-      if(hasGd&&!isPast){bg='var(--rdbg)';border='1px solid var(--rdb)';color='var(--rd)';fw='700'}
+      if(hasMo&&!hasGd&&!isPast){bg='rgba(255,107,53,.12)';border='1px solid rgba(255,107,53,.3)';color='#FF6B35';fw='700'}
+      if(hasGd&&!hasMo&&!isPast){bg='var(--rdbg)';border='1px solid var(--rdb)';color='var(--rd)';fw='700'}
+      if(hasGd&&hasMo&&!isPast){bg='linear-gradient(135deg,rgba(255,82,82,.15) 50%,rgba(255,107,53,.15) 50%)';border='1px solid rgba(255,82,82,.3)';color='var(--rd)';fw='700'}
       if(hasGd&&isToday){bg='var(--rd)';color='#fff';border='1px solid var(--rd)';fw='700'}
-      if(isPast&&!hasGd){color='rgba(255,255,255,.12)'}
+      if(hasMo&&isToday&&!hasGd){bg='#FF6B35';color='#fff';border='1px solid #FF6B35';fw='700'}
+      if(isPast&&!hasGd&&!hasMo){color='rgba(255,255,255,.12)'}
       if(isPast&&hasGd){bg='rgba(255,82,82,.06)';color='rgba(255,82,82,.25)';border='1px solid rgba(255,82,82,.08)'}
+      if(isPast&&hasMo&&!hasGd){bg='rgba(255,107,53,.06)';color='rgba(255,107,53,.25)';border='1px solid rgba(255,107,53,.08)'}
       
-      const tooltip=hasGd?hasGd.map(g=>g.name).join(' + '):'';
-      const dots=hasGd?Math.min(hasGd.length,3):0;
+      const allGds=[...(hasGd||[]),...(hasMo||[])];
+      const tooltip=allGds.length?allGds.map(g=>g.name).join(' + '):'';
+      const dotsGd=hasGd?Math.min(hasGd.length,2):0;
+      const dotsMo=hasMo?Math.min(hasMo.length,2):0;
       const isWeekend=((startDay+d-1)%7>=5);
       
-      h+=`<div style="aspect-ratio:1;border-radius:5px;background:${bg};border:${border};display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:${hasGd?'pointer':'default'};transition:all .15s${isWeekend&&!hasGd&&!isToday?';opacity:.6':''}" ${tooltip?`title="${tooltip}" onclick="showGdDetail(${d},${month})"`:''}>`
+      h+=`<div style="aspect-ratio:1;border-radius:5px;background:${bg};border:${border};display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:${allGds.length?'pointer':'default'};transition:all .15s${isWeekend&&!hasGd&&!hasMo&&!isToday?';opacity:.6':''}" ${tooltip?`title="${tooltip}" onclick="showGdDetail(${d},${month})"`:''}>`
       h+=`<div style="font-size:.65rem;font-weight:${fw};color:${color};line-height:1">${d}</div>`;
-      if(hasGd&&!isPast){
+      if((hasGd||hasMo)&&!isPast){
         h+=`<div style="display:flex;gap:1px;margin-top:1px">`;
-        for(let i=0;i<dots;i++) h+=`<div style="width:3px;height:3px;border-radius:50%;background:${isToday?'#fff':'var(--rd)'}"></div>`;
+        for(let i=0;i<dotsGd;i++) h+=`<div style="width:3px;height:3px;border-radius:50%;background:${isToday?'#fff':'var(--rd)'}"></div>`;
+        for(let i=0;i<dotsMo;i++) h+=`<div style="width:3px;height:3px;border-radius:50%;background:${isToday?'#fff':'#FF6B35'}"></div>`;
         h+=`</div>`;
       }
       h+=`</div>`;
@@ -709,14 +727,18 @@ function rGd(){
     upcoming.forEach(g=>{
       const gm=g.month!==undefined?g.month:curMonth;
       const isGdToday=g.day===today&&gm===curMonth;
+      const isMontse=g.isMontse;
+      const dotColor=isMontse?'#FF6B35':'var(--rd)';
+      const nameColor=isGdToday?(isMontse?'#FF6B35':'var(--rd)'):(isMontse?'#FF6B35':'var(--tx)');
+      const bgHighlight=isGdToday?(isMontse?'background:rgba(255,107,53,.1)':'background:rgba(255,82,82,.1)'):'';
       const dateStr=new Date(curYear,gm,g.day).toLocaleDateString('es-ES',{weekday:'short',day:'numeric',month:'short'});
-      html+=`<div style="display:flex;align-items:center;gap:8px;padding:4px 0;${isGdToday?'background:rgba(255,82,82,.1);border-radius:6px;padding:6px 8px;margin:2px -8px':''}">
-        <div style="width:5px;height:5px;border-radius:50%;background:var(--rd);flex-shrink:0"></div>
+      html+=`<div style="display:flex;align-items:center;gap:8px;padding:4px 0;${isGdToday?bgHighlight+';border-radius:6px;padding:6px 8px;margin:2px -8px':''}">
+        <div style="width:5px;height:5px;border-radius:50%;background:${dotColor};flex-shrink:0"></div>
         <div style="flex:1;min-width:0">
-          <div style="font-size:.7rem;font-weight:600;color:${isGdToday?'var(--rd)':'var(--tx)'};white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${isGdToday?'🚨 HOY — ':''}${g.name}</div>
+          <div style="font-size:.7rem;font-weight:600;color:${nameColor};white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${isGdToday?'🚨 HOY — ':''}${isMontse?'🟠 ':''}${g.name}</div>
           <div style="font-size:.56rem;color:var(--mu);font-family:'JetBrains Mono',monospace">${dateStr}${g.detail?' · '+g.detail:''}</div>
         </div>
-        <button class="del" onclick="delGd(${g.id})">✕</button>
+        ${!isMontse?`<button class="del" onclick="delGd(${g.id})">✕</button>`:''}
       </div>`;
     });
     html+=`</div>`;
@@ -1454,7 +1476,8 @@ async function loadGCal(){
       const key=(g.summary||'')+'-'+day+'-'+mo;
       if(gdSeen.has(key))continue;
       const dateStr=d.toLocaleDateString('es-ES',{day:'numeric',month:'short'});
-      D.gd.push({id:Date.now()+Math.random()*999|0,day,month:mo,name:g.summary,detail:(g.start?.dateTime?new Date(g.start.dateTime).toLocaleTimeString('es-ES',{hour:'2-digit',minute:'2-digit',timeZone:'Europe/Madrid'})+' · ':'')+ dateStr,fromCal:true});
+      const isMontse=(g.summary||'').toLowerCase().includes('montse');
+      D.gd.push({id:Date.now()+Math.random()*999|0,day,month:mo,name:g.summary,detail:(g.start?.dateTime?new Date(g.start.dateTime).toLocaleTimeString('es-ES',{hour:'2-digit',minute:'2-digit',timeZone:'Europe/Madrid'})+' · ':'')+ dateStr,fromCal:true,isMontse});
       gdSeen.add(key);
     }
     D.gd.sort((a,b)=>{if(a.month!==undefined&&b.month!==undefined&&a.month!==b.month)return a.month-b.month;return a.day-b.day});

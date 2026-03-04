@@ -1435,13 +1435,22 @@ async function loadGCal(){
   try{
     const now=new Date(),eod=new Date(now);eod.setHours(23,59,59,999);
     const past30=new Date(now.getTime()-30*86400000);
-    const q=`?timeMin=${encodeURIComponent(past30.toISOString())}&timeMax=${encodeURIComponent(new Date(now.getTime()+90*86400000).toISOString())}&singleEvents=true&orderBy=startTime&maxResults=250`;
+    const future90=new Date(now.getTime()+90*86400000);
+    const qAll=`?timeMin=${encodeURIComponent(past30.toISOString())}&timeMax=${encodeURIComponent(future90.toISOString())}&singleEvents=true&orderBy=startTime&maxResults=250`;
+    const qGuardia=`?timeMin=${encodeURIComponent(now.toISOString())}&timeMax=${encodeURIComponent(future90.toISOString())}&singleEvents=true&orderBy=startTime&maxResults=100&q=guardia`;
+    const qMontse=`?timeMin=${encodeURIComponent(now.toISOString())}&timeMax=${encodeURIComponent(future90.toISOString())}&singleEvents=true&orderBy=startTime&maxResults=100&q=montse`;
     const hdr={'Authorization':`Bearer ${MATON_KEY}`,'Content-Type':'application/json'};
-    const [r1,r2]=await Promise.all([
-      fetch(`https://gateway.maton.ai/google-calendar/calendar/v3/calendars/primary/events${q}`,{headers:hdr}).then(r=>r.json()).catch(()=>({items:[]})),
-      fetch(`https://gateway.maton.ai/google-calendar/calendar/v3/calendars/${encodeURIComponent('ramongalera22@gmail.com')}/events${q}`,{headers:hdr}).then(r=>r.json()).catch(()=>({items:[]}))
+    const cal1=`https://gateway.maton.ai/google-calendar/calendar/v3/calendars/primary/events`;
+    const cal2=`https://gateway.maton.ai/google-calendar/calendar/v3/calendars/${encodeURIComponent('ramongalera22@gmail.com')}/events`;
+    const [r1,r2,r3,r4,r5,r6]=await Promise.all([
+      fetch(`${cal1}${qAll}`,{headers:hdr}).then(r=>r.json()).catch(()=>({items:[]})),
+      fetch(`${cal2}${qAll}`,{headers:hdr}).then(r=>r.json()).catch(()=>({items:[]})),
+      fetch(`${cal1}${qGuardia}`,{headers:hdr}).then(r=>r.json()).catch(()=>({items:[]})),
+      fetch(`${cal2}${qGuardia}`,{headers:hdr}).then(r=>r.json()).catch(()=>({items:[]})),
+      fetch(`${cal1}${qMontse}`,{headers:hdr}).then(r=>r.json()).catch(()=>({items:[]})),
+      fetch(`${cal2}${qMontse}`,{headers:hdr}).then(r=>r.json()).catch(()=>({items:[]})),
     ]);
-    const all=[...(r1.items||[]),...(r2.items||[])];
+    const all=[...(r1.items||[]),...(r2.items||[]),...(r3.items||[]),...(r4.items||[]),...(r5.items||[]),...(r6.items||[])];
     all.sort((a,b)=>new Date(a.start?.dateTime||a.start?.date||0).getTime()-new Date(b.start?.dateTime||b.start?.date||0).getTime());
     const seen=new Set();
     const unique=all.filter(e=>{const k=(e.summary||'')+(e.start?.dateTime||e.start?.date||'');if(seen.has(k))return false;seen.add(k);return true;});
@@ -1476,7 +1485,10 @@ async function loadGCal(){
       if(gdSeen.has(key))continue;
       const dateStr=d.toLocaleDateString('es-ES',{day:'numeric',month:'short'});
       const isMontse=(g.summary||'').toLowerCase().includes('montse');
-      D.gd.push({id:Date.now()+Math.random()*999|0,day,month:mo,name:g.summary,detail:(g.start?.dateTime?new Date(g.start.dateTime).toLocaleTimeString('es-ES',{hour:'2-digit',minute:'2-digit',timeZone:'Europe/Madrid'})+' · ':'')+ dateStr,fromCal:true,isMontse});
+      const hasGuardiaWord=(g.summary||'').toLowerCase().match(/guardia|suap|hsl|ume/);
+      // Only add to guardias if it's actually a guardia (not just any event with montse)
+      if(isMontse && !hasGuardiaWord) continue;
+      D.gd.push({id:Date.now()+Math.random()*999|0,day,month:mo,name:g.summary,detail:(g.start?.dateTime?new Date(g.start.dateTime).toLocaleTimeString('es-ES',{hour:'2-digit',minute:'2-digit',timeZone:'Europe/Madrid'})+' · ':'')+ dateStr,fromCal:true,isMontse:isMontse&&hasGuardiaWord});
       gdSeen.add(key);
     }
     D.gd.sort((a,b)=>{if(a.month!==undefined&&b.month!==undefined&&a.month!==b.month)return a.month-b.month;return a.day-b.day});

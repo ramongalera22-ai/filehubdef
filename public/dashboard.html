@@ -1431,6 +1431,58 @@ async function syncFromCloud(){
 
 // Google Calendar via Maton API
 const MATON_KEY='iLBE6Iwn1WRtas_R7Mq6cx3k1fcGl8bAF4yFJbCl42Br9n-MvCfiP1yUt5pKs6xetIWMqAUDIzBiljSytTtB8qvvQDA4MfMJ4ZM5tGWyfw';
+// ===== SHIFTER DATA (from app screenshots) =====
+const SHIFTER_GUARDIAS=[
+  // MARZO 2026 — Mis guardias
+  {day:2,month:2,name:'Guardia N',detail:'Noche',isMontse:false},
+  {day:5,month:2,name:'Cambio guardia UME 15 con Elsa',detail:'Cambio',isMontse:false},
+  {day:11,month:2,name:'Guardia SUAP Los Dolores',detail:'SUAP',isMontse:false},
+  {day:16,month:2,name:'Guardia UME 11',detail:'UME',isMontse:false},
+  {day:26,month:2,name:'Guardia SUAP Los Dolores',detail:'SUAP',isMontse:false},
+  {day:29,month:2,name:'Guardia N',detail:'Noche',isMontse:false},
+  {day:31,month:2,name:'Guardia SUAP Los Dolores',detail:'SUAP',isMontse:false},
+  // MARZO 2026 — Montse
+  {day:6,month:2,name:'Guardia Montse Cumple',detail:'M/T',isMontse:true},
+  {day:7,month:2,name:'Guardia Montse M/T',detail:'M/T',isMontse:true},
+  {day:10,month:2,name:'Guardia Montse M/T',detail:'M/T',isMontse:true},
+  {day:11,month:2,name:'Guardia Montse',detail:'Montse',isMontse:true},
+  {day:20,month:2,name:'Guardia Montse',detail:'Montse',isMontse:true},
+  {day:25,month:2,name:'Guardia Montse',detail:'Montse',isMontse:true},
+  {day:28,month:2,name:'Guardia Montse Cumple N',detail:'Noche',isMontse:true},
+  // ABRIL 2026 — Mis guardias
+  {day:2,month:3,name:'Jueves Santo - Guardia HSL N',detail:'HSL Noche',isMontse:false},
+  {day:6,month:3,name:'Guardia el 6 abril',detail:'8-15',isMontse:false},
+  {day:7,month:3,name:'Guardia 7 marzo HSL',detail:'HSL',isMontse:false},
+  {day:10,month:3,name:'Guardia UME 15 N',detail:'UME Noche',isMontse:false},
+  {day:15,month:3,name:'Guardia SUAP Los Dolores',detail:'SUAP',isMontse:false},
+  {day:30,month:3,name:'Guardia SUAP Los Dolores',detail:'SUAP',isMontse:false},
+  // ABRIL 2026 — Montse
+  {day:3,month:3,name:'Guardia Montse',detail:'M',isMontse:true},
+  {day:4,month:3,name:'Guardia Montse',detail:'M',isMontse:true},
+  {day:17,month:3,name:'Guardia Montse',detail:'M',isMontse:true},
+  // MAYO 2026 — Mis guardias
+  {day:4,month:4,name:'Guardia UME 4 N',detail:'UME Noche',isMontse:false},
+  {day:7,month:4,name:'Guardia Santa Lucía',detail:'HSL',isMontse:false},
+  {day:15,month:4,name:'Guardia SUAP Los Dolores',detail:'SUAP',isMontse:false},
+  {day:17,month:4,name:'Guardia Santa Lucía N',detail:'HSL Noche',isMontse:false},
+  {day:25,month:4,name:'Guardia SUAP Los Dolores',detail:'SUAP',isMontse:false},
+  // MAYO 2026 — Montse
+  {day:3,month:4,name:'Guardia Montse',detail:'M',isMontse:true},
+  {day:8,month:4,name:'Guardia Montse',detail:'M',isMontse:true},
+  {day:9,month:4,name:'Guardia Montse',detail:'M',isMontse:true},
+];
+
+function injectShifterGuardias(){
+  const seen=new Set(D.gd.map(g=>`${g.day}-${g.month!==undefined?g.month:new Date().getMonth()}-${g.isMontse?'M':'R'}`));
+  for(const sg of SHIFTER_GUARDIAS){
+    const key=`${sg.day}-${sg.month}-${sg.isMontse?'M':'R'}`;
+    if(seen.has(key))continue;
+    D.gd.push({id:Date.now()+Math.random()*9999|0,day:sg.day,month:sg.month,name:sg.name,detail:sg.detail,fromCal:true,isMontse:sg.isMontse,fromShifter:true});
+    seen.add(key);
+  }
+  D.gd.sort((a,b)=>{if(a.month!==undefined&&b.month!==undefined&&a.month!==b.month)return a.month-b.month;return a.day-b.day});
+}
+
 async function loadGCal(){
   try{
     const now=new Date(),eod=new Date(now);eod.setHours(23,59,59,999);
@@ -1492,13 +1544,15 @@ async function loadGCal(){
       gdSeen.add(key);
     }
     D.gd.sort((a,b)=>{if(a.month!==undefined&&b.month!==undefined&&a.month!==b.month)return a.month-b.month;return a.day-b.day});
+    injectShifterGuardias();
     sv();rGd();
     const months=['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
     const byMonth={};D.gd.forEach(g=>{const m=g.month!==undefined?g.month:now.getMonth();byMonth[months[m]]=(byMonth[months[m]]||0)+1;});
-    console.log('📅 Calendar sync:',todayEvents.length,'hoy,',calGuardias.length,'guardias totales. Por mes:',byMonth,'Montse:',D.gd.filter(g=>g.isMontse).length);
+    console.log('📅 Calendar sync:',todayEvents.length,'hoy,',calGuardias.length,'guardias API +',SHIFTER_GUARDIAS.length,'Shifter. Por mes:',byMonth,'Montse:',D.gd.filter(g=>g.isMontse).length);
   }catch(e){console.error('Calendar error:',e)}
 }
 
+injectShifterGuardias();
 syncFromCloud();
 loadGCal();
 

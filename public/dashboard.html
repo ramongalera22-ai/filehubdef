@@ -972,10 +972,10 @@ async function ocSend(){
   try{
     ocHistory.push({role:'user',content:t});
     const msgs=[{role:'system',content:getOCSystemPrompt()},...ocHistory];
-    const res=await fetch('https://openrouter.ai/api/v1/chat/completions',{
+    const res=await fetch(GROQ_URL,{
       method:'POST',
-      headers:{'Authorization':'Bearer '+OC_KEY,'Content-Type':'application/json','HTTP-Referer':location.origin,'X-Title':'FILEHUB OpenClaw2'},
-      body:JSON.stringify({model:'mistralai/mistral-small-3.1-24b-instruct:free',messages:msgs,max_tokens:1000,temperature:0.7})
+      headers:{'Authorization':'Bearer '+GROQ_KEY,'Content-Type':'application/json'},
+      body:JSON.stringify({model:'llama-3.1-8b-instant',messages:msgs,max_tokens:1000,temperature:0.7})
     });
     const data=await res.json();
     if(data.error){const te=document.getElementById(typingId);if(te)te.remove();addMsg('tgM','❌ '+data.error.message,false);return;}
@@ -1293,10 +1293,10 @@ function ocSectionChat(msgContainerId, inputId, btnId, sectionContext){
   typingEl.scrollIntoView({behavior:'smooth'});
 
   const sysPrompt=getOCSystemPrompt()+'\n\n'+sectionContext;
-  fetch('https://openrouter.ai/api/v1/chat/completions',{
+  fetch(GROQ_URL,{
     method:'POST',
-    headers:{'Authorization':'Bearer '+OC_KEY,'Content-Type':'application/json','HTTP-Referer':location.origin,'X-Title':'FILEHUB OpenClaw2'},
-    body:JSON.stringify({model:'mistralai/mistral-small-3.1-24b-instruct:free',messages:[{role:'system',content:sysPrompt},{role:'user',content:t}],max_tokens:1000,temperature:0.7})
+    headers:{'Authorization':'Bearer '+GROQ_KEY,'Content-Type':'application/json'},
+    body:JSON.stringify({model:'llama-3.1-8b-instant',messages:[{role:'system',content:sysPrompt},{role:'user',content:t}],max_tokens:1000,temperature:0.7})
   }).then(r=>r.json()).then(async data=>{
     if(data.error){const te=document.getElementById(typingId);if(te)te.remove();addMsg(msgContainerId,'❌ '+data.error.message,false);if(b)b.disabled=false;return;}
     const reply=data?.choices?.[0]?.message?.content||'Error: sin respuesta.';

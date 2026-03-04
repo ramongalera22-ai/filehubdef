@@ -872,30 +872,30 @@ async function ocSend(){
   try{
     ocHistory.push({role:'user',content:t});
     const msgs=[{role:'system',content:getOCSystemPrompt()},...ocHistory];
-    const res=await fetch('https://api.openai.com/v1/chat/completions',{
-      method:'POST',
-      headers:{'Authorization':'Bearer '+OC_KEY,'Content-Type':'application/json'},
-      body:JSON.stringify({model:'gpt-5-nano',messages:msgs,max_completion_tokens:1000})
-    });
-    const data=await res.json();
-    console.log('🤖 OpenClaw2 raw:',JSON.stringify(data).slice(0,800));
-    if(data.error){
-      const te=document.getElementById(typingId);if(te)te.remove();
-      addMsg('tgM','❌ '+data.error.message,false);
-      return;
-    }
-    let reply=data?.choices?.[0]?.message?.content;
+    let reply='';
+    // Try gpt-5-nano first
+    try{
+      const res=await fetch('https://api.openai.com/v1/chat/completions',{
+        method:'POST',
+        headers:{'Authorization':'Bearer '+OC_KEY,'Content-Type':'application/json'},
+        body:JSON.stringify({model:'gpt-5-nano',messages:msgs,max_completion_tokens:1000})
+      });
+      const data=await res.json();
+      console.log('🤖 gpt-5-nano:',JSON.stringify(data).slice(0,500));
+      reply=data?.choices?.[0]?.message?.content||'';
+      if(data.error)console.warn('gpt-5-nano error:',data.error.message);
+    }catch(e){console.warn('gpt-5-nano fail:',e)}
+    // Fallback to gpt-4.1-nano
     if(!reply){
-      // Try without history (clean request)
-      console.log('🔄 Retry sin historial...');
+      console.log('🔄 Fallback → gpt-4.1-nano');
       const res2=await fetch('https://api.openai.com/v1/chat/completions',{
         method:'POST',
         headers:{'Authorization':'Bearer '+OC_KEY,'Content-Type':'application/json'},
-        body:JSON.stringify({model:'gpt-5-nano',messages:[{role:'system',content:getOCSystemPrompt()},{role:'user',content:t}],max_completion_tokens:1000})
+        body:JSON.stringify({model:'gpt-4.1-nano',messages:msgs,max_tokens:1000,temperature:0.7})
       });
       const d2=await res2.json();
-      console.log('🔄 Retry raw:',JSON.stringify(d2).slice(0,800));
-      reply=d2?.choices?.[0]?.message?.content||'⚠️ GPT-5 Nano no respondió. Intenta de nuevo.';
+      console.log('🤖 gpt-4.1-nano:',JSON.stringify(d2).slice(0,500));
+      reply=d2?.choices?.[0]?.message?.content||'Error: ningún modelo respondió.';
     }
     ocHistory.push({role:'assistant',content:reply});
     // Keep history manageable
@@ -1208,17 +1208,13 @@ function ocSectionChat(msgContainerId, inputId, btnId, sectionContext){
     headers:{'Authorization':'Bearer '+OC_KEY,'Content-Type':'application/json'},
     body:JSON.stringify({model:'gpt-5-nano',messages:[{role:'system',content:sysPrompt},{role:'user',content:t}],max_completion_tokens:1000})
   }).then(r=>r.json()).then(async data=>{
-    console.log('🤖 Section response:',JSON.stringify(data).slice(0,500));
-    if(data.error){
-      const te=document.getElementById(typingId);if(te)te.remove();
-      addMsg(msgContainerId,'❌ API Error: '+(data.error.message||JSON.stringify(data.error)),false);
-      if(b)b.disabled=false;return;
-    }
-    let reply=data?.choices?.[0]?.message?.content;
-    if(!reply){
-      const res2=await fetch('https://api.openai.com/v1/chat/completions',{method:'POST',headers:{'Authorization':'Bearer '+OC_KEY,'Content-Type':'application/json'},body:JSON.stringify({model:'gpt-5-nano',messages:[{role:'system',content:sysPrompt},{role:'user',content:t}],max_completion_tokens:1000})});
+    console.log('🤖 Section gpt-5-nano:',JSON.stringify(data).slice(0,300));
+    let reply=data?.choices?.[0]?.message?.content||'';
+    if(!reply||data.error){
+      // Fallback to gpt-4.1-nano
+      const res2=await fetch('https://api.openai.com/v1/chat/completions',{method:'POST',headers:{'Authorization':'Bearer '+OC_KEY,'Content-Type':'application/json'},body:JSON.stringify({model:'gpt-4.1-nano',messages:[{role:'system',content:sysPrompt},{role:'user',content:t}],max_tokens:1000,temperature:0.7})});
       const d2=await res2.json();
-      reply=d2?.choices?.[0]?.message?.content||'Inténtalo de nuevo.';
+      reply=d2?.choices?.[0]?.message?.content||'Error de conexión.';
     }
     const te=document.getElementById(typingId);if(te)te.remove();
     addMsg(msgContainerId,'🤖 '+reply.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\n/g,'<br>'),false);

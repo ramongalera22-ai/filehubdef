@@ -621,7 +621,7 @@ const GROQ_KEY=['gsk','_9BzwjsPO7LaJ','zMyXcw9cWGdyb3FY','cVR7CwkAfZvShxoS','UNr
 const GROQ_URL='https://api.groq.com/openai/v1/chat/completions';
 pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 
-const TG_T='',TG_C='596831448',TG_A='/.netlify/functions/telegram-proxy';
+const TG_T='',TG_C='596831448',TG_A='/api/telegram-proxy';
 
 // SUPABASE
 const SB_URL='https://igvadjgjpyuvzailjqwg.supabase.co';
@@ -886,7 +886,7 @@ function addMsg(cid,t,u){const el=document.getElementById(cid),d=document.create
 async function tgSnd(t){try{const r=await fetch(`${TG_A}?action=sendMessage`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({text:t})});const d=await r.json();return d.ok}catch(e){return false}}
 
 // ===== OPENCLAW2 CHAT (Haiku 4.5 via OpenRouter) =====
-const NUCBOX_AGENT='/.netlify/functions/openclaw-bridge';
+const NUCBOX_AGENT='/api/openclaw-bridge';
 const OC_KEY='';
 let ocHistory=[];
 

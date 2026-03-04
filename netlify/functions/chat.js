@@ -1,76 +1,27 @@
-// netlify/functions/chat.js
-// Proxy seguro hacia Anthropic API — subagente dashboard independiente
-
-const _k=['sk-ant-api03-GoUqktJDhEzAtpAbfAgkFWd8E1OQhSmCq8aH3qSd','MV5UZrnMtzfhH1JMYLLdQNw5MqSV4gGvr4mY9juQ_235MQ-t9ZCLQAA'];
-const ANTHROPIC_KEY = process.env.ANTHROPIC_KEY || _k.join('');
-const ANTHROPIC_URL = 'https://api.anthropic.com/v1/messages';
-
-const SYSTEM_PROMPT = `Eres Arditi, el asistente personal de Carlos Galera, médico MIR en España.
-Eres inteligente, directo y útil. Conoces su situación:
-- Médico residente (MIR), guardias frecuentes, horario irregular
-- Busca piso en alquiler en Barcelona (presupuesto ~800-1000€/mes)
-- Busca trabajo médico post-residencia
-- Liquidity actual: ~1578€
-- Pagos pendientes: 557€
-- 51 guardias registradas
-
-Puedes ayudarle con:
-- Organizar su semana y guardias
-- Analizar finanzas y gastos
-- Buscar y comparar pisos y ofertas de trabajo
-- Consejos médicos y de carrera
-- Cualquier consulta personal
-
-Responde siempre en español, de forma concisa y con emojis cuando sea apropiado.
-Cuando menciones pisos o trabajos, estructura la info claramente.`;
+const fetch = require('node-fetch');
 
 exports.handler = async (event) => {
   const headers = {
     'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Methods': 'POST, OPTIONS',
     'Access-Control-Allow-Headers': 'Content-Type',
+    'Access-Control-Allow-Methods': 'POST, OPTIONS',
     'Content-Type': 'application/json'
   };
-
-  if (event.httpMethod === 'OPTIONS') {
-    return { statusCode: 200, headers, body: '' };
-  }
-
-  if (event.httpMethod !== 'POST') {
-    return { statusCode: 405, headers, body: JSON.stringify({ error: 'Method not allowed' }) };
-  }
+  if (event.httpMethod === 'OPTIONS') return { statusCode: 200, headers, body: '' };
 
   try {
     const { message, history = [] } = JSON.parse(event.body || '{}');
-    if (!message) return { statusCode: 400, headers, body: JSON.stringify({ error: 'No message' }) };
+    const ANTHROPIC_KEY = process.env.ANTHROPIC_KEY;
+    const messages = [...history.slice(-10), { role: 'user', content: message }];
 
-    // Build messages array with history
-    const messages = [
-      ...history.slice(-10), // last 10 turns
-      { role: 'user', content: message }
-    ];
-
-    const res = await fetch(ANTHROPIC_URL, {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': ANTHROPIC_KEY,
-        'anthropic-version': '2023-06-01'
-      },
-      body: JSON.stringify({
-        model: 'claude-haiku-4-5-20251001',
-        max_tokens: 4096,
-        system: SYSTEM_PROMPT,
-        messages
-      })
+      headers: { 'Content-Type': 'application/json', 'x-api-key': ANTHROPIC_KEY, 'anthropic-version': '2023-06-01' },
+      body: JSON.stringify({ model: 'claude-haiku-4-5', max_tokens: 1000, messages })
     });
-
     const data = await res.json();
-    if (data.error) throw new Error(data.error.message);
     const reply = data.content?.[0]?.text || 'Sin respuesta';
-
     return { statusCode: 200, headers, body: JSON.stringify({ reply }) };
-
   } catch (e) {
     return { statusCode: 500, headers, body: JSON.stringify({ error: e.message }) };
   }

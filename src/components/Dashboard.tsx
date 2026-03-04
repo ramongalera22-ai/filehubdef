@@ -78,10 +78,10 @@ const OpenClawChat: React.FC<{
           'X-Title': 'FILEHUB OpenClaw2',
         },
         body: JSON.stringify({
-          model: 'openai/gpt-5-nano',
+          model: 'openai/gpt-4.1-nano',
           messages: [{ role: 'system', content: systemPrompt }, ...history],
           max_tokens: 1000,
-          temperature: 1,
+          temperature: 0.7,
         }),
       });
       const data = await res.json();

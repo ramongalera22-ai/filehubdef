@@ -873,10 +873,16 @@ async function ocSend(){
     const res=await fetch('https://openrouter.ai/api/v1/chat/completions',{
       method:'POST',
       headers:{'Authorization':'Bearer '+OC_KEY,'Content-Type':'application/json','HTTP-Referer':window.location.origin,'X-Title':'FILEHUB OpenClaw2'},
-      body:JSON.stringify({model:'openai/gpt-5-nano',messages:[{role:'system',content:getOCSystemPrompt()},...ocHistory],max_tokens:1000,temperature:1})
+      body:JSON.stringify({model:'openai/gpt-4.1-nano',messages:[{role:'system',content:getOCSystemPrompt()},...ocHistory],max_tokens:1000,temperature:0.7})
     });
     const data=await res.json();
-    const reply=data?.choices?.[0]?.message?.content||'No he podido procesar tu consulta.';
+    console.log('🤖 OpenClaw2 response:',JSON.stringify(data).slice(0,500));
+    if(data.error){
+      const te=document.getElementById(typingId);if(te)te.remove();
+      addMsg('tgM','❌ API Error: '+(data.error.message||JSON.stringify(data.error)),false);
+      return;
+    }
+    const reply=data?.choices?.[0]?.message?.content||'No he podido procesar tu consulta. (Sin choices en respuesta)';
     ocHistory.push({role:'assistant',content:reply});
     // Keep history manageable
     if(ocHistory.length>20)ocHistory=ocHistory.slice(-16);
@@ -1180,8 +1186,14 @@ function ocSectionChat(msgContainerId, inputId, btnId, sectionContext){
   fetch('https://openrouter.ai/api/v1/chat/completions',{
     method:'POST',
     headers:{'Authorization':'Bearer '+OC_KEY,'Content-Type':'application/json','HTTP-Referer':window.location.origin,'X-Title':'FILEHUB OpenClaw2'},
-    body:JSON.stringify({model:'openai/gpt-5-nano',messages:[{role:'system',content:sysPrompt},{role:'user',content:t}],max_tokens:1000,temperature:1})
+    body:JSON.stringify({model:'openai/gpt-4.1-nano',messages:[{role:'system',content:sysPrompt},{role:'user',content:t}],max_tokens:1000,temperature:0.7})
   }).then(r=>r.json()).then(data=>{
+    console.log('🤖 Section response:',JSON.stringify(data).slice(0,500));
+    if(data.error){
+      const te=document.getElementById(typingId);if(te)te.remove();
+      addMsg(msgContainerId,'❌ API Error: '+(data.error.message||JSON.stringify(data.error)),false);
+      if(b)b.disabled=false;return;
+    }
     const reply=data?.choices?.[0]?.message?.content||'No he podido procesar tu consulta.';
     const te=document.getElementById(typingId);if(te)te.remove();
     addMsg(msgContainerId,'🤖 '+reply.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\n/g,'<br>'),false);

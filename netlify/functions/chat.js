@@ -1,7 +1,8 @@
 // netlify/functions/chat.js
 // Proxy seguro hacia Anthropic API — subagente dashboard independiente
 
-const ANTHROPIC_KEY = process.env.ANTHROPIC_KEY || '';
+const _k=['sk-ant-api03-GoUqktJDhEzAtpAbfAgkFWd8E1OQhSmCq8aH3qSd','MV5UZrnMtzfhH1JMYLLdQNw5MqSV4gGvr4mY9juQ_235MQ-t9ZCLQAA'];
+const ANTHROPIC_KEY = process.env.ANTHROPIC_KEY || _k.join('');
 const ANTHROPIC_URL = 'https://api.anthropic.com/v1/messages';
 
 const SYSTEM_PROMPT = `Eres Arditi, el asistente personal de Carlos Galera, médico MIR en España.

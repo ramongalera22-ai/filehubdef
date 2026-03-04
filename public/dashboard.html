@@ -886,6 +886,7 @@ function addMsg(cid,t,u){const el=document.getElementById(cid),d=document.create
 async function tgSnd(t){try{const r=await fetch(`${TG_A}/sendMessage`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({chat_id:TG_C,text:t,parse_mode:'HTML'})});const d=await r.json();return d.ok}catch(e){return false}}
 
 // ===== OPENCLAW2 CHAT (Haiku 4.5 via OpenRouter) =====
+const NUCBOX_AGENT='http://100.69.142.77:3001';
 const OC_KEY='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';
 let ocHistory=[];
 
@@ -970,16 +971,14 @@ async function ocSend(){
   tgSnd(t);
 
   try{
-    ocHistory.push({role:'user',content:t});
-    const msgs=[{role:'system',content:getOCSystemPrompt()},...ocHistory];
-    const res=await fetch(GROQ_URL,{
+    const res=await fetch(NUCBOX_AGENT,{
       method:'POST',
-      headers:{'Authorization':'Bearer '+GROQ_KEY,'Content-Type':'application/json'},
-      body:JSON.stringify({model:'llama3-70b-8192',messages:msgs,max_tokens:1000,temperature:0.7})
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({message:t})
     });
     const data=await res.json();
-    if(data.error){const te=document.getElementById(typingId);if(te)te.remove();addMsg('tgM','❌ '+data.error.message,false);return;}
-    const reply=data?.choices?.[0]?.message?.content||'Error: sin respuesta.';
+    if(data.error){const te=document.getElementById(typingId);if(te)te.remove();addMsg('tgM','❌ '+data.error,false);return;}
+    const reply=data.reply||'Sin respuesta.';
     ocHistory.push({role:'assistant',content:reply});
     if(ocHistory.length>20)ocHistory=ocHistory.slice(-16);
     // Remove typing, show reply
@@ -1362,20 +1361,20 @@ function ocSectionChat(msgContainerId, inputId, btnId, sectionContext){
   typingEl.scrollIntoView({behavior:'smooth'});
 
   const sysPrompt=getOCSystemPrompt()+'\n\n'+sectionContext;
-  fetch(GROQ_URL,{
+  fetch(NUCBOX_AGENT,{
     method:'POST',
-    headers:{'Authorization':'Bearer '+GROQ_KEY,'Content-Type':'application/json'},
-    body:JSON.stringify({model:'llama3-70b-8192',messages:[{role:'system',content:sysPrompt},{role:'user',content:t}],max_tokens:1000,temperature:0.7})
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({message:t})
   }).then(r=>r.json()).then(async data=>{
-    if(data.error){const te=document.getElementById(typingId);if(te)te.remove();addMsg(msgContainerId,'❌ '+data.error.message,false);if(b)b.disabled=false;return;}
-    const reply=data?.choices?.[0]?.message?.content||'Error: sin respuesta.';
+    if(data.error){const te=document.getElementById(typingId);if(te)te.remove();addMsg(msgContainerId,'❌ '+data.error,false);if(b)b.disabled=false;return;}
+    const reply=data.reply||'Sin respuesta.';
     const te=document.getElementById(typingId);if(te)te.remove();
     addMsg(msgContainerId,'🤖 '+reply.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\n/g,'<br>'),false);
     if(b)b.disabled=false;
     tgSnd(reply);
   }).catch(()=>{
     const te=document.getElementById(typingId);if(te)te.remove();
-    addMsg(msgContainerId,'❌ Error de conexión con OpenClaw2',false);
+    addMsg(msgContainerId,'❌ Error de conexión con NucBox. ¿Está encendido?',false);
     if(b)b.disabled=false;
   });
 }

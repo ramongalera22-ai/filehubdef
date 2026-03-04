@@ -1174,7 +1174,15 @@ Estado actual del dashboard:
 // ===== FINANCE PDFs =====
 let finDocs=[];
 const KFD='lb5_findocs';
-function ldFinDocs(){try{const s=localStorage.getItem(KFD);if(s)finDocs=JSON.parse(s)}catch(e){}}
+function ldFinDocs(){
+  try{const s=localStorage.getItem(KFD);if(s)finDocs=JSON.parse(s)}catch(e){}
+  setTimeout(()=>{
+    const ok=finDocs.filter(d=>d.status==='ok');
+    if(ok.length){
+      addMsg('fM','<b>'+ok.length+' documento(s) cargado(s) y listos para analizar:</b><br>'+ok.map(d=>'📄 '+d.name+' ('+d.size+')').join('<br>')+'<br><br>Preguntame cualquier cosa sobre ellos.',false);
+    }
+  },600);
+}
 function svFinDocs(){try{localStorage.setItem(KFD,JSON.stringify(finDocs))}catch(e){}}
 
 document.addEventListener('DOMContentLoaded',()=>{
@@ -1253,7 +1261,11 @@ function fS(){
   const bal=D.tx.reduce((s,t)=>t.tp==='income'?s+t.am:s-t.am,0);
   const inc=D.tx.filter(t=>t.tp==='income').reduce((s,t)=>s+t.am,0);
   const exp=D.tx.filter(t=>t.tp==='expense').reduce((s,t)=>s+t.am,0);
-  const ctx='EXPERTO FINANCIERO. Balance: €'+bal.toFixed(2)+'. Ingresos: €'+inc.toFixed(2)+'. Gastos: €'+exp.toFixed(2)+'. Movimientos recientes: '+D.tx.slice(0,10).map(t=>(t.tp==='income'?'+':'-')+'€'+t.am+' '+t.nm).join(', ')+'. Ayuda con presupuestos, ahorro, análisis de gastos.';
+  const docsOk=(finDocs||[]).filter(d=>d.status==='ok'&&d.text);
+  const docsCtx=docsOk.length
+    ?'\n\nDOCUMENTOS FINANCIEROS DEL USUARIO ('+docsOk.length+' archivos, LÉELOS COMPLETOS):\n'+docsOk.map(d=>'--- '+d.name+' ---\n'+d.text.slice(0,4000)).join('\n\n')
+    :'';
+  const ctx='EXPERTO FINANCIERO. Balance: €'+bal.toFixed(2)+'. Ingresos: €'+inc.toFixed(2)+'. Gastos: €'+exp.toFixed(2)+'. Movimientos: '+D.tx.slice(0,10).map(t=>(t.tp==='income'?'+':'-')+'€'+t.am+' '+t.nm).join(', ')+'. Ayuda con presupuestos, ahorro, análisis de gastos.'+docsCtx;
   ocSectionChat('fM','fIn','',ctx);
 }
 function fQ(q){document.getElementById('fIn').value=q;fS()}

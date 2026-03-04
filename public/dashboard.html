@@ -295,6 +295,7 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--wh);min-he
     <div class="tab" data-p="trabajo"><span>💼</span> Trabajo</div>
     <div class="tab" data-p="docs"><span>📄</span> Docs</div>
     <div class="tab" data-p="cal"><span>📅</span> Calendarios</div>
+    <div class="tab" data-p="whatsapp"><span>💬</span> WhatsApp</div>
     <div class="tab" data-p="tareas"><span>✅</span> Tareas</div>
   </div>
   <div class="pages">
@@ -1065,6 +1066,9 @@ async function tgPoll(){
         const chatId=String(u.message.chat?.id||'');
         const isBot=u.message.from?.is_bot||false;
         const isMyChat=chatId===TG_C||fromId===TG_C;
+          // Check for WhatsApp forwarded messages
+          const waMsg=parseWAFromTelegram(txt);
+          if(waMsg){waAddMsg(waMsg.from,waMsg.text,'received');}
         if(!isMyChat&&!isBot)continue;
         if(isBot){
           addMsg('tgM','🤖 '+txt.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\n/g,'<br>'),false);

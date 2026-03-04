@@ -959,7 +959,6 @@ async function ocSend(){
   inp.value='';
   const b=document.getElementById('tgB');b.disabled=true;
 
-  // Show typing
   const typingId='typing-'+Date.now();
   const typingEl=document.createElement('div');
   typingEl.className='msg ai';typingEl.id=typingId;
@@ -967,31 +966,44 @@ async function ocSend(){
   document.getElementById('tgM').appendChild(typingEl);
   typingEl.scrollIntoView({behavior:'smooth'});
 
-  // Also send to Telegram in background
-  tgSnd(t);
-
-  try{
-    const res=await fetch(NUCBOX_AGENT,{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({message:t, sessionId:'dashboard-main', history:ocHistory.slice(-10)})
-    });
-    const data=await res.json();
-    if(data.error){const te=document.getElementById(typingId);if(te)te.remove();addMsg('tgM','❌ '+data.error,false);return;}
-    const reply=data.reply||'Sin respuesta.';
-    ocHistory.push({role:'assistant',content:reply});
-    if(ocHistory.length>20)ocHistory=ocHistory.slice(-16);
-    // Remove typing, show reply
+  const sent=await tgSnd(t);
+  if(!sent){
     const te=document.getElementById(typingId);if(te)te.remove();
-    addMsg('tgM','🤖 '+reply.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\n/g,'<br>'),false);
-    // Also send reply to Telegram
-    tgSnd('🤖 '+reply);
-  }catch(e){
-    console.error('🤖 OpenClaw2 error:',e);
-    const te=document.getElementById(typingId);if(te)te.remove();
-    addMsg('tgM','❌ Error: '+e.message,false);
+    addMsg('tgM','❌ Error enviando a Telegram',false);
+    b.disabled=false;return;
   }
-  b.disabled=false;
+
+  const sentAt=Date.now();
+  const pollReply=async()=>{
+    try{
+      const r=await fetch(`${TG_A}?action=getUpdates&offset=${tgOffset}`);
+      const d=await r.json();
+      if(d.ok&&d.result){
+        for(const u of d.result){
+          tgOffset=u.update_id+1;
+          try{localStorage.setItem(TG_POLL_KEY,tgOffset)}catch(e){}
+          const msg=u.message;
+          if(!msg)continue;
+          const fromBot=msg.from&&(msg.from.is_bot||msg.from.username==='arddiitibot'||msg.from.username==='openclaw2');
+          const afterSent=msg.date*1000>=sentAt-2000;
+          if(fromBot&&afterSent){
+            const te=document.getElementById(typingId);if(te)te.remove();
+            const reply=msg.text||'';
+            addMsg('tgM','🤖 '+reply.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\n/g,'<br>'),false);
+            b.disabled=false;
+            return;
+          }
+        }
+      }
+    }catch(e){}
+    if(Date.now()-sentAt<30000){setTimeout(pollReply,1500);}
+    else{
+      const te=document.getElementById(typingId);if(te)te.remove();
+      addMsg('tgM','⏱️ OpenClaw tardó demasiado. Revisa Telegram.',false);
+      b.disabled=false;
+    }
+  };
+  setTimeout(pollReply,2000);
 }
 function tgS(){ocSend()}
 function tgQ(q){document.getElementById('tgI').value=q;ocSend()}

@@ -2,7 +2,7 @@
 // Puente entre el dashboard (Netlify HTTPS) y OpenClaw en NucBox (Tailscale)
 // NucBox IP Tailscale: 100.69.142.77 puerto 3443
 
-const NUCBOX_URL = process.env.NUCBOX_URL || 'https://100.69.142.77:3443';
+const NUCBOX_URL = process.env.NUCBOX_URL || 'https://metals-somewhere-potatoes-solving.trycloudflare.com';
 const TG_TOKEN = process.env.TELEGRAM_BOT_TOKEN || '7853838527:AAHtI2svAQgGzwx8jVUvGxSPiOe_mRJxWFo';
 const TG_CHAT = '596831448';
 

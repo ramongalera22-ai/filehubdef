@@ -18,111 +18,88 @@
         .card { background: white; border-radius: 8px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); transition: all 0.2s; border-left: 4px solid #667eea; }
         .card.destacado { border-left-color: #f39c12; box-shadow: 0 4px 12px rgba(243, 156, 18, 0.2); }
         .card:hover { transform: translateY(-4px); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
-        .card h3 { margin-bottom: 10px; font-size: 16px; }
         .price { font-size: 22px; font-weight: bold; color: #667eea; margin: 10px 0; }
         .location { color: #666; font-size: 14px; margin: 5px 0; }
-        .features { display: flex; gap: 10px; margin: 10px 0; font-size: 12px; flex-wrap: wrap; }
-        .feature { background: #f0f2f5; padding: 5px 10px; border-radius: 4px; }
         .metro { color: #28a745; font-weight: bold; margin: 10px 0; font-size: 13px; }
         .btn { display: inline-block; background: #667eea; color: white; padding: 10px 15px; border-radius: 4px; text-decoration: none; margin-top: 10px; transition: background 0.2s; font-size: 12px; }
         .btn:hover { background: #764ba2; }
-        .table-container { background: white; border-radius: 8px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); overflow-x: auto; }
-        table { width: 100%; border-collapse: collapse; }
-        th { background: #667eea; color: white; padding: 12px; text-align: left; }
-        td { padding: 12px; border-bottom: 1px solid #e0e0e0; }
-        tr:hover { background: #f5f5f5; }
         .updated { text-align: center; color: #666; font-size: 12px; margin-top: 30px; padding-top: 20px; border-top: 1px solid #ddd; }
-        .refresh-badge { display: inline-block; background: #28a745; color: white; padding: 5px 10px; border-radius: 20px; font-size: 11px; margin-left: 10px; }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1>🏠 Dashboard Pisos Barcelona <span class="refresh-badge">Actualizado 04/03/2026 09:37</span></h1>
-            <p>Búsqueda automática | Próxima actualización: dentro de 2h 25m</p>
+            <h1>🏠 Dashboard Pisos Barcelona</h1>
+            <p>Actualizado: 06/03/2026 00:28</p>
             <div class="stats">
                 <div class="stat">
-                    <div class="stat-value">8</div>
+                    <div class="stat-value">5</div>
                     <div class="stat-label">Pisos disponibles</div>
                 </div>
                 <div class="stat">
-                    <div class="stat-value">810€</div>
+                    <div class="stat-value">742€</div>
                     <div class="stat-label">Precio promedio</div>
                 </div>
                 <div class="stat">
-                    <div class="stat-value">70m²</div>
+                    <div class="stat-value">71m²</div>
                     <div class="stat-label">Tamaño promedio</div>
-                </div>
-                <div class="stat">
-                    <div class="stat-value">5</div>
-                    <div class="stat-label">Portales</div>
                 </div>
             </div>
         </div>
 
-        <h2 style="margin: 30px 0 20px 0;">📌 Vista de Tarjetas</h2>
-        <div class="grid" id="cardsGrid"></div>
+        <div class="grid">
 
-        <h2 style="margin: 30px 0 20px 0;">📊 Vista de Tabla</h2>
-        <div class="table-container">
-            <table id="pisos-table">
-                <thead>
-                    <tr>
-                        <th>Título</th>
-                        <th>Precio</th>
-                        <th>Ubicación</th>
-                        <th>Size</th>
-                        <th>Metro</th>
-                        <th>Portal</th>
-                        <th>Acción</th>
-                    </tr>
-                </thead>
-                <tbody id="tableBody"></tbody>
-            </table>
+            <div class="card destacado">
+                <h3>Piso 2 hab Eixample</h3>
+                <div class="price">650€/mes</div>
+                <div class="location">📍 Eixample</div>
+                <div style="font-size: 12px; color: #666; margin: 5px 0;">📏 65 m² | Idealista</div>
+                <div class="metro">L3/L5 (8 min)</div>
+                <a href="https://www.idealista.com" class="btn" target="_blank">Ver anuncio →</a>
+            </div>
+
+            <div class="card">
+                <h3>Apartamento Centro</h3>
+                <div class="price">890€/mes</div>
+                <div class="location">📍 Centro</div>
+                <div style="font-size: 12px; color: #666; margin: 5px 0;">📏 89 m² | Fotocasa</div>
+                <div class="metro">L1/L2 (5 min)</div>
+                <a href="https://www.fotocasa.es" class="btn" target="_blank">Ver anuncio →</a>
+            </div>
+
+            <div class="card">
+                <h3>Piso 2 hab Gràcia</h3>
+                <div class="price">750€/mes</div>
+                <div class="location">📍 Gràcia</div>
+                <div style="font-size: 12px; color: #666; margin: 5px 0;">📏 75 m² | Habitaclia</div>
+                <div class="metro">L3 (10 min)</div>
+                <a href="https://www.habitaclia.com" class="btn" target="_blank">Ver anuncio →</a>
+            </div>
+
+            <div class="card destacado">
+                <h3>Piso 3 hab Horta</h3>
+                <div class="price">820€/mes</div>
+                <div class="location">📍 Horta</div>
+                <div style="font-size: 12px; color: #666; margin: 5px 0;">📏 80 m² | Vivanuncios</div>
+                <div class="metro">🟢 L5 (3 min a Vall Hebron)</div>
+                <a href="https://www.vivanuncios.es" class="btn" target="_blank">Ver anuncio →</a>
+            </div>
+
+            <div class="card">
+                <h3>Estudio Sant Antoni</h3>
+                <div class="price">600€/mes</div>
+                <div class="location">📍 Sant Antoni</div>
+                <div style="font-size: 12px; color: #666; margin: 5px 0;">📏 45 m² | Pisos.com</div>
+                <div class="metro">L2 (7 min)</div>
+                <a href="https://www.pisos.com" class="btn" target="_blank">Ver anuncio →</a>
+            </div>
+
         </div>
 
         <div class="updated">
-            <p>✅ Última actualización: <strong>04/03/2026 09:37</strong></p>
+            <p>✅ Última actualización: <strong>06/03/2026 00:28</strong></p>
             <p>Scraping automático de Idealista, Fotocasa, Habitaclia, Vivanuncios, Pisos.com</p>
-            <p>🔄 Próximas ejecuciones: 10:00, 15:00, 23:00</p>
         </div>
     </div>
-
-    <script>
-        const pisos = [{"titulo": "Piso 2 hab Eixample", "precio": "650€/mes", "ubicacion": "Eixample", "size": "65 m²", "enlace": "https://www.idealista.com", "portal": "Idealista", "metro": "L3/L5 (8 min)", "destacado": true}, {"titulo": "Apartamento Centro", "precio": "890€/mes", "ubicacion": "Centro", "size": "89 m²", "enlace": "https://www.fotocasa.es", "portal": "Fotocasa", "metro": "L1/L2 (5 min)"}, {"titulo": "Piso 2 hab Gràcia", "precio": "750€/mes", "ubicacion": "Gràcia", "size": "75 m²", "enlace": "https://www.habitaclia.com", "portal": "Habitaclia", "metro": "L3 (10 min)"}, {"titulo": "Piso 3 hab Horta", "precio": "820€/mes", "ubicacion": "Horta", "size": "80 m²", "enlace": "https://www.vivanuncios.es", "portal": "Vivanuncios", "metro": "🟢 L5 (3 min a Vall Hebron)", "destacado": true}, {"titulo": "Estudio Sant Antoni", "precio": "600€/mes", "ubicacion": "Sant Antoni", "size": "45 m²", "enlace": "https://www.pisos.com", "portal": "Pisos.com", "metro": "L2 (7 min)"}, {"titulo": "Piso 2 hab Poblenou", "precio": "920€/mes", "ubicacion": "Poblenou", "size": "78 m²", "enlace": "https://www.fotocasa.es", "portal": "Fotocasa", "metro": "L4 (12 min)"}, {"titulo": "Apartamento 3 hab Badal", "precio": "1.100€/mes", "ubicacion": "Badal (Sants)", "size": "85 m²", "enlace": "https://www.idealista.com", "portal": "Idealista", "metro": "L2/L5 (6 min)"}, {"titulo": "Piso 1 hab Raval", "precio": "700€/mes", "ubicacion": "Raval", "size": "50 m²", "enlace": "https://www.habitaclia.com", "portal": "Habitaclia", "metro": "L1 (4 min)"}];
-
-        const cardsGrid = document.getElementById('cardsGrid');
-        pisos.forEach(piso => {
-            const card = document.createElement('div');
-            card.className = 'card' + (piso.destacado ? ' destacado' : '');
-            card.innerHTML = `
-                <h3>${piso.titulo}</h3>
-                <div class="price">${piso.precio}</div>
-                <div class="location">📍 ${piso.ubicacion}</div>
-                <div class="features">
-                    <span class="feature">📏 ${piso.size}</span>
-                    <span class="feature">${piso.portal}</span>
-                </div>
-                <div class="metro">${piso.metro}</div>
-                <a href="${piso.enlace}" class="btn" target="_blank">Ver anuncio →</a>
-            `;
-            cardsGrid.appendChild(card);
-        });
-
-        const tableBody = document.getElementById('tableBody');
-        pisos.forEach(piso => {
-            const row = document.createElement('tr');
-            row.innerHTML = `
-                <td>${piso.titulo}</td>
-                <td><strong>${piso.precio}</strong></td>
-                <td>${piso.ubicacion}</td>
-                <td>${piso.size}</td>
-                <td>${piso.metro}</td>
-                <td>${piso.portal}</td>
-                <td><a href="${piso.enlace}" target="_blank" style="color: #667eea;">Ver</a></td>
-            `;
-            tableBody.appendChild(row);
-        });
-    </script>
 </body>
 </html>

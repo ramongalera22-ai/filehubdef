@@ -1,6 +1,6 @@
 {
-  "timestamp": "2026-03-04T09:37:15.117598",
-  "total": 8,
+  "timestamp": "2026-03-06T00:28:37.229360",
+  "total": 5,
   "pisos": [
     {
       "titulo": "Piso 2 hab Eixample",
@@ -48,36 +48,7 @@
       "enlace": "https://www.pisos.com",
       "portal": "Pisos.com",
       "metro": "L2 (7 min)"
-    },
-    {
-      "titulo": "Piso 2 hab Poblenou",
-      "precio": "920€/mes",
-      "ubicacion": "Poblenou",
-      "size": "78 m²",
-      "enlace": "https://www.fotocasa.es",
-      "portal": "Fotocasa",
-      "metro": "L4 (12 min)"
-    },
-    {
-      "titulo": "Apartamento 3 hab Badal",
-      "precio": "1.100€/mes",
-      "ubicacion": "Badal (Sants)",
-      "size": "85 m²",
-      "enlace": "https://www.idealista.com",
-      "portal": "Idealista",
-      "metro": "L2/L5 (6 min)"
-    },
-    {
-      "titulo": "Piso 1 hab Raval",
-      "precio": "700€/mes",
-      "ubicacion": "Raval",
-      "size": "50 m²",
-      "enlace": "https://www.habitaclia.com",
-      "portal": "Habitaclia",
-      "metro": "L1 (4 min)"
     }
   ],
-  "rango_precio": "<1.400€",
-  "ciudad": "Barcelona",
-  "precio_promedio": "810€/mes"
+  "precio_promedio": "742€/mes"
 }

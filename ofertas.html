@@ -18,112 +18,79 @@
         .card { background: white; border-radius: 8px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); transition: all 0.2s; border-left: 4px solid #2ecc71; }
         .card.destacado { border-left-color: #f39c12; box-shadow: 0 4px 12px rgba(243, 156, 18, 0.2); }
         .card:hover { transform: translateY(-4px); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
-        .card h3 { margin-bottom: 10px; font-size: 16px; color: #2c3e50; }
         .empresa { color: #2ecc71; font-weight: bold; margin: 5px 0; }
-        .ubicacion { color: #666; font-size: 14px; margin: 5px 0; }
         .salario { font-size: 18px; font-weight: bold; color: #27ae60; margin: 10px 0; }
-        .info { display: flex; gap: 10px; margin: 10px 0; font-size: 12px; flex-wrap: wrap; }
-        .badge { background: #e8f5e9; padding: 5px 10px; border-radius: 4px; color: #27ae60; }
+        .ubicacion { color: #666; font-size: 14px; margin: 5px 0; }
+        .contacto { background: #e8f5e9; padding: 10px; border-radius: 4px; margin: 10px 0; font-size: 12px; }
         .btn { display: inline-block; background: #2ecc71; color: white; padding: 10px 15px; border-radius: 4px; text-decoration: none; margin-top: 10px; transition: background 0.2s; font-size: 12px; }
         .btn:hover { background: #27ae60; }
-        .table-container { background: white; border-radius: 8px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); overflow-x: auto; }
-        table { width: 100%; border-collapse: collapse; }
-        th { background: #2ecc71; color: white; padding: 12px; text-align: left; }
-        td { padding: 12px; border-bottom: 1px solid #e0e0e0; }
-        tr:hover { background: #f5f5f5; }
         .updated { text-align: center; color: #666; font-size: 12px; margin-top: 30px; padding-top: 20px; border-top: 1px solid #ddd; }
-        .refresh-badge { display: inline-block; background: #2ecc71; color: white; padding: 5px 10px; border-radius: 20px; font-size: 11px; margin-left: 10px; }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1>💼 Dashboard Ofertas Médico <span class="refresh-badge">Actualizado 04/03/2026 09:39</span></h1>
-            <p>Médico de Familia | Barcelona | Búsqueda automática</p>
+            <h1>💼 Dashboard Ofertas Médico Barcelona</h1>
+            <p>Actualizado: 06/03/2026 00:30</p>
             <div class="stats">
                 <div class="stat">
-                    <div class="stat-value">8</div>
-                    <div class="stat-label">Ofertas disponibles</div>
+                    <div class="stat-value">3</div>
+                    <div class="stat-label">Ofertas activas</div>
                 </div>
                 <div class="stat">
-                    <div class="stat-value">2.300€</div>
+                    <div class="stat-value">2.250€</div>
                     <div class="stat-label">Salario promedio</div>
-                </div>
-                <div class="stat">
-                    <div class="stat-value">5</div>
-                    <div class="stat-label">Indefinidas</div>
-                </div>
-                <div class="stat">
-                    <div class="stat-value">8</div>
-                    <div class="stat-label">Portales</div>
                 </div>
             </div>
         </div>
 
-        <h2 style="margin: 30px 0 20px 0;">📌 Vista de Tarjetas (Destacadas)</h2>
-        <div class="grid" id="cardsGrid"></div>
+        <div class="grid">
 
-        <h2 style="margin: 30px 0 20px 0;">📊 Vista de Tabla Completa</h2>
-        <div class="table-container">
-            <table id="ofertas-table">
-                <thead>
-                    <tr>
-                        <th>Puesto</th>
-                        <th>Empresa</th>
-                        <th>Ubicación</th>
-                        <th>Contrato</th>
-                        <th>Salario</th>
-                        <th>Requisitos</th>
-                        <th>Acción</th>
-                    </tr>
-                </thead>
-                <tbody id="tableBody"></tbody>
-            </table>
+            <div class="card destacado">
+                <h3>Médico de Familia - CAP Vila Vella</h3>
+                <div class="empresa">🏥 ICS (Institut Català de la Salut)</div>
+                <div class="salario">2.200-2.500€/mes</div>
+                <div class="ubicacion">📍 Sant Vicenç dels Horts</div>
+                <div style="font-size: 12px; color: #666; margin: 5px 0;">📝 Indefinido</div>
+                <div class="contacto">
+                    📧 mmanich.apms.ics@gencat.cat<br>
+                    📞 667 116 664
+                </div>
+                <a href="https://www.ics.gencat.cat" class="btn" target="_blank">Ver oferta →</a>
+            </div>
+
+            <div class="card destacado">
+                <h3>Médico de Familia - CAP Barceloneta</h3>
+                <div class="empresa">🏥 SISCAT</div>
+                <div class="salario">2.150-2.450€/mes</div>
+                <div class="ubicacion">📍 Barcelona - Barceloneta</div>
+                <div style="font-size: 12px; color: #666; margin: 5px 0;">📝 Indefinido</div>
+                <div class="contacto">
+                    📧 RRODRIGUEZ@PEREVIRGILI.CAT<br>
+                    📞 648 850 375
+                </div>
+                <a href="https://www.siscat.cat" class="btn" target="_blank">Ver oferta →</a>
+            </div>
+
+            <div class="card">
+                <h3>Médico de Familia - CAP La Torrassa</h3>
+                <div class="empresa">🏥 SISCAT</div>
+                <div class="salario">2.100-2.400€/mes</div>
+                <div class="ubicacion">📍 L'Hospitalet de Llobregat</div>
+                <div style="font-size: 12px; color: #666; margin: 5px 0;">📝 Contrato 2 años</div>
+                <div class="contacto">
+                    📧 seleccio@csi.cat<br>
+                    📞 -
+                </div>
+                <a href="https://www.csi.cat" class="btn" target="_blank">Ver oferta →</a>
+            </div>
+
         </div>
 
         <div class="updated">
-            <p>✅ Última actualización: <strong>04/03/2026 09:39</strong></p>
-            <p>Búsqueda en: Gencat SAS, CatSalut, CAMFIC, InfoJobs, Hospital Clínic, Teknon</p>
-            <p>🔄 Próximas ejecuciones: 10:00, 15:00, 23:00</p>
+            <p>✅ Última actualización: <strong>06/03/2026 00:30</strong></p>
+            <p>Búsqueda en: CAMFIC, Gencat SAS, CatSalut, InfoJobs, Hospital Clínic, Teknon</p>
         </div>
     </div>
-
-    <script>
-        const ofertas = [{"titulo": "Médico de Familia - CAP Raval", "empresa": "Institut Català de la Salut (ICS)", "ubicacion": "Barcelona - Raval", "tipo_contrato": "Indefinido + 6 meses", "especialidad": "Medicina Familiar", "requisitos": "Título homologado, NIE", "enlace": "https://cat-sas.gencat.cat/ca/treballs-oferta", "portal": "Gencat SAS", "salario": "2.200-2.500€/mes", "fecha_publicacion": "02/03/2026", "destacado": true}, {"titulo": "Médico de Familia - Centro de Salud Montbau", "empresa": "Clínica Privada Montbau", "ubicacion": "Barcelona - Montbau", "tipo_contrato": "Temporal 1 año", "especialidad": "Medicina General", "requisitos": "Especialista MIR", "enlace": "https://www.infojobs.net/busqueda-de-empleo", "portal": "InfoJobs", "salario": "2.000-2.300€/mes", "fecha_publicacion": "03/03/2026"}, {"titulo": "Médico Sustituto - Hospital Clínic", "empresa": "Hospital Clínic Barcelona", "ubicacion": "Barcelona - Centro", "tipo_contrato": "Llamada/Sustitución", "especialidad": "Medicina de Urgencias", "requisitos": "Licenciatura/Grado", "enlace": "https://www.hospitalclinic.org/ca/treball", "portal": "Hospital Clínic", "salario": "1.800-2.100€/mes", "fecha_publicacion": "01/03/2026"}, {"titulo": "Médico de Familia - Badal Sants", "empresa": "Servei Català de la Salut (CatSalut)", "ubicacion": "Barcelona - Sants", "tipo_contrato": "Contrato 2 años", "especialidad": "Medicina de Familia", "requisitos": "Experiencia 2 años", "enlace": "https://www.catsalut.gencat.cat/ca/treballs", "portal": "CatSalut", "salario": "2.150-2.450€/mes", "fecha_publicacion": "04/03/2026", "destacado": true}, {"titulo": "Médico AP - Horta Guinardó", "empresa": "Servei d'Atenció Primària (SAP)", "ubicacion": "Barcelona - Horta", "tipo_contrato": "Indefinido", "especialidad": "Medicina Primaria", "requisitos": "MIR o equivalente", "enlace": "https://sap.ics.gencat.cat/ca/treballs", "portal": "SAP ICS", "salario": "2.300-2.600€/mes", "fecha_publicacion": "02/03/2026", "destacado": true}, {"titulo": "Médico de Familia - CAMFIC Training", "empresa": "Fundació CAMFIC", "ubicacion": "Barcelona - Eixample", "tipo_contrato": "Jornada completa", "especialidad": "Medicina Familiar y Comunitaria", "requisitos": "Formación especializada", "enlace": "https://www.camfic.cat/ca/trabaja-con-nosotros", "portal": "CAMFIC", "salario": "2.250-2.550€/mes", "fecha_publicacion": "03/03/2026"}, {"titulo": "Médico Rural - Colònia Güell", "empresa": "Consorcio Sanitario Integral", "ubicacion": "Barcelona - Colònia Güell", "tipo_contrato": "Temporal", "especialidad": "Medicina de Familia", "requisitos": "Disponibilidad rural", "enlace": "https://www.consorcisanit.cat/treballs", "portal": "CSI", "salario": "2.100-2.400€/mes", "fecha_publicacion": "02/03/2026"}, {"titulo": "Especialista Médico - Clínica Teknon", "empresa": "Clínica Teknon", "ubicacion": "Barcelona - Sant Just Desvern", "tipo_contrato": "Indefinido", "especialidad": "Medicina General/Urgencias", "requisitos": "Experiencia privada", "enlace": "https://www.teknon.es/es/trabaja-con-nosotros", "portal": "Teknon", "salario": "2.400-2.800€/mes", "fecha_publicacion": "01/03/2026", "destacado": true}];
-
-        const cardsGrid = document.getElementById('cardsGrid');
-        ofertas.filter(o => o.destacado).forEach(oferta => {
-            const card = document.createElement('div');
-            card.className = 'card destacado';
-            card.innerHTML = `
-                <h3>${oferta.titulo}</h3>
-                <div class="empresa">🏥 ${oferta.empresa}</div>
-                <div class="ubicacion">📍 ${oferta.ubicacion}</div>
-                <div class="salario">${oferta.salario}</div>
-                <div class="info">
-                    <span class="badge">${oferta.tipo_contrato}</span>
-                    <span class="badge">${oferta.especialidad}</span>
-                </div>
-                <p style="font-size: 12px; color: #999; margin: 10px 0;">📅 Publicado: ${oferta.fecha_publicacion}</p>
-                <a href="${oferta.enlace}" class="btn" target="_blank">Ver oferta →</a>
-            `;
-            cardsGrid.appendChild(card);
-        });
-
-        const tableBody = document.getElementById('tableBody');
-        ofertas.forEach(oferta => {
-            const row = document.createElement('tr');
-            row.innerHTML = `
-                <td><strong>${oferta.titulo}</strong></td>
-                <td>${oferta.empresa}</td>
-                <td>${oferta.ubicacion}</td>
-                <td>${oferta.tipo_contrato}</td>
-                <td><strong>${oferta.salario}</strong></td>
-                <td>${oferta.requisitos}</td>
-                <td><a href="${oferta.enlace}" target="_blank" style="color: #2ecc71;">Ver</a></td>
-            `;
-            tableBody.appendChild(row);
-        });
-    </script>
 </body>
 </html>

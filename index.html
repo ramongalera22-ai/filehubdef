@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#0d1117">
+<title>FILEHUB 2 · Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#0d1117;--bgm:#111b2b;--bgc:#162034;--bgc2:#1a2740;--bgi:#0d1520;
+  --cy:#00e5ff;--cy2:#00bcd4;--cyg:rgba(0,229,255,.10);--cyg2:rgba(0,229,255,.20);--cyb:rgba(0,229,255,.15);
+  --gr:#00e676;--grg:rgba(0,230,118,.12);--grb:rgba(0,230,118,.25);
+  --rd:#ff5252;--rdbg:rgba(255,82,82,.10);--rdb:rgba(255,82,82,.22);
+  --or:#ffab40;--org:rgba(255,171,64,.12);--orb:rgba(255,171,64,.25);
+  --yl:#ffd740;--bl:#448aff;--blg:rgba(68,138,255,.12);--blb:rgba(68,138,255,.25);
+  --wa:#25d366;--wag:rgba(37,211,102,.10);--wab:rgba(37,211,102,.22);
+  --pu:#b388ff;--pug:rgba(179,136,255,.12);--pub:rgba(179,136,255,.25);
+  --wh:#e8ecf4;--gy:#8899b8;--mu:#4a5e80;
+  --bd:rgba(0,229,255,.07);--bd2:rgba(0,229,255,.14);
+  --r:14px;--rs:10px;
+}
+html,body{height:100%;background:var(--bg);color:var(--wh);font-family:'Outfit',sans-serif;overflow:hidden}
+.app{display:grid;grid-template-columns:200px 1fr;grid-template-rows:54px 1fr;height:100vh}
+
+/* TOPBAR */
+.topbar{grid-column:1/-1;display:flex;align-items:center;padding:0 20px;gap:14px;background:var(--bgm);border-bottom:1px solid var(--bd2);z-index:20}
+.logo{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:.9rem;color:var(--cy);letter-spacing:3px}
+.logo em{color:var(--mu);font-style:normal;font-size:.7rem}
+.top-date{font-family:'JetBrains Mono',monospace;font-size:.6rem;color:var(--mu)}
+.pulse{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--gr);box-shadow:0 0 6px var(--gr);animation:blink 2s infinite;vertical-align:middle;margin-right:4px}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+.top-chips{display:flex;gap:6px;margin-left:auto;align-items:center}
+.chip{font-family:'JetBrains Mono',monospace;font-size:.6rem;padding:3px 9px;border-radius:4px;border:1px solid}
+.chip.g{color:var(--gr);border-color:var(--grb);background:var(--grg)}
+.chip.r{color:var(--rd);border-color:var(--rdb);background:var(--rdbg)}
+.chip.a{color:var(--or);border-color:var(--orb);background:var(--org)}
+.chip.c{color:var(--cy);border-color:var(--cyb);background:var(--cyg)}
+.chip.wa{color:var(--wa);border-color:var(--wab);background:var(--wag)}
+.wa-badge{background:var(--wa);color:#000;border-radius:50%;width:16px;height:16px;font-size:.55rem;display:none;align-items:center;justify-content:center;font-weight:800;margin-left:-4px}
+
+/* SIDEBAR */
+.sidebar{background:var(--bgm);border-right:1px solid var(--bd);overflow-y:auto;display:flex;flex-direction:column;padding:8px 0}
+.sidebar::-webkit-scrollbar{width:0}
+.nav-grp{padding:14px 14px 5px;font-family:'JetBrains Mono',monospace;font-size:.5rem;color:var(--mu);letter-spacing:2px;text-transform:uppercase}
+.nav-btn{display:flex;align-items:center;gap:9px;padding:9px 14px;cursor:pointer;font-size:.78rem;color:var(--gy);border-radius:7px;margin:1px 7px;transition:all .15s;border:1px solid transparent;user-select:none;position:relative}
+.nav-btn:hover{color:var(--wh);background:rgba(255,255,255,.04)}
+.nav-btn.on{color:var(--cy);background:var(--cyg);border-color:var(--cyb)}
+.nav-icon{font-size:.9rem;width:18px;text-align:center;flex-shrink:0}
+.nav-badge{margin-left:auto;font-family:'JetBrains Mono',monospace;font-size:.5rem;padding:2px 6px;border-radius:8px;background:var(--wa);color:#000;font-weight:800;display:none}
+
+/* MAIN */
+.main{overflow:hidden;display:flex;flex-direction:column}
+.pg{display:none;flex:1;overflow:hidden;flex-direction:column;height:100%}
+.pg.on{display:flex}
+.pg-head{padding:14px 20px 12px;border-bottom:1px solid var(--bd);display:flex;align-items:center;justify-content:space-between;flex-shrink:0;background:var(--bgm)}
+.pg-title{font-size:.95rem;font-weight:700}
+.pg-sub{font-size:.62rem;color:var(--mu);font-family:'JetBrains Mono',monospace;margin-top:2px}
+.pg-scroll{flex:1;overflow-y:auto;padding:16px 20px}
+.pg-scroll::-webkit-scrollbar{width:3px}
+.pg-scroll::-webkit-scrollbar-thumb{background:var(--bd2);border-radius:2px}
+
+/* CARDS */
+.card{background:var(--bgc);border:1px solid var(--bd);border-radius:var(--r);margin-bottom:14px;overflow:hidden}
+.card-h{padding:12px 16px;border-bottom:1px solid var(--bd);display:flex;align-items:center;justify-content:space-between}
+.card-h-left{display:flex;align-items:center;gap:8px;font-size:.84rem;font-weight:700}
+.card-body{padding:12px 16px}
+
+/* STATS */
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px}
+.stat{background:var(--bgc);border:1px solid var(--bd);border-radius:var(--rs);padding:12px 10px;text-align:center}
+.stat-l{font-family:'JetBrains Mono',monospace;font-size:.52rem;color:var(--mu);text-transform:uppercase;letter-spacing:1.2px;font-weight:600;margin-bottom:5px}
+.stat-v{font-size:1.15rem;font-weight:800;font-family:'JetBrains Mono',monospace}
+
+/* ITEMS */
+.itm{display:flex;align-items:center;gap:12px;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.025)}
+.itm:last-child{border:none}
+.itm-t{font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--mu);min-width:40px;flex-shrink:0}
+.itm-x{flex:1;font-size:.82rem}
+.dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.del-btn{background:none;border:none;color:var(--mu);cursor:pointer;font-size:.75rem;padding:2px 6px;border-radius:4px;flex-shrink:0;transition:color .2s}
+.del-btn:hover{color:var(--rd)}
+.empty{color:var(--mu);font-size:.78rem;text-align:center;padding:16px}
+
+/* PROGRESS */
+.prog-bar{height:4px;background:rgba(255,255,255,.06);border-radius:3px;overflow:hidden;margin-top:5px;width:100%}
+.prog-fill{height:100%;border-radius:3px;transition:width .5s ease}
+
+/* INPUT */
+.add-row{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap}
+.inp{flex:1;min-width:120px;background:var(--bgi);border:1px solid var(--bd);border-radius:7px;padding:8px 11px;color:var(--wh);font-size:.78rem;font-family:'Outfit',sans-serif;outline:none;transition:border-color .2s}
+.inp:focus{border-color:var(--cy)}
+.inp::placeholder{color:var(--mu)}
+.sel{background:var(--bgi);border:1px solid var(--bd);border-radius:7px;padding:8px 8px;color:var(--wh);font-size:.75rem;font-family:'Outfit',sans-serif;outline:none;min-width:85px}
+.sel option{background:var(--bgc)}
+.btn{padding:7px 14px;border-radius:7px;background:var(--cyg);border:1px solid var(--cyb);color:var(--cy);font-size:.72rem;font-weight:700;cursor:pointer;font-family:'Outfit',sans-serif;transition:all .2s;white-space:nowrap}
+.btn:hover{background:var(--cyg2)}
+.btn-wa{background:var(--wag);border-color:var(--wab);color:var(--wa)}
+.btn-wa:hover{background:rgba(37,211,102,.2)}
+
+/* CHAT */
+.chat-wrap{display:flex;flex-direction:column;height:100%;overflow:hidden}
+.chat-header{padding:12px 16px;border-bottom:1px solid var(--bd);display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.01);flex-shrink:0}
+.chat-av{width:32px;height:32px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:.9rem;font-weight:800;color:#000;flex-shrink:0}
+.chat-name{font-size:.82rem;font-weight:700}
+.chat-sub{font-size:.6rem;color:var(--mu)}
+.chat-status{margin-left:auto;display:flex;align-items:center;gap:5px;font-size:.62rem;color:var(--gr);font-family:'JetBrains Mono',monospace}
+.chat-status::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--gr);box-shadow:0 0 6px var(--gr);animation:blink 2s infinite}
+.msgs{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:8px}
+.msgs::-webkit-scrollbar{width:3px}
+.msgs::-webkit-scrollbar-thumb{background:var(--bd2);border-radius:2px}
+.msg{max-width:82%;padding:9px 13px;border-radius:11px;font-size:.79rem;line-height:1.55;animation:fi .2s ease}
+@keyframes fi{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+.msg.bot{align-self:flex-start;background:var(--bgc);border:1px solid var(--bd);border-bottom-left-radius:3px}
+.msg.user{align-self:flex-end;background:linear-gradient(135deg,var(--cyg2),var(--blg));border:1px solid var(--cyb);border-bottom-right-radius:3px}
+.msg.wa-bot{align-self:flex-start;background:rgba(37,211,102,.06);border:1px solid var(--wab);border-bottom-left-radius:3px}
+.msg.wa-user{align-self:flex-end;background:rgba(37,211,102,.14);border:1px solid var(--wab);border-bottom-right-radius:3px}
+.msg-src{font-family:'JetBrains Mono',monospace;font-size:.52rem;padding:1px 6px;border-radius:3px;display:inline-block;margin-bottom:4px;font-weight:700}
+.src-tg{background:rgba(0,136,204,.22);color:#64b5f6}
+.src-wa{background:rgba(37,211,102,.22);color:var(--wa)}
+.typing{display:flex;gap:3px;align-items:center;padding:4px 2px}
+.typing span{width:5px;height:5px;border-radius:50%;background:var(--gr);animation:bob .65s infinite}
+.typing span:nth-child(2){animation-delay:.15s}
+.typing span:nth-child(3){animation-delay:.3s}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+.quick-btns{display:flex;gap:5px;flex-wrap:wrap;padding:8px 14px 4px}
+.qb{padding:3px 9px;border-radius:10px;border:1px solid var(--bd);background:rgba(255,255,255,.015);color:var(--gy);font-size:.63rem;cursor:pointer;transition:all .2s;white-space:nowrap}
+.qb:hover{border-color:var(--cy);color:var(--cy);background:var(--cyg)}
+.qb.wa:hover{border-color:var(--wa);color:var(--wa);background:var(--wag)}
+.chat-input{padding:10px 14px;border-top:1px solid var(--bd);background:rgba(255,255,255,.01);flex-shrink:0}
+.input-row{display:flex;gap:7px;align-items:flex-end}
+.ci{flex:1;background:var(--bgc);border:1px solid var(--bd);border-radius:8px;padding:9px 13px;color:var(--wh);font-family:'Outfit',sans-serif;font-size:.79rem;resize:none;outline:none;min-height:38px;max-height:100px;transition:border-color .2s}
+.ci:focus{border-color:var(--cy)}
+.ci.wa-inp:focus{border-color:var(--wa)}
+.snd{border:none;border-radius:8px;width:38px;height:38px;cursor:pointer;font-size:.9rem;font-weight:800;flex-shrink:0;transition:all .15s;display:flex;align-items:center;justify-content:center}
+.snd:hover{transform:scale(1.05)}
+.snd:disabled{opacity:.35;cursor:not-allowed;transform:none}
+.snd.tg-snd{background:linear-gradient(135deg,#0088cc,#00aaff);color:#fff}
+.snd.wa-snd{background:var(--wa);color:#000}
+
+/* TABS (for dual chat) */
+.chat-tabs{display:flex;padding:0 14px;border-bottom:1px solid var(--bd);flex-shrink:0}
+.ctab{padding:10px 14px;font-size:.73rem;font-weight:600;color:var(--mu);cursor:pointer;border-bottom:2px solid transparent;transition:all .2s;display:flex;align-items:center;gap:6px;user-select:none;position:relative}
+.ctab:hover{color:var(--gy)}
+.ctab.on{color:var(--cy);border-bottom-color:var(--cy)}
+.ctab.wa.on{color:var(--wa);border-bottom-color:var(--wa)}
+.ctab-badge{background:var(--wa);color:#000;border-radius:50%;width:15px;height:15px;font-size:.5rem;display:none;align-items:center;justify-content:center;font-weight:800}
+
+/* FINANCE */
+.fin-top{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.fin-box{background:var(--bgc);border:1px solid var(--bd);border-radius:var(--rs);padding:12px 14px}
+.fin-label{font-size:.6rem;text-transform:uppercase;letter-spacing:1px;color:var(--mu);font-family:'JetBrains Mono',monospace;font-weight:600}
+.fin-val{font-size:1.3rem;font-weight:800;font-family:'JetBrains Mono',monospace;margin-top:4px}
+.fin-sub{font-size:.65rem;color:var(--mu);margin-top:3px}
+.tx-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.025)}
+.tx-row:last-child{border:none}
+.tx-ico{font-size:.9rem;flex-shrink:0}
+.tx-nm{flex:1;font-size:.79rem}
+.tx-am{font-family:'JetBrains Mono',monospace;font-size:.75rem;font-weight:700}
+.pos{color:var(--gr)}.neg{color:var(--rd)}
+
+/* GUARDIA */
+.gd-box{width:38px;height:38px;border-radius:var(--rs);background:var(--rdbg);border:1px solid var(--rdb);display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:.85rem;font-weight:800;color:var(--rd);flex-shrink:0}
+
+/* MODAL */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:50;display:none;align-items:center;justify-content:center;backdrop-filter:blur(4px)}
+.overlay.open{display:flex}
+.modal{background:var(--bgm);border:1px solid var(--bd2);border-radius:var(--r);padding:20px;width:320px;max-width:94vw}
+.modal-title{font-weight:800;font-size:.92rem;margin-bottom:16px}
+.fg{margin-bottom:10px}
+.fl{font-size:.62rem;font-family:'JetBrains Mono',monospace;color:var(--mu);display:block;margin-bottom:4px}
+.fi{width:100%;background:var(--bgi);border:1px solid var(--bd);border-radius:6px;padding:8px 11px;color:var(--wh);font-family:'Outfit',sans-serif;font-size:.8rem;outline:none;transition:border-color .2s}
+.fi:focus{border-color:var(--cy)}
+.modal-foot{display:flex;gap:8px;justify-content:flex-end;margin-top:16px}
+.btn-cancel{background:transparent;border:1px solid var(--bd);color:var(--gy);padding:6px 14px;border-radius:6px;font-size:.7rem;cursor:pointer;font-family:'Outfit',sans-serif}
+.btn-ok{background:var(--cy);color:#000;border:none;padding:6px 16px;border-radius:6px;font-size:.7rem;cursor:pointer;font-weight:800;font-family:'Outfit',sans-serif}
+
+/* TOAST */
+.toast{position:fixed;bottom:20px;right:20px;background:var(--bgm);border:1px solid var(--bd2);border-radius:8px;padding:10px 16px;font-size:.77rem;z-index:100;transform:translateY(60px);opacity:0;transition:all .25s;pointer-events:none;max-width:280px}
+.toast.show{transform:translateY(0);opacity:1}
+.toast.ok{border-color:var(--grb);color:var(--gr)}
+.toast.err{border-color:var(--rdb);color:var(--rd)}
+.toast.wa{border-color:var(--wab);color:var(--wa)}
+
+/* SYNC STATUS */
+.sync-bar{display:flex;align-items:center;gap:6px;font-size:.62rem;font-family:'JetBrains Mono',monospace;color:var(--mu);padding:6px 14px;border-top:1px solid var(--bd);flex-shrink:0}
+.sync-dot{width:5px;height:5px;border-radius:50%;background:var(--mu)}
+.sync-dot.live{background:var(--gr);box-shadow:0 0 4px var(--gr);animation:blink 2s infinite}
+
+/* MOBILE */
+@media(max-width:620px){
+  .app{grid-template-columns:1fr;grid-template-rows:54px 46px 1fr}
+  .sidebar{grid-row:2;flex-direction:row;overflow-x:auto;overflow-y:hidden;border-right:none;border-bottom:1px solid var(--bd);padding:4px}
+  .nav-grp{display:none}
+  .nav-btn{flex-direction:column;gap:2px;padding:6px 8px;min-width:52px;text-align:center;font-size:.56rem;margin:2px}
+  .nav-icon{font-size:.85rem;width:auto}
+  .top-chips{display:none}
+  .stats-row{grid-template-columns:repeat(2,1fr)}
+}
+</style>
+</head>
+<body>
+<div class="app">
+
+<!-- TOPBAR -->
+<header class="topbar">
+  <div class="logo">FILEHUB<em> 2</em></div>
+  <div class="top-date"><span class="pulse"></span><span id="topDate"></span></div>
+  <div class="top-chips">
+    <div class="chip g">💰 <span id="hLiq">—</span></div>
+    <div class="chip r">⚠️ <span id="hPag">—</span></div>
+    <div class="chip a">🚨 <span id="hGrd">—</span></div>
+    <div class="chip c" id="tgChip">✈ TG</div>
+    <div class="chip wa" id="waChip">📱 WA</div>
+  </div>
+</header>
+
+<!-- SIDEBAR -->
+<nav class="sidebar">
+  <div class="nav-grp">Principal</div>
+  <div class="nav-btn on" onclick="goPg('general')"><span class="nav-icon">📊</span>General</div>
+  <div class="nav-btn" onclick="goPg('chat')"><span class="nav-icon">✈️</span>Telegram</div>
+  <div class="nav-btn" onclick="goPg('whatsapp')"><span class="nav-icon">📱</span>WhatsApp<span class="nav-badge" id="waBadge">0</span></div>
+  <div class="nav-grp">Gestión</div>
+  <div class="nav-btn" onclick="goPg('finanzas')"><span class="nav-icon">💰</span>Finanzas</div>
+  <div class="nav-btn" onclick="goPg('guardias')"><span class="nav-icon">🚨</span>Guardias</div>
+  <div class="nav-btn" onclick="goPg('objetivos')"><span class="nav-icon">🎯</span>Objetivos</div>
+  <div class="nav-grp">Más</div>
+  <div class="nav-btn" onclick="goPg('cursos')"><span class="nav-icon">📚</span>Cursos</div>
+  <div class="nav-btn" onclick="goPg('pisos')"><span class="nav-icon">🏠</span>Pisos</div>
+</nav>
+
+<!-- MAIN -->
+<main class="main">
+
+  <!-- ========== GENERAL ========== -->
+  <div class="pg on" id="pg-general">
+    <div class="pg-head">
+      <div><div class="pg-title">📊 Vista General</div><div class="pg-sub" id="pgDate"></div></div>
+      <button class="btn" onclick="openM('event')">+ Evento</button>
+    </div>
+    <div class="pg-scroll">
+      <div class="stats-row">
+        <div class="stat"><div class="stat-l">Liquidez</div><div class="stat-v" style="color:var(--gr)" id="sLiq">—</div></div>
+        <div class="stat"><div class="stat-l">Pagos pend.</div><div class="stat-v" style="color:var(--rd)" id="sPag">—</div></div>
+        <div class="stat"><div class="stat-l">Guardias</div><div class="stat-v" style="color:var(--or)" id="sGrd">—</div></div>
+        <div class="stat"><div class="stat-l">Objetivos</div><div class="stat-v" style="color:var(--pu)" id="sObj">—</div></div>
+      </div>
+      <div class="card">
+        <div class="card-h"><div class="card-h-left">📅 Eventos hoy</div><button class="btn" onclick="openM('event')">+</button></div>
+        <div class="card-body" id="evList"><div class="empty">Sin eventos hoy</div></div>
+      </div>
+      <div class="card">
+        <div class="card-h"><div class="card-h-left">🔔 Últimos mensajes bots</div></div>
+        <div class="card-body" id="lastMsgs"><div class="empty">Sin mensajes recientes</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== TELEGRAM CHAT ========== -->
+  <div class="pg" id="pg-chat">
+    <div class="chat-wrap">
+      <div class="chat-header">
+        <div class="chat-av" style="background:linear-gradient(135deg,#0088cc,#00aaff)">✈</div>
+        <div>
+          <div class="chat-name">Bot Telegram · FILEHUB 2</div>
+          <div class="chat-sub">Bidireccional · Comandos /help · Lenguaje natural</div>
+        </div>
+        <div class="chat-status" id="tgStatus">Conectando...</div>
+      </div>
+      <div class="msgs" id="tgMsgs">
+        <div class="msg bot"><span class="msg-src src-tg">TELEGRAM · BOT</span><br>🤖 ¡FILEHUB 2 activo! Envíame comandos desde Telegram o escribe aquí.<br>Prueba <b>/help</b> para ver todos los comandos disponibles.</div>
+      </div>
+      <div class="quick-btns">
+        <button class="qb" onclick="tgQ('/help')">❓ Ayuda</button>
+        <button class="qb" onclick="tgQ('/resumen')">📋 Resumen</button>
+        <button class="qb" onclick="tgQ('/guardias')">🚨 Guardias</button>
+        <button class="qb" onclick="tgQ('/balance')">💰 Balance</button>
+        <button class="qb" onclick="tgQ('/objetivos')">🎯 Objetivos</button>
+        <button class="qb" onclick="tgQ('/pisos')">🏠 Pisos</button>
+      </div>
+      <div class="chat-input">
+        <div class="input-row">
+          <textarea class="ci" id="tgIn" placeholder="Enviar a Telegram o al bot..." rows="1" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();tgSend()}"></textarea>
+          <button class="snd tg-snd" onclick="tgSend()" id="tgBtn">→</button>
+        </div>
+      </div>
+      <div class="sync-bar">
+        <div class="sync-dot live" id="tgDot"></div>
+        <span id="tgSyncTxt">Escuchando Telegram...</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== WHATSAPP CHAT ========== -->
+  <div class="pg" id="pg-whatsapp">
+    <div class="chat-wrap">
+      <div class="chat-header" style="background:rgba(37,211,102,.04);border-bottom-color:var(--wab)">
+        <div class="chat-av" style="background:linear-gradient(135deg,#128c7e,#25d366)">📱</div>
+        <div>
+          <div class="chat-name" style="color:var(--wa)">Bot WhatsApp · FILEHUB 2</div>
+          <div class="chat-sub">Bidireccional · Mensajes sincronizados con Telegram</div>
+        </div>
+        <div class="chat-status" id="waStatus" style="color:var(--wa)">Activo</div>
+      </div>
+      <div class="msgs" id="waMsgs">
+        <div class="msg wa-bot"><span class="msg-src src-wa">WHATSAPP · BOT</span><br>📱 Canal WhatsApp conectado via bot. Los mensajes se sincronizan automáticamente.</div>
+      </div>
+      <div class="quick-btns">
+        <button class="qb wa" onclick="waQ('Resumen del día')">📋 Resumen</button>
+        <button class="qb wa" onclick="waQ('Ver guardias')">🚨 Guardias</button>
+        <button class="qb wa" onclick="waQ('Balance económico')">💰 Balance</button>
+        <button class="qb wa" onclick="waQ('Mis objetivos')">🎯 Objetivos</button>
+        <button class="qb wa" onclick="waQ('Pisos disponibles')">🏠 Pisos</button>
+      </div>
+      <div class="chat-input">
+        <div class="input-row">
+          <textarea class="ci wa-inp" id="waIn" placeholder="Enviar a WhatsApp..." rows="1" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();waSend()}"></textarea>
+          <button class="snd wa-snd" onclick="waSend()" id="waBtn">→</button>
+        </div>
+      </div>
+      <div class="sync-bar">
+        <div class="sync-dot live" style="background:var(--wa);box-shadow:0 0 4px var(--wa)"></div>
+        <span>Canal WA sincronizado vía bot Telegram · Los resultados de búsquedas aparecen aquí y en WA</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== FINANZAS ========== -->
+  <div class="pg" id="pg-finanzas">
+    <div class="pg-head">
+      <div><div class="pg-title">💰 Finanzas</div><div class="pg-sub">Balance y movimientos</div></div>
+      <button class="btn" onclick="openM('tx')">+ Movimiento</button>
+    </div>
+    <div class="pg-scroll">
+      <div class="fin-top">
+        <div class="fin-box"><div class="fin-label">Balance</div><div class="fin-val pos" id="fBal">€0</div><div class="fin-sub" id="fMes">Este mes: —</div></div>
+        <div class="fin-box"><div class="fin-label">Liquidez</div><div class="fin-val" id="fLiq">€0</div><div class="fin-sub" id="fPag">Pend: —</div></div>
+      </div>
+      <div class="card">
+        <div class="card-h"><div class="card-h-left">📋 Movimientos</div></div>
+        <div class="card-body" id="txList"><div class="empty">Sin movimientos</div></div>
+      </div>
+      <div class="add-row">
+        <input class="inp" id="txDesc" placeholder="Descripción...">
+        <input class="inp" id="txAmt" type="number" placeholder="€" style="max-width:90px">
+        <select class="sel" id="txType">
+          <option value="income">📈 Ingreso</option>
+          <option value="expense">📉 Gasto</option>
+        </select>
+        <button class="btn" onclick="addTx()">+ Añadir</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== GUARDIAS ========== -->
+  <div class="pg" id="pg-guardias">
+    <div class="pg-head">
+      <div><div class="pg-title">🚨 Guardias</div><div class="pg-sub" id="gdCount">0 guardias</div></div>
+      <button class="btn" onclick="openM('gd')">+ Guardia</button>
+    </div>
+    <div class="pg-scroll">
+      <div class="card">
+        <div class="card-body" id="gdList"><div class="empty">Sin guardias</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== OBJETIVOS ========== -->
+  <div class="pg" id="pg-objetivos">
+    <div class="pg-head">
+      <div><div class="pg-title">🎯 Objetivos</div><div class="pg-sub" id="objCount">0 objetivos</div></div>
+    </div>
+    <div class="pg-scroll">
+      <div class="add-row">
+        <input class="inp" id="objInp" placeholder="Nuevo objetivo..." onkeydown="if(event.key==='Enter')addObj()">
+        <select class="sel" id="objPri">
+          <option value="alta">🔴 Alta</option>
+          <option value="media" selected>🟡 Media</option>
+          <option value="baja">🟢 Baja</option>
+        </select>
+        <button class="btn" onclick="addObj()">+ Añadir</button>
+      </div>
+      <div id="objList"></div>
+    </div>
+  </div>
+
+  <!-- ========== CURSOS ========== -->
+  <div class="pg" id="pg-cursos">
+    <div class="pg-head">
+      <div><div class="pg-title">📚 Cursos</div><div class="pg-sub" id="curCount">0 cursos</div></div>
+    </div>
+    <div class="pg-scroll">
+      <div class="add-row">
+        <input class="inp" id="curInp" placeholder="Nuevo curso..." onkeydown="if(event.key==='Enter')addCur()">
+        <select class="sel" id="curTp">
+          <option value="presencial">🏥 Presencial</option>
+          <option value="online">💻 Online</option>
+          <option value="mixto">🔄 Mixto</option>
+        </select>
+        <button class="btn" onclick="addCur()">+ Añadir</button>
+      </div>
+      <div id="curList"></div>
+    </div>
+  </div>
+
+  <!-- ========== PISOS ========== -->
+  <div class="pg" id="pg-pisos">
+    <div class="pg-head">
+      <div><div class="pg-title">🏠 Pisos</div><div class="pg-sub" id="pisCount">0 pisos</div></div>
+      <button class="btn" onclick="openM('piso')">+ Piso</button>
+    </div>
+    <div class="pg-scroll">
+      <div id="pisoList"></div>
+    </div>
+  </div>
+
+</main>
+</div>
+
+<!-- MODALS -->
+<div class="overlay" id="ov-event" onclick="if(event.target===this)closeM()">
+  <div class="modal">
+    <div class="modal-title">📅 Nuevo Evento</div>
+    <div class="fg"><label class="fl">Hora</label><input class="fi" id="m-et" type="time"></div>
+    <div class="fg"><label class="fl">Descripción</label><input class="fi" id="m-ed" placeholder="Ej: Guardia UCI"></div>
+    <div class="modal-foot"><button class="btn-cancel" onclick="closeM()">Cancelar</button><button class="btn-ok" onclick="saveEv()">Guardar</button></div>
+  </div>
+</div>
+
+<div class="overlay" id="ov-gd" onclick="if(event.target===this)closeM()">
+  <div class="modal">
+    <div class="modal-title">🚨 Nueva Guardia</div>
+    <div class="fg"><label class="fl">Día del mes</label><input class="fi" id="m-gday" type="number" min="1" max="31" placeholder="15"></div>
+    <div class="fg"><label class="fl">Nombre</label><input class="fi" id="m-gname" placeholder="Guardia UCI"></div>
+    <div class="fg"><label class="fl">Detalle</label><input class="fi" id="m-gdet" placeholder="08:00–08:00+1 · Hospital"></div>
+    <div class="modal-foot"><button class="btn-cancel" onclick="closeM()">Cancelar</button><button class="btn-ok" onclick="saveGd()">Guardar</button></div>
+  </div>
+</div>
+
+<div class="overlay" id="ov-tx" onclick="if(event.target===this)closeM()">
+  <div class="modal">
+    <div class="modal-title">💰 Movimiento</div>
+    <div class="fg"><label class="fl">Tipo</label><select class="fi" id="m-tt"><option value="income">📈 Ingreso</option><option value="expense">📉 Gasto</option></select></div>
+    <div class="fg"><label class="fl">Cantidad (€)</label><input class="fi" id="m-ta" type="number" step="0.01" placeholder="0.00"></div>
+    <div class="fg"><label class="fl">Descripción</label><input class="fi" id="m-td" placeholder="Nómina, supermercado..."></div>
+    <div class="modal-foot"><button class="btn-cancel" onclick="closeM()">Cancelar</button><button class="btn-ok" onclick="saveTx()">Guardar</button></div>
+  </div>
+</div>
+
+<div class="overlay" id="ov-piso" onclick="if(event.target===this)closeM()">
+  <div class="modal">
+    <div class="modal-title">🏠 Nuevo Piso</div>
+    <div class="fg"><label class="fl">Título / Dirección</label><input class="fi" id="m-pt" placeholder="Calle Mayor 5, 2ºB"></div>
+    <div class="fg"><label class="fl">Detalle</label><input class="fi" id="m-pd" placeholder="3 hab · 800€/mes · Disponible"></div>
+    <div class="fg"><label class="fl">Estado</label><select class="fi" id="m-ps"><option value="nuevo">🆕 Nuevo</option><option value="visto">👀 Visto</option><option value="interesante">⭐ Interesante</option><option value="descartado">❌ Descartado</option></select></div>
+    <div class="modal-foot"><button class="btn-cancel" onclick="closeM()">Cancelar</button><button class="btn-ok" onclick="savePiso()">Guardar</button></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ============================================================
+// CONFIGURATION — Edita con tus tokens
+// ============================================================
+const CFG = {
+  TG_BOT:   '8466601397:AAG4Ky7-mziSPUQbHtE6G9iyg_Gpc70WLVU',
+  TG_CID:   '596831448',
+  // WhatsApp via Telegram Bot: el bot reenvía msgs de WA con prefijo
+  WA_PREFIX: '📱', // Mensajes de WA llegan por Telegram con este prefijo
+};
+
+// ============================================================
+// DATA LAYER
+// ============================================================
+const KS = 'fh2-v1';
+let D = JSON.parse(localStorage.getItem(KS) || '{}');
+D.events   = D.events   || [];
+D.guardias = D.guardias || [];
+D.tx       = D.tx       || [];
+D.objetivos= D.objetivos|| [];
+D.cursos   = D.cursos   || [];
+D.pisos    = D.pisos    || [];
+D.liquidez = D.liquidez !== undefined ? D.liquidez : 1578;
+D.pagos    = D.pagos    !== undefined ? D.pagos    : 557;
+
+function sv() { localStorage.setItem(KS, JSON.stringify(D)); }
+
+// ============================================================
+// DATE INIT
+// ============================================================
+(function() {
+  const s = new Date().toLocaleDateString('es-ES', {weekday:'long', year:'numeric', month:'long', day:'numeric'});
+  document.getElementById('topDate').textContent = s;
+  document.getElementById('pgDate').textContent = s;
+})();
+
+// ============================================================
+// NAVIGATION
+// ============================================================
+function goPg(id) {
+  document.querySelectorAll('.pg').forEach(p => p.classList.remove('on'));
+  document.querySelectorAll('.nav-btn').forEach(n => n.classList.remove('on'));
+  document.getElementById('pg-' + id).classList.add('on');
+  document.querySelectorAll('.nav-btn').forEach(n => {
+    if (n.getAttribute('onclick')?.includes("'" + id + "'")) n.classList.add('on');
+  });
+  if (id === 'whatsapp') clearWaBadge();
+  setTimeout(() => {
+    const ms = { chat:'tgMsgs', whatsapp:'waMsgs' };
+    if (ms[id]) { const el = document.getElementById(ms[id]); if(el) el.scrollTop = el.scrollHeight; }
+  }, 60);
+}
+
+// ============================================================
+// STATS UPDATE
+// ============================================================
+function updStats() {
+  const inc = D.tx.filter(t=>t.tp==='income').reduce((s,t)=>s+t.am,0);
+  const exp = D.tx.filter(t=>t.tp==='expense').reduce((s,t)=>s+t.am,0);
+  const bal = inc - exp;
+  const dn  = D.objetivos.filter(o=>o.done).length;
+  const gn  = D.guardias.length;
+
+  document.getElementById('sLiq').textContent = D.liquidez + '€';
+  document.getElementById('sPag').textContent = D.pagos + '€';
+  document.getElementById('sGrd').textContent = gn;
+  document.getElementById('sObj').textContent = dn + '/' + D.objetivos.length;
+  document.getElementById('hLiq').textContent = D.liquidez + '€';
+  document.getElementById('hPag').textContent = D.pagos + '€';
+  document.getElementById('hGrd').textContent = gn;
+  document.getElementById('gdCount').textContent = gn + ' guardias';
+  document.getElementById('objCount').textContent = D.objetivos.length + ' objetivos';
+  document.getElementById('curCount').textContent = D.cursos.length + ' cursos';
+  document.getElementById('pisCount').textContent = D.pisos.length + ' pisos';
+
+  // Finance
+  document.getElementById('fBal').textContent = '€' + bal.toFixed(2);
+  document.getElementById('fBal').className = 'fin-val ' + (bal >= 0 ? 'pos' : 'neg');
+  document.getElementById('fLiq').textContent = '€' + D.liquidez;
+  document.getElementById('fMes').textContent = 'Inc: €' + inc.toFixed(0) + ' · Gto: €' + exp.toFixed(0);
+  document.getElementById('fPag').textContent = 'Pendiente: €' + D.pagos;
+}
+
+// ============================================================
+// RENDER FUNCTIONS
+// ============================================================
+function rendEv() {
+  const el = document.getElementById('evList');
+  if (!D.events.length) { el.innerHTML = '<div class="empty">Sin eventos hoy</div>'; return; }
+  el.innerHTML = D.events.sort((a,b)=>a.time.localeCompare(b.time)).map(e =>
+    `<div class="itm"><div class="itm-t">${e.time}</div><div class="dot" style="background:var(--cy)"></div><div class="itm-x">${e.desc}</div><button class="del-btn" onclick="delEv(${e.id})">✕</button></div>`
+  ).join('');
+}
+
+function rendGd() {
+  const el = document.getElementById('gdList');
+  if (!D.guardias.length) { el.innerHTML = '<div class="empty">Sin guardias</div>'; return; }
+  el.innerHTML = D.guardias.sort((a,b)=>a.day-b.day).map(g =>
+    `<div class="itm"><div class="gd-box">${g.day}</div><div style="flex:1"><div style="font-size:.82rem;font-weight:600">${g.name}</div><div style="font-size:.65rem;color:var(--mu);font-family:'JetBrains Mono',monospace;margin-top:2px">${g.detail||'Hospital'}</div></div><button class="del-btn" onclick="delGd(${g.id})">✕</button></div>`
+  ).join('');
+}
+
+function rendTx() {
+  const el = document.getElementById('txList');
+  if (!D.tx.length) { el.innerHTML = '<div class="empty">Sin movimientos</div>'; return; }
+  el.innerHTML = D.tx.slice(0,30).map(t =>
+    `<div class="tx-row"><div class="tx-ico">${t.tp==='income'?'📈':'📉'}</div><div class="tx-nm">${t.desc||t.nm||'—'}</div><div class="tx-am ${t.tp==='income'?'pos':'neg'}">${t.tp==='income'?'+':'-'}€${(t.am||0).toFixed(2)}</div><button class="del-btn" onclick="delTx(${t.id})">✕</button></div>`
+  ).join('');
+}
+
+function rendObj() {
+  const el = document.getElementById('objList');
+  if (!D.objetivos.length) { el.innerHTML = '<div class="empty">Sin objetivos. ¡Añade uno!</div>'; return; }
+  const priColor = {alta:'var(--rd)', media:'var(--or)', baja:'var(--gr)'};
+  el.innerHTML = D.objetivos.map(o =>
+    `<div class="itm" style="flex-wrap:wrap">
+      <div class="dot" style="background:${o.done?'var(--gr)':'var(--mu)'}"></div>
+      <div style="flex:1;font-size:.82rem;${o.done?'text-decoration:line-through;color:var(--mu)':''}">${o.text}</div>
+      <span style="font-size:.6rem;color:${priColor[o.pri]||'var(--mu)'};margin-right:6px">${o.pri}</span>
+      <button class="del-btn" style="color:var(--gr)" onclick="togObj(${o.id})">✓</button>
+      <button class="del-btn" onclick="delObj(${o.id})">✕</button>
+    </div>`
+  ).join('');
+}
+
+function rendCur() {
+  const el = document.getElementById('curList');
+  if (!D.cursos.length) { el.innerHTML = '<div class="empty">Sin cursos</div>'; return; }
+  el.innerHTML = D.cursos.map(c =>
+    `<div class="itm">
+      <div class="dot" style="background:${c.done?'var(--gr)':'var(--pu)'}"></div>
+      <div style="flex:1;font-size:.82rem;${c.done?'text-decoration:line-through;color:var(--mu)':''}">${c.text||c.t||'—'}</div>
+      <span style="font-size:.6rem;color:var(--mu);margin-right:6px">${c.tp||'online'}</span>
+      <button class="del-btn" onclick="delCur(${c.id})">✕</button>
+    </div>`
+  ).join('');
+}
+
+function rendPisos() {
+  const el = document.getElementById('pisoList');
+  if (!D.pisos.length) { el.innerHTML = '<div class="empty">Sin pisos. Usa /piso desde Telegram o añade manualmente.</div>'; return; }
+  const stColors = {nuevo:'var(--cy)', visto:'var(--or)', interesante:'var(--gr)', descartado:'var(--rd)'};
+  el.innerHTML = D.pisos.map(p =>
+    `<div class="card" style="margin-bottom:10px">
+      <div style="padding:12px 14px;display:flex;align-items:flex-start;gap:10px">
+        <div style="font-size:1.1rem">🏠</div>
+        <div style="flex:1">
+          <div style="font-size:.84rem;font-weight:700">${p.title}</div>
+          <div style="font-size:.72rem;color:var(--gy);margin-top:3px">${p.detail||'—'}</div>
+          <div style="margin-top:6px"><span style="font-size:.6rem;padding:2px 7px;border-radius:8px;background:var(--bgc2);color:${stColors[p.status]||'var(--mu)'};">${p.status||'nuevo'}</span></div>
+        </div>
+        <button class="del-btn" onclick="delPiso(${p.id})">✕</button>
+      </div>
+    </div>`
+  ).join('');
+}
+
+function rendLastMsgs() {
+  const el = document.getElementById('lastMsgs');
+  const msgs = (window._lastBotMsgs||[]).slice(-5);
+  if (!msgs.length) { el.innerHTML = '<div class="empty">Los resultados de búsquedas de Telegram y WhatsApp aparecerán aquí</div>'; return; }
+  el.innerHTML = msgs.map(m =>
+    `<div class="itm">
+      <span class="msg-src ${m.src==='tg'?'src-tg':'src-wa'}" style="flex-shrink:0">${m.src==='tg'?'TG':'WA'}</span>
+      <div style="flex:1;font-size:.78rem">${m.text.slice(0,120)}${m.text.length>120?'…':''}</div>
+      <div style="font-size:.58rem;color:var(--mu);font-family:'JetBrains Mono',monospace;flex-shrink:0">${m.time}</div>
+    </div>`
+  ).join('');
+}
+
+// ============================================================
+// CRUD HELPERS
+// ============================================================
+function saveEv() {
+  const t=document.getElementById('m-et').value, d=document.getElementById('m-ed').value.trim();
+  if(!t||!d)return;
+  D.events.push({id:Date.now(), time:t, desc:d});
+  sv(); rendEv(); closeM(); toast('Evento añadido');
+}
+function delEv(id) { D.events=D.events.filter(e=>e.id!==id); sv(); rendEv(); }
+
+function saveGd() {
+  const day=parseInt(document.getElementById('m-gday').value);
+  const name=document.getElementById('m-gname').value.trim();
+  const det=document.getElementById('m-gdet').value.trim();
+  if(!day||!name)return;
+  D.guardias.push({id:Date.now(), day, name, detail:det||'Hospital'});
+  sv(); rendGd(); updStats(); closeM(); toast('Guardia añadida');
+}
+function delGd(id) { D.guardias=D.guardias.filter(g=>g.id!==id); sv(); rendGd(); updStats(); }
+
+function addTx() {
+  const desc=document.getElementById('txDesc').value.trim();
+  const amt=parseFloat(document.getElementById('txAmt').value);
+  const tp=document.getElementById('txType').value;
+  if(!desc||!amt)return;
+  D.tx.unshift({id:Date.now(), desc, am:amt, tp, dt:new Date().toISOString().split('T')[0]});
+  document.getElementById('txDesc').value=''; document.getElementById('txAmt').value='';
+  sv(); rendTx(); updStats(); toast('Movimiento guardado');
+}
+function saveTx() {
+  const tp=document.getElementById('m-tt').value;
+  const am=parseFloat(document.getElementById('m-ta').value);
+  const desc=document.getElementById('m-td').value.trim();
+  if(!am||!desc)return;
+  D.tx.unshift({id:Date.now(), desc, am, tp, dt:new Date().toISOString().split('T')[0]});
+  sv(); rendTx(); updStats(); closeM(); toast('Movimiento guardado');
+}
+function delTx(id) { D.tx=D.tx.filter(t=>t.id!==id); sv(); rendTx(); updStats(); }
+
+function addObj() {
+  const text=document.getElementById('objInp').value.trim();
+  const pri=document.getElementById('objPri').value;
+  if(!text)return;
+  D.objetivos.push({id:Date.now(), text, pri, done:false});
+  document.getElementById('objInp').value='';
+  sv(); rendObj(); updStats(); toast('Objetivo añadido');
+}
+function togObj(id) { const o=D.objetivos.find(x=>x.id===id); if(o){o.done=!o.done; sv(); rendObj(); updStats();} }
+function delObj(id) { D.objetivos=D.objetivos.filter(o=>o.id!==id); sv(); rendObj(); updStats(); }
+
+function addCur() {
+  const text=document.getElementById('curInp').value.trim();
+  const tp=document.getElementById('curTp').value;
+  if(!text)return;
+  D.cursos.push({id:Date.now(), text, tp, done:false});
+  document.getElementById('curInp').value='';
+  sv(); rendCur(); updStats(); toast('Curso añadido');
+}
+function delCur(id) { D.cursos=D.cursos.filter(c=>c.id!==id); sv(); rendCur(); updStats(); }
+
+function savePiso() {
+  const title=document.getElementById('m-pt').value.trim();
+  const detail=document.getElementById('m-pd').value.trim();
+  const status=document.getElementById('m-ps').value;
+  if(!title)return;
+  D.pisos.unshift({id:Date.now(), title, detail, status, date:new Date().toISOString()});
+  sv(); rendPisos(); updStats(); closeM(); toast('Piso añadido');
+}
+function delPiso(id) { D.pisos=D.pisos.filter(p=>p.id!==id); sv(); rendPisos(); updStats(); }
+
+// ============================================================
+// MODAL
+// ============================================================
+function openM(t) { document.querySelectorAll('.overlay').forEach(o=>o.classList.remove('open')); document.getElementById('ov-'+t).classList.add('open'); }
+function closeM() { document.querySelectorAll('.overlay').forEach(o=>o.classList.remove('open')); }
+
+// ============================================================
+// TOAST
+// ============================================================
+function toast(msg, type='ok') {
+  const el=document.getElementById('toast');
+  el.textContent=msg; el.className='toast show '+type;
+  setTimeout(()=>el.classList.remove('show'), 2800);
+}
+
+// ============================================================
+// TELEGRAM INTEGRATION
+// ============================================================
+let tgOffset = parseInt(localStorage.getItem('fh2-tgoff')||'0');
+let tgConnected = false;
+window._lastBotMsgs = [];
+
+async function tgSend() {
+  const inp = document.getElementById('tgIn');
+  const text = inp.value.trim();
+  if (!text) return;
+  inp.value = ''; inp.style.height = 'auto';
+  document.getElementById('tgBtn').disabled = true;
+  addTgMsg(text, true);
+  const ok = await tgSendRaw(text);
+  if (!ok) {
+    addTgMsg('❌ Error enviando. Verifica la conexión.', false);
+    document.getElementById('tgBtn').disabled = false;
+    return;
+  }
+  const sentAt = Date.now();
+  waitTgReply(sentAt);
+}
+
+async function tgSendRaw(text) {
+  try {
+    const r = await fetch(`https://api.telegram.org/bot${CFG.TG_BOT}/sendMessage`, {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({chat_id: CFG.TG_CID, text, parse_mode:'HTML'})
+    });
+    const d = await r.json();
+    return d.ok;
+  } catch(e) { return false; }
+}
+
+async function tgGetUpdates() {
+  try {
+    const r = await fetch(`https://api.telegram.org/bot${CFG.TG_BOT}/getUpdates?offset=${tgOffset}&timeout=2`);
+    const d = await r.json();
+    if (d.ok && d.result) return d.result;
+  } catch(e) {}
+  return [];
+}
+
+function waitTgReply(sentAt) {
+  const poll = async () => {
+    const ups = await tgGetUpdates();
+    for (const u of ups) {
+      tgOffset = u.update_id + 1;
+      localStorage.setItem('fh2-tgoff', tgOffset);
+      const msg = u.message;
+      if (!msg || !msg.from) continue;
+      if (msg.from.is_bot && msg.date * 1000 >= sentAt - 3000) {
+        const txt = msg.text || '';
+        processIncomingBotMsg(txt, 'tg');
+        document.getElementById('tgBtn').disabled = false;
+        return;
+      }
+    }
+    if (Date.now() - sentAt < 35000) setTimeout(poll, 1500);
+    else {
+      addTgMsg('⏱️ Sin respuesta del bot. ¿Está activo?', false);
+      document.getElementById('tgBtn').disabled = false;
+    }
+  };
+  setTimeout(poll, 1500);
+}
+
+function addTgMsg(text, isUser) {
+  const msgs = document.getElementById('tgMsgs');
+  const el = document.createElement('div');
+  el.className = 'msg ' + (isUser ? 'user' : 'bot');
+  if (!isUser) el.innerHTML = '<span class="msg-src src-tg">TELEGRAM · BOT</span><br>';
+  const c = document.createElement('span');
+  c.innerHTML = text.replace(/\*\*(.*?)\*\*/g,'<b>$1</b>').replace(/\n/g,'<br>');
+  el.appendChild(c);
+  msgs.appendChild(el);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+function tgQ(q) { document.getElementById('tgIn').value = q; tgSend(); }
+
+// ============================================================
+// WHATSAPP INTEGRATION (via Telegram Bot relay)
+// ============================================================
+let waBadgeCount = 0;
+
+function clearWaBadge() {
+  waBadgeCount = 0;
+  const b = document.getElementById('waBadge');
+  b.style.display = 'none';
+  const c = document.getElementById('waBadgeChip');
+  if (c) c.style.display = 'none';
+}
+
+function addWaBadge() {
+  waBadgeCount++;
+  const b = document.getElementById('waBadge');
+  b.textContent = waBadgeCount;
+  b.style.display = 'flex';
+}
+
+async function waSend() {
+  const inp = document.getElementById('waIn');
+  const text = inp.value.trim();
+  if (!text) return;
+  inp.value = ''; inp.style.height = 'auto';
+  document.getElementById('waBtn').disabled = true;
+  addWaMsg(text, true);
+  // Send via Telegram with WA prefix so bot knows it's a WA message
+  await tgSendRaw('📱 [WhatsApp] ' + text);
+  const sentAt = Date.now();
+  // Wait for bot reply
+  const poll = async () => {
+    const ups = await tgGetUpdates();
+    for (const u of ups) {
+      tgOffset = u.update_id + 1;
+      localStorage.setItem('fh2-tgoff', tgOffset);
+      const msg = u.message;
+      if (!msg || !msg.from) continue;
+      if (msg.from.is_bot && msg.date * 1000 >= sentAt - 2000) {
+        const txt = msg.text || '';
+        addWaMsg(txt, false);
+        document.getElementById('waBtn').disabled = false;
+        return;
+      }
+    }
+    if (Date.now() - sentAt < 30000) setTimeout(poll, 1500);
+    else document.getElementById('waBtn').disabled = false;
+  };
+  setTimeout(poll, 1500);
+}
+
+function addWaMsg(text, isUser) {
+  const msgs = document.getElementById('waMsgs');
+  const el = document.createElement('div');
+  el.className = 'msg ' + (isUser ? 'wa-user' : 'wa-bot');
+  el.innerHTML = `<span class="msg-src src-wa">${isUser ? 'TÚ · WHATSAPP' : 'BOT · WHATSAPP'}</span><br>`;
+  const c = document.createElement('span');
+  c.innerHTML = text.replace(/\*\*(.*?)\*\*/g,'<b>$1</b>').replace(/\n/g,'<br>');
+  el.appendChild(c);
+  msgs.appendChild(el);
+  msgs.scrollTop = msgs.scrollHeight;
+  // Badge if not on WA page
+  if (!document.getElementById('pg-whatsapp').classList.contains('on')) {
+    addWaBadge();
+  }
+}
+
+function waQ(q) { document.getElementById('waIn').value = q; waSend(); }
+
+// ============================================================
+// processIncomingBotMsg — Central handler for ALL bot messages
+// Shows in right chat + dashboard General + processes commands
+// ============================================================
+function processIncomingBotMsg(text, src) {
+  const now = new Date().toLocaleTimeString('es-ES', {hour:'2-digit',minute:'2-digit'});
+
+  // Decide if it's a WA-relayed message or TG message
+  const isWaMsg = text.startsWith('📱') || text.includes('[WhatsApp]') || text.toLowerCase().includes('whatsapp');
+
+  // Add to correct chat
+  if (isWaMsg) {
+    const cleanText = text.replace(/^📱\s*\[?WhatsApp\]?\s*/i,'').trim();
+    addWaMsg(cleanText, false);
+  } else {
+    addTgMsg(text, false);
+  }
+
+  // Always add to General "Últimos mensajes"
+  if (!window._lastBotMsgs) window._lastBotMsgs = [];
+  window._lastBotMsgs.push({src: isWaMsg ? 'wa' : 'tg', text, time: now});
+  if (window._lastBotMsgs.length > 20) window._lastBotMsgs.shift();
+  rendLastMsgs();
+
+  // Auto-update dashboard if command was processed (heuristic: reply contains ✅)
+  if (text.includes('✅') || text.includes('añadido') || text.includes('eliminado')) {
+    // Small delay then re-render
+    setTimeout(() => { rendEv(); rendGd(); rendTx(); rendObj(); rendCur(); rendPisos(); updStats(); }, 200);
+  }
+}
+
+// ============================================================
+// BACKGROUND POLLING — Listens for BOTH TG and WA messages
+// ============================================================
+let _bgPollRunning = false;
+async function bgPoll() {
+  try {
+    const ups = await tgGetUpdates();
+    for (const u of ups) {
+      tgOffset = u.update_id + 1;
+      localStorage.setItem('fh2-tgoff', tgOffset);
+      const msg = u.message;
+      if (!msg || !msg.text) continue;
+      const txt = msg.text;
+
+      // Skip messages we sent ourselves (from dashboard)
+      if (msg.from && !msg.from.is_bot && String(msg.from.id) === CFG.TG_CID) continue;
+
+      // Route to correct panel
+      if (txt.includes('Tú (WhatsApp):') || txt.includes('[WhatsApp]') || txt.startsWith('📱')) {
+        // Incoming from WA relay
+        const clean = txt.replace(/^📱\s*/,'').replace(/Tú \(WhatsApp\):\s*/,'').replace(/\[WhatsApp\]\s*/,'').trim();
+        addWaMsg(clean, txt.toLowerCase().includes('tú'));
+        // Also add to General
+        const now2 = new Date().toLocaleTimeString('es-ES',{hour:'2-digit',minute:'2-digit'});
+        window._lastBotMsgs.push({src:'wa', text:clean, time:now2});
+        if (window._lastBotMsgs.length > 20) window._lastBotMsgs.shift();
+        rendLastMsgs();
+      } else if (msg.from && msg.from.is_bot) {
+        // Bot response → show in TG chat and General
+        processIncomingBotMsg(txt, 'tg');
+      }
+
+      // Update TG connection status
+      if (!tgConnected) {
+        tgConnected = true;
+        document.getElementById('tgStatus').textContent = 'CONECTADO';
+        document.getElementById('tgStatus').style.color = 'var(--gr)';
+      }
+    }
+  } catch(e) {}
+  setTimeout(bgPoll, 4000);
+}
+
+// ============================================================
+// MODAL HELPERS
+// ============================================================
+document.querySelectorAll('.overlay').forEach(o => o.addEventListener('click', e => { if(e.target===o) closeM(); }));
+
+// Auto-resize textareas
+document.querySelectorAll('.ci').forEach(el => {
+  el.addEventListener('input', () => { el.style.height = 'auto'; el.style.height = Math.min(el.scrollHeight, 100) + 'px'; });
+});
+
+// ============================================================
+// INIT
+// ============================================================
+rendEv(); rendGd(); rendTx(); rendObj(); rendCur(); rendPisos(); updStats(); rendLastMsgs();
+
+// Start background polling
+setTimeout(bgPoll, 2000);
+
+// Load demo data if empty
+if (!D.guardias.length && !localStorage.getItem(KS + '-init')) {
+  D.guardias = [
+    {id:1, day:2,  name:'Guardia UCI',       detail:'08:00–08:00+1 · Hospital'},
+    {id:2, day:13, name:'Guardia 24h',        detail:'17:00–08:00+1 · Urgencias'},
+    {id:3, day:21, name:'Guardia Digestivo',  detail:'08:00–08:00+1 · Digestivo'},
+  ];
+  D.objetivos = [
+    {id:4, text:'Estudiar ECO para próxima práctica', pri:'alta',  done:false},
+    {id:5, text:'Repasar protocolos UCI',              pri:'media', done:false},
+    {id:6, text:'Preparar caso clínico semanal',       pri:'baja',  done:true},
+  ];
+  D.cursos = [
+    {id:7, text:'Ecografía (ECO) — Sindicato Médico · 10-11 marzo', tp:'presencial', done:false},
+    {id:8, text:'Soporte Vital Avanzado (SVA)',                       tp:'mixto',      done:false},
+    {id:9, text:'Competencias Digitales — OMC (Gratuito)',            tp:'online',     done:false},
+  ];
+  sv(); rendGd(); rendObj(); rendCur(); updStats();
+  localStorage.setItem(KS + '-init', '1');
+}
+</script>
+</body>
+</html>

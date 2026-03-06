@@ -11,6 +11,7 @@ export default defineConfig(({ mode }) => {
       host: '0.0.0.0',
       allowedHosts: ['filehub-casa.duckdns.org', 'app-3005-dxp2800-8e1a-o128.eur11.ugdocker.link'],
     },
+    base: '/filehubdef/',
     plugins: [react()],
     define: {
       'process.env.API_KEY': JSON.stringify(env.GEMINI_API_KEY || ''),

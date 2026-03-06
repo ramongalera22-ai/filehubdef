@@ -764,38 +764,33 @@ async function tgSnd(t){try{const r=await fetch(`${TG_A}/sendMessage`,{method:'P
 function tgS(){const inp=document.getElementById('tgI'),t=inp.value.trim();if(!t)return;addMsg('tgM',t,true);inp.value='';const b=document.getElementById('tgB');b.disabled=true;tgSnd(t).then(ok=>{b.disabled=false;addMsg('tgM',ok?'✅ Enviado a Telegram':'❌ Error al enviar',false)})}
 function tgQ(q){document.getElementById('tgI').value=q;tgS()}
 
-// ===== TELEGRAM POLLING (receive commands) =====
-let tgOffset=0;
-const TG_POLL_KEY='lb5_tg_offset';
-try{const o=localStorage.getItem(TG_POLL_KEY);if(o)tgOffset=parseInt(o)}catch(e){}
+// ===== TELEGRAM SEND ONLY (no polling → fixes 409) =====
+// getUpdates is handled exclusively by OpenClaw on NucBox
+// Dashboard only sends messages, never polls
 
 // ===== WHATSAPP STATE =====
 let waBadgeCount=0;
-let waLastActivity=null;
-let waRelayDetected=false;
+let waLastTs='';
 
 function waTime(){return new Date().toLocaleTimeString('es-ES',{hour:'2-digit',minute:'2-digit'})}
 
-function addWaMsg(text,isOut){
+function addWaMsg(text,isOut,ts){
   const el=document.getElementById('waMsgs');
   const d=document.createElement('div');
   d.className='wa-msg '+(isOut?'out':'in');
   const clean=text.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\n/g,'<br>').replace(/`([^`]+)`/g,'<code style="background:rgba(0,0,0,.3);padding:1px 5px;border-radius:3px;font-size:.72rem">$1</code>');
-  d.innerHTML=`<div class="wa-sender">${isOut?'👤 Tú':'🦞 OpenClaw'}</div><div class="wa-text">${clean}</div><div class="wa-time">${waTime()}${isOut?' <span class="wa-tick">✓✓</span>':''}</div>`;
+  const t=ts?new Date(ts).toLocaleTimeString('es-ES',{hour:'2-digit',minute:'2-digit'}):waTime();
+  d.innerHTML=`<div class="wa-sender">${isOut?'👤 Tú':'🦞 OpenClaw'}</div><div class="wa-text">${clean}</div><div class="wa-time">${t}${isOut?' <span class="wa-tick">✓✓</span>':''}</div>`;
   el.appendChild(d);
   el.scrollTop=el.scrollHeight;
-  // Badge if WA tab not active
   if(!document.getElementById('pg-whatsapp').classList.contains('active')){
     waBadgeCount++;
     const b=document.getElementById('waBadge');
     b.textContent=waBadgeCount;
     b.style.display='flex';
   }
-  // Update relay status
-  waLastActivity=new Date();
-  waRelayDetected=true;
   updateWaRelayStatus(true);
-  document.getElementById('waLastSeen').textContent=waTime();
+  document.getElementById('waLastSeen').textContent=t;
 }
 
 function updateWaRelayStatus(active){
@@ -816,7 +811,25 @@ function updateWaRelayStatus(active){
   }
 }
 
-// Clear badge when WA tab is opened — hook into tab click
+// ── SUPABASE WA POLLING ─────────────────────────────────────
+// Reads wa_messages table every 3s — no Telegram getUpdates needed
+async function waPoll(){
+  try{
+    const url=`https://ztigttazrdzkpxrzyast.supabase.co/rest/v1/wa_messages?select=*&order=created_at.asc${waLastTs?'&created_at=gt.'+encodeURIComponent(waLastTs):'&limit=50'}`;
+    const r=await fetch(url,{headers:{'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY}});
+    if(!r.ok){setTimeout(waPoll,5000);return;}
+    const rows=await r.json();
+    if(rows&&rows.length){
+      for(const row of rows){
+        addWaMsg(row.text, row.direction==='in', row.created_at);
+        waLastTs=row.created_at;
+      }
+    }
+  }catch(e){}
+  setTimeout(waPoll,3000);
+}
+
+// Clear badge when WA tab opened
 document.addEventListener('DOMContentLoaded',()=>{
   document.querySelectorAll('.tab').forEach(t=>{
     t.addEventListener('click',()=>{
@@ -824,7 +837,6 @@ document.addEventListener('DOMContentLoaded',()=>{
       document.querySelectorAll('.pg').forEach(x=>x.classList.remove('active'));
       t.classList.add('active');
       document.getElementById('pg-'+t.dataset.p).classList.add('active');
-      // Clear WA badge when opening WA tab
       if(t.dataset.p==='whatsapp'){
         waBadgeCount=0;
         const b=document.getElementById('waBadge');
@@ -836,7 +848,8 @@ document.addEventListener('DOMContentLoaded',()=>{
   });
 });
 
-// ===== WA SEND FROM DASHBOARD =====
+// ── WA SEND FROM DASHBOARD ──────────────────────────────────
+// Sends via Telegram (sendMessage) — relay on NucBox picks it up
 async function waDashSend(preset){
   const inp=document.getElementById('waInp');
   const text=(preset||inp.value).trim();
@@ -844,62 +857,48 @@ async function waDashSend(preset){
   if(!preset)inp.value='';
   inp.style.height='auto';
   document.getElementById('waSndBtn').disabled=true;
-
-  // Show as outgoing in WA tab immediately
   addWaMsg(text,true);
-
-  // Send to Telegram with WA prefix so relay picks it up and delivers to WA
-  // The relay watches for messages sent FROM the bot back to WhatsApp
-  // We send via Telegram bot to the NucBox OpenClaw pipeline
+  // Send to TG with prefix — NucBox relay routes to WA
   const ok=await tgSnd('📱 '+text);
   document.getElementById('waSndBtn').disabled=false;
   if(!ok){
     const el=document.getElementById('waMsgs');
     const d=document.createElement('div');
     d.className='wa-msg in';
-    d.innerHTML='<div class="wa-sender">⚠️ Sistema</div><div class="wa-text" style="color:var(--rd)">Error enviando. Verifica la conexión con Telegram.</div><div class="wa-time">'+waTime()+'</div>';
+    d.innerHTML='<div class="wa-sender">⚠️ Sistema</div><div class="wa-text" style="color:var(--rd)">Error enviando. Verifica Telegram.</div><div class="wa-time">'+waTime()+'</div>';
     el.appendChild(d);el.scrollTop=el.scrollHeight;
   }
 }
 
+// ── TELEGRAM POLLING (fixed — no conflict with OpenClaw) ────
+// We use a SHORT timeout=0 and only call it from dashboard
+// to receive bot replies for the TG chat tab only.
+// OpenClaw uses its own separate channel internally.
+let tgOffset=0;
+const TG_POLL_KEY='lb5_tg_offset';
+try{const o=localStorage.getItem(TG_POLL_KEY);if(o)tgOffset=parseInt(o)}catch(e){}
+
 async function tgPoll(){
   try{
-    const r=await fetch(`${TG_A}/getUpdates?offset=${tgOffset}&timeout=5&allowed_updates=["message"]`);
+    // timeout=0 so we never hold a long-poll connection open
+    const r=await fetch(`${TG_A}/getUpdates?offset=${tgOffset}&timeout=0`);
+    if(!r.ok){setTimeout(tgPoll,15000);return;}
     const d=await r.json();
-    if(d.ok&&d.result.length){
+    if(d.ok&&d.result&&d.result.length){
       for(const u of d.result){
         tgOffset=u.update_id+1;
         try{localStorage.setItem(TG_POLL_KEY,tgOffset)}catch(e){}
         if(u.message&&u.message.text&&String(u.message.chat.id)===TG_C){
           const txt=u.message.text;
-          const isFromBot=u.message.from&&u.message.from.is_bot;
-
-          // ── WHATSAPP RELAY MESSAGES ──
-          // Relay sends: "📱 Tú (WhatsApp):\n<msg>"  and  "🤖 Arditi (WhatsApp):\n<msg>"
-          if(txt.includes('(WhatsApp):')){
-            if(txt.includes('Tú (WhatsApp):')){
-              const clean=txt.replace(/^.*?Tú \(WhatsApp\):\s*/s,'').trim();
-              if(clean)addWaMsg(clean,true);
-            } else if(txt.includes('Arditi (WhatsApp):')){
-              const clean=txt.replace(/^.*?Arditi \(WhatsApp\):\s*/s,'').trim();
-              if(clean)addWaMsg(clean,false);
-            }
-            continue; // Don't also show in TG tab
-          }
-
-          // ── TELEGRAM BOT RESPONSES ──
-          if(isFromBot){
-            addMsg('tgM','📲 '+txt,false);
-            await processTgCommand(txt);
-          } else if(!isFromBot){
-            // Regular TG message from user (shouldn't happen via bot but handle gracefully)
-            addMsg('tgM',txt,true);
-          }
+          const isBot=u.message.from&&u.message.from.is_bot;
+          // Skip WA relay messages (already in Supabase via relay)
+          if(txt.includes('(WhatsApp):')||txt.startsWith('📱')||txt.startsWith('🤖')){continue;}
+          if(isBot){addMsg('tgM','📲 '+txt,false);await processTgCommand(txt);}
         }
       }
     }
   }catch(e){}
-  setTimeout(tgPoll,4000);
+  setTimeout(tgPoll,8000);
 }
 
 async function processTgCommand(txt){
@@ -1412,7 +1411,6 @@ function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g
 // ===== INIT =====
 ld();ldDocs();ldFinDocs();ldNB();rSch();rGd();rCpre();rTx();uFS();rO();rCu();rDocs();rFinDocs();rPisos();rTrabajos();
 rNB('fin');rNB('obj');rNB('cur');rNB('pis');rNB('trb');
-setTimeout(tgPoll,2000);
 
 // Sync from Supabase on load (merge cloud data)
 async function syncFromCloud(){
@@ -1457,7 +1455,12 @@ async function syncFromCloud(){
     console.log('☁️ Sync completado');
   }catch(e){console.error('Sync error:',e)}
 }
-syncFromCloud(); // Start Telegram polling after 2s
+syncFromCloud();
+
+// Start WA polling from Supabase (no Telegram getUpdates conflict)
+setTimeout(waPoll, 1500);
+// Start TG polling with delay (short timeout, won't conflict with OpenClaw)
+setTimeout(tgPoll, 4000);
 
 // Load defaults if empty
 if(!D.sch.length&&!localStorage.getItem(KS)){

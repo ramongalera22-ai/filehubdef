@@ -3,158 +3,371 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FileHub - Gestor Médico</title>
+    <title>🚀 ARDITI · Dashboard + Chat</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
+        :root {
+            --primary: #667eea;
+            --primary-dark: #764ba2;
+            --success: #2ecc71;
+            --warning: #f39c12;
+            --danger: #e74c3c;
+            --dark: #2c3e50;
+            --light: #f8f9fa;
+        }
+        body { 
+            font-family: 'Segoe UI', system-ui, sans-serif; 
+            background: #f0f2f5;
+            height: 100vh;
+            overflow: hidden;
+        }
+        .app {
+            display: flex;
+            height: 100vh;
+        }
+        /* Dashboard Panel */
+        .dashboard-panel {
+            flex: 1;
+            overflow-y: auto;
             padding: 20px;
+            background: var(--light);
+        }
+        .header {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+        .header h1 {
+            font-size: 24px;
             display: flex;
             align-items: center;
-            justify-content: center;
+            gap: 10px;
         }
-        .container { max-width: 500px; width: 100%; }
-        header {
-            background: white;
-            padding: 40px 20px;
-            border-radius: 10px;
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
             margin-bottom: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            text-align: center;
         }
-        h1 { color: #667eea; margin-bottom: 10px; }
-        .subtitle { color: #666; margin-bottom: 20px; }
-        .content {
+        .stat-card {
             background: white;
-            padding: 30px 20px;
+            padding: 20px;
             border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            border-left: 4px solid var(--primary);
         }
-        .form-group { margin-bottom: 15px; }
-        label { display: block; margin-bottom: 5px; color: #333; font-weight: 600; }
-        input { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; }
-        input:focus { outline: none; border-color: #667eea; }
-        button {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        .stat-card.success { border-left-color: var(--success); }
+        .stat-card.warning { border-left-color: var(--warning); }
+        .stat-card.danger { border-left-color: var(--danger); }
+        .stat-card h3 { font-size: 13px; color: #666; margin-bottom: 8px; text-transform: uppercase; }
+        .stat-card .value { font-size: 28px; font-weight: bold; color: var(--dark); }
+        
+        /* Chat Panel */
+        .chat-panel {
+            width: 400px;
+            background: white;
+            border-left: 1px solid #e0e0e0;
+            display: flex;
+            flex-direction: column;
+        }
+        .chat-header {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
             color: white;
-            padding: 12px;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: 600;
-            width: 100%;
-            margin-top: 10px;
+            padding: 15px 20px;
         }
-        button:hover { opacity: 0.9; }
-        .status { margin-top: 15px; padding: 10px; border-radius: 5px; text-align: center; }
-        .success { background: #d4edda; color: #155724; }
-        .error { background: #f8d7da; color: #721c24; }
-        .docs { margin-top: 20px; padding: 15px; background: #f8f9ff; border-radius: 5px; }
-        .docs h3 { color: #667eea; margin-bottom: 10px; }
-        .docs ul { list-style: none; }
-        .docs li { color: #666; margin: 5px 0; }
-        footer { text-align: center; color: white; margin-top: 20px; font-size: 0.9em; }
+        .chat-header h2 {
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .chat-status {
+            font-size: 12px;
+            opacity: 0.9;
+            margin-top: 5px;
+        }
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 15px;
+            background: #e5ddd5;
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%239C92AC' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+        .message {
+            display: flex;
+            margin-bottom: 12px;
+            animation: fadeIn 0.3s ease;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .message.user { justify-content: flex-end; }
+        .message-content {
+            max-width: 85%;
+            padding: 10px 14px;
+            border-radius: 12px;
+            font-size: 13px;
+            line-height: 1.4;
+        }
+        .message.assistant .message-content {
+            background: white;
+            border-top-left-radius: 2px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        }
+        .message.user .message-content {
+            background: #dcf8c6;
+            border-top-right-radius: 2px;
+        }
+        .message-header {
+            font-size: 11px;
+            font-weight: 600;
+            margin-bottom: 3px;
+        }
+        .message.assistant .message-header { color: var(--primary); }
+        .message.user .message-header { color: #2ecc71; }
+        .message-text { color: #333; white-space: pre-wrap; }
+        .message-time {
+            font-size: 10px;
+            color: #999;
+            margin-top: 3px;
+            text-align: right;
+        }
+        .chat-input-container {
+            padding: 15px;
+            background: #f0f0f0;
+            display: flex;
+            gap: 10px;
+        }
+        .chat-input {
+            flex: 1;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 20px;
+            font-size: 13px;
+            outline: none;
+        }
+        .send-btn {
+            width: 40px;
+            height: 40px;
+            border: none;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        
+        /* Menu */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .menu-item {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            text-decoration: none;
+            color: var(--dark);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+        }
+        .menu-item:hover { transform: translateY(-2px); }
+        .menu-item .icon { font-size: 24px; margin-bottom: 5px; }
+        .menu-item .label { font-size: 12px; font-weight: 500; }
+        
+        /* VIP Tasks */
+        .vip-card {
+            background: linear-gradient(135deg, #fff3cd, #ffeaa7);
+            border-left: 4px solid var(--warning);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+        .vip-card h3 {
+            color: #856404;
+            font-size: 14px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .task-item {
+            display: flex;
+            align-items: center;
+            padding: 8px 0;
+            font-size: 13px;
+        }
+        .task-item input { margin-right: 10px; }
+        @media (max-width: 768px) {
+            .chat-panel { display: none; }
+        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>📁 FileHub</h1>
-            <p class="subtitle">Gestor de Documentos Médicos</p>
-        </header>
-        
-        <div class="content">
-            <h2 style="color: #667eea; margin-bottom: 15px;">Autenticación</h2>
-            
-            <div class="form-group">
-                <label for="email">Email:</label>
-                <input type="email" id="email" placeholder="tu@email.com">
+    <div class="app">
+        <!-- Dashboard Panel -->
+        <div class="dashboard-panel">
+            <div class="header">
+                <h1>🚀 ARDITI Dashboard</h1>
+                <p style="opacity: 0.9; margin-top: 5px;">Carlos Galera · MIR · Conectado</p>
             </div>
             
-            <div class="form-group">
-                <label for="password">Contraseña:</label>
-                <input type="password" id="password" placeholder="Al menos 6 caracteres">
+            <!-- Stats -->
+            <div class="stats-grid">
+                <div class="stat-card success">
+                    <h3>💰 Liquidez</h3>
+                    <div class="value">1.578€</div>
+                </div>
+                <div class="stat-card warning">
+                    <h3>⚠️ Pagos Pendientes</h3>
+                    <div class="value">557€</div>
+                </div>
+                <div class="stat-card">
+                    <h3>🏥 Guardias</h3>
+                    <div class="value">51</div>
+                </div>
+                <div class="stat-card danger">
+                    <h3>🎯 Objetivos</h3>
+                    <div class="value">0/0</div>
+                </div>
             </div>
             
-            <button onclick="signup()">Registrarse</button>
-            <button onclick="login()" style="background: #999; margin-top: 5px;">Iniciar Sesión</button>
-            <button onclick="logout()" style="background: #666; margin-top: 5px;">Cerrar Sesión</button>
+            <!-- VIP Tasks -->
+            <div class="vip-card">
+                <h3>🚨 TAREAS VIP</h3>
+                <div class="task-item">
+                    <input type="checkbox"> 
+                    <span>📹 Ver video Google Antigravity</span>
+                </div>
+                <div class="task-item">
+                    <input type="checkbox"> 
+                    <span>📝 Resumir funcionamiento</span>
+                </div>
+                <div class="task-item">
+                    <input type="checkbox"> 
+                    <span>🚀 Desplegar plataforma</span>
+                </div>
+            </div>
             
-            <div id="status"></div>
+            <!-- Menu -->
+            <div class="menu-grid">
+                <a href="pisos.html" class="menu-item">
+                    <div class="icon">🏠</div>
+                    <div class="label">Pisos</div>
+                </a>
+                <a href="ofertas.html" class="menu-item">
+                    <div class="icon">💼</div>
+                    <div class="label">Ofertas</div>
+                </a>
+                <a href="panel-control.html" class="menu-item">
+                    <div class="icon">📊</div>
+                    <div class="label">Panel</div>
+                </a>
+                <a href="chat-dashboard.html" class="menu-item">
+                    <div class="icon">💬</div>
+                    <div class="label">Chat</div>
+                </a>
+                <a href="https://wa.me/34679888148" class="menu-item" target="_blank">
+                    <div class="icon">📱</div>
+                    <div class="label">WhatsApp</div>
+                </a>
+                <a href="https://t.me/Arditi2bot" class="menu-item" target="_blank">
+                    <div class="icon">✈️</div>
+                    <div class="label">Telegram</div>
+                </a>
+            </div>
         </div>
         
-        <div class="docs">
-            <h3>🎯 Cómo usar:</h3>
-            <ul>
-                <li>✅ Registrate con tu email</li>
-                <li>✅ Verifica tu email (Supabase envía enlace)</li>
-                <li>✅ Inicia sesión</li>
-                <li>✅ Crea documentos en la BD PostgreSQL</li>
-            </ul>
+        <!-- Chat Panel -->
+        <div class="chat-panel">
+            <div class="chat-header">
+                <h2>💬 Chat WhatsApp</h2>
+                <div class="chat-status">● En línea · Sincronizado</div>
+            </div>
+            <div class="chat-messages" id="chat-messages"></div>
+            <div class="chat-input-container">
+                <input type="text" class="chat-input" id="message-input" placeholder="Escribe...">
+                <button class="send-btn" onclick="sendMessage()">➤</button>
+            </div>
         </div>
-        
-        <footer>
-            FileHub | Documentos Médicos Organizados | Powered by Supabase & Netlify
-        </footer>
     </div>
     
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
     <script>
-        const SUPABASE_URL = 'https://ztigttazrdzkpxrzyast.supabase.co';
-        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp0aWd0dGF6cmR6a3B4cnp5YXN0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIwMTg5MzcsImV4cCI6MjA4NzU5NDkzN30.d-PQ0S_dXsTRXGdRrZDJiJOXcXFF4hEOaAGWpT3WaSM';
+        const messages = [];
         
-        const { createClient } = window.supabase;
-        const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
-        
-        function showStatus(msg, type) {
-            const el = document.getElementById('status');
-            el.textContent = msg;
-            el.className = 'status ' + type;
-        }
-        
-        async function signup() {
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-            if (!email || !password) {
-                showStatus('❌ Completa email y contraseña', 'error');
-                return;
-            }
+        // Cargar conversación histórica
+        async function loadMessages() {
             try {
-                const { error } = await supabase.auth.signUp({ email, password });
-                if (error) throw error;
-                showStatus('✅ Registro exitoso. Verifica tu email.', 'success');
-            } catch (err) {
-                showStatus('❌ Error: ' + err.message, 'error');
+                const response = await fetch('chat-history.json?t=' + Date.now());
+                const data = await response.json();
+                data.conversation.forEach(msg => addMessageToUI(msg));
+            } catch (e) {
+                console.log('Cargando mensajes de ejemplo...');
+                // Mensajes de ejemplo si no existe el archivo
             }
         }
         
-        async function login() {
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-            if (!email || !password) {
-                showStatus('❌ Completa email y contraseña', 'error');
-                return;
-            }
-            try {
-                const { error } = await supabase.auth.signInWithPassword({ email, password });
-                if (error) throw error;
-                showStatus('✅ ¡Sesión iniciada!', 'success');
-            } catch (err) {
-                showStatus('❌ Error: ' + err.message, 'error');
-            }
+        function addMessageToUI(msg) {
+            const container = document.getElementById('chat-messages');
+            const div = document.createElement('div');
+            div.className = `message ${msg.from}`;
+            div.innerHTML = `
+                <div class="message-content">
+                    <div class="message-header">${msg.avatar} ${msg.name}</div>
+                    <div class="message-text">${msg.message}</div>
+                    <div class="message-time">${formatTime(msg.timestamp)}</div>
+                </div>
+            `;
+            container.appendChild(div);
+            container.scrollTop = container.scrollHeight;
         }
         
-        async function logout() {
-            try {
-                const { error } = await supabase.auth.signOut();
-                if (error) throw error;
-                showStatus('✅ Sesión cerrada', 'success');
-            } catch (err) {
-                showStatus('❌ Error: ' + err.message, 'error');
-            }
+        function formatTime(ts) {
+            const d = new Date(ts);
+            return d.toLocaleTimeString('es-ES', {hour: '2-digit', minute:'2-digit'});
         }
+        
+        function sendMessage() {
+            const input = document.getElementById('message-input');
+            const text = input.value.trim();
+            if (!text) return;
+            
+            // Agregar mensaje local
+            addMessageToUI({
+                from: 'user',
+                name: 'Carlos Galera',
+                avatar: '👨‍⚕️',
+                message: text,
+                timestamp: new Date().toISOString()
+            });
+            
+            input.value = '';
+            
+            // Guardar en historial
+            saveMessage(text);
+        }
+        
+        function saveMessage(text) {
+            // En una implementación real, esto enviaría a WhatsApp
+            console.log('Mensaje guardado:', text);
+        }
+        
+        // Auto-refresh cada 5 segundos
+        setInterval(loadMessages, 5000);
+        
+        // Inicializar
+        loadMessages();
+        
+        // Enter para enviar
+        document.getElementById('message-input').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') sendMessage();
+        });
     </script>
 </body>
 </html>

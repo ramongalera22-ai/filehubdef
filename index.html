@@ -132,6 +132,8 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Syne',
   <div class="nav-btn" onclick="goPg('objetivos')"><span class="nav-icon">🎯</span>Objetivos</div>
   <div class="nav-grp">Más</div>
   <div class="nav-btn" onclick="goPg('cursos')"><span class="nav-icon">📚</span>Cursos</div>
+  <div class="nav-grp">Apps</div>
+  <div class="nav-btn" onclick="goPg('fh2')"><span class="nav-icon">⚡</span>FILEHUB 2</div>
 </nav>
 
 <main class="main">
@@ -276,6 +278,27 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Syne',
       </div>
     </div>
   </div>
+  <!-- FILEHUB 2 PANEL -->
+  <div class="pg" id="pg-fh2" style="display:none;flex-direction:column;height:100%">
+    <div class="pg-head">
+      <div>
+        <div class="pg-title">⚡ FILEHUB 2</div>
+        <div class="pg-sub">Dashboard · Telegram · WhatsApp</div>
+      </div>
+      <div style="display:flex;gap:6px">
+        <button class="btn" onclick="document.getElementById('fh2Frame').src=document.getElementById('fh2Frame').src" style="font-size:.62rem;padding:3px 8px">↻</button>
+        <a href="https://ramongalera22-ai.github.io/filehubdef/filehub2/" target="_blank" class="btn" style="font-size:.62rem;padding:3px 8px;text-decoration:none">⬡ Nueva pestaña</a>
+      </div>
+    </div>
+    <iframe
+      id="fh2Frame"
+      src="https://ramongalera22-ai.github.io/filehubdef/filehub2/"
+      style="flex:1;border:none;width:100%;height:100%"
+      loading="lazy"
+      allow="clipboard-read; clipboard-write"
+      title="FILEHUB 2"
+    ></iframe>
+  </div>
 
 </main>
 </div>
@@ -327,7 +350,7 @@ D.liquidez=D.liquidez!==undefined?D.liquidez:1578;
 D.pagos=D.pagos!==undefined?D.pagos:557;
 function sv(){localStorage.setItem('arditi-v2',JSON.stringify(D))}
 (function(){const s=new Date().toLocaleDateString('es-ES',{weekday:'long',year:'numeric',month:'long',day:'numeric'});document.getElementById('topDate').textContent=s;document.getElementById('pgDate').textContent=s;})();
-function goPg(id){document.querySelectorAll('.pg').forEach(p=>p.classList.remove('on'));document.querySelectorAll('.nav-btn').forEach(n=>n.classList.remove('on'));document.getElementById('pg-'+id).classList.add('on');document.querySelectorAll('.nav-btn').forEach(n=>{if(n.getAttribute('onclick')?.includes(id))n.classList.add('on')});if(id==='chat')setTimeout(()=>{const e=document.getElementById('chatMsgs');e.scrollTop=e.scrollHeight},80);if(id==='whatsapp'){setTimeout(()=>{const e=document.getElementById('waMsgs');e.scrollTop=e.scrollHeight},80);clearBadge();}}
+function goPg(id){document.querySelectorAll('.pg').forEach(p=>{p.classList.remove('on');p.style.display='none'});document.querySelectorAll('.nav-btn').forEach(n=>n.classList.remove('on'));const pg=document.getElementById('pg-'+id);pg.classList.add('on');pg.style.display='flex';document.querySelectorAll('.nav-btn').forEach(n=>{if(n.getAttribute('onclick')?.includes(id))n.classList.add('on')});if(id==='chat')setTimeout(()=>{const e=document.getElementById('chatMsgs');e.scrollTop=e.scrollHeight},80);if(id==='whatsapp'){setTimeout(()=>{const e=document.getElementById('waMsgs');e.scrollTop=e.scrollHeight},80);clearBadge();}}
 function updStats(){const inc=D.tx.filter(t=>t.tp==='income').reduce((s,t)=>s+t.am,0);const exp=D.tx.filter(t=>t.tp==='expense').reduce((s,t)=>s+t.am,0);document.getElementById('fBal').textContent=(inc-exp).toFixed(0)+'€';document.getElementById('fInc').textContent=inc.toFixed(0)+'€';document.getElementById('fExp').textContent=exp.toFixed(0)+'€';document.getElementById('fLiq').textContent=D.liquidez+'€';document.getElementById('sLiq').textContent=D.liquidez+'€';document.getElementById('hLiq').textContent=D.liquidez+'€';document.getElementById('sPag').textContent=D.pagos+'€';document.getElementById('hPag').textContent=D.pagos+'€';const gn=D.guardias.length;document.getElementById('sGrd').textContent=gn||51;document.getElementById('hGrd').textContent=gn||51;document.getElementById('gdCount').textContent=(gn||0)+' guardias';const done=D.objetivos.filter(o=>o.done).length;document.getElementById('sObj').textContent=done+'/'+D.objetivos.length;}
 function setLiq(){const v=parseInt(document.getElementById('liqInp').value);if(!isNaN(v)){D.liquidez=v;sv();updStats();toast('Liquidez actualizada')}}
 function rendEv(){const el=document.getElementById('evList');if(!D.events.length){el.innerHTML='<div style="color:var(--muted2);font-size:.78rem">Sin eventos hoy</div>';return}el.innerHTML=D.events.sort((a,b)=>a.time.localeCompare(b.time)).map(e=>`<div class="row-item"><div class="time-tag">${e.time}</div><div class="dot" style="background:var(--cyan)"></div><div>${e.desc}</div><div class="row-del" onclick="delEv(${e.id})">✕</div></div>`).join('')}

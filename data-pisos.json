@@ -1,54 +1,45 @@
 {
-  "timestamp": "2026-03-06T00:28:37.229360",
-  "total": 5,
+  "fecha_actualizacion": "2026-03-06T23:02:00+01:00",
+  "ciudad": "Barcelona",
+  "presupuesto_max": 1400,
+  "total_pisos": 2,
+  "fuente": "habitaclia.com",
   "pisos": [
     {
-      "titulo": "Piso 2 hab Eixample",
-      "precio": "650€/mes",
-      "ubicacion": "Eixample",
-      "size": "65 m²",
-      "enlace": "https://www.idealista.com",
-      "portal": "Idealista",
-      "metro": "L3/L5 (8 min)",
-      "destacado": true
+      "id": "hab_001",
+      "titulo": "Piso Carrer de la rosa",
+      "barrio": "Gòtic",
+      "metros": 62,
+      "habitaciones": 2,
+      "banos": 1,
+      "precio": 1400,
+      "precio_m2": 22.58,
+      "tipo": "temporada",
+      "notas": "ALQUILER DE TEMPORADA POR ESTANCIAS CULTURALES, VACACIONALES, DE OCIO O RECREATIVAS. MÁXIMO HASTA EL 15 DE JULIO 2026",
+      "url": "https://www.habitaclia.com/alquiler-piso-gotic-barcelona-i1507004169699.htm",
+      "fotos": 66,
+      "actualizado": "hace 4 días"
     },
     {
-      "titulo": "Apartamento Centro",
-      "precio": "890€/mes",
-      "ubicacion": "Centro",
-      "size": "89 m²",
-      "enlace": "https://www.fotocasa.es",
-      "portal": "Fotocasa",
-      "metro": "L1/L2 (5 min)"
-    },
-    {
-      "titulo": "Piso 2 hab Gràcia",
-      "precio": "750€/mes",
-      "ubicacion": "Gràcia",
-      "size": "75 m²",
-      "enlace": "https://www.habitaclia.com",
-      "portal": "Habitaclia",
-      "metro": "L3 (10 min)"
-    },
-    {
-      "titulo": "Piso 3 hab Horta",
-      "precio": "820€/mes",
-      "ubicacion": "Horta",
-      "size": "80 m²",
-      "enlace": "https://www.vivanuncios.es",
-      "portal": "Vivanuncios",
-      "metro": "🟢 L5 (3 min a Vall Hebron)",
-      "destacado": true
-    },
-    {
-      "titulo": "Estudio Sant Antoni",
-      "precio": "600€/mes",
-      "ubicacion": "Sant Antoni",
-      "size": "45 m²",
-      "enlace": "https://www.pisos.com",
-      "portal": "Pisos.com",
-      "metro": "L2 (7 min)"
+      "id": "hab_002",
+      "titulo": "Piso Carrer de sants",
+      "barrio": "Sants",
+      "metros": 25,
+      "habitaciones": 1,
+      "banos": 1,
+      "precio": 850,
+      "precio_m2": 34.00,
+      "tipo": "alquiler",
+      "notas": "Apartamento no amueblado, perfecto para profesionales / estudiantes",
+      "url": "https://www.habitaclia.com/alquiler-piso-carrer_de_sants_sants-barcelona-i52795000009525.htm",
+      "fotos": 10,
+      "actualizado": "hace 6 días",
+      "oportunidad": true
     }
   ],
-  "precio_promedio": "742€/mes"
+  "estadisticas": {
+    "precio_medio": 1125,
+    "precio_medio_m2": 28.29,
+    "metros_medios": 43.5
+  }
 }

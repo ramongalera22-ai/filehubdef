@@ -3,103 +3,299 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🏠 Dashboard Pisos Barcelona</title>
+    <title>Dashboard Pisos Barcelona - &lt;1.400€</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; color: #333; }
-        .container { max-width: 1200px; margin: 20px auto; padding: 20px; }
-        .header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 30px; border-radius: 8px; margin-bottom: 30px; }
-        .header h1 { font-size: 28px; margin-bottom: 10px; }
-        .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin-top: 20px; }
-        .stat { background: rgba(255,255,255,0.2); padding: 15px; border-radius: 6px; text-align: center; }
-        .stat-value { font-size: 24px; font-weight: bold; }
-        .stat-label { font-size: 12px; margin-top: 5px; opacity: 0.9; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px; margin-bottom: 30px; }
-        .card { background: white; border-radius: 8px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); transition: all 0.2s; border-left: 4px solid #667eea; }
-        .card.destacado { border-left-color: #f39c12; box-shadow: 0 4px 12px rgba(243, 156, 18, 0.2); }
-        .card:hover { transform: translateY(-4px); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
-        .price { font-size: 22px; font-weight: bold; color: #667eea; margin: 10px 0; }
-        .location { color: #666; font-size: 14px; margin: 5px 0; }
-        .metro { color: #28a745; font-weight: bold; margin: 10px 0; font-size: 13px; }
-        .btn { display: inline-block; background: #667eea; color: white; padding: 10px 15px; border-radius: 4px; text-decoration: none; margin-top: 10px; transition: background 0.2s; font-size: 12px; }
-        .btn:hover { background: #764ba2; }
-        .updated { text-align: center; color: #666; font-size: 12px; margin-top: 30px; padding-top: 20px; border-top: 1px solid #ddd; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        .subtitle {
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .stat-card {
+            background: white;
+            border-radius: 16px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #667eea;
+        }
+        .stat-label {
+            color: #666;
+            font-size: 0.9rem;
+            margin-top: 5px;
+        }
+        .last-update {
+            text-align: center;
+            color: white;
+            margin-bottom: 20px;
+            opacity: 0.8;
+        }
+        .pisos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+        }
+        .piso-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 15px 50px rgba(0,0,0,0.15);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .piso-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+        }
+        .piso-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            position: relative;
+        }
+        .piso-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: #ff6b6b;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: bold;
+        }
+        .piso-badge.temporada {
+            background: #feca57;
+            color: #333;
+        }
+        .piso-precio {
+            font-size: 2rem;
+            font-weight: bold;
+        }
+        .piso-precio span {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+        .piso-barrio {
+            opacity: 0.9;
+            margin-top: 5px;
+        }
+        .piso-body {
+            padding: 20px;
+        }
+        .piso-titulo {
+            font-size: 1.2rem;
+            color: #333;
+            margin-bottom: 15px;
+        }
+        .piso-detalles {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        .detalle {
+            text-align: center;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+        .detalle-icon {
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+        }
+        .detalle-value {
+            font-weight: bold;
+            color: #333;
+        }
+        .detalle-label {
+            font-size: 0.75rem;
+            color: #666;
+        }
+        .piso-notas {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 12px;
+            border-radius: 0 8px 8px 0;
+            font-size: 0.85rem;
+            color: #856404;
+            margin-bottom: 15px;
+        }
+        .piso-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+        }
+        .piso-actualizado {
+            font-size: 0.8rem;
+            color: #999;
+        }
+        .piso-link {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: 500;
+            transition: opacity 0.3s;
+        }
+        .piso-link:hover {
+            opacity: 0.9;
+        }
+        .fuente {
+            text-align: center;
+            color: white;
+            margin-top: 30px;
+            opacity: 0.7;
+            font-size: 0.85rem;
+        }
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+            .pisos-grid {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="header">
+        <header>
             <h1>🏠 Dashboard Pisos Barcelona</h1>
-            <p>Actualizado: 06/03/2026 00:28</p>
-            <div class="stats">
-                <div class="stat">
-                    <div class="stat-value">5</div>
-                    <div class="stat-label">Pisos disponibles</div>
+            <p class="subtitle">Pisos en alquiler por menos de 1.400€</p>
+        </header>
+
+        <p class="last-update">📅 Última actualización: 6 de marzo de 2026 - 23:02</p>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-value">2</div>
+                <div class="stat-label">Pisos encontrados</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">1.125€</div>
+                <div class="stat-label">Precio medio</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">28€</div>
+                <div class="stat-label">€/m² medio</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">43m²</div>
+                <div class="stat-label">Metros medio</div>
+            </div>
+        </div>
+
+        <div class="pisos-grid">
+            <!-- Piso 1 -->
+            <div class="piso-card">
+                <div class="piso-header">
+                    <span class="piso-badge temporada">🏖️ TEMPORADA</span>
+                    <div class="piso-precio">1.400€ <span>/mes</span></div>
+                    <div class="piso-barrio">📍 Gòtic, Barcelona</div>
                 </div>
-                <div class="stat">
-                    <div class="stat-value">742€</div>
-                    <div class="stat-label">Precio promedio</div>
+                <div class="piso-body">
+                    <h3 class="piso-titulo">Piso Carrer de la rosa</h3>
+                    <div class="piso-detalles">
+                        <div class="detalle">
+                            <div class="detalle-icon">📐</div>
+                            <div class="detalle-value">62m²</div>
+                            <div class="detalle-label">Superficie</div>
+                        </div>
+                        <div class="detalle">
+                            <div class="detalle-icon">🛏️</div>
+                            <div class="detalle-value">2</div>
+                            <div class="detalle-label">Habitaciones</div>
+                        </div>
+                        <div class="detalle">
+                            <div class="detalle-icon">🚿</div>
+                            <div class="detalle-value">1</div>
+                            <div class="detalle-label">Baños</div>
+                        </div>
+                    </div>
+                    <div class="piso-notas">
+                        Alquiler de temporada por estancias culturales, vacacionales, de ocio o recreativas. Máximo hasta el 15 de julio 2026.
+                    </div>
+                    <div class="piso-footer">
+                        <span class="piso-actualizado">🕐 Actualizado hace 4 días • 📷 66 fotos</span>
+                        <a href="https://www.habitaclia.com/alquiler-piso-gotic-barcelona-i1507004169699.htm" class="piso-link" target="_blank">Ver piso →</a>
+                    </div>
                 </div>
-                <div class="stat">
-                    <div class="stat-value">71m²</div>
-                    <div class="stat-label">Tamaño promedio</div>
+            </div>
+
+            <!-- Piso 2 -->
+            <div class="piso-card">
+                <div class="piso-header">
+                    <span class="piso-badge">🔥 OPORTUNIDAD</span>
+                    <div class="piso-precio">850€ <span>/mes</span></div>
+                    <div class="piso-barrio">📍 Sants, Barcelona</div>
+                </div>
+                <div class="piso-body">
+                    <h3 class="piso-titulo">Piso Carrer de sants</h3>
+                    <div class="piso-detalles">
+                        <div class="detalle">
+                            <div class="detalle-icon">📐</div>
+                            <div class="detalle-value">25m²</div>
+                            <div class="detalle-label">Superficie</div>
+                        </div>
+                        <div class="detalle">
+                            <div class="detalle-icon">🛏️</div>
+                            <div class="detalle-value">1</div>
+                            <div class="detalle-label">Habitación</div>
+                        </div>
+                        <div class="detalle">
+                            <div class="detalle-icon">💶</div>
+                            <div class="detalle-value">34€</div>
+                            <div class="detalle-label">€/m²</div>
+                        </div>
+                    </div>
+                    <div class="piso-notas">
+                        Apartamento no amueblado, perfecto para profesionales o estudiantes. Ubicado en la zona de Sants.
+                    </div>
+                    <div class="piso-footer">
+                        <span class="piso-actualizado">🕐 Actualizado hace 6 días • 📷 10 fotos</span>
+                        <a href="https://www.habitaclia.com/alquiler-piso-carrer_de_sants_sants-barcelona-i52795000009525.htm" class="piso-link" target="_blank">Ver piso →</a>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <div class="grid">
-
-            <div class="card destacado">
-                <h3>Piso 2 hab Eixample</h3>
-                <div class="price">650€/mes</div>
-                <div class="location">📍 Eixample</div>
-                <div style="font-size: 12px; color: #666; margin: 5px 0;">📏 65 m² | Idealista</div>
-                <div class="metro">L3/L5 (8 min)</div>
-                <a href="https://www.idealista.com" class="btn" target="_blank">Ver anuncio →</a>
-            </div>
-
-            <div class="card">
-                <h3>Apartamento Centro</h3>
-                <div class="price">890€/mes</div>
-                <div class="location">📍 Centro</div>
-                <div style="font-size: 12px; color: #666; margin: 5px 0;">📏 89 m² | Fotocasa</div>
-                <div class="metro">L1/L2 (5 min)</div>
-                <a href="https://www.fotocasa.es" class="btn" target="_blank">Ver anuncio →</a>
-            </div>
-
-            <div class="card">
-                <h3>Piso 2 hab Gràcia</h3>
-                <div class="price">750€/mes</div>
-                <div class="location">📍 Gràcia</div>
-                <div style="font-size: 12px; color: #666; margin: 5px 0;">📏 75 m² | Habitaclia</div>
-                <div class="metro">L3 (10 min)</div>
-                <a href="https://www.habitaclia.com" class="btn" target="_blank">Ver anuncio →</a>
-            </div>
-
-            <div class="card destacado">
-                <h3>Piso 3 hab Horta</h3>
-                <div class="price">820€/mes</div>
-                <div class="location">📍 Horta</div>
-                <div style="font-size: 12px; color: #666; margin: 5px 0;">📏 80 m² | Vivanuncios</div>
-                <div class="metro">🟢 L5 (3 min a Vall Hebron)</div>
-                <a href="https://www.vivanuncios.es" class="btn" target="_blank">Ver anuncio →</a>
-            </div>
-
-            <div class="card">
-                <h3>Estudio Sant Antoni</h3>
-                <div class="price">600€/mes</div>
-                <div class="location">📍 Sant Antoni</div>
-                <div style="font-size: 12px; color: #666; margin: 5px 0;">📏 45 m² | Pisos.com</div>
-                <div class="metro">L2 (7 min)</div>
-                <a href="https://www.pisos.com" class="btn" target="_blank">Ver anuncio →</a>
-            </div>
-
-        </div>
-
-        <div class="updated">
-            <p>✅ Última actualización: <strong>06/03/2026 00:28</strong></p>
-            <p>Scraping automático de Idealista, Fotocasa, Habitaclia, Vivanuncios, Pisos.com</p>
-        </div>
+        <p class="fuente">📊 Datos obtenidos de Habitaclia.com • Precios sujetos a cambios</p>
     </div>
 </body>
 </html>

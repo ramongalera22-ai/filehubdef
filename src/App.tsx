@@ -48,6 +48,7 @@ const MonthlyAnalysisView = lazy(() => import('./components/MonthlyAnalysisView'
 const SocialView = lazy(() => import('./components/SocialView'));
 const CoordinadorView = lazy(() => import('./components/CoordinadorView'));
 const BlogPublisherView = lazy(() => import('./components/BlogPublisherView'));
+const WhatsAppView = lazy(() => import('./components/WhatsAppView'));
 
 // ============================================
 // OPTIMIZACIÓN 4: LOADING SKELETON
@@ -721,6 +722,7 @@ const App: React.FC = () => {
         <CoordinadorView events={calendarEvents} tasks={tasks} onAddEvent={handleAddEvent} onDeleteEvent={handleDeleteEvent} />
       );
       case 'blog': return <BlogPublisherView />;
+      case 'whatsapp': return <WhatsAppView />;
       default: return (
         <Dashboard expenses={expenses} tasks={tasks} events={calendarEvents} onAddTask={handleAddTask} onDeleteTask={handleDeleteTask} onToggleTask={handleToggleTask} />
       );

@@ -8,7 +8,7 @@ export type ViewType =
   | 'ideas' | 'ai-hub' | 'qr' | 'settings' | 'fitness'
   | 'courses' | 'news' | 'notebook' | 'notebook-ai' | 'medico'
   | 'carplay' | 'partner' | 'openwebui' | 'monthly-analysis'
-  | 'social' | 'coordinador' | 'files' | 'blog';
+  | 'social' | 'coordinador' | 'files' | 'blog' | 'whatsapp';
 
 export interface Expense {
   id: string;

@@ -4,7 +4,7 @@ import {
   LayoutDashboard, DollarSign, CheckSquare, Target, Calendar, MapPin,
   ShoppingCart, Lightbulb, Dumbbell, Apple, Briefcase, Brain, QrCode,
   Settings, FolderOpen, Newspaper, Users, Zap, LogOut, ScanLine,
-  BookOpen, Car, Globe, Stethoscope, BarChart2, MessageSquare
+  BookOpen, Car, Globe, Stethoscope, BarChart2, MessageSquare, MessageCircle
 } from 'lucide-react';
 
 interface SidebarProps {
@@ -22,6 +22,7 @@ const NAV_SECTIONS = [
       { id: 'dashboard' as ViewType, label: 'Dashboard', icon: LayoutDashboard },
       { id: 'calendar' as ViewType, label: 'Calendario IA', icon: Calendar },
       { id: 'tasks' as ViewType, label: 'Tareas y Brain', icon: CheckSquare },
+      { id: 'whatsapp' as ViewType, label: 'WhatsApp · Arditi', icon: MessageCircle },
     ],
   },
   {
@@ -97,18 +98,22 @@ const Sidebar: React.FC<SidebarProps> = ({ currentView, onViewChange, onScanClic
             </p>
             {section.items.map((item) => {
               const active = currentView === item.id;
+              const isWA = item.id === 'whatsapp';
               return (
                 <div key={item.id} className="group relative flex items-center">
                   <button
                     onClick={() => onViewChange(item.id)}
                     className={`flex-1 flex items-center gap-3 px-3 py-2.5 rounded-xl text-[13px] font-semibold transition-all ${
-                      active
+                      active && isWA
+                        ? 'bg-green-500/10 text-green-400 font-bold'
+                        : active
                         ? 'bg-indigo-50 dark:bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 font-bold'
                         : 'text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800/50'
                     }`}
                   >
-                    <item.icon size={18} />
+                    <item.icon size={18} className={isWA ? 'text-green-400' : ''} />
                     {item.label}
+                    {isWA && <span className="ml-auto w-2 h-2 rounded-full bg-green-400 animate-pulse flex-shrink-0" />}
                   </button>
                   {onOpenNotebook && (
                     <button

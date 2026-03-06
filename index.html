@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ARDITI · Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#07090f;--bg2:#0c1018;--bg3:#111827;--border:rgba(255,255,255,0.06);--border2:rgba(255,255,255,0.12);--cyan:#00e5ff;--green:#10b981;--amber:#f59e0b;--red:#ef4444;--wa:#25d366;--text:#dde4f0;--muted:#4a5568;--muted2:#718096}
+html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Syne',sans-serif;overflow:hidden}
+.app{display:grid;grid-template-columns:195px 1fr;grid-template-rows:52px 1fr;height:100vh}
+.topbar{grid-column:1/-1;display:flex;align-items:center;padding:0 18px;gap:14px;background:var(--bg2);border-bottom:1px solid var(--border);z-index:20}
+.logo{font-family:'Space Mono',monospace;font-weight:700;font-size:.85rem;color:var(--cyan);letter-spacing:3px}
+.logo em{color:var(--muted2);font-style:normal}
+.top-info{font-family:'Space Mono',monospace;font-size:.6rem;color:var(--muted2)}
+.top-chips{display:flex;gap:8px;margin-left:auto}
+.chip{font-family:'Space Mono',monospace;font-size:.65rem;padding:3px 9px;border-radius:3px;border:1px solid}
+.chip.g{color:var(--green);border-color:rgba(16,185,129,.25);background:rgba(16,185,129,.06)}
+.chip.r{color:var(--red);border-color:rgba(239,68,68,.25);background:rgba(239,68,68,.06)}
+.chip.a{color:var(--amber);border-color:rgba(245,158,11,.25);background:rgba(245,158,11,.06)}
+.chip.c{color:var(--cyan);border-color:rgba(0,229,255,.25);background:rgba(0,229,255,.06)}
+.pulse{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 6px var(--green);animation:blink 2s infinite;vertical-align:middle;margin-right:3px}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+.sidebar{background:var(--bg2);border-right:1px solid var(--border);overflow-y:auto;display:flex;flex-direction:column}
+.sidebar::-webkit-scrollbar{width:0}
+.nav-grp{padding:14px 10px 4px;font-family:'Space Mono',monospace;font-size:.55rem;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase}
+.nav-btn{display:flex;align-items:center;gap:9px;padding:8px 14px;cursor:pointer;font-size:.78rem;color:var(--muted2);border-radius:5px;margin:1px 6px;transition:all .12s;border:1px solid transparent;-webkit-user-select:none;-moz-user-select:none;user-select:none}
+.nav-btn:hover{color:var(--text);background:rgba(255,255,255,.03)}
+.nav-btn.on{color:var(--cyan);background:rgba(0,229,255,.07);border-color:rgba(0,229,255,.12)}
+.nav-icon{width:15px;text-align:center}
+.nav-badge{margin-left:auto;font-family:'Space Mono',monospace;font-size:.55rem;padding:1px 5px;border-radius:8px;background:var(--red);color:#fff;display:none}
+.main{overflow:hidden;display:flex;flex-direction:column}
+.pg{display:none;flex:1;overflow:hidden;flex-direction:column;height:100%}
+.pg.on{display:flex}
+.pg-head{padding:14px 18px 12px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0;background:var(--bg2)}
+.pg-title{font-size:.95rem;font-weight:800;letter-spacing:-.3px}
+.pg-sub{font-size:.65rem;color:var(--muted2);font-family:'Space Mono',monospace;margin-top:1px}
+.pg-scroll{flex:1;overflow-y:auto;padding:16px 18px}
+.pg-scroll::-webkit-scrollbar{width:3px}
+.pg-scroll::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:8px;margin-bottom:12px}
+.card-h{padding:11px 15px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.card-title{font-size:.78rem;font-weight:600}
+.card-body{padding:12px 15px}
+.stats-row{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:12px}
+.stat{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:12px 14px}
+.stat-l{font-family:'Space Mono',monospace;font-size:.55rem;color:var(--muted2);text-transform:uppercase;letter-spacing:1px;margin-bottom:5px}
+.stat-v{font-size:1.3rem;font-weight:800;letter-spacing:-1px}
+.chat-wrap{display:flex;flex-direction:column;flex:1;overflow:hidden}
+.msgs{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:8px}
+.msgs::-webkit-scrollbar{width:3px}
+.msgs::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+.msg{max-width:80%;padding:9px 13px;border-radius:10px;font-size:.8rem;line-height:1.55;word-break:break-word}
+.msg.u{align-self:flex-end;background:rgba(0,229,255,.1);border:1px solid rgba(0,229,255,.18)}
+.msg.b{align-self:flex-start;background:var(--bg3);border:1px solid var(--border)}
+.msg.wu{align-self:flex-end;background:rgba(37,211,102,.1);border:1px solid rgba(37,211,102,.2)}
+.msg.wb{align-self:flex-start;background:rgba(37,211,102,.05);border:1px solid rgba(37,211,102,.12)}
+.msg-tag{font-family:'Space Mono',monospace;font-size:.55rem;padding:1px 5px;border-radius:2px;margin-bottom:5px;display:inline-block}
+.tag-tg{background:rgba(33,150,243,.2);color:#64b5f6}
+.tag-wa{background:rgba(37,211,102,.2);color:var(--wa)}
+.typing{display:flex;gap:4px;padding:3px 0;align-items:center}
+.typing span{width:5px;height:5px;border-radius:50%;background:var(--green);animation:bob .6s infinite}
+.typing span:nth-child(2){animation-delay:.15s}
+.typing span:nth-child(3){animation-delay:.3s}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+.chat-bottom{padding:10px 14px;border-top:1px solid var(--border);background:var(--bg2);flex-shrink:0}
+.input-row{display:flex;gap:7px;align-items:flex-end}
+.ci{flex:1;background:var(--bg3);border:1px solid var(--border);border-radius:7px;padding:9px 13px;color:var(--text);font-family:'Syne',sans-serif;font-size:.8rem;resize:none;outline:none;transition:border-color .12s;min-height:38px;max-height:100px}
+.ci:focus{border-color:rgba(0,229,255,.35)}
+.ci.waci:focus{border-color:rgba(37,211,102,.35)}
+.snd{border:none;border-radius:7px;width:38px;height:38px;cursor:pointer;font-size:.95rem;font-weight:700;flex-shrink:0;transition:all .12s}
+.snd:hover{filter:brightness(1.15)}
+.snd:disabled{opacity:.35;cursor:not-allowed}
+.snd.tgs{background:var(--cyan);color:var(--bg)}
+.snd.was{background:var(--wa);color:#fff}
+.qbs{display:flex;gap:5px;flex-wrap:wrap;margin-top:8px}
+.qb{background:var(--bg3);border:1px solid var(--border);color:var(--muted2);padding:3px 9px;border-radius:15px;font-size:.65rem;cursor:pointer;font-family:'Space Mono',monospace;transition:all .12s;-webkit-user-select:none;-moz-user-select:none;user-select:none}
+.qb:hover{color:var(--text);border-color:var(--border2)}
+.row-item{display:flex;align-items:center;gap:9px;padding:7px 0;border-bottom:1px solid var(--border);font-size:.79rem}
+.row-item:last-child{border:none}
+.row-del{margin-left:auto;cursor:pointer;color:var(--muted);font-size:.75rem;opacity:0;transition:opacity .12s}
+.row-item:hover .row-del{opacity:1}
+.row-val{margin-left:auto;font-family:'Space Mono',monospace;font-size:.72rem}
+.pos{color:var(--green)}.neg{color:var(--red)}
+.day-tag{font-family:'Space Mono',monospace;font-size:.62rem;color:var(--amber);min-width:28px;font-weight:700}
+.time-tag{font-family:'Space Mono',monospace;font-size:.6rem;color:var(--muted2);min-width:36px}
+.dot{width:5px;height:5px;border-radius:50%;flex-shrink:0}
+.btn{background:transparent;border:1px solid var(--border);color:var(--muted2);padding:4px 10px;border-radius:3px;font-size:.68rem;cursor:pointer;font-family:'Space Mono',monospace;transition:all .12s}
+.btn:hover{color:var(--text);border-color:var(--border2)}
+.btn-p{background:var(--cyan);color:var(--bg);border:none;border-radius:3px;padding:5px 13px;font-size:.7rem;font-family:'Space Mono',monospace;cursor:pointer;font-weight:700}
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:50;display:none;align-items:center;justify-content:center;backdrop-filter:blur(3px)}
+.overlay.open{display:flex}
+.mbox{background:var(--bg2);border:1px solid var(--border2);border-radius:10px;padding:18px;width:300px;max-width:92vw}
+.mtitle{font-weight:700;font-size:.88rem;margin-bottom:14px}
+.fg{margin-bottom:10px}
+.fl{font-size:.65rem;font-family:'Space Mono',monospace;color:var(--muted2);display:block;margin-bottom:3px}
+.fi{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:5px;padding:7px 11px;color:var(--text);font-family:'Syne',sans-serif;font-size:.8rem;outline:none}
+.fi:focus{border-color:rgba(0,229,255,.35)}
+.mfoot{display:flex;gap:7px;justify-content:flex-end;margin-top:14px}
+.prog-bar{height:3px;background:var(--bg3);border-radius:2px;overflow:hidden;margin-top:5px}
+.prog-fill{height:100%;background:var(--cyan);border-radius:2px}
+.toast{position:fixed;bottom:18px;right:18px;background:var(--bg2);border:1px solid var(--border2);border-radius:6px;padding:9px 15px;font-size:.77rem;z-index:100;transform:translateY(60px);opacity:0;transition:all .25s;pointer-events:none}
+.toast.show{transform:translateY(0);opacity:1}
+.toast.ok{border-color:rgba(16,185,129,.4);color:var(--green)}
+.toast.err{border-color:rgba(239,68,68,.4);color:var(--red)}
+@media(max-width:580px){.app{grid-template-columns:1fr;grid-template-rows:52px 46px 1fr}.sidebar{grid-row:2;flex-direction:row;overflow-x:auto;overflow-y:hidden;border-right:none;border-bottom:1px solid var(--border)}.nav-grp{display:none}.nav-btn{flex-direction:column;gap:2px;padding:6px 10px;min-width:55px;text-align:center;margin:2px;font-size:.58rem}.nav-icon{font-size:.9rem}.top-chips{display:none}}
+</style>
+</head>
+<body>
+<div class="app">
+
+<header class="topbar">
+  <div class="logo">ARDITI<em> ·FH</em></div>
+  <div class="top-info"><span class="pulse"></span>Carlos Galera · MIR · <span id="topDate"></span></div>
+  <div class="top-chips">
+    <div class="chip g">💰 <span id="hLiq">1.578€</span></div>
+    <div class="chip r">⚠️ <span id="hPag">557€</span></div>
+    <div class="chip a">🚨 <span id="hGrd">51</span></div>
+    <div class="chip c">● ONLINE</div>
+  </div>
+</header>
+
+<nav class="sidebar">
+  <div class="nav-grp">Principal</div>
+  <div class="nav-btn on" onclick="goPg('general')"><span class="nav-icon">📅</span>General</div>
+  <div class="nav-btn" onclick="goPg('chat')"><span class="nav-icon">💬</span>Chat</div>
+  <div class="nav-btn" onclick="goPg('whatsapp')"><span class="nav-icon">📱</span>WhatsApp<span class="nav-badge" id="waBadge">0</span></div>
+  <div class="nav-grp">Gestión</div>
+  <div class="nav-btn" onclick="goPg('finanzas')"><span class="nav-icon">💰</span>Finanzas</div>
+  <div class="nav-btn" onclick="goPg('guardias')"><span class="nav-icon">🚨</span>Guardias</div>
+  <div class="nav-btn" onclick="goPg('objetivos')"><span class="nav-icon">🎯</span>Objetivos</div>
+  <div class="nav-grp">Más</div>
+  <div class="nav-btn" onclick="goPg('cursos')"><span class="nav-icon">📚</span>Cursos</div>
+  <div class="nav-grp">Apps</div>
+  <div class="nav-btn" onclick="goPg('fh2')"><span class="nav-icon">⚡</span>FILEHUB 2</div>
+</nav>
+
+<main class="main">
+
+  <div class="pg on" id="pg-general">
+    <div class="pg-head">
+      <div><div class="pg-title">Vista General</div><div class="pg-sub" id="pgDate"></div></div>
+      <button class="btn" onclick="openM('event')">+ Evento</button>
+    </div>
+    <div class="pg-scroll">
+      <div class="stats-row">
+        <div class="stat"><div class="stat-l">Liquidez</div><div class="stat-v" style="color:var(--green)" id="sLiq">1.578€</div></div>
+        <div class="stat"><div class="stat-l">Pagos pend.</div><div class="stat-v" style="color:var(--red)" id="sPag">557€</div></div>
+        <div class="stat"><div class="stat-l">Guardias</div><div class="stat-v" style="color:var(--amber)" id="sGrd">51</div></div>
+        <div class="stat"><div class="stat-l">Objetivos</div><div class="stat-v" style="color:#7c3aed" id="sObj">0/0</div></div>
+      </div>
+      <div class="card">
+        <div class="card-h"><div class="card-title">📅 Eventos hoy</div><button class="btn" onclick="openM('event')">+</button></div>
+        <div class="card-body" id="evList"><div style="color:var(--muted2);font-size:.78rem">Sin eventos hoy</div></div>
+      </div>
+      <div class="card">
+        <div class="card-h"><div class="card-title">🗓️ Google Calendar</div></div>
+        <div class="card-body" style="padding:0;overflow:hidden;border-radius:0 0 8px 8px">
+          <iframe src="https://calendar.google.com/calendar/embed?src=ramongalera22%40gmail.com&ctz=Europe%2FMadrid&mode=AGENDA&showTitle=0&showNav=1&showPrint=0&showTabs=0&showCalendars=0&bgcolor=%230c1018" style="border:0;width:100%;height:300px;filter:invert(.85) hue-rotate(180deg)" loading="lazy"></iframe>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="pg" id="pg-chat">
+    <div class="pg-head">
+      <div><div class="pg-title">💬 Chat · Arditi</div><div class="pg-sub">@arddiitibot · Kimi K2.5 via Telegram</div></div>
+      <div style="font-size:.65rem;color:var(--green)"><span class="pulse"></span>Telegram</div>
+    </div>
+    <div class="chat-wrap">
+      <div class="msgs" id="chatMsgs">
+        <div class="msg b"><div class="msg-tag tag-tg">TELEGRAM · ARDITI</div>🤖 Arditi activo. Escríbeme aquí y te respondo en segundos.</div>
+      </div>
+      <div class="chat-bottom">
+        <div class="input-row">
+          <textarea class="ci" id="chatIn" placeholder="Escribe a Arditi..." rows="1"
+            onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();chatSend()}"></textarea>
+          <button class="snd tgs" id="chatBtn" onclick="chatSend()">↑</button>
+        </div>
+        <div class="qbs">
+          <div class="qb" onclick="chatQ('¿Qué tengo hoy?')">📅 Hoy</div>
+          <div class="qb" onclick="chatQ('Resumen del día')">📋 Resumen</div>
+          <div class="qb" onclick="chatQ('¿Cuándo es mi próxima guardia?')">🚨 Guardia</div>
+          <div class="qb" onclick="chatQ('Balance financiero')">💰 Balance</div>
+          <div class="qb" onclick="chatQ('¿Qué tengo mañana?')">📆 Mañana</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="pg" id="pg-whatsapp">
+    <div class="pg-head">
+      <div><div class="pg-title">📱 WhatsApp · Live</div><div class="pg-sub">Conversaciones con Arditi en tiempo real</div></div>
+      <div style="font-size:.65rem;color:var(--wa)">● RELAY</div>
+    </div>
+    <div class="chat-wrap">
+      <div class="msgs" id="waMsgs">
+        <div class="msg wb"><div class="msg-tag tag-wa">WHATSAPP · RELAY</div>📱 Los mensajes de WhatsApp aparecerán aquí cuando el relay esté activo en NucBox.<br><br><code style="font-family:'Space Mono',monospace;font-size:.7rem;color:var(--muted2)">node ~/whatsapp-relay.js</code></div>
+      </div>
+      <div class="chat-bottom">
+        <div class="input-row">
+          <textarea class="ci waci" id="waIn" placeholder="Enviar a Arditi por WhatsApp..." rows="1"
+            onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();waSend()}"></textarea>
+          <button class="snd was" id="waBtn" onclick="waSend()">↑</button>
+        </div>
+        <div class="qbs">
+          <div class="qb" onclick="waQ('busca pisos en alquiler en barcelona máximo 900€')">🏠 Pisos</div>
+          <div class="qb" onclick="waQ('¿cuándo es mi próxima guardia?')">🚨 Guardia</div>
+          <div class="qb" onclick="waQ('resumen financiero del mes')">💰 Finanzas</div>
+          <div class="qb" onclick="waQ('busca trabajo medicina interna barcelona')">💼 Trabajo</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="pg" id="pg-finanzas">
+    <div class="pg-head">
+      <div><div class="pg-title">💰 Finanzas</div></div>
+      <button class="btn" onclick="openM('tx')">+ Transacción</button>
+    </div>
+    <div class="pg-scroll">
+      <div class="stats-row">
+        <div class="stat"><div class="stat-l">Balance</div><div class="stat-v pos" id="fBal">0€</div></div>
+        <div class="stat"><div class="stat-l">Ingresos</div><div class="stat-v pos" id="fInc">0€</div></div>
+        <div class="stat"><div class="stat-l">Gastos</div><div class="stat-v neg" id="fExp">0€</div></div>
+        <div class="stat">
+          <div class="stat-l">Liquidez manual</div>
+          <div class="stat-v" style="color:var(--amber)" id="fLiq">1.578€</div>
+          <div style="display:flex;gap:4px;margin-top:6px">
+            <input id="liqInp" class="fi" style="padding:3px 7px;font-size:.7rem;width:80px" type="number" placeholder="1578">
+            <button class="btn" onclick="setLiq()" style="padding:3px 7px">OK</button>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-h"><div class="card-title">Transacciones</div></div>
+        <div class="card-body" id="txList"><div style="color:var(--muted2);font-size:.78rem">Sin transacciones</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="pg" id="pg-guardias">
+    <div class="pg-head">
+      <div><div class="pg-title">🚨 Guardias</div></div>
+      <button class="btn" onclick="openM('gd')">+ Guardia</button>
+    </div>
+    <div class="pg-scroll">
+      <div class="card">
+        <div class="card-h"><div class="card-title">Guardias del mes</div><span id="gdCount" style="font-family:'Space Mono',monospace;font-size:.7rem;color:var(--amber)">0 guardias</span></div>
+        <div class="card-body" id="gdList"><div style="color:var(--muted2);font-size:.78rem">Sin guardias</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="pg" id="pg-objetivos">
+    <div class="pg-head">
+      <div><div class="pg-title">🎯 Objetivos</div></div>
+      <button class="btn" onclick="openM('obj')">+ Objetivo</button>
+    </div>
+    <div class="pg-scroll">
+      <div class="card">
+        <div class="card-h"><div class="card-title">Objetivos activos</div></div>
+        <div class="card-body" id="objList"><div style="color:var(--muted2);font-size:.78rem">Sin objetivos</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="pg" id="pg-cursos">
+    <div class="pg-head">
+      <div><div class="pg-title">📚 Cursos</div></div>
+      <button class="btn" onclick="openM('curso')">+ Curso</button>
+    </div>
+    <div class="pg-scroll">
+      <div class="card">
+        <div class="card-h"><div class="card-title">Formación</div></div>
+        <div class="card-body" id="cursoList"><div style="color:var(--muted2);font-size:.78rem">Sin cursos</div></div>
+      </div>
+    </div>
+  </div>
+  <!-- FILEHUB 2 PANEL -->
+  <div class="pg" id="pg-fh2" style="display:none;flex-direction:column;height:100%">
+    <div class="pg-head">
+      <div>
+        <div class="pg-title">⚡ FILEHUB 2</div>
+        <div class="pg-sub">Dashboard · Telegram · WhatsApp</div>
+      </div>
+      <div style="display:flex;gap:6px">
+        <button class="btn" onclick="document.getElementById('fh2Frame').src=document.getElementById('fh2Frame').src" style="font-size:.62rem;padding:3px 8px">↻</button>
+        <a href="https://ramongalera22-ai.github.io/filehubdef/filehub2/" target="_blank" class="btn" style="font-size:.62rem;padding:3px 8px;text-decoration:none">⬡ Nueva pestaña</a>
+      </div>
+    </div>
+    <iframe
+      id="fh2Frame"
+      src="https://ramongalera22-ai.github.io/filehubdef/filehub2/"
+      style="flex:1;border:none;width:100%;height:100%"
+      loading="lazy"
+      allow="clipboard-read; clipboard-write"
+      title="FILEHUB 2"
+    ></iframe>
+  </div>
+
+</main>
+</div>
+
+<div class="overlay" id="ov-event"><div class="mbox">
+  <div class="mtitle">📅 Añadir evento</div>
+  <div class="fg"><label class="fl">Hora</label><input class="fi" id="m-et" type="time"></div>
+  <div class="fg"><label class="fl">Descripción</label><input class="fi" id="m-ed" placeholder="Consulta cardiología..."></div>
+  <div class="mfoot"><button class="btn" onclick="closeM()">Cancelar</button><button class="btn-p" onclick="saveEv()">Guardar</button></div>
+</div></div>
+
+<div class="overlay" id="ov-tx"><div class="mbox">
+  <div class="mtitle">💰 Transacción</div>
+  <div class="fg"><label class="fl">Tipo</label><select class="fi" id="m-tt"><option value="income">Ingreso</option><option value="expense">Gasto</option></select></div>
+  <div class="fg"><label class="fl">Importe €</label><input class="fi" id="m-ta" type="number" placeholder="0.00"></div>
+  <div class="fg"><label class="fl">Descripción</label><input class="fi" id="m-td" placeholder="Guardia nocturna..."></div>
+  <div class="mfoot"><button class="btn" onclick="closeM()">Cancelar</button><button class="btn-p" onclick="saveTx()">Guardar</button></div>
+</div></div>
+
+<div class="overlay" id="ov-gd"><div class="mbox">
+  <div class="mtitle">🚨 Añadir guardia</div>
+  <div class="fg"><label class="fl">Día del mes</label><input class="fi" id="m-gd" type="number" min="1" max="31" placeholder="15"></div>
+  <div class="fg"><label class="fl">Tipo</label><input class="fi" id="m-gt" placeholder="Urgencias, UCI..."></div>
+  <div class="mfoot"><button class="btn" onclick="closeM()">Cancelar</button><button class="btn-p" onclick="saveGd()">Guardar</button></div>
+</div></div>
+
+<div class="overlay" id="ov-obj"><div class="mbox">
+  <div class="mtitle">🎯 Nuevo objetivo</div>
+  <div class="fg"><label class="fl">Objetivo</label><input class="fi" id="m-ot" placeholder="Aprobar el MIR..."></div>
+  <div class="fg"><label class="fl">% Progreso</label><input class="fi" id="m-op" type="number" min="0" max="100" placeholder="0"></div>
+  <div class="mfoot"><button class="btn" onclick="closeM()">Cancelar</button><button class="btn-p" onclick="saveObj()">Guardar</button></div>
+</div></div>
+
+<div class="overlay" id="ov-curso"><div class="mbox">
+  <div class="mtitle">📚 Nuevo curso</div>
+  <div class="fg"><label class="fl">Nombre</label><input class="fi" id="m-cn" placeholder="ECG avanzado..."></div>
+  <div class="fg"><label class="fl">% Completado</label><input class="fi" id="m-cp" type="number" min="0" max="100" placeholder="0"></div>
+  <div class="mfoot"><button class="btn" onclick="closeM()">Cancelar</button><button class="btn-p" onclick="saveCurso()">Guardar</button></div>
+</div></div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const TG_BOT='8466601397:AAG4Ky7-mziSPUQbHtE6G9iyg_Gpc70WLVU';const TG_CID='596831448';const TG_PROXY='/api/telegram-proxy';
+let D=JSON.parse(localStorage.getItem('arditi-v2')||'{}');
+D.events=D.events||[];D.guardias=D.guardias||[];D.tx=D.tx||[];
+D.objetivos=D.objetivos||[];D.cursos=D.cursos||[];
+D.liquidez=D.liquidez!==undefined?D.liquidez:1578;
+D.pagos=D.pagos!==undefined?D.pagos:557;
+function sv(){localStorage.setItem('arditi-v2',JSON.stringify(D))}
+(function(){const s=new Date().toLocaleDateString('es-ES',{weekday:'long',year:'numeric',month:'long',day:'numeric'});document.getElementById('topDate').textContent=s;document.getElementById('pgDate').textContent=s;})();
+function goPg(id){document.querySelectorAll('.pg').forEach(p=>{p.classList.remove('on');p.style.display='none'});document.querySelectorAll('.nav-btn').forEach(n=>n.classList.remove('on'));const pg=document.getElementById('pg-'+id);pg.classList.add('on');pg.style.display='flex';document.querySelectorAll('.nav-btn').forEach(n=>{if(n.getAttribute('onclick')?.includes(id))n.classList.add('on')});if(id==='chat')setTimeout(()=>{const e=document.getElementById('chatMsgs');e.scrollTop=e.scrollHeight},80);if(id==='whatsapp'){setTimeout(()=>{const e=document.getElementById('waMsgs');e.scrollTop=e.scrollHeight},80);clearBadge();}}
+function updStats(){const inc=D.tx.filter(t=>t.tp==='income').reduce((s,t)=>s+t.am,0);const exp=D.tx.filter(t=>t.tp==='expense').reduce((s,t)=>s+t.am,0);document.getElementById('fBal').textContent=(inc-exp).toFixed(0)+'€';document.getElementById('fInc').textContent=inc.toFixed(0)+'€';document.getElementById('fExp').textContent=exp.toFixed(0)+'€';document.getElementById('fLiq').textContent=D.liquidez+'€';document.getElementById('sLiq').textContent=D.liquidez+'€';document.getElementById('hLiq').textContent=D.liquidez+'€';document.getElementById('sPag').textContent=D.pagos+'€';document.getElementById('hPag').textContent=D.pagos+'€';const gn=D.guardias.length;document.getElementById('sGrd').textContent=gn||51;document.getElementById('hGrd').textContent=gn||51;document.getElementById('gdCount').textContent=(gn||0)+' guardias';const done=D.objetivos.filter(o=>o.done).length;document.getElementById('sObj').textContent=done+'/'+D.objetivos.length;}
+function setLiq(){const v=parseInt(document.getElementById('liqInp').value);if(!isNaN(v)){D.liquidez=v;sv();updStats();toast('Liquidez actualizada')}}
+function rendEv(){const el=document.getElementById('evList');if(!D.events.length){el.innerHTML='<div style="color:var(--muted2);font-size:.78rem">Sin eventos hoy</div>';return}el.innerHTML=D.events.sort((a,b)=>a.time.localeCompare(b.time)).map(e=>`<div class="row-item"><div class="time-tag">${e.time}</div><div class="dot" style="background:var(--cyan)"></div><div>${e.desc}</div><div class="row-del" onclick="delEv(${e.id})">✕</div></div>`).join('')}
+function saveEv(){const t=document.getElementById('m-et').value,d=document.getElementById('m-ed').value.trim();if(!t||!d)return;D.events.push({id:Date.now(),time:t,desc:d});sv();rendEv();closeM();toast('Evento añadido')}
+function delEv(id){D.events=D.events.filter(e=>e.id!==id);sv();rendEv()}
+function rendGd(){const el=document.getElementById('gdList');if(!D.guardias.length){el.innerHTML='<div style="color:var(--muted2);font-size:.78rem">Sin guardias</div>';return}el.innerHTML=D.guardias.sort((a,b)=>a.day-b.day).map(g=>`<div class="row-item"><div class="day-tag">Día ${g.day}</div><div>${g.type}</div><div class="row-del" onclick="delGd(${g.id})">✕</div></div>`).join('')}
+function saveGd(){const day=parseInt(document.getElementById('m-gd').value),type=document.getElementById('m-gt').value.trim();if(!day||!type)return;D.guardias.push({id:Date.now(),day,type});sv();rendGd();updStats();closeM();toast('Guardia añadida')}
+function delGd(id){D.guardias=D.guardias.filter(g=>g.id!==id);sv();rendGd();updStats()}
+function rendTx(){const el=document.getElementById('txList');if(!D.tx.length){el.innerHTML='<div style="color:var(--muted2);font-size:.78rem">Sin transacciones</div>';return}el.innerHTML=D.tx.slice(0,25).map(t=>`<div class="row-item"><div>${t.tp==='income'?'📈':'📉'}</div><div style="font-size:.78rem">${t.desc}</div><div class="row-val ${t.tp==='income'?'pos':'neg'}">${t.tp==='income'?'+':'-'}${t.am.toFixed(2)}€</div><div class="row-del" onclick="delTx(${t.id})">✕</div></div>`).join('')}
+function saveTx(){const tp=document.getElementById('m-tt').value,am=parseFloat(document.getElementById('m-ta').value),desc=document.getElementById('m-td').value.trim();if(!am||!desc)return;D.tx.unshift({id:Date.now(),tp,am,desc});sv();rendTx();updStats();closeM();toast('Transacción guardada')}
+function delTx(id){D.tx=D.tx.filter(t=>t.id!==id);sv();rendTx();updStats()}
+function rendObj(){const el=document.getElementById('objList');if(!D.objetivos.length){el.innerHTML='<div style="color:var(--muted2);font-size:.78rem">Sin objetivos</div>';return}el.innerHTML=D.objetivos.map(o=>`<div class="row-item" style="flex-wrap:wrap"><div class="dot" style="background:${o.done?'var(--green)':'var(--muted)'}"></div><div style="flex:1;font-size:.78rem;${o.done?'text-decoration:line-through;color:var(--muted2)':''}">${o.text}</div><div style="display:flex;gap:6px;margin-left:auto"><span style="cursor:pointer;color:var(--green);font-size:.75rem" onclick="togObj(${o.id})">✓</span><span class="row-del" style="opacity:1" onclick="delObj(${o.id})">✕</span></div><div style="width:100%"><div class="prog-bar"><div class="prog-fill" style="width:${o.pct||0}%"></div></div></div></div>`).join('')}
+function saveObj(){const t=document.getElementById('m-ot').value.trim(),p=parseInt(document.getElementById('m-op').value)||0;if(!t)return;D.objetivos.push({id:Date.now(),text:t,pct:p,done:false});sv();rendObj();updStats();closeM();toast('Objetivo añadido')}
+function togObj(id){const o=D.objetivos.find(x=>x.id===id);if(o){o.done=!o.done;if(o.done)o.pct=100;}sv();rendObj();updStats()}
+function delObj(id){D.objetivos=D.objetivos.filter(o=>o.id!==id);sv();rendObj();updStats()}
+function rendCurso(){const el=document.getElementById('cursoList');if(!D.cursos.length){el.innerHTML='<div style="color:var(--muted2);font-size:.78rem">Sin cursos</div>';return}el.innerHTML=D.cursos.map(c=>`<div class="row-item" style="flex-wrap:wrap"><div style="flex:1;font-size:.78rem">${c.name}</div><div style="font-family:'Space Mono',monospace;font-size:.65rem;color:var(--cyan)">${c.pct}%</div><span class="row-del" style="opacity:1;margin-left:8px" onclick="delCurso(${c.id})">✕</span><div style="width:100%"><div class="prog-bar"><div class="prog-fill" style="width:${c.pct}%"></div></div></div></div>`).join('')}
+function saveCurso(){const n=document.getElementById('m-cn').value.trim(),p=parseInt(document.getElementById('m-cp').value)||0;if(!n)return;D.cursos.push({id:Date.now(),name:n,pct:p});sv();rendCurso();closeM();toast('Curso añadido')}
+function delCurso(id){D.cursos=D.cursos.filter(c=>c.id!==id);sv();rendCurso()}
+function openM(t){document.querySelectorAll('.overlay').forEach(o=>o.classList.remove('open'));document.getElementById('ov-'+t).classList.add('open')}
+function closeM(){document.querySelectorAll('.overlay').forEach(o=>o.classList.remove('open'))}
+document.querySelectorAll('.overlay').forEach(o=>o.addEventListener('click',e=>{if(e.target===o)closeM()}));
+function toast(msg,type='ok'){const e=document.getElementById('toast');e.textContent=msg;e.className='toast show '+type;setTimeout(()=>e.classList.remove('show'),2500)}
+let tgOff=parseInt(localStorage.getItem('tgOff')||'0');
+async function tgSend(text){try{const r=await fetch('https://api.telegram.org/bot'+TG_BOT+'/sendMessage',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({chat_id:TG_CID,text,parse_mode:'HTML'})});const d=await r.json();return d.ok}catch(e){return false}}
+async function tgPoll(){try{const r=await fetch('https://api.telegram.org/bot'+TG_BOT+'/getUpdates?offset='+tgOff+'&timeout=2');const d=await r.json();if(d.ok&&d.result)return d.result}catch(e){}return[]}
+function addChatMsg(text,isUser){const msgs=document.getElementById('chatMsgs');const el=document.createElement('div');el.className='msg '+(isUser?'u':'b');if(!isUser){const tag=document.createElement('div');tag.className='msg-tag tag-tg';tag.textContent='TELEGRAM · ARDITI';el.appendChild(tag)}const c=document.createElement('span');c.innerHTML=text.replace(/\*\*(.*?)\*\*/g,'<b>$1</b>').replace(/\n/g,'<br>');el.appendChild(c);msgs.appendChild(el);msgs.scrollTop=msgs.scrollHeight;return el}
+async function chatSend(){const inp=document.getElementById('chatIn');const text=inp.value.trim();if(!text)return;inp.value='';inp.style.height='auto';document.getElementById('chatBtn').disabled=true;addChatMsg(text,true);const typing=addChatMsg('',false);typing.innerHTML='<div class="msg-tag tag-tg">TELEGRAM · ARDITI</div><div class="typing"><span></span><span></span><span></span></div>';const sentAt=Date.now();const ok=await tgSend(text);if(!ok){typing.remove();addChatMsg('❌ Error enviando. Verifica el proxy Telegram.',false);document.getElementById('chatBtn').disabled=false;return}const poll=async()=>{const ups=await tgPoll();for(const u of ups){tgOff=u.update_id+1;localStorage.setItem('tgOff',tgOff);const msg=u.message;if(!msg||!msg.from)continue;if(msg.from.is_bot&&msg.date*1000>=sentAt-3000){typing.remove();addChatMsg(msg.text||'',false);document.getElementById('chatBtn').disabled=false;return}}if(Date.now()-sentAt<35000)setTimeout(poll,1500);else{typing.remove();addChatMsg('⏱️ Sin respuesta. ¿Está OpenClaw corriendo en NucBox?',false);document.getElementById('chatBtn').disabled=false}};setTimeout(poll,2000)}
+function chatQ(q){document.getElementById('chatIn').value=q;chatSend()}
+let waBadge=0;
+function clearBadge(){waBadge=0;const b=document.getElementById('waBadge');b.style.display='none'}
+function addWaMsg(text,isUser){const msgs=document.getElementById('waMsgs');const el=document.createElement('div');el.className='msg '+(isUser?'wu':'wb');const tag=document.createElement('div');tag.className='msg-tag tag-wa';tag.textContent=isUser?'TÚ · WHATSAPP':'ARDITI · WHATSAPP';el.appendChild(tag);const c=document.createElement('span');c.innerHTML=text.replace(/\*\*(.*?)\*\*/g,'<b>$1</b>').replace(/\n/g,'<br>');el.appendChild(c);msgs.appendChild(el);msgs.scrollTop=msgs.scrollHeight;if(!document.getElementById('pg-whatsapp').classList.contains('on')){waBadge++;const b=document.getElementById('waBadge');b.textContent=waBadge;b.style.display='inline'}}
+async function waSend(){const inp=document.getElementById('waIn');const text=inp.value.trim();if(!text)return;inp.value='';inp.style.height='auto';document.getElementById('waBtn').disabled=true;addWaMsg(text,true);await tgSend('📱 '+text);const sentAt=Date.now();const poll=async()=>{const ups=await tgPoll();for(const u of ups){tgOff=u.update_id+1;localStorage.setItem('tgOff',tgOff);const msg=u.message;if(!msg||!msg.from)continue;if(msg.from.is_bot&&msg.date*1000>=sentAt-2000){addWaMsg(msg.text||'',false);document.getElementById('waBtn').disabled=false;return}}if(Date.now()-sentAt<30000)setTimeout(poll,1500);else document.getElementById('waBtn').disabled=false};setTimeout(poll,2000)}
+function waQ(q){document.getElementById('waIn').value=q;waSend()}
+async function bgPoll(){try{const ups=await tgPoll();for(const u of ups){tgOff=u.update_id+1;localStorage.setItem('tgOff',tgOff);const msg=u.message;if(!msg||!msg.text)continue;if(msg.text.includes('Tú (WhatsApp):')){addWaMsg(msg.text.replace(/^.*?Tú \(WhatsApp\):\n?/,'').trim(),true)}else if(msg.text.includes('Arditi (WhatsApp):')){addWaMsg(msg.text.replace(/^.*?Arditi \(WhatsApp\):\n?/,'').trim(),false)}}}catch(e){}setTimeout(bgPoll,4000)}
+document.querySelectorAll('.ci').forEach(el=>{el.addEventListener('input',()=>{el.style.height='auto';el.style.height=Math.min(el.scrollHeight,100)+'px'})});
+rendEv();rendGd();rendTx();rendObj();rendCurso();updStats();
+setTimeout(bgPoll,2000);
+</script>
+</body>
+</html>

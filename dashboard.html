@@ -348,10 +348,10 @@ body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--wh);min-he
 
     <!-- CHAT TELEGRAM -->
     <div class="pg" id="pg-chat">
-      <div class="tgs"><span class="tgd"></span>Bot Telegram conectado · Escuchando comandos 📡</div>
+      <div class="tgs"><span class="tgd"></span>Bot Telegram · Envío directo a NucBox 📡 — Las respuestas llegan a tu móvil Telegram</div>
       <div class="chtb">
-        <div class="chth"><div class="chtav" style="background:linear-gradient(135deg,#0088cc,#00aaff)">✈</div><div><div class="chtn">LifeBot · Telegram</div><div class="chtp">Bidireccional — Envía y recibe comandos</div></div></div>
-        <div class="chtm" id="tgM"><div class="msg ai">🤖 ¡LifeBot activo! Escucho comandos desde Telegram. Escribe <strong>/help</strong> en Telegram para ver todos los comandos, o simplemente dime en lenguaje natural qué quieres hacer (ej: "añade una guardia el día 15").</div></div>
+        <div class="chth"><div class="chtav" style="background:linear-gradient(135deg,#0088cc,#00aaff)">✈</div><div><div class="chtn">LifeBot · Telegram</div><div class="chtp">Envío a NucBox — respuestas en tu móvil Telegram</div></div></div>
+        <div class="chtm" id="tgM"><div class="msg ai">🤖 ¡LifeBot activo! Los mensajes que escribas aquí se envían directamente a tu bot en NucBox. Las respuestas de Arditi llegan a tu <strong>app Telegram</strong> en el móvil.<br><br>💡 Para ver conversaciones de WhatsApp en tiempo real, usa la pestaña <strong>📱 WhatsApp</strong>.</div></div>
         <div class="qbs"><button class="qb" onclick="tgQ('/help')">❓ Ayuda</button><button class="qb" onclick="tgQ('/resumen')">📋 Resumen</button><button class="qb" onclick="tgQ('/guardias')">🚨 Guardias</button><button class="qb" onclick="tgQ('/eventos')">📅 Eventos</button><button class="qb" onclick="tgQ('/balance')">💰 Balance</button></div>
         <div class="chti"><input id="tgI" placeholder="Enviar mensaje al bot..." onkeydown="if(event.key==='Enter')tgS()"><button class="snd" onclick="tgS()" id="tgB">→</button></div>
       </div>
@@ -878,27 +878,14 @@ let tgOffset=0;
 const TG_POLL_KEY='lb5_tg_offset';
 try{const o=localStorage.getItem(TG_POLL_KEY);if(o)tgOffset=parseInt(o)}catch(e){}
 
+// ── TELEGRAM POLLING DESACTIVADO ────────────────────────────
+// OpenClaw en NucBox tiene el monopolio de getUpdates para este bot.
+// El dashboard solo envía (sendMessage). Si hay 2 procesos haciendo
+// getUpdates al mismo token → error 409. Dashboard = solo envío.
+// Las respuestas del bot llegan a NucBox directamente.
 async function tgPoll(){
-  try{
-    // timeout=0 so we never hold a long-poll connection open
-    const r=await fetch(`${TG_A}/getUpdates?offset=${tgOffset}&timeout=0`);
-    if(!r.ok){setTimeout(tgPoll,15000);return;}
-    const d=await r.json();
-    if(d.ok&&d.result&&d.result.length){
-      for(const u of d.result){
-        tgOffset=u.update_id+1;
-        try{localStorage.setItem(TG_POLL_KEY,tgOffset)}catch(e){}
-        if(u.message&&u.message.text&&String(u.message.chat.id)===TG_C){
-          const txt=u.message.text;
-          const isBot=u.message.from&&u.message.from.is_bot;
-          // Skip WA relay messages (already in Supabase via relay)
-          if(txt.includes('(WhatsApp):')||txt.startsWith('📱')||txt.startsWith('🤖')){continue;}
-          if(isBot){addMsg('tgM','📲 '+txt,false);await processTgCommand(txt);}
-        }
-      }
-    }
-  }catch(e){}
-  setTimeout(tgPoll,8000);
+  // NO-OP: getUpdates desactivado en dashboard para evitar 409
+  // OpenClaw gestiona el polling de forma exclusiva
 }
 
 async function processTgCommand(txt){

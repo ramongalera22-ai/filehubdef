@@ -1,0 +1,23 @@
+{
+  "source_dashboard": "https://filehub-demo-carlos.web.app",
+  "unified_dashboard": "https://phenomenal-nasturtium-5e1a1d.netlify.app/plataforma-unificada.html",
+  "whatsapp_number": "+34679888148",
+  "telegram_bot": "@Arditi2bot",
+  "sync_enabled": true,
+  "sync_interval_seconds": 5,
+  "features": {
+    "whatsapp_relay": true,
+    "telegram_integration": true,
+    "bidirectional_sync": true,
+    "offline_mode": true
+  },
+  "endpoints": {
+    "whatsapp": "https://wa.me/34679888148",
+    "telegram": "https://t.me/Arditi2bot",
+    "status": "/api/status",
+    "messages": "/api/messages",
+    "send": "/api/send"
+  },
+  "created": "2026-03-06T19:45:00+01:00",
+  "version": "2.0.0"
+}

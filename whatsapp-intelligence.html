@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARDITI - WhatsApp Intelligence</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; height: 100vh; overflow: hidden; }
+        .app { display: flex; height: 100vh; }
+        .sidebar { width: 280px; background: #2c3e50; color: white; }
+        .sidebar-header { padding: 20px; background: linear-gradient(135deg, #667eea, #764ba2); }
+        .nav-item { padding: 12px 20px; cursor: pointer; border-left: 3px solid transparent; }
+        .nav-item:hover, .nav-item.active { background: rgba(255,255,255,0.1); border-left-color: #667eea; }
+        .main { flex: 1; display: flex; flex-direction: column; }
+        .content { flex: 1; display: flex; overflow: hidden; }
+        .chat-section { flex: 1; display: flex; flex-direction: column; background: #e5ddd5; }
+        .chat-messages { flex: 1; overflow-y: auto; padding: 20px; }
+        .message { margin-bottom: 15px; max-width: 80%; }
+        .message.user { margin-left: auto; }
+        .message-content { padding: 12px 16px; border-radius: 12px; background: white; box-shadow: 0 1px 2px rgba(0,0,0,0.1); }
+        .message.user .message-content { background: #dcf8c6; }
+        .category-tag { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 10px; margin-left: 8px; }
+        .tag-pisos { background: #e8f5e9; color: #2e7d32; }
+        .tag-ofertas { background: #e3f2fd; color: #1565c0; }
+        .input-area { padding: 15px; background: white; display: flex; gap: 10px; }
+        .input-area input { flex: 1; padding: 12px; border: 1px solid #ddd; border-radius: 25px; }
+        .input-area button { width: 45px; border: none; border-radius: 50%; background: #667eea; color: white; }
+        .classify-panel { width: 350px; background: white; border-left: 1px solid #ddd; padding: 20px; }
+        .stat-box { background: #f8f9fa; padding: 15px; border-radius: 10px; margin-bottom: 10px; text-align: center; }
+    </style>
+</head>
+<body>
+    <div class="app">
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <h1>🤖 ARDITI</h1>
+                <p>WhatsApp Intelligence</p>
+            </div>
+            <div class="nav">
+                <div class="nav-item active" onclick="filter('all')">💬 Todas</div>
+                <div class="nav-item" onclick="filter('pisos')">🏠 Pisos</div>
+                <div class="nav-item" onclick="filter('ofertas')">💼 Ofertas</div>
+            </div>
+        </div>
+        <div class="main">
+            <div class="content">
+                <div class="chat-section">
+                    <div class="chat-messages" id="messages"></div>
+                    <div class="input-area">
+                        <input type="text" id="input" placeholder="Escribe...">
+                        <button onclick="send()">➤</button>
+                    </div>
+                </div>
+                <div class="classify-panel">
+                    <h3>📊 Clasificación</h3>
+                    <div class="stat-box">
+                        <h4>🏠 Pisos</h4>
+                        <div id="count-pisos">0</div>
+                    </div>
+                    <div class="stat-box">
+                        <h4>💼 Ofertas</h4>
+                        <div id="count-ofertas">0</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const classifier = {
+            keywords: {
+                pisos: ['piso', 'alquiler', 'habitacion', 'm2', 'metros', 'euros', '€', 'barcelona', 'vivienda', 'casa', 'loft', 'estudio'],
+                ofertas: ['trabajo', 'empleo', 'medico', 'mir', 'cap', 'ics', 'siscat', 'contrato', 'salario', 'oferta', 'vacante']
+            },
+            classify(text) {
+                const lower = text.toLowerCase();
+                let pisos = this.keywords.pisos.filter(k => lower.includes(k)).length;
+                let ofertas = this.keywords.ofertas.filter(k => lower.includes(k)).length;
+                if (pisos > ofertas && pisos > 0) return 'pisos';
+                if (ofertas > pisos && ofertas > 0) return 'ofertas';
+                return 'general';
+            }
+        };
+
+        let messages = JSON.parse(localStorage.getItem('arditi_msgs')) || [
+            { from: 'user', text: 'Hola me escuchas?', category: 'general' },
+            { from: 'bot', text: '¡Hola! Sí, te escucho.', category: 'general' },
+            { from: 'user', text: 'Busca pisos en Barcelona', category: 'pisos' },
+            { from: 'bot', text: '🏠 Pisos encontrados: 1.200€, 950€...', category: 'pisos' },
+            { from: 'user', text: 'Busca ofertas de trabajo médico', category: 'ofertas' },
+            { from: 'bot', text: '💼 Ofertas: CAP Vila Vella, CAP Barceloneta...', category: 'ofertas' }
+        ];
+
+        function render(filter = 'all') {
+            const div = document.getElementById('messages');
+            const filtered = filter === 'all' ? messages : messages.filter(m => m.category === filter);
+            div.innerHTML = filtered.map(m => `
+                <div class="message ${m.from}">
+                    <div class="message-content">
+                        ${m.text}
+                        <span class="category-tag tag-${m.category}">${m.category}</span>
+                    </div>
+                </div>
+            `).join('');
+            updateStats();
+        }
+
+        function updateStats() {
+            document.getElementById('count-pisos').textContent = messages.filter(m => m.category === 'pisos').length;
+            document.getElementById('count-ofertas').textContent = messages.filter(m => m.category === 'ofertas').length;
+        }
+
+        function send() {
+            const input = document.getElementById('input');
+            if (!input.value.trim()) return;
+            const cat = classifier.classify(input.value);
+            messages.push({ from: 'user', text: input.value, category: cat });
+            localStorage.setItem('arditi_msgs', JSON.stringify(messages));
+            input.value = '';
+            render();
+        }
+
+        function filter(cat) {
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            event.target.classList.add('active');
+            render(cat);
+        }
+
+        document.getElementById('input').addEventListener('keypress', e => {
+            if (e.key === 'Enter') send();
+        });
+
+        render();
+    </script>
+</body>
+</html>

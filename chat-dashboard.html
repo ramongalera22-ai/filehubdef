@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>💬 ARDITI · Chat en Vivo</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: #f0f2f5;
+            height: 100vh;
+            display: flex;
+            overflow: hidden;
+        }
+        .sidebar {
+            width: 350px;
+            background: white;
+            border-right: 1px solid #e0e0e0;
+            display: flex;
+            flex-direction: column;
+        }
+        .sidebar-header {
+            padding: 20px;
+            background: #667eea;
+            color: white;
+        }
+        .sidebar-header h1 {
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .chat-list { flex: 1; overflow-y: auto; }
+        .chat-item {
+            display: flex;
+            align-items: center;
+            padding: 15px 20px;
+            cursor: pointer;
+            transition: background 0.2s;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .chat-item:hover, .chat-item.active { background: #f5f5f5; }
+        .chat-avatar {
+            width: 50px; height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin-right: 15px;
+        }
+        .chat-avatar.user { background: linear-gradient(135deg, #2ecc71, #27ae60); }
+        .chat-info { flex: 1; }
+        .chat-name { font-weight: 600; color: #333; margin-bottom: 5px; }
+        .chat-preview {
+            font-size: 13px; color: #666;
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        }
+        .chat-meta { text-align: right; }
+        .chat-time { font-size: 12px; color: #999; }
+        .chat-container {
+            flex: 1; display: flex; flex-direction: column;
+            background: #e5ddd5;
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%239C92AC' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+        .chat-header {
+            background: #f0f0f0;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .chat-header-avatar {
+            width: 40px; height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            margin-right: 15px;
+        }
+        .chat-header-info h2 { font-size: 16px; color: #333; }
+        .chat-header-info p { font-size: 13px; color: #666; }
+        .chat-messages {
+            flex: 1; overflow-y: auto;
+            padding: 20px;
+        }
+        .message-date {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .message-date span {
+            background: #e0e0e0;
+            padding: 5px 15px;
+            border-radius: 15px;
+            font-size: 12px; color: #666;
+        }
+        .message {
+            display: flex;
+            margin-bottom: 15px;
+            animation: fadeIn 0.3s ease;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .message.user { justify-content: flex-end; }
+        .message-content {
+            max-width: 70%;
+            padding: 12px 15px;
+            border-radius: 12px;
+        }
+        .message.assistant .message-content {
+            background: white;
+            border-top-left-radius: 2px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        }
+        .message.user .message-content {
+            background: #dcf8c6;
+            border-top-right-radius: 2px;
+        }
+        .message-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 5px;
+            font-size: 12px; font-weight: 600;
+        }
+        .message.assistant .message-header { color: #667eea; }
+        .message.user .message-header { color: #2ecc71; }
+        .message-text {
+            font-size: 14px; line-height: 1.5;
+            color: #333; white-space: pre-wrap;
+        }
+        .message-time {
+            font-size: 11px; color: #999;
+            margin-top: 5px; text-align: right;
+        }
+        .chat-input-container {
+            background: #f0f0f0;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .chat-input {
+            flex: 1;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 25px;
+            background: white;
+            font-size: 14px;
+            outline: none;
+        }
+        .send-btn {
+            width: 45px; height: 45px;
+            border: none;
+            border-radius: 50%;
+            background: #667eea;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+        .send-btn:hover { background: #764ba2; }
+        .status-bar {
+            background: #4caf50;
+            color: white;
+            padding: 8px 20px;
+            font-size: 12px;
+            display: flex;
+            justify-content: space-between;
+        }
+        .typing-indicator {
+            display: none;
+            padding: 10px 20px;
+            font-size: 13px;
+            color: #666;
+            font-style: italic;
+        }
+        .typing-indicator.active { display: block; }
+    </style>
+</head>
+<body>
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <h1>💬 Chat ARDITI</h1>
+        </div>
+        <div class="chat-list">
+            <div class="chat-item active">
+                <div class="chat-avatar">🤖</div>
+                <div class="chat-info">
+                    <div class="chat-name">Arditi</div>
+                    <div class="chat-preview">Chat bidireccional en vivo...</div>
+                </div>
+                <div class="chat-meta">
+                    <div class="chat-time">Ahora</div>
+                    <div class="chat-badge">En línea</div>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <main class="chat-container">
+        <div class="chat-header">
+            <div class="chat-header-avatar">🤖</div>
+            <div class="chat-header-info">
+                <h2>Arditi</h2>
+                <p>● En línea - Sincronizado con WhatsApp</p>
+            </div>
+        </div>
+
+        <div class="chat-messages" id="chat-messages">
+            <div class="message-date"><span>Hoy</span></div>
+            <!-- Mensajes se cargan dinámicamente -->
+        </div>
+
+        <div class="typing-indicator" id="typing">Arditi está escribiendo...</div>
+
+        <div class="chat-input-container">
+            <input type="text" class="chat-input" id="message-input" placeholder="Escribe un mensaje...">
+            <button class="send-btn" onclick="sendMessage()">➤</button>
+        </div>
+    </main>
+
+    <script>
+        const API_ENDPOINT = 'https://arditi-dashboard-cg.web.app/api/chat';
+        let messages = [];
+        let currentUser = { name: 'Carlos Galera', avatar: '👨‍⚕️' };
+
+        // Cargar mensajes
+        async function loadMessages() {
+            try {
+                const response = await fetch('chat-history.json?t=' + Date.now());
+                const data = await response.json();
+                messages = data.conversation || [];
+                renderMessages();
+            } catch (e) {
+                console.log('Cargando mensajes de ejemplo...');
+                renderMessages();
+            }
+        }
+
+        // Renderizar mensajes
+        function renderMessages() {
+            const container = document.getElementById('chat-messages');
+            const existing = container.querySelectorAll('.message');
+            existing.forEach(e => e.remove());
+
+            messages.forEach(msg => {
+                const div = document.createElement('div');
+                div.className = `message ${msg.from}`;
+                div.innerHTML = `
+                    <div class="message-content">
+                        <div class="message-header">${msg.avatar} ${msg.name}</div>
+                        <div class="message-text">${formatMessage(msg.message)}</div>
+                        <div class="message-time">${formatTime(msg.timestamp)}</div>
+                    </div>
+                `;
+                container.appendChild(div);
+            });
+
+            container.scrollTop = container.scrollHeight;
+        }
+
+        // Formatear mensaje (convertir URLs, etc)
+        function formatMessage(text) {
+            return text
+                .replace(/\n/g, '<br>')
+                .replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" target="_blank" style="color: #667eea;">$1</a>');
+        }
+
+        // Formatear hora
+        function formatTime(timestamp) {
+            const date = new Date(timestamp);
+            return date.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' });
+        }
+
+        // Enviar mensaje
+        async function sendMessage() {
+            const input = document.getElementById('message-input');
+            const text = input.value.trim();
+            if (!text) return;
+
+            const msg = {
+                id: 'msg_' + Date.now(),
+                timestamp: new Date().toISOString(),
+                from: 'user',
+                name: currentUser.name,
+                avatar: currentUser.avatar,
+                message: text,
+                platform: 'web',
+                type: 'text'
+            };
+
+            messages.push(msg);
+            renderMessages();
+            input.value = '';
+
+            // Simular respuesta
+            showTyping(true);
+            setTimeout(() => {
+                showTyping(false);
+                const response = {
+                    id: 'msg_' + Date.now(),
+                    timestamp: new Date().toISOString(),
+                    from: 'assistant',
+                    name: 'Arditi',
+                    avatar: '🤖',
+                    message: 'Mensaje recibido desde el dashboard. En una implementación completa, esto se sincronizaría con WhatsApp.',
+                    platform: 'web',
+                    type: 'text'
+                };
+                messages.push(response);
+                renderMessages();
+            }, 2000);
+        }
+
+        // Mostrar "escribiendo..."
+        function showTyping(show) {
+            document.getElementById('typing').classList.toggle('active', show);
+        }
+
+        // Auto-refresh
+        setInterval(loadMessages, 5000);
+
+        // Enviar con Enter
+        document.getElementById('message-input').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') sendMessage();
+        });
+
+        // Inicializar
+        loadMessages();
+    </script>
+</body>
+</html>

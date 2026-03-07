@@ -3,390 +3,108 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🚀 ARDITI · Dashboard + Chat</title>
+    <title>ARDITI Dashboard + Chat</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        :root {
-            --primary: #667eea;
-            --primary-dark: #764ba2;
-            --success: #2ecc71;
-            --warning: #f39c12;
-            --danger: #e74c3c;
-            --dark: #2c3e50;
-            --light: #f8f9fa;
-        }
-        body { 
-            font-family: 'Segoe UI', system-ui, sans-serif; 
-            background: #f0f2f5;
-            height: 100vh;
-            overflow: hidden;
-        }
-        .app {
-            display: flex;
-            height: 100vh;
-        }
-        /* Dashboard Panel */
-        .dashboard-panel {
-            flex: 1;
-            overflow-y: auto;
-            padding: 20px;
-            background: var(--light);
-        }
-        .header {
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            color: white;
-            padding: 20px;
-            border-radius: 12px;
-            margin-bottom: 20px;
-        }
-        .header h1 {
-            font-size: 24px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-        .stat-card {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            border-left: 4px solid var(--primary);
-        }
-        .stat-card.success { border-left-color: var(--success); }
-        .stat-card.warning { border-left-color: var(--warning); }
-        .stat-card.danger { border-left-color: var(--danger); }
-        .stat-card h3 { font-size: 13px; color: #666; margin-bottom: 8px; text-transform: uppercase; }
-        .stat-card .value { font-size: 28px; font-weight: bold; color: var(--dark); }
-        
-        /* Chat Panel */
-        .chat-panel {
-            width: 400px;
-            background: white;
-            border-left: 1px solid #e0e0e0;
-            display: flex;
-            flex-direction: column;
-        }
-        .chat-header {
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            color: white;
-            padding: 15px 20px;
-        }
-        .chat-header h2 {
-            font-size: 18px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .chat-status {
-            font-size: 12px;
-            opacity: 0.9;
-            margin-top: 5px;
-        }
-        .chat-messages {
-            flex: 1;
-            overflow-y: auto;
-            padding: 15px;
-            background: #e5ddd5;
-            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%239C92AC' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-        }
-        .message {
-            display: flex;
-            margin-bottom: 12px;
-            animation: fadeIn 0.3s ease;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .message.user { justify-content: flex-end; }
-        .message-content {
-            max-width: 85%;
-            padding: 10px 14px;
-            border-radius: 12px;
-            font-size: 13px;
-            line-height: 1.4;
-        }
-        .message.assistant .message-content {
-            background: white;
-            border-top-left-radius: 2px;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
-        }
-        .message.user .message-content {
-            background: #dcf8c6;
-            border-top-right-radius: 2px;
-        }
-        .message-header {
-            font-size: 11px;
-            font-weight: 600;
-            margin-bottom: 3px;
-        }
-        .message.assistant .message-header { color: var(--primary); }
-        .message.user .message-header { color: #2ecc71; }
-        .message-text { color: #333; white-space: pre-wrap; }
-        .message-time {
-            font-size: 10px;
-            color: #999;
-            margin-top: 3px;
-            text-align: right;
-        }
-        .chat-input-container {
-            padding: 15px;
-            background: #f0f0f0;
-            display: flex;
-            gap: 10px;
-        }
-        .chat-input {
-            flex: 1;
-            padding: 10px 15px;
-            border: none;
-            border-radius: 20px;
-            font-size: 13px;
-            outline: none;
-        }
-        .send-btn {
-            width: 40px;
-            height: 40px;
-            border: none;
-            border-radius: 50%;
-            background: var(--primary);
-            color: white;
-            cursor: pointer;
-            font-size: 16px;
-        }
-        
-        /* Menu */
-        .menu-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-        .menu-item {
-            background: white;
-            padding: 15px;
-            border-radius: 10px;
-            text-align: center;
-            text-decoration: none;
-            color: var(--dark);
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            transition: transform 0.2s;
-        }
-        .menu-item:hover { transform: translateY(-2px); }
-        .menu-item .icon { font-size: 24px; margin-bottom: 5px; }
-        .menu-item .label { font-size: 12px; font-weight: 500; }
-        
-        /* VIP Tasks */
-        .vip-card {
-            background: linear-gradient(135deg, #fff3cd, #ffeaa7);
-            border-left: 4px solid var(--warning);
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 15px;
-        }
-        .vip-card h3 {
-            color: #856404;
-            font-size: 14px;
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .task-item {
-            display: flex;
-            align-items: center;
-            padding: 8px 0;
-            font-size: 13px;
-        }
-        .task-item input { margin-right: 10px; }
-        @media (max-width: 768px) {
-            .chat-panel { display: none; }
-        }
+        body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; height: 100vh; display: flex; overflow: hidden; }
+        .dashboard { flex: 1; padding: 20px; overflow-y: auto; }
+        .header { background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 20px; border-radius: 12px; margin-bottom: 20px; }
+        .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin-bottom: 20px; }
+        .stat { background: white; padding: 15px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .stat h4 { font-size: 12px; color: #666; text-transform: uppercase; }
+        .stat .value { font-size: 24px; font-weight: bold; color: #333; }
+        .chat { width: 400px; background: white; border-left: 1px solid #ddd; display: flex; flex-direction: column; }
+        .chat-header { background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 15px; }
+        .chat-messages { flex: 1; overflow-y: auto; padding: 15px; background: #e5ddd5; }
+        .msg { margin-bottom: 10px; padding: 10px; border-radius: 10px; max-width: 80%; }
+        .msg.user { background: #dcf8c6; margin-left: auto; }
+        .msg.bot { background: white; }
+        .msg-header { font-size: 11px; font-weight: bold; margin-bottom: 5px; }
+        .msg.user .msg-header { color: #2ecc71; }
+        .msg.bot .msg-header { color: #667eea; }
+        .chat-input { padding: 15px; background: #f0f0f0; display: flex; gap: 10px; }
+        .chat-input input { flex: 1; padding: 10px; border: none; border-radius: 20px; }
+        .chat-input button { width: 40px; height: 40px; border: none; border-radius: 50%; background: #667eea; color: white; cursor: pointer; }
+        @media (max-width: 768px) { .chat { display: none; } }
     </style>
 </head>
 <body>
-    <div class="app">
-        <!-- Dashboard Panel -->
-        <div class="dashboard-panel">
-            <div class="header">
-                <h1>🚀 ARDITI Dashboard</h1>
-                <p style="opacity: 0.9; margin-top: 5px;">Carlos Galera · MIR · Conectado</p>
-            </div>
-            
-            <!-- Stats -->
-            <div class="stats-grid">
-                <div class="stat-card success">
-                    <h3>💰 Liquidez</h3>
-                    <div class="value">1.578€</div>
-                </div>
-                <div class="stat-card warning">
-                    <h3>⚠️ Pagos Pendientes</h3>
-                    <div class="value">557€</div>
-                </div>
-                <div class="stat-card">
-                    <h3>🏥 Guardias</h3>
-                    <div class="value">51</div>
-                </div>
-                <div class="stat-card danger">
-                    <h3>🎯 Objetivos</h3>
-                    <div class="value">0/0</div>
-                </div>
-            </div>
-            
-            <!-- VIP Tasks -->
-            <div class="vip-card">
-                <h3>🚨 TAREAS VIP</h3>
-                <div class="task-item">
-                    <input type="checkbox"> 
-                    <span>📹 Ver video Google Antigravity</span>
-                </div>
-                <div class="task-item">
-                    <input type="checkbox"> 
-                    <span>📝 Resumir funcionamiento</span>
-                </div>
-                <div class="task-item">
-                    <input type="checkbox"> 
-                    <span>🚀 Desplegar plataforma</span>
-                </div>
-            </div>
-            
-            <!-- Menu -->
-            <div class="menu-grid">
-                <a href="pisos.html" class="menu-item">
-                    <div class="icon">🏠</div>
-                    <div class="label">Pisos</div>
-                </a>
-                <a href="ofertas.html" class="menu-item">
-                    <div class="icon">💼</div>
-                    <div class="label">Ofertas</div>
-                </a>
-                <a href="panel-control.html" class="menu-item">
-                    <div class="icon">📊</div>
-                    <div class="label">Panel</div>
-                </a>
-                <a href="chat-dashboard.html" class="menu-item">
-                    <div class="icon">💬</div>
-                    <div class="label">Chat</div>
-                </a>
-                <a href="https://wa.me/34679888148" class="menu-item" target="_blank">
-                    <div class="icon">📱</div>
-                    <div class="label">WhatsApp</div>
-                </a>
-                <a href="https://t.me/Arditi2bot" class="menu-item" target="_blank">
-                    <div class="icon">✈️</div>
-                    <div class="label">Telegram</div>
-                </a>
-            </div>
+    <div class="dashboard">
+        <div class="header">
+            <h1>🚀 ARDITI Dashboard</h1>
+            <p>Carlos Galera · MIR · Conectado</p>
         </div>
-        
-        <!-- Chat Panel -->
-        <div class="chat-panel">
-            <div class="chat-header">
-                <h2>💬 Chat WhatsApp</h2>
-                <div class="chat-status">● En línea · Sincronizado</div>
-            </div>
-            <div class="chat-messages" id="chat-messages"></div>
-            <div class="chat-input-container">
-                <input type="text" class="chat-input" id="message-input" placeholder="Escribe...">
-                <button class="send-btn" onclick="sendMessage()">➤</button>
-            </div>
+        <div class="stats">
+            <div class="stat"><h4>Liquidez</h4><div class="value">1.578€</div></div>
+            <div class="stat"><h4>Pendientes</h4><div class="value">557€</div></div>
+            <div class="stat"><h4>Guardias</h4><div class="value">51</div></div>
+            <div class="stat"><h4>Objetivos</h4><div class="value">0/0</div></div>
+        </div>
+        <div style="background: #fff3cd; padding: 15px; border-radius: 10px; margin-bottom: 15px;">
+            <h3>🚨 TAREAS VIP</h3>
+            <label><input type="checkbox"> 📹 Ver video Google Antigravity</label><br>
+            <label><input type="checkbox"> 📝 Resumir funcionamiento</label><br>
+            <label><input type="checkbox"> 🚀 Desplegar plataforma</label>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;">
+            <a href="pisos.html" style="background: white; padding: 15px; border-radius: 10px; text-align: center; text-decoration: none; color: #333;">🏠 Pisos</a>
+            <a href="ofertas.html" style="background: white; padding: 15px; border-radius: 10px; text-align: center; text-decoration: none; color: #333;">💼 Ofertas</a>
+            <a href="https://wa.me/34679888148" target="_blank" style="background: white; padding: 15px; border-radius: 10px; text-align: center; text-decoration: none; color: #333;">📱 WhatsApp</a>
         </div>
     </div>
     
+    <div class="chat">
+        <div class="chat-header">
+            <h2>💬 Chat WhatsApp</h2>
+            <small>● En línea · Sincronizado</small>
+        </div>
+        <div class="chat-messages" id="messages"></div>
+        <div class="chat-input">
+            <input type="text" id="input" placeholder="Escribe...">
+            <button onclick="send()">➤</button>
+        </div>
+    </div>
+
     <script>
-        // Historial de conversación embebido (fallback si no carga el JSON)
-        const embeddedHistory = [
-            { id: "msg_001", timestamp: "2026-03-06T20:00:00Z", from: "user", name: "Carlos Galera", avatar: "👨‍⚕️", message: "Hola me escuchas?", platform: "whatsapp" },
-            { id: "msg_002", timestamp: "2026-03-06T20:01:00Z", from: "assistant", name: "Arditi", avatar: "🤖", message: "¡Hola Carlos! 👋\n\nSí, te escucho. ¿Qué necesitas?", platform: "whatsapp" },
-            { id: "msg_003", timestamp: "2026-03-06T20:05:00Z", from: "user", name: "Carlos Galera", avatar: "👨‍⚕️", message: "Dime tiempo en Alicante", platform: "whatsapp" },
-            { id: "msg_004", timestamp: "2026-03-06T20:06:00Z", from: "assistant", name: "Arditi", avatar: "🤖", message: "🌤️ Tiempo en Alicante:\n• Nuboso con lluvias 🌧️\n• 11°C - 16°C\n• Abrigo ligero 🧥", platform: "whatsapp" },
-            { id: "msg_005", timestamp: "2026-03-06T20:15:00Z", from: "user", name: "Carlos Galera", avatar: "👨‍⚕️", message: "conecta con mi repositorio de filehub", platform: "whatsapp" },
-            { id: "msg_006", timestamp: "2026-03-06T20:16:00Z", from: "assistant", name: "Arditi", avatar: "🤖", message: "✅ Opción C + D Completadas\n\nPlataforma Unificada creada:\n• WhatsApp: ✅\n• Telegram: ✅\n• GitHub Pages: ✅", platform: "whatsapp" },
-            { id: "msg_007", timestamp: "2026-03-06T20:20:00Z", from: "user", name: "Carlos Galera", avatar: "👨‍⚕️", message: "Sii la B", platform: "whatsapp" },
-            { id: "msg_008", timestamp: "2026-03-06T20:25:00Z", from: "assistant", name: "Arditi", avatar: "🤖", message: "✅ ¡FIREBASE DESPLEGADO!\n\nhttps://arditi-dashboard-cg.web.app", platform: "whatsapp" },
-            { id: "msg_009", timestamp: "2026-03-06T20:27:00Z", from: "user", name: "Carlos Galera", avatar: "👨‍⚕️", message: "haz la opcion 3", platform: "whatsapp" },
-            { id: "msg_010", timestamp: "2026-03-06T20:30:00Z", from: "user", name: "Carlos Galera", avatar: "👨‍⚕️", message: "Termina de desplegarlo", platform: "whatsapp" },
-            { id: "msg_011", timestamp: "2026-03-06T20:38:00Z", from: "assistant", name: "Arditi", avatar: "🤖", message: "✅ ¡FIREBASE DESPLEGADO!\nEstado: ONLINE ✅", platform: "whatsapp" },
-            { id: "msg_012", timestamp: "2026-03-06T20:40:00Z", from: "user", name: "Carlos Galera", avatar: "👨‍⚕️", message: "Necesito ver los mensajes en el Dashboard", platform: "whatsapp" }
+        const history = [
+            { from: 'user', name: 'Carlos Galera', text: 'Hola me escuchas?' },
+            { from: 'bot', name: 'Arditi', text: '¡Hola Carlos! 👋 Sí, te escucho. ¿Qué necesitas?' },
+            { from: 'user', name: 'Carlos Galera', text: 'Dime tiempo en Alicante' },
+            { from: 'bot', name: 'Arditi', text: '🌤️ Tiempo en Alicante:\n• Nuboso con lluvias\n• 11°C - 16°C\n• Abrigo ligero 🧥' },
+            { from: 'user', name: 'Carlos Galera', text: 'conecta con mi repositorio de filehub' },
+            { from: 'bot', name: 'Arditi', text: '✅ Plataforma Unificada creada:\n• WhatsApp: ✅\n• Telegram: ✅\n• GitHub Pages: ✅' },
+            { from: 'user', name: 'Carlos Galera', text: 'Necesito ver los mensajes en el Dashboard' },
+            { from: 'bot', name: 'Arditi', text: '✅ Chat integrado! Ahora puedes ver la conversación aquí.' }
         ];
         
-        // Cargar conversación histórica
-        async function loadMessages() {
-            try {
-                const response = await fetch('chat-history.json?t=' + Date.now());
-                if (response.ok) {
-                    const data = await response.json();
-                    data.conversation.forEach(msg => addMessageToUI(msg));
-                } else {
-                    throw new Error('No se pudo cargar chat-history.json');
-                }
-            } catch (e) {
-                console.log('Usando historial embebido...');
-                // Usar historial embebido si no carga el archivo
-                embeddedHistory.forEach(msg => addMessageToUI(msg));
-            }
-        }
-        
-        function addMessageToUI(msg) {
-            const container = document.getElementById('chat-messages');
-            const div = document.createElement('div');
-            div.className = `message ${msg.from}`;
-            div.innerHTML = `
-                <div class="message-content">
-                    <div class="message-header">${msg.avatar} ${msg.name}</div>
-                    <div class="message-text">${msg.message}</div>
-                    <div class="message-time">${formatTime(msg.timestamp)}</div>
+        function render() {
+            const container = document.getElementById('messages');
+            container.innerHTML = history.map(m => `
+                <div class="msg ${m.from}">
+                    <div class="msg-header">${m.from === 'user' ? '👨‍⚕️' : '🤖'} ${m.name}</div>
+                    <div>${m.text.replace(/\n/g, '<br>')}</div>
                 </div>
-            `;
-            container.appendChild(div);
+            `).join('');
             container.scrollTop = container.scrollHeight;
         }
         
-        function formatTime(ts) {
-            const d = new Date(ts);
-            return d.toLocaleTimeString('es-ES', {hour: '2-digit', minute:'2-digit'});
-        }
-        
-        function sendMessage() {
-            const input = document.getElementById('message-input');
-            const text = input.value.trim();
-            if (!text) return;
-            
-            // Agregar mensaje local
-            addMessageToUI({
-                from: 'user',
-                name: 'Carlos Galera',
-                avatar: '👨‍⚕️',
-                message: text,
-                timestamp: new Date().toISOString()
-            });
-            
+        function send() {
+            const input = document.getElementById('input');
+            if (!input.value.trim()) return;
+            history.push({ from: 'user', name: 'Carlos Galera', text: input.value });
             input.value = '';
-            
-            // Guardar en historial
-            saveMessage(text);
+            render();
+            setTimeout(() => {
+                history.push({ from: 'bot', name: 'Arditi', text: 'Mensaje recibido. (Demo: En producción esto se sincronizaría con WhatsApp)' });
+                render();
+            }, 1000);
         }
         
-        function saveMessage(text) {
-            // En una implementación real, esto enviaría a WhatsApp
-            console.log('Mensaje guardado:', text);
-        }
-        
-        // Auto-refresh cada 5 segundos
-        setInterval(loadMessages, 5000);
-        
-        // Inicializar
-        loadMessages();
-        
-        // Enter para enviar
-        document.getElementById('message-input').addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') sendMessage();
+        document.getElementById('input').addEventListener('keypress', e => {
+            if (e.key === 'Enter') send();
         });
+        
+        render();
     </script>
 </body>
 </html>

@@ -299,17 +299,36 @@
     </div>
     
     <script>
-        const messages = [];
+        // Historial de conversación embebido (fallback si no carga el JSON)
+        const embeddedHistory = [
+            { id: "msg_001", timestamp: "2026-03-06T20:00:00Z", from: "user", name: "Carlos Galera", avatar: "👨‍⚕️", message: "Hola me escuchas?", platform: "whatsapp" },
+            { id: "msg_002", timestamp: "2026-03-06T20:01:00Z", from: "assistant", name: "Arditi", avatar: "🤖", message: "¡Hola Carlos! 👋\n\nSí, te escucho. ¿Qué necesitas?", platform: "whatsapp" },
+            { id: "msg_003", timestamp: "2026-03-06T20:05:00Z", from: "user", name: "Carlos Galera", avatar: "👨‍⚕️", message: "Dime tiempo en Alicante", platform: "whatsapp" },
+            { id: "msg_004", timestamp: "2026-03-06T20:06:00Z", from: "assistant", name: "Arditi", avatar: "🤖", message: "🌤️ Tiempo en Alicante:\n• Nuboso con lluvias 🌧️\n• 11°C - 16°C\n• Abrigo ligero 🧥", platform: "whatsapp" },
+            { id: "msg_005", timestamp: "2026-03-06T20:15:00Z", from: "user", name: "Carlos Galera", avatar: "👨‍⚕️", message: "conecta con mi repositorio de filehub", platform: "whatsapp" },
+            { id: "msg_006", timestamp: "2026-03-06T20:16:00Z", from: "assistant", name: "Arditi", avatar: "🤖", message: "✅ Opción C + D Completadas\n\nPlataforma Unificada creada:\n• WhatsApp: ✅\n• Telegram: ✅\n• GitHub Pages: ✅", platform: "whatsapp" },
+            { id: "msg_007", timestamp: "2026-03-06T20:20:00Z", from: "user", name: "Carlos Galera", avatar: "👨‍⚕️", message: "Sii la B", platform: "whatsapp" },
+            { id: "msg_008", timestamp: "2026-03-06T20:25:00Z", from: "assistant", name: "Arditi", avatar: "🤖", message: "✅ ¡FIREBASE DESPLEGADO!\n\nhttps://arditi-dashboard-cg.web.app", platform: "whatsapp" },
+            { id: "msg_009", timestamp: "2026-03-06T20:27:00Z", from: "user", name: "Carlos Galera", avatar: "👨‍⚕️", message: "haz la opcion 3", platform: "whatsapp" },
+            { id: "msg_010", timestamp: "2026-03-06T20:30:00Z", from: "user", name: "Carlos Galera", avatar: "👨‍⚕️", message: "Termina de desplegarlo", platform: "whatsapp" },
+            { id: "msg_011", timestamp: "2026-03-06T20:38:00Z", from: "assistant", name: "Arditi", avatar: "🤖", message: "✅ ¡FIREBASE DESPLEGADO!\nEstado: ONLINE ✅", platform: "whatsapp" },
+            { id: "msg_012", timestamp: "2026-03-06T20:40:00Z", from: "user", name: "Carlos Galera", avatar: "👨‍⚕️", message: "Necesito ver los mensajes en el Dashboard", platform: "whatsapp" }
+        ];
         
         // Cargar conversación histórica
         async function loadMessages() {
             try {
                 const response = await fetch('chat-history.json?t=' + Date.now());
-                const data = await response.json();
-                data.conversation.forEach(msg => addMessageToUI(msg));
+                if (response.ok) {
+                    const data = await response.json();
+                    data.conversation.forEach(msg => addMessageToUI(msg));
+                } else {
+                    throw new Error('No se pudo cargar chat-history.json');
+                }
             } catch (e) {
-                console.log('Cargando mensajes de ejemplo...');
-                // Mensajes de ejemplo si no existe el archivo
+                console.log('Usando historial embebido...');
+                // Usar historial embebido si no carga el archivo
+                embeddedHistory.forEach(msg => addMessageToUI(msg));
             }
         }
         

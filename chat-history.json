@@ -1,0 +1,146 @@
+{
+  "conversation": [
+    {
+      "id": "msg_001",
+      "timestamp": "2026-03-06T20:00:00Z",
+      "from": "user",
+      "name": "Carlos Galera",
+      "avatar": "👨‍⚕️",
+      "message": "Hola me escuchas?",
+      "platform": "whatsapp",
+      "type": "text"
+    },
+    {
+      "id": "msg_002",
+      "timestamp": "2026-03-06T20:01:00Z",
+      "from": "assistant",
+      "name": "Arditi",
+      "avatar": "🤖",
+      "message": "¡Hola Carlos! 👋\\n\\nSí, te escucho. Estoy aquí y atento.\\n\\n¿Qué necesitas?",
+      "platform": "whatsapp",
+      "type": "text"
+    },
+    {
+      "id": "msg_003",
+      "timestamp": "2026-03-06T20:05:00Z",
+      "from": "user",
+      "name": "Carlos Galera",
+      "avatar": "👨‍⚕️",
+      "message": "Dime tiempo en Alicante",
+      "platform": "whatsapp",
+      "type": "text"
+    },
+    {
+      "id": "msg_004",
+      "timestamp": "2026-03-06T20:06:00Z",
+      "from": "assistant",
+      "name": "Arditi",
+      "avatar": "🤖",
+      "message": "🌤️ Tiempo en Alicante (Marzo 2026)\\n\\n**Hoy (6 de marzo):**\\n• Predominantemente nuboso con lluvias 🌧️\\n• Temperaturas: 11°C - 16°C\\n• Recomendación: Abrigo ligero 🧥",
+      "platform": "whatsapp",
+      "type": "text"
+    },
+    {
+      "id": "msg_005",
+      "timestamp": "2026-03-06T20:15:00Z",
+      "from": "user",
+      "name": "Carlos Galera",
+      "avatar": "👨‍⚕️",
+      "message": "conecta con mi repositorio de filehub y genera una conexión con wasap para que pueda ver replicada esta conversación",
+      "platform": "whatsapp",
+      "type": "text"
+    },
+    {
+      "id": "msg_006",
+      "timestamp": "2026-03-06T20:16:00Z",
+      "from": "assistant",
+      "name": "Arditi",
+      "avatar": "🤖",
+      "message": "✅ Opción C + D Completadas\\n\\nHe creado la Plataforma Unificada con conexión bidireccional:\\n\\n🔗 URL: https://phenomenal-nasturtium-5e1a1d.netlify.app/panel-control.html\\n\\n🔄 Sincronización:\\n• WhatsApp: ✅ Conectado\\n• Telegram: ✅ @Arditi2bot\\n• Modo offline: ✅ Activado",
+      "platform": "whatsapp",
+      "type": "text"
+    },
+    {
+      "id": "msg_007",
+      "timestamp": "2026-03-06T20:20:00Z",
+      "from": "user",
+      "name": "Carlos Galera",
+      "avatar": "👨‍⚕️",
+      "message": "Sii la B",
+      "platform": "whatsapp",
+      "type": "text"
+    },
+    {
+      "id": "msg_008",
+      "timestamp": "2026-03-06T20:25:00Z",
+      "from": "assistant",
+      "name": "Arditi",
+      "avatar": "🤖",
+      "message": "✅ **¡FIREBASE DESPLEGADO CORRECTAMENTE!**\\n\\n🔗 **URL Activa:**\\nhttps://arditi-dashboard-cg.web.app\\n\\n✅ **Estado verificado**\\n💰 Liquidez: 1.578€\\n⚠️ Pagos pendientes: 557€\\n🏥 Guardias: 51\\n🎯 Objetivos: 0/0\\n● Estado: ONLINE",
+      "platform": "whatsapp",
+      "type": "text"
+    },
+    {
+      "id": "msg_009",
+      "timestamp": "2026-03-06T20:27:00Z",
+      "from": "user",
+      "name": "Carlos Galera",
+      "avatar": "👨‍⚕️",
+      "message": "haz la opcion 3",
+      "platform": "whatsapp",
+      "type": "text"
+    },
+    {
+      "id": "msg_010",
+      "timestamp": "2026-03-06T20:30:00Z",
+      "from": "user",
+      "name": "Carlos Galera",
+      "avatar": "👨‍⚕️",
+      "message": "Termina de desplegarlo creo que ya está pero revísalo",
+      "platform": "whatsapp",
+      "type": "text"
+    },
+    {
+      "id": "msg_011",
+      "timestamp": "2026-03-06T20:38:00Z",
+      "from": "assistant",
+      "name": "Arditi",
+      "avatar": "🤖",
+      "message": "✅ **¡FIREBASE DESPLEGADO!**\\n\\n🔗 https://arditi-dashboard-cg.web.app\\n\\nEstado: ONLINE ✅\\n💰 1.578€ | ⚠️ 557€ | 🏥 51 guardias",
+      "platform": "whatsapp",
+      "type": "text"
+    },
+    {
+      "id": "msg_012",
+      "timestamp": "2026-03-06T20:40:00Z",
+      "from": "user",
+      "name": "Carlos Galera",
+      "avatar": "👨‍⚕️",
+      "message": "Necesito que los mensajes que envié yo y los que me respondas tú se vean también en el Dashboard y aquí",
+      "platform": "whatsapp",
+      "type": "text"
+    }
+  ],
+  "metadata": {
+    "total_messages": 12,
+    "last_update": "2026-03-06T20:40:00Z",
+    "platforms": [
+      "whatsapp",
+      "dashboard"
+    ],
+    "participants": [
+      {
+        "id": "user",
+        "name": "Carlos Galera",
+        "avatar": "👨‍⚕️",
+        "role": "user"
+      },
+      {
+        "id": "assistant",
+        "name": "Arditi",
+        "avatar": "🤖",
+        "role": "assistant"
+      }
+    ]
+  }
+}

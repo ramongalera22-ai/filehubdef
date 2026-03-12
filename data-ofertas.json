@@ -1,42 +1,125 @@
 {
-  "timestamp": "2026-03-06T00:30:33.188315",
-  "total": 3,
-  "ofertas": [
+  "ultima_actualizacion": "2026-03-12T23:08:00+01:00",
+  "total_ofertas": 0,
+  "filtros": {
+    "especialidad": "Medicina Familia y Comunitaria",
+    "ubicacion": "Barcelona",
+    "ambito": ["Atención Primaria", "CAP", "EAP", "Centro Salud"]
+  },
+  "fuentes": [
     {
-      "titulo": "Médico de Familia - CAP Vila Vella",
-      "empresa": "ICS (Institut Català de la Salut)",
-      "ubicacion": "Sant Vicenç dels Horts",
-      "tipo_contrato": "Indefinido",
-      "salario": "2.200-2.500€/mes",
-      "contacto": "mmanich.apms.ics@gencat.cat",
-      "telefono": "667 116 664",
-      "requisitos": "Título homologado, NIE",
-      "enlace": "https://www.ics.gencat.cat",
-      "destacado": true
+      "nombre": "CAMFIC - Bolsa de Trabajo",
+      "url": "https://www.camfic.cat/bolsa-de-treball/",
+      "tipo": "Colegio Profesional",
+      "ofertas": [],
+      "estado": "pendiente_scrapeo"
     },
     {
-      "titulo": "Médico de Familia - CAP Barceloneta",
-      "empresa": "SISCAT",
-      "ubicacion": "Barcelona - Barceloneta",
-      "tipo_contrato": "Indefinido",
-      "salario": "2.150-2.450€/mes",
-      "contacto": "RRODRIGUEZ@PEREVIRGILI.CAT",
-      "telefono": "648 850 375",
-      "requisitos": "Experiencia 2 años",
-      "enlace": "https://www.siscat.cat",
-      "destacado": true
+      "nombre": "Gencat SAS - Ofertas Empleo Público",
+      "url": "https://sas.gencat.cat/ca/que-hem-de-fer-professionals/ofertes-de-treball/",
+      "tipo": "Administración Pública",
+      "ofertas": [],
+      "estado": "pendiente_scrapeo"
     },
     {
-      "titulo": "Médico de Familia - CAP La Torrassa",
-      "empresa": "SISCAT",
-      "ubicacion": "L'Hospitalet de Llobregat",
-      "tipo_contrato": "Contrato 2 años",
-      "salario": "2.100-2.400€/mes",
-      "contacto": "seleccio@csi.cat",
-      "telefono": "-",
-      "requisitos": "MIR o equivalente",
-      "enlace": "https://www.csi.cat"
+      "nombre": "CatSalut - Demandas Profesionales",
+      "url": "https://catsalut.gencat.cat/ca/professionals/demanda-professionals/",
+      "tipo": "Sector Público",
+      "ofertas": [],
+      "estado": "pendiente_scrapeo"
+    },
+    {
+      "nombre": "InfoJobs - Médico Familia Barcelona",
+      "url": "https://www.infojobs.net/ofertas-trabajo/medicos/barcelona",
+      "tipo": "Bolsa General",
+      "ofertas": [],
+      "estado": "pendiente_scrapeo"
+    },
+    {
+      "nombre": "Hospital Clínic Barcelona",
+      "url": "https://www.clinicbarcelona.org/es/trabaja-con-nosotros",
+      "tipo": "Hospital",
+      "ofertas": [],
+      "estado": "pendiente_scrapeo"
+    },
+    {
+      "nombre": "Hospital Universitari de Bellvitge (HUB)",
+      "url": "https://www.hospitalbellvitge.cat/es/trabaja-nosotros",
+      "tipo": "Hospital",
+      "ofertas": [],
+      "estado": "pendiente_scrapeo"
+    },
+    {
+      "nombre": "Hospital del Mar",
+      "url": "https://www.parcdesalutmar.cat/es/trabaja-nosotros",
+      "tipo": "Hospital",
+      "ofertas": [],
+      "estado": "pendiente_scrapeo"
+    },
+    {
+      "nombre": "Clínica Teknon",
+      "url": "https://www.teknon.es/es/trabaja-con-nosotros",
+      "tipo": "Hospital Privado",
+      "ofertas": [],
+      "estado": "pendiente_scrapeo"
+    },
+    {
+      "nombre": "Quirónsalud Barcelona",
+      "url": "https://www.quironsalud.es/es/trabaja-con-nosotros",
+      "tipo": "Hospital Privado",
+      "ofertas": [],
+      "estado": "pendiente_scrapeo"
+    },
+    {
+      "nombre": "CAP Barcelona - ICS",
+      "url": "https://ics.gencat.cat/ca/que-hem-de-fer-professionals/ofertes-de-treball",
+      "tipo": "Atención Primaria ICS",
+      "ofertas": [],
+      "estado": "pendiente_scrapeo"
     }
   ],
-  "salario_promedio": "2.250€/mes"
+  "ofertas_mock": [
+    {
+      "id": "mock-001",
+      "titulo": "Médico/a de Familia - CAP Sant Martí de Provençals",
+      "empresa": "Institut Catalan de la Salut (ICS)",
+      "ubicacion": "Barcelona (Sant Martí)",
+      "tipo_contrato": "Indefinido",
+      "jornada": "Completa",
+      "fecha_publicacion": "2026-03-10",
+      "salario": "Según convenio SISCAT",
+      "requisitos": ["MIR Medicina Familia completado", "Inscrito en colegio médico", "Catalán nivel C"],
+      "url": "https://sas.gencat.cat",
+      "fuente": "Gencat SAS",
+      "estado": "activa"
+    },
+    {
+      "id": "mock-002",
+      "titulo": "Médico de Familia - Atención Primaria",
+      "empresa": "CAP Gràcia",
+      "ubicacion": "Barcelona (Gràcia)",
+      "tipo_contrato": "Sustitución",
+      "jornada": "Parcial (30h)",
+      "fecha_publicacion": "2026-03-08",
+      "salario": "35.000-45.000€ brutos/año",
+      "requisitos": ["MIR Medicina Familia", "Experiencia en AP mínimo 2 años"],
+      "url": "https://www.camfic.cat",
+      "fuente": "CAMFIC",
+      "estado": "activa"
+    },
+    {
+      "id": "mock-003",
+      "titulo": "Médico/a Familia y Comunitaria",
+      "empresa": "Hospital Clínic Barcelona",
+      "ubicacion": "Barcelona (Eixample)",
+      "tipo_contrato": "Temporal",
+      "jornada": "Completa",
+      "fecha_publicacion": "2026-03-05",
+      "salario": "Convenio SISCAT",
+      "requisitos": ["MIR Medicina Familia", "Título homologado si UE", "Nivel B2 catalán"],
+      "url": "https://www.clinicbarcelona.org",
+      "fuente": "Hospital Clínic",
+      "estado": "activa"
+    }
+  ]
 }

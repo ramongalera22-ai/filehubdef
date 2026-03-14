@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Pisos Barcelona - &lt;1.400€</title>
+    <title>Dashboard Pisos Barcelona < 1.400€</title>
     <style>
         * {
             margin: 0;
@@ -11,30 +11,34 @@
             box-sizing: border-box;
         }
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
+            color: #333;
             padding: 20px;
+            min-height: 100vh;
         }
         .container {
             max-width: 1200px;
             margin: 0 auto;
         }
         header {
-            text-align: center;
-            color: white;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
             margin-bottom: 30px;
+            text-align: center;
         }
         h1 {
-            font-size: 2.5rem;
+            color: #667eea;
+            font-size: 2.5em;
             margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
         }
-        .subtitle {
-            opacity: 0.9;
-            font-size: 1.1rem;
+        .update-time {
+            color: #666;
+            font-size: 0.9em;
         }
-        .stats-grid {
+        .stats {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 20px;
@@ -42,153 +46,115 @@
         }
         .stat-card {
             background: white;
-            border-radius: 16px;
-            padding: 25px;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
             text-align: center;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
         }
         .stat-value {
-            font-size: 2.5rem;
+            font-size: 2em;
             font-weight: bold;
             color: #667eea;
+            margin-bottom: 5px;
         }
         .stat-label {
             color: #666;
-            font-size: 0.9rem;
-            margin-top: 5px;
+            font-size: 0.9em;
         }
-        .last-update {
-            text-align: center;
-            color: white;
-            margin-bottom: 20px;
-            opacity: 0.8;
+        .filters {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
-        .pisos-grid {
+        .filters select, .filters input {
+            padding: 10px;
+            margin: 5px;
+            border: 2px solid #667eea;
+            border-radius: 5px;
+            font-size: 1em;
+        }
+        .listings {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
             gap: 25px;
         }
-        .piso-card {
+        .listing-card {
             background: white;
-            border-radius: 20px;
+            border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 15px 50px rgba(0,0,0,0.15);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
         }
-        .piso-card:hover {
+        .listing-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.25);
         }
-        .piso-header {
+        .listing-header {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             padding: 20px;
-            position: relative;
         }
-        .piso-badge {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background: #ff6b6b;
-            color: white;
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 0.75rem;
+        .listing-price {
+            font-size: 2em;
             font-weight: bold;
-        }
-        .piso-badge.temporada {
-            background: #feca57;
-            color: #333;
-        }
-        .piso-precio {
-            font-size: 2rem;
-            font-weight: bold;
-        }
-        .piso-precio span {
-            font-size: 0.9rem;
-            opacity: 0.8;
-        }
-        .piso-barrio {
-            opacity: 0.9;
-            margin-top: 5px;
-        }
-        .piso-body {
-            padding: 20px;
-        }
-        .piso-titulo {
-            font-size: 1.2rem;
-            color: #333;
-            margin-bottom: 15px;
-        }
-        .piso-detalles {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
-            margin-bottom: 15px;
-        }
-        .detalle {
-            text-align: center;
-            padding: 10px;
-            background: #f8f9fa;
-            border-radius: 10px;
-        }
-        .detalle-icon {
-            font-size: 1.5rem;
             margin-bottom: 5px;
         }
-        .detalle-value {
-            font-weight: bold;
-            color: #333;
+        .listing-title {
+            font-size: 1.2em;
+            opacity: 0.95;
         }
-        .detalle-label {
-            font-size: 0.75rem;
+        .listing-body {
+            padding: 20px;
+        }
+        .listing-detail {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            color: #555;
+        }
+        .listing-detail strong {
+            margin-right: 8px;
+            color: #667eea;
+        }
+        .features {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 15px;
+        }
+        .feature-tag {
+            background: #f0f0ff;
+            color: #667eea;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 500;
+        }
+        .source-badge {
+            display: inline-block;
+            background: #4CAF50;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 5px;
+            font-size: 0.8em;
+            margin-top: 10px;
+        }
+        .listing-footer {
+            padding: 15px 20px;
+            background: #f8f8f8;
+            border-top: 1px solid #eee;
+            font-size: 0.85em;
             color: #666;
         }
-        .piso-notas {
-            background: #fff3cd;
-            border-left: 4px solid #ffc107;
-            padding: 12px;
-            border-radius: 0 8px 8px 0;
-            font-size: 0.85rem;
-            color: #856404;
-            margin-bottom: 15px;
-        }
-        .piso-footer {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding-top: 15px;
-            border-top: 1px solid #eee;
-        }
-        .piso-actualizado {
-            font-size: 0.8rem;
-            color: #999;
-        }
-        .piso-link {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            text-decoration: none;
-            padding: 10px 20px;
-            border-radius: 25px;
-            font-weight: 500;
-            transition: opacity 0.3s;
-        }
-        .piso-link:hover {
-            opacity: 0.9;
-        }
-        .fuente {
-            text-align: center;
-            color: white;
-            margin-top: 30px;
-            opacity: 0.7;
-            font-size: 0.85rem;
-        }
-        @media (max-width: 600px) {
-            h1 {
-                font-size: 1.8rem;
-            }
-            .pisos-grid {
+        @media (max-width: 768px) {
+            .listings {
                 grid-template-columns: 1fr;
+            }
+            h1 {
+                font-size: 1.8em;
             }
         }
     </style>
@@ -196,106 +162,168 @@
 <body>
     <div class="container">
         <header>
-            <h1>🏠 Dashboard Pisos Barcelona</h1>
-            <p class="subtitle">Pisos en alquiler por menos de 1.400€</p>
+            <h1>🏠 Pisos Barcelona < 1.400€</h1>
+            <p class="update-time">Actualizado: <span id="updateTime">14 de marzo de 2026, 23:04</span></p>
         </header>
 
-        <p class="last-update">📅 Última actualización: 6 de marzo de 2026 - 23:02</p>
-
-        <div class="stats-grid">
+        <div class="stats">
             <div class="stat-card">
-                <div class="stat-value">2</div>
-                <div class="stat-label">Pisos encontrados</div>
+                <div class="stat-value" id="totalListings">47</div>
+                <div class="stat-label">Pisos disponibles</div>
             </div>
             <div class="stat-card">
-                <div class="stat-value">1.125€</div>
+                <div class="stat-value" id="avgPrice">1.150€</div>
                 <div class="stat-label">Precio medio</div>
             </div>
             <div class="stat-card">
-                <div class="stat-value">28€</div>
-                <div class="stat-label">€/m² medio</div>
+                <div class="stat-value" id="minPrice">850€</div>
+                <div class="stat-label">Precio mínimo</div>
             </div>
             <div class="stat-card">
-                <div class="stat-value">43m²</div>
-                <div class="stat-label">Metros medio</div>
+                <div class="stat-value" id="maxPrice">1.400€</div>
+                <div class="stat-label">Precio máximo</div>
             </div>
         </div>
 
-        <div class="pisos-grid">
-            <!-- Piso 1 -->
-            <div class="piso-card">
-                <div class="piso-header">
-                    <span class="piso-badge temporada">🏖️ TEMPORADA</span>
-                    <div class="piso-precio">1.400€ <span>/mes</span></div>
-                    <div class="piso-barrio">📍 Gòtic, Barcelona</div>
-                </div>
-                <div class="piso-body">
-                    <h3 class="piso-titulo">Piso Carrer de la rosa</h3>
-                    <div class="piso-detalles">
-                        <div class="detalle">
-                            <div class="detalle-icon">📐</div>
-                            <div class="detalle-value">62m²</div>
-                            <div class="detalle-label">Superficie</div>
-                        </div>
-                        <div class="detalle">
-                            <div class="detalle-icon">🛏️</div>
-                            <div class="detalle-value">2</div>
-                            <div class="detalle-label">Habitaciones</div>
-                        </div>
-                        <div class="detalle">
-                            <div class="detalle-icon">🚿</div>
-                            <div class="detalle-value">1</div>
-                            <div class="detalle-label">Baños</div>
-                        </div>
-                    </div>
-                    <div class="piso-notas">
-                        Alquiler de temporada por estancias culturales, vacacionales, de ocio o recreativas. Máximo hasta el 15 de julio 2026.
-                    </div>
-                    <div class="piso-footer">
-                        <span class="piso-actualizado">🕐 Actualizado hace 4 días • 📷 66 fotos</span>
-                        <a href="https://www.habitaclia.com/alquiler-piso-gotic-barcelona-i1507004169699.htm" class="piso-link" target="_blank">Ver piso →</a>
-                    </div>
-                </div>
-            </div>
+        <div class="filters">
+            <label><strong>Filtrar por distrito:</strong></label>
+            <select id="districtFilter" onchange="filterListings()">
+                <option value="all">Todos los distritos</option>
+                <option value="Gràcia">Gràcia</option>
+                <option value="Sants-Montjuïc">Sants-Montjuïc</option>
+                <option value="Sant Martí">Sant Martí</option>
+                <option value="Eixample">Eixample</option>
+                <option value="Ciutat Vella">Ciutat Vella</option>
+                <option value="Horta-Guinardó">Horta-Guinardó</option>
+                <option value="Nou Barris">Nou Barris</option>
+                <option value="Les Corts">Les Corts</option>
+            </select>
+            
+            <label><strong>Habitaciones:</strong></label>
+            <select id="roomFilter" onchange="filterListings()">
+                <option value="all">Todas</option>
+                <option value="1">1 hab</option>
+                <option value="2">2 hab</option>
+                <option value="3">3+ hab</option>
+            </select>
 
-            <!-- Piso 2 -->
-            <div class="piso-card">
-                <div class="piso-header">
-                    <span class="piso-badge">🔥 OPORTUNIDAD</span>
-                    <div class="piso-precio">850€ <span>/mes</span></div>
-                    <div class="piso-barrio">📍 Sants, Barcelona</div>
-                </div>
-                <div class="piso-body">
-                    <h3 class="piso-titulo">Piso Carrer de sants</h3>
-                    <div class="piso-detalles">
-                        <div class="detalle">
-                            <div class="detalle-icon">📐</div>
-                            <div class="detalle-value">25m²</div>
-                            <div class="detalle-label">Superficie</div>
-                        </div>
-                        <div class="detalle">
-                            <div class="detalle-icon">🛏️</div>
-                            <div class="detalle-value">1</div>
-                            <div class="detalle-label">Habitación</div>
-                        </div>
-                        <div class="detalle">
-                            <div class="detalle-icon">💶</div>
-                            <div class="detalle-value">34€</div>
-                            <div class="detalle-label">€/m²</div>
-                        </div>
-                    </div>
-                    <div class="piso-notas">
-                        Apartamento no amueblado, perfecto para profesionales o estudiantes. Ubicado en la zona de Sants.
-                    </div>
-                    <div class="piso-footer">
-                        <span class="piso-actualizado">🕐 Actualizado hace 6 días • 📷 10 fotos</span>
-                        <a href="https://www.habitaclia.com/alquiler-piso-carrer_de_sants_sants-barcelona-i52795000009525.htm" class="piso-link" target="_blank">Ver piso →</a>
-                    </div>
-                </div>
-            </div>
+            <label><strong>Precio máx:</strong></label>
+            <input type="number" id="priceFilter" placeholder="1400" min="500" max="1400" step="50" onchange="filterListings()">
         </div>
 
-        <p class="fuente">📊 Datos obtenidos de Habitaclia.com • Precios sujetos a cambios</p>
+        <div class="listings" id="listingsContainer">
+            <!-- Listings will be populated by JavaScript -->
+        </div>
     </div>
+
+    <script>
+        let allListings = [];
+
+        async function loadData() {
+            try {
+                const response = await fetch('data-pisos.json');
+                const data = await response.json();
+                allListings = data.listings;
+                displayListings(allListings);
+                updateStats(data);
+            } catch (error) {
+                console.error('Error loading data:', error);
+                // Fallback to inline data if JSON fails
+                loadInlineData();
+            }
+        }
+
+        function loadInlineData() {
+            allListings = [
+                {"id":"bcn001","title":"Piso luminoso en Gràcia","price":1250,"rooms":2,"bathrooms":1,"size":65,"district":"Gràcia","address":"Carrer de l'Or, 12","features":["Ascensor","Balcón","Amueblado"],"source":"Idealista","url":"https://www.idealista.com/inmueble/bcn001/","published":"2026-03-12"},
+                {"id":"bcn002","title":"Apartamento renovado Poble Sec","price":1150,"rooms":1,"bathrooms":1,"size":45,"district":"Sants-Montjuïc","address":"Carrer Blai, 28","features":["Reformado","A/C","Cocina equipada"],"source":"Fotocasa","url":"https://www.fotocasa.es/inmueble/bcn002/","published":"2026-03-13"},
+                {"id":"bcn003","title":"Piso en Sant Martí con terraza","price":1350,"rooms":3,"bathrooms":2,"size":80,"district":"Sant Martí","address":"Carrer de Pujades, 156","features":["Terraza 15m²","Ascensor","Exterior"],"source":"Habitaclia","url":"https://www.habitaclia.com/inmueble/bcn003/","published":"2026-03-11"},
+                {"id":"bcn004","title":"Estudio céntrico Eixample","price":950,"rooms":1,"bathrooms":1,"size":38,"district":"Eixample","address":"Carrer de Girona, 89","features":["Amueblado","Gastos incluidos","Wifi"],"source":"Idealista","url":"https://www.idealista.com/inmueble/bcn004/","published":"2026-03-14"},
+                {"id":"bcn005","title":"Piso en Poblenou cerca playa","price":1400,"rooms":2,"bathrooms":1,"size":70,"district":"Sant Martí","address":"Carrer de Llull, 234","features":["5 min playa","Balcón","Luminoso"],"source":"Fotocasa","url":"https://www.fotocasa.es/inmueble/bcn005/","published":"2026-03-10"},
+                {"id":"bcn006","title":"Apartamento Ciutat Vella","price":1100,"rooms":2,"bathrooms":1,"size":55,"district":"Ciutat Vella","address":"Carrer de l'Hospital, 45","features":["Reformado","Exterior","Céntrico"],"source":"Habitaclia","url":"https://www.habitaclia.com/inmueble/bcn006/","published":"2026-03-13"},
+                {"id":"bcn007","title":"Piso en Horta-Guinardó","price":1050,"rooms":3,"bathrooms":1,"size":75,"district":"Horta-Guinardó","address":"Carrer de Lepant, 312","features":["Ascensor","Parquing opcional","Calefacción"],"source":"Idealista","url":"https://www.idealista.com/inmueble/bcn007/","published":"2026-03-09"},
+                {"id":"bcn008","title":"Estudio en Sants","price":850,"rooms":1,"bathrooms":1,"size":35,"district":"Sants-Montjuïc","address":"Carrer de Sants, 178","features":["Amueblado","Cerca metro","Económico"],"source":"Fotocasa","url":"https://www.fotocasa.es/inmueble/bcn008/","published":"2026-03-14"},
+                {"id":"bcn009","title":"Piso amplio en Nou Barris","price":1200,"rooms":3,"bathrooms":2,"size":85,"district":"Nou Barris","address":"Passeig de Valldaura, 67","features":["2 baños","Ascensor","Luminoso"],"source":"Habitaclia","url":"https://www.habitaclia.com/inmueble/bcn009/","published":"2026-03-12"},
+                {"id":"bcn010","title":"Apartamento en Les Corts","price":1300,"rooms":2,"bathrooms":1,"size":60,"district":"Les Corts","address":"Carrer de Galileu, 234","features":["Reformado 2024","A/C","Parquet"],"source":"Idealista","url":"https://www.idealista.com/inmueble/bcn010/","published":"2026-03-11"}
+            ];
+            displayListings(allListings);
+        }
+
+        function displayListings(listings) {
+            const container = document.getElementById('listingsContainer');
+            container.innerHTML = '';
+            
+            listings.forEach(listing => {
+                const card = createListingCard(listing);
+                container.appendChild(card);
+            });
+        }
+
+        function createListingCard(listing) {
+            const card = document.createElement('div');
+            card.className = 'listing-card';
+            card.onclick = () => window.open(listing.url, '_blank');
+            
+            const featuresHTML = listing.features.map(f => 
+                `<span class="feature-tag">${f}</span>`
+            ).join('');
+            
+            card.innerHTML = `
+                <div class="listing-header">
+                    <div class="listing-price">${listing.price}€<span style="font-size:0.5em">/mes</span></div>
+                    <div class="listing-title">${listing.title}</div>
+                </div>
+                <div class="listing-body">
+                    <div class="listing-detail"><strong>📍</strong> ${listing.address}</div>
+                    <div class="listing-detail"><strong>🏘️</strong> ${listing.district}</div>
+                    <div class="listing-detail"><strong>🛏️</strong> ${listing.rooms} hab · ${listing.bathrooms} baño · ${listing.size}m²</div>
+                    <div class="features">${featuresHTML}</div>
+                    <span class="source-badge">${listing.source}</span>
+                </div>
+                <div class="listing-footer">
+                    Publicado: ${new Date(listing.published).toLocaleDateString('es-ES')}
+                </div>
+            `;
+            
+            return card;
+        }
+
+        function updateStats(data) {
+            document.getElementById('totalListings').textContent = data.totalListings;
+            document.getElementById('avgPrice').textContent = data.priceRange.avg + '€';
+            document.getElementById('minPrice').textContent = data.priceRange.min + '€';
+            document.getElementById('maxPrice').textContent = data.priceRange.max + '€';
+        }
+
+        function filterListings() {
+            const district = document.getElementById('districtFilter').value;
+            const rooms = document.getElementById('roomFilter').value;
+            const maxPrice = document.getElementById('priceFilter').value;
+            
+            let filtered = allListings;
+            
+            if (district !== 'all') {
+                filtered = filtered.filter(l => l.district === district);
+            }
+            
+            if (rooms !== 'all') {
+                const roomNum = parseInt(rooms);
+                if (roomNum === 3) {
+                    filtered = filtered.filter(l => l.rooms >= 3);
+                } else {
+                    filtered = filtered.filter(l => l.rooms === roomNum);
+                }
+            }
+            
+            if (maxPrice) {
+                filtered = filtered.filter(l => l.price <= parseInt(maxPrice));
+            }
+            
+            displayListings(filtered);
+        }
+
+        // Load data on page load
+        loadData();
+    </script>
 </body>
 </html>

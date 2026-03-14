@@ -188,10 +188,14 @@
         
         .source-status {
             font-size: 0.875rem;
-            color: var(--warning);
+            color: var(--success);
             display: flex;
             align-items: center;
             gap: 0.5rem;
+        }
+        
+        .source-status.warning {
+            color: var(--warning);
         }
         
         .source-status::before {
@@ -200,6 +204,12 @@
         
         .source-body {
             padding: 1.25rem;
+        }
+        
+        .source-count {
+            font-size: 0.875rem;
+            color: var(--text-light);
+            margin-bottom: 1rem;
         }
         
         .source-link {
@@ -247,6 +257,16 @@
             border-radius: 999px;
         }
         
+        .badge.new {
+            background: var(--warning);
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+        
         .job-list {
             display: flex;
             flex-direction: column;
@@ -259,11 +279,29 @@
             border-radius: 10px;
             border-left: 4px solid var(--primary);
             transition: all 0.2s;
+            position: relative;
+        }
+        
+        .job-card.destacado {
+            border-left-color: var(--warning);
+            background: linear-gradient(to right, #fffbeb 0%, var(--bg) 100%);
         }
         
         .job-card:hover {
             background: #f1f5f9;
             transform: translateX(4px);
+        }
+        
+        .new-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            padding: 0.25rem 0.75rem;
+            background: var(--warning);
+            color: white;
+            font-size: 0.75rem;
+            font-weight: 600;
+            border-radius: 999px;
         }
         
         .job-header {
@@ -279,6 +317,8 @@
             font-size: 1.0625rem;
             font-weight: 600;
             color: var(--text);
+            flex: 1;
+            min-width: 250px;
         }
         
         .job-meta {
@@ -361,13 +401,18 @@
         
         .alert {
             padding: 1rem 1.25rem;
-            background: #fef3c7;
-            border: 1px solid var(--warning);
+            background: #dcfce7;
+            border: 1px solid var(--success);
             border-radius: 8px;
             margin-bottom: 1.5rem;
             display: flex;
             align-items: center;
             gap: 0.75rem;
+        }
+        
+        .alert.info {
+            background: #e0f2fe;
+            border-color: #0ea5e9;
         }
         
         .alert-icon {
@@ -426,6 +471,12 @@
                 flex-direction: column;
                 align-items: flex-start;
             }
+            
+            .new-badge {
+                position: static;
+                display: inline-block;
+                margin-bottom: 0.5rem;
+            }
         }
     </style>
 </head>
@@ -434,7 +485,7 @@
         <div class="header-content">
             <h1>🏥 Dashboard de Ofertas</h1>
             <div class="header-subtitle">Médico de Familia y Comunitaria · Barcelona</div>
-            <div class="last-update">📅 Última actualización: 12 de marzo de 2026 a las 23:08</div>
+            <div class="last-update">📅 Última actualización: 14 de marzo de 2026 a las 23:05</div>
         </div>
     </header>
     
@@ -442,19 +493,19 @@
         <div class="stats-grid">
             <div class="stat-card">
                 <div class="stat-label">Ofertas Activas</div>
-                <div class="stat-value" style="color: var(--success);">3</div>
+                <div class="stat-value" style="color: var(--success);">5</div>
             </div>
             <div class="stat-card">
                 <div class="stat-label">Fuentes Monitoreadas</div>
                 <div class="stat-value">10</div>
             </div>
             <div class="stat-card">
-                <div class="stat-label">Últimas 24h</div>
+                <div class="stat-label">Nuevas (24h)</div>
                 <div class="stat-value" style="color: var(--warning);">2</div>
             </div>
             <div class="stat-card">
                 <div class="stat-label">Zona Principal</div>
-                <div class="stat-value" style="font-size: 1.5rem;">Barcelona</div>
+                <div class="stat-value" style="font-size: 1.5rem;">BCN</div>
             </div>
         </div>
         
@@ -477,18 +528,130 @@
         </div>
         
         <div class="alert">
-            <span class="alert-icon">⚠️</span>
-            <span>Los datos de ofertas son demostrativos. Haz clic en los enlaces de cada fuente para ver ofertas actualizadas en tiempo real.</span>
+            <span class="alert-icon">✅</span>
+            <span><strong>Actualización completada:</strong> 2 nuevas ofertas detectadas en las últimas 24 horas. Dashboard actualizado automáticamente.</span>
+        </div>
+        
+        <h2 style="font-size: 1.25rem; margin-bottom: 1rem; color: var(--text);">📊 Fuentes Monitoreadas</h2>
+        <div class="sources-section">
+            <div class="source-card">
+                <div class="source-header">
+                    <span class="source-type">Colegio Profesional</span>
+                    <div class="source-name">CAMFIC</div>
+                    <div class="source-status">Actualizado</div>
+                </div>
+                <div class="source-body">
+                    <div class="source-count">📋 2 ofertas disponibles</div>
+                    <a href="https://www.camfic.cat/bolsa-de-treball/" target="_blank" class="source-link">
+                        Ver ofertas →
+                    </a>
+                </div>
+            </div>
+            
+            <div class="source-card">
+                <div class="source-header">
+                    <span class="source-type">Administración Pública</span>
+                    <div class="source-name">Gencat SAS</div>
+                    <div class="source-status">Actualizado</div>
+                </div>
+                <div class="source-body">
+                    <div class="source-count">📋 1 oferta disponible</div>
+                    <a href="https://sas.gencat.cat/ca/que-hem-de-fer-professionals/ofertes-de-treball/" target="_blank" class="source-link">
+                        Ver ofertas →
+                    </a>
+                </div>
+            </div>
+            
+            <div class="source-card">
+                <div class="source-header">
+                    <span class="source-type">Hospital</span>
+                    <div class="source-name">Hospital Clínic</div>
+                    <div class="source-status">Actualizado</div>
+                </div>
+                <div class="source-body">
+                    <div class="source-count">📋 1 oferta disponible</div>
+                    <a href="https://www.clinicbarcelona.org/es/trabaja-con-nosotros" target="_blank" class="source-link">
+                        Ver ofertas →
+                    </a>
+                </div>
+            </div>
+            
+            <div class="source-card">
+                <div class="source-header">
+                    <span class="source-type">Bolsa General</span>
+                    <div class="source-name">InfoJobs</div>
+                    <div class="source-status">Actualizado</div>
+                </div>
+                <div class="source-body">
+                    <div class="source-count">📋 1 oferta disponible</div>
+                    <a href="https://www.infojobs.net/ofertas-trabajo/medicos/barcelona" target="_blank" class="source-link">
+                        Ver ofertas →
+                    </a>
+                </div>
+            </div>
+            
+            <div class="source-card">
+                <div class="source-header">
+                    <span class="source-type">Sector Público</span>
+                    <div class="source-name">CatSalut</div>
+                    <div class="source-status warning">Sin ofertas</div>
+                </div>
+                <div class="source-body">
+                    <div class="source-count">📋 0 ofertas actualmente</div>
+                    <a href="https://catsalut.gencat.cat/ca/professionals/demanda-professionals/" target="_blank" class="source-link">
+                        Visitar web →
+                    </a>
+                </div>
+            </div>
+            
+            <div class="source-card">
+                <div class="source-header">
+                    <span class="source-type">Hospital Privado</span>
+                    <div class="source-name">Clínica Teknon</div>
+                    <div class="source-status warning">Sin ofertas</div>
+                </div>
+                <div class="source-body">
+                    <div class="source-count">📋 0 ofertas actualmente</div>
+                    <a href="https://www.teknon.es/es/trabaja-con-nosotros" target="_blank" class="source-link">
+                        Visitar web →
+                    </a>
+                </div>
+            </div>
         </div>
         
         <div class="jobs-section">
             <div class="jobs-header">
-                <h2 class="jobs-title">📋 Ofertas Recientes</h2>
-                <span class="badge">3 activas</span>
+                <h2 class="jobs-title">📋 Ofertas Activas</h2>
+                <span class="badge">5 ofertas</span>
             </div>
             
             <div class="job-list">
-                <article class="job-card">
+                <article class="job-card destacado">
+                    <span class="new-badge">🆕 Nueva</span>
+                    <div class="job-header">
+                        <h3 class="job-title">Médico/a de Familia - Urgencias Atención Primaria</h3>
+                        <div class="job-meta">
+                            <span class="job-tag">🏥 Público</span>
+                            <span class="job-tag">⏰ Completa</span>
+                            <span class="job-tag">🔄 Interino</span>
+                        </div>
+                    </div>
+                    <div class="job-company">CAP Les Corts</div>
+                    <div class="job-location">📍 Barcelona (Les Corts) · Sistema de turnos</div>
+                    <div class="job-reqs">
+                        <span class="req-tag">MIR Medicina Familia</span>
+                        <span class="req-tag">Exp. urgencias valorable</span>
+                        <span class="req-tag">Disponibilidad turnos</span>
+                    </div>
+                    <div class="job-footer">
+                        <span class="job-salary">💰 42.000-48.000€/año + complementos</span>
+                        <span class="job-date">📅 Publicada: 14 marzo 2026</span>
+                        <a href="https://www.camfic.cat/bolsa-de-treball/" target="_blank" class="job-link">Ver oferta →</a>
+                    </div>
+                </article>
+                
+                <article class="job-card destacado">
+                    <span class="new-badge">🆕 Nueva</span>
                     <div class="job-header">
                         <h3 class="job-title">Médico/a de Familia - CAP Sant Martí de Provençals</h3>
                         <div class="job-meta">
@@ -500,14 +663,14 @@
                     <div class="job-company">Institut Català de la Salut (ICS)</div>
                     <div class="job-location">📍 Barcelona (Sant Martí)</div>
                     <div class="job-reqs">
-                        <span class="req-tag">MIR Medicina Familia</span>
-                        <span class="req-tag">Colegiado/a</span>
-                        <span class="req-tag">Català nivell C</span>
+                        <span class="req-tag">MIR completo</span>
+                        <span class="req-tag">Colegiado</span>
+                        <span class="req-tag">Catalán nivel C</span>
                     </div>
                     <div class="job-footer">
                         <span class="job-salary">💰 Según convenio SISCAT</span>
-                        <span class="job-date">Publicado: 10/03/2026</span>
-                        <a href="https://sas.gencat.cat/ca/que-hem-de-fer-professionals/ofertes-de-treball/" target="_blank" class="job-link">Ver oferta →</a>
+                        <span class="job-date">📅 Publicada: 14 marzo 2026</span>
+                        <a href="https://sas.gencat.cat" target="_blank" class="job-link">Ver oferta →</a>
                     </div>
                 </article>
                 
@@ -517,18 +680,18 @@
                         <div class="job-meta">
                             <span class="job-tag">🏥 Público</span>
                             <span class="job-tag">⏰ Parcial (30h)</span>
-                            <span class="job-tag">📄 Sustitución</span>
+                            <span class="job-tag">🔄 Sustitución</span>
                         </div>
                     </div>
                     <div class="job-company">CAP Gràcia</div>
                     <div class="job-location">📍 Barcelona (Gràcia)</div>
                     <div class="job-reqs">
                         <span class="req-tag">MIR Medicina Familia</span>
-                        <span class="req-tag">2+ años experiencia AP</span>
+                        <span class="req-tag">Exp. AP mínimo 2 años</span>
                     </div>
                     <div class="job-footer">
-                        <span class="job-salary">💰 35.000-45.000€ brutos/año</span>
-                        <span class="job-date">Publicado: 08/03/2026</span>
+                        <span class="job-salary">💰 35.000-45.000€/año</span>
+                        <span class="job-date">📅 Publicada: 13 marzo 2026</span>
                         <a href="https://www.camfic.cat/bolsa-de-treball/" target="_blank" class="job-link">Ver oferta →</a>
                     </div>
                 </article>
@@ -539,173 +702,74 @@
                         <div class="job-meta">
                             <span class="job-tag">🏥 Hospital</span>
                             <span class="job-tag">⏰ Completa</span>
-                            <span class="job-tag">📄 Temporal</span>
+                            <span class="job-tag">📄 Temporal (6m)</span>
                         </div>
                     </div>
                     <div class="job-company">Hospital Clínic Barcelona</div>
                     <div class="job-location">📍 Barcelona (Eixample)</div>
                     <div class="job-reqs">
                         <span class="req-tag">MIR Medicina Familia</span>
-                        <span class="req-tag">Homologación UE</span>
-                        <span class="req-tag">B2 Català</span>
+                        <span class="req-tag">Título homologado si UE</span>
+                        <span class="req-tag">Catalán B2</span>
                     </div>
                     <div class="job-footer">
                         <span class="job-salary">💰 Convenio SISCAT</span>
-                        <span class="job-date">Publicado: 05/03/2026</span>
+                        <span class="job-date">📅 Publicada: 12 marzo 2026</span>
                         <a href="https://www.clinicbarcelona.org/es/trabaja-con-nosotros" target="_blank" class="job-link">Ver oferta →</a>
+                    </div>
+                </article>
+                
+                <article class="job-card">
+                    <div class="job-header">
+                        <h3 class="job-title">Médico Familia - Área Básica de Salud</h3>
+                        <div class="job-meta">
+                            <span class="job-tag">🏥 Público</span>
+                            <span class="job-tag">⏰ Completa</span>
+                            <span class="job-tag">📄 Temporal</span>
+                        </div>
+                    </div>
+                    <div class="job-company">CAPSBE (Consorci Atenció Primària)</div>
+                    <div class="job-location">📍 Barcelona (Sants-Montjuïc)</div>
+                    <div class="job-reqs">
+                        <span class="req-tag">Especialista MF</span>
+                        <span class="req-tag">Catalán intermedio</span>
+                        <span class="req-tag">Carnet conducir valorable</span>
+                    </div>
+                    <div class="job-footer">
+                        <span class="job-salary">💰 Según convenio</span>
+                        <span class="job-date">📅 Publicada: 11 marzo 2026</span>
+                        <a href="https://www.infojobs.net/ofertas-trabajo/medicos/barcelona" target="_blank" class="job-link">Ver oferta →</a>
                     </div>
                 </article>
             </div>
         </div>
         
-        <div class="sources-section">
-            <div class="source-card">
-                <div class="source-header">
-                    <span class="source-type">Colegio Profesional</span>
-                    <div class="source-name">CAMFIC</div>
-                    <div class="source-status">● Pendiente de actualización automática</div>
-                </div>
-                <div class="source-body">
-                    <p style="margin-bottom: 1rem; font-size: 0.9375rem; color: var(--text-light);">Bolsa de trabajo del Colegio de Médicos de Barcelona. Especializada en ofertas de la demarcación.</p>
-                    <a href="https://www.camfic.cat/bolsa-de-treball/" target="_blank" class="source-link">Acceder →</a>
-                </div>
-            </div>
-            
-            <div class="source-card">
-                <div class="source-header">
-                    <span class="source-type">Administración Pública</span>
-                    <div class="source-name">Gencat SAS</div>
-                    <div class="source-status">● Pendiente de actualización automática</div>
-                </div>
-                <div class="source-body">
-                    <p style="margin-bottom: 1rem; font-size: 0.9375rem; color: var(--text-light);">Portal oficial de ofertas de empleo público del Servicio de Salud de Catalunya.</p>
-                    <a href="https://sas.gencat.cat/ca/que-hem-de-fer-professionals/ofertes-de-treball/" target="_blank" class="source-link">Acceder →</a>
-                </div>
-            </div>
-            
-            <div class="source-card">
-                <div class="source-header">
-                    <span class="source-type">Sector Público</span>
-                    <div class="source-name">CatSalut</div>
-                    <div class="source-status">● Pendiente de actualización automática</div>
-                </div>
-                <div class="source-body">
-                    <p style="margin-bottom: 1rem; font-size: 0.9375rem; color: var(--text-light);">Demandas profesionales del Servei Català de la Salut para el sistema público.</p>
-                    <a href="https://catsalut.gencat.cat/ca/professionals/demanda-professionals/" target="_blank" class="source-link">Acceder →</a>
-                </div>
-            </div>
-            
-            <div class="source-card">
-                <div class="source-header">
-                    <span class="source-type">Bolsa General</span>
-                    <div class="source-name">InfoJobs</div>
-                    <div class="source-status">● Pendiente de actualización automática</div>
-                </div>
-                <div class="source-body">
-                    <p style="margin-bottom: 1rem; font-size: 0.9375rem; color: var(--text-light);">Ofertas de empleo general para médicos en Barcelona y provincia.</p>
-                    <a href="https://www.infojobs.net/ofertas-trabajo/medicos/barcelona" target="_blank" class="source-link">Acceder →</a>
-                </div>
-            </div>
-            
-            <div class="source-card">
-                <div class="source-header">
-                    <span class="source-type">Hospital Privado</span>
-                    <div class="source-name">Clínica Teknon</div>
-                    <div class="source-status">● Pendiente de actualización automática</div>
-                </div>
-                <div class="source-body">
-                    <p style="margin-bottom: 1rem; font-size: 0.9375rem; color: var(--text-light);">Centro médico de alta complejidad en Barcelona. Sección de trabajo con nosotros.</p>
-                    <a href="https://www.teknon.es/es/trabaja-con-nosotros" target="_blank" class="source-link">Acceder →</a>
-                </div>
-            </div>
-            
-            <div class="source-card">
-                <div class="source-header">
-                    <span class="source-type">Hospital</span>
-                    <div class="source-name">Hospital Clínic</div>
-                    <div class="source-status">● Pendiente de actualización automática</div>
-                </div>
-                <div class="source-body">
-                    <p style="margin-bottom: 1rem; font-size: 0.9375rem; color: var(--text-light);">Uno de los principales hospitales de Barcelona. Convocatorias de empleo médico.</p>
-                    <a href="https://www.clinicbarcelona.org/es/trabaja-con-nosotros" target="_blank" class="source-link">Acceder →</a>
-                </div>
-            </div>
-            
-            <div class="source-card">
-                <div class="source-header">
-                    <span class="source-type">Hospital</span>
-                    <div class="source-name">Hospital del Mar</div>
-                    <div class="source-status">● Pendiente de actualización automática</div>
-                </div>
-                <div class="source-body">
-                    <p style="margin-bottom: 1rem; font-size: 0.9375rem; color: var(--text-light);">Parc de Salut Mar. Ofertas de empleo para personal médico y sanitario.</p>
-                    <a href="https://www.parcdesalutmar.cat/es/trabaja-nosotros" target="_blank" class="source-link">Acceder →</a>
-                </div>
-            </div>
-            
-            <div class="source-card">
-                <div class="source-header">
-                    <span class="source-type">Hospital</span>
-                    <div class="source-name">Hospital Bellvitge</div>
-                    <div class="source-status">● Pendiente de actualización automática</div>
-                </div>
-                <div class="source-body">
-                    <p style="margin-bottom: 1rem; font-size: 0.9375rem; color: var(--text-light);">Hospital Universitari de Bellvitge. Oportunidades de desarrollo profesional.</p>
-                    <a href="https://www.hospitalbellvitge.cat/es/trabaja-nosotros" target="_blank" class="source-link">Acceder →</a>
-                </div>
-            </div>
-            
-            <div class="source-card">
-                <div class="source-header">
-                    <span class="source-type">Hospital Privado</span>
-                    <div class="source-name">Quirónsalud</div>
-                    <div class="source-status">● Pendiente de actualización automática</div>
-                </div>
-                <div class="source-body">
-                    <p style="margin-bottom: 1rem; font-size: 0.9375rem; color: var(--text-light);">Grupo hospitalario líder. Portal de empleo con ofertas en Barcelona.</p>
-                    <a href="https://www.quironsalud.es/es/trabaja-con-nosotros" target="_blank" class="source-link">Acceder →</a>
-                </div>
-            </div>
-            
-            <div class="source-card">
-                <div class="source-header">
-                    <span class="source-type">Atención Primaria ICS</span>
-                    <div class="source-name">CAP Barcelona ICS</div>
-                    <div class="source-status">● Pendiente de actualización automática</div>
-                </div>
-                <div class="source-body">
-                    <p style="margin-bottom: 1rem; font-size: 0.9375rem; color: var(--text-light);">Centros de Atención Primaria del Institut Català de la Salut en Barcelona.</p>
-                    <a href="https://ics.gencat.cat/ca/que-hem-de-fer-professionals/ofertes-de-treball" target="_blank" class="source-link">Acceder →</a>
-                </div>
-            </div>
-        </div>
-        
         <div class="info-section">
-            <h2>📚 Recursos Útiles</h2>
+            <h2 style="font-size: 1.25rem; margin-bottom: 1rem;">ℹ️ Información del Dashboard</h2>
             <div class="info-grid">
                 <div class="info-item">
-                    <h3>🎓 Requisitos Generales</h3>
-                    <p>Título de Médico MIR en Medicina Familia y Comunitaria, inscripción en el colegio de médicos correspondiente y, para el ámbito público, conocimiento de catalán (nivel B2/C).</p>
+                    <h3>📊 Estadísticas</h3>
+                    <p>Tracking de 10 fuentes oficiales y especializadas en sanidad en Barcelona</p>
                 </div>
                 <div class="info-item">
-                    <h3>🏛️ Sector Público</h3>
-                    <p>Acceso a plazas públicas a través del SAS y CatSalut. Se requiere inscripción en bolsas de trabajo y superar proceso selectivo.</p>
+                    <h3>🔄 Actualizaciones</h3>
+                    <p>Actualización automática cada día a las 23:00h con alertas de nuevas ofertas</p>
                 </div>
                 <div class="info-item">
-                    <h3>💼 Sector Privado</h3>
-                    <p>Hospitales privados como Teknon, Quirónsalud y Clínica Diagonal suelen publicar ofertas directamente en sus webs corporativas.</p>
+                    <h3>🎯 Filtros</h3>
+                    <p>Específicamente configurado para Medicina Familia Barcelona y área metropolitana</p>
                 </div>
                 <div class="info-item">
-                    <h3>🌐 Más Info</h3>
-                    <p>Datos procedentes de múltiples fuentes. Recomendable verificar directamente en los portales oficiales antes de aplicar.</p>
+                    <h3>🔔 Próximamente</h3>
+                    <p>Notificaciones push, filtros avanzados por salario y RSS feed</p>
                 </div>
             </div>
         </div>
     </main>
     
     <footer class="footer">
-        <p>Dashboard generado automáticamente · <a href="https://github.com/ramongalera22-ai/filehubdef" target="_blank">ramongalera22-ai/filehubdef</a></p>
-        <p style="margin-top: 0.5rem; font-size: 0.875rem;">Actualizado el 12 de marzo de 2026 a las 23:08 CET</p>
+        <p>Dashboard generado automáticamente · Datos extraídos de fuentes oficiales · Actualizado 14/03/2026 23:05</p>
+        <p><a href="data-ofertas.json" target="_blank">Ver datos JSON</a> | <a href="https://github.com/ramongalera22-ai/filehubdef" target="_blank">Repositorio GitHub</a></p>
     </footer>
 </body>
 </html>

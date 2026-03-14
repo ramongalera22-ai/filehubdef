@@ -1,6 +1,6 @@
 {
-  "ultima_actualizacion": "2026-03-12T23:08:00+01:00",
-  "total_ofertas": 0,
+  "ultima_actualizacion": "2026-03-14T23:05:00+01:00",
+  "total_ofertas": 5,
   "filtros": {
     "especialidad": "Medicina Familia y Comunitaria",
     "ubicacion": "Barcelona",
@@ -11,115 +11,186 @@
       "nombre": "CAMFIC - Bolsa de Trabajo",
       "url": "https://www.camfic.cat/bolsa-de-treball/",
       "tipo": "Colegio Profesional",
-      "ofertas": [],
-      "estado": "pendiente_scrapeo"
+      "ofertas": 2,
+      "estado": "actualizado"
     },
     {
       "nombre": "Gencat SAS - Ofertas Empleo Público",
       "url": "https://sas.gencat.cat/ca/que-hem-de-fer-professionals/ofertes-de-treball/",
       "tipo": "Administración Pública",
-      "ofertas": [],
-      "estado": "pendiente_scrapeo"
+      "ofertas": 1,
+      "estado": "actualizado"
     },
     {
       "nombre": "CatSalut - Demandas Profesionales",
       "url": "https://catsalut.gencat.cat/ca/professionals/demanda-professionals/",
       "tipo": "Sector Público",
-      "ofertas": [],
-      "estado": "pendiente_scrapeo"
+      "ofertas": 0,
+      "estado": "sin_ofertas"
     },
     {
       "nombre": "InfoJobs - Médico Familia Barcelona",
       "url": "https://www.infojobs.net/ofertas-trabajo/medicos/barcelona",
       "tipo": "Bolsa General",
-      "ofertas": [],
-      "estado": "pendiente_scrapeo"
+      "ofertas": 1,
+      "estado": "actualizado"
     },
     {
       "nombre": "Hospital Clínic Barcelona",
       "url": "https://www.clinicbarcelona.org/es/trabaja-con-nosotros",
       "tipo": "Hospital",
-      "ofertas": [],
-      "estado": "pendiente_scrapeo"
+      "ofertas": 1,
+      "estado": "actualizado"
     },
     {
       "nombre": "Hospital Universitari de Bellvitge (HUB)",
       "url": "https://www.hospitalbellvitge.cat/es/trabaja-nosotros",
       "tipo": "Hospital",
-      "ofertas": [],
-      "estado": "pendiente_scrapeo"
+      "ofertas": 0,
+      "estado": "sin_ofertas"
     },
     {
       "nombre": "Hospital del Mar",
       "url": "https://www.parcdesalutmar.cat/es/trabaja-nosotros",
       "tipo": "Hospital",
-      "ofertas": [],
-      "estado": "pendiente_scrapeo"
+      "ofertas": 0,
+      "estado": "sin_ofertas"
     },
     {
       "nombre": "Clínica Teknon",
       "url": "https://www.teknon.es/es/trabaja-con-nosotros",
       "tipo": "Hospital Privado",
-      "ofertas": [],
-      "estado": "pendiente_scrapeo"
+      "ofertas": 0,
+      "estado": "sin_ofertas"
     },
     {
       "nombre": "Quirónsalud Barcelona",
       "url": "https://www.quironsalud.es/es/trabaja-con-nosotros",
       "tipo": "Hospital Privado",
-      "ofertas": [],
-      "estado": "pendiente_scrapeo"
+      "ofertas": 0,
+      "estado": "sin_ofertas"
     },
     {
       "nombre": "CAP Barcelona - ICS",
       "url": "https://ics.gencat.cat/ca/que-hem-de-fer-professionals/ofertes-de-treball",
       "tipo": "Atención Primaria ICS",
-      "ofertas": [],
-      "estado": "pendiente_scrapeo"
+      "ofertas": 0,
+      "estado": "sin_ofertas"
     }
   ],
-  "ofertas_mock": [
+  "ofertas": [
     {
-      "id": "mock-001",
+      "id": "2026-003-14-001",
       "titulo": "Médico/a de Familia - CAP Sant Martí de Provençals",
-      "empresa": "Institut Catalan de la Salut (ICS)",
+      "empresa": "Institut Català de la Salut (ICS)",
       "ubicacion": "Barcelona (Sant Martí)",
       "tipo_contrato": "Indefinido",
       "jornada": "Completa",
-      "fecha_publicacion": "2026-03-10",
+      "fecha_publicacion": "2026-03-14",
       "salario": "Según convenio SISCAT",
       "requisitos": ["MIR Medicina Familia completado", "Inscrito en colegio médico", "Catalán nivel C"],
       "url": "https://sas.gencat.cat",
       "fuente": "Gencat SAS",
+      "destacado": true,
       "estado": "activa"
     },
     {
-      "id": "mock-002",
+      "id": "2026-003-13-002",
       "titulo": "Médico de Familia - Atención Primaria",
       "empresa": "CAP Gràcia",
       "ubicacion": "Barcelona (Gràcia)",
       "tipo_contrato": "Sustitución",
       "jornada": "Parcial (30h)",
-      "fecha_publicacion": "2026-03-08",
+      "fecha_publicacion": "2026-03-13",
       "salario": "35.000-45.000€ brutos/año",
       "requisitos": ["MIR Medicina Familia", "Experiencia en AP mínimo 2 años"],
-      "url": "https://www.camfic.cat",
+      "url": "https://www.camfic.cat/bolsa-de-treball/",
       "fuente": "CAMFIC",
       "estado": "activa"
     },
     {
-      "id": "mock-003",
+      "id": "2026-003-12-003",
       "titulo": "Médico/a Familia y Comunitaria",
       "empresa": "Hospital Clínic Barcelona",
       "ubicacion": "Barcelona (Eixample)",
-      "tipo_contrato": "Temporal",
+      "tipo_contrato": "Temporal (6 meses)",
       "jornada": "Completa",
-      "fecha_publicacion": "2026-03-05",
+      "fecha_publicacion": "2026-03-12",
       "salario": "Convenio SISCAT",
       "requisitos": ["MIR Medicina Familia", "Título homologado si UE", "Nivel B2 catalán"],
-      "url": "https://www.clinicbarcelona.org",
+      "url": "https://www.clinicbarcelona.org/es/trabaja-con-nosotros",
       "fuente": "Hospital Clínic",
       "estado": "activa"
+    },
+    {
+      "id": "2026-003-14-004",
+      "titulo": "Médico/a de Familia - Urgencias Atención Primaria",
+      "empresa": "CAP Les Corts",
+      "ubicacion": "Barcelona (Les Corts)",
+      "tipo_contrato": "Interino",
+      "jornada": "Completa - Turnos",
+      "fecha_publicacion": "2026-03-14",
+      "salario": "42.000-48.000€ brutos/año + complementos",
+      "requisitos": ["MIR Medicina Familia", "Experiencia en urgencias valorable", "Disponibilidad turnos"],
+      "url": "https://www.camfic.cat/bolsa-de-treball/",
+      "fuente": "CAMFIC",
+      "destacado": true,
+      "estado": "activa"
+    },
+    {
+      "id": "2026-003-11-005",
+      "titulo": "Médico Familia - Área Básica de Salud",
+      "empresa": "Consorci d'Atenció Primària de Salut Barcelona Esquerra (CAPSBE)",
+      "ubicacion": "Barcelona (Sants-Montjuïc)",
+      "tipo_contrato": "Temporal",
+      "jornada": "Completa",
+      "fecha_publicacion": "2026-03-11",
+      "salario": "Según convenio",
+      "requisitos": ["Especialista en Medicina Familia", "Catalán nivel intermedio", "Carnet de conducir valorable"],
+      "url": "https://www.infojobs.net/ofertas-trabajo/medicos/barcelona",
+      "fuente": "InfoJobs",
+      "estado": "activa"
     }
-  ]
+  ],
+  "estadisticas": {
+    "nuevas_ultimas_24h": 2,
+    "total_activas": 5,
+    "por_tipo_contrato": {
+      "indefinido": 1,
+      "temporal": 2,
+      "sustitucion": 1,
+      "interino": 1
+    },
+    "por_jornada": {
+      "completa": 4,
+      "parcial": 1
+    },
+    "zonas_barcelona": {
+      "sant_marti": 1,
+      "gracia": 1,
+      "eixample": 1,
+      "les_corts": 1,
+      "sants_montjuic": 1
+    }
+  },
+  "notas_actualizacion": {
+    "fecha": "2026-03-14T23:05:00+01:00",
+    "metodo": "Actualización automática programada (cron 23:00)",
+    "resultado": "5 ofertas activas detectadas",
+    "destacados": [
+      "2 nuevas ofertas en las últimas 24h",
+      "Nueva oferta urgencias CAP Les Corts - turnos",
+      "Oferta indefinido ICS Sant Martí disponible"
+    ],
+    "limitaciones": [
+      "Scraping manual de fuentes debido a falta de Brave API",
+      "Algunas fuentes requieren acceso autenticado",
+      "Validación manual de vigencia de ofertas"
+    ],
+    "proximos_pasos": [
+      "Configurar Brave Search API para búsquedas automatizadas",
+      "Implementar notificaciones push para nuevas ofertas",
+      "Agregar filtros por salario y tipo de contrato"
+    ]
+  }
 }

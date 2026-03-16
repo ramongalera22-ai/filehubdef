@@ -1,775 +1,120 @@
 <!DOCTYPE html>
-<html lang="ca">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Ofertas - Médico Familia Barcelona</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>🏥 Ofertas Médico de Familia - Barcelona</title>
     <style>
-        :root {
-            --primary: #2563eb;
-            --primary-dark: #1d4ed8;
-            --secondary: #64748b;
-            --success: #22c55e;
-            --warning: #f59e0b;
-            --danger: #ef4444;
-            --bg: #f8fafc;
-            --card: #ffffff;
-            --text: #1e293b;
-            --text-light: #64748b;
-            --border: #e2e8f0;
-        }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            line-height: 1.6;
-        }
-        
-        .header {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-            color: white;
-            padding: 2rem 1.5rem;
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
-        }
-        
-        .header-content {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        
-        .header h1 {
-            font-size: 1.875rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-        }
-        
-        .header-subtitle {
-            opacity: 0.9;
-            font-size: 1rem;
-        }
-        
-        .last-update {
-            margin-top: 1rem;
-            font-size: 0.875rem;
-            opacity: 0.8;
-        }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem 1.5rem;
-        }
-        
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-        
-        .stat-card {
-            background: var(--card);
-            border-radius: 12px;
-            padding: 1.5rem;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-            border: 1px solid var(--border);
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-        
-        .stat-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
-        
-        .stat-label {
-            font-size: 0.875rem;
-            color: var(--text-light);
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            margin-bottom: 0.5rem;
-        }
-        
-        .stat-value {
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--primary);
-        }
-        
-        .filters {
-            background: var(--card);
-            border-radius: 12px;
-            padding: 1.5rem;
-            margin-bottom: 2rem;
-            border: 1px solid var(--border);
-        }
-        
-        .filters h2 {
-            font-size: 1.125rem;
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        
-        .filters-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
-        }
-        
-        .filter-item {
-            padding: 0.75rem 1rem;
-            background: var(--bg);
-            border-radius: 8px;
-            border: 1px solid var(--border);
-        }
-        
-        .filter-item strong {
-            display: block;
-            font-size: 0.875rem;
-            color: var(--text-light);
-            margin-bottom: 0.25rem;
-        }
-        
-        .filter-item span {
-            font-weight: 500;
-        }
-        
-        .sources-section {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-        
-        .source-card {
-            background: var(--card);
-            border-radius: 12px;
-            overflow: hidden;
-            border: 1px solid var(--border);
-            transition: all 0.2s;
-        }
-        
-        .source-card:hover {
-            border-color: var(--primary);
-            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.1);
-        }
-        
-        .source-header {
-            background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
-            padding: 1.25rem;
-            border-bottom: 1px solid var(--border);
-        }
-        
-        .source-type {
-            display: inline-block;
-            padding: 0.25rem 0.75rem;
-            background: var(--primary);
-            color: white;
-            font-size: 0.75rem;
-            font-weight: 600;
-            border-radius: 999px;
-            margin-bottom: 0.5rem;
-        }
-        
-        .source-name {
-            font-size: 1.125rem;
-            font-weight: 600;
-            margin-bottom: 0.25rem;
-        }
-        
-        .source-status {
-            font-size: 0.875rem;
-            color: var(--success);
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        
-        .source-status.warning {
-            color: var(--warning);
-        }
-        
-        .source-status::before {
-            content: "●";
-        }
-        
-        .source-body {
-            padding: 1.25rem;
-        }
-        
-        .source-count {
-            font-size: 0.875rem;
-            color: var(--text-light);
-            margin-bottom: 1rem;
-        }
-        
-        .source-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.75rem 1.25rem;
-            background: var(--primary);
-            color: white;
-            text-decoration: none;
-            border-radius: 8px;
-            font-weight: 500;
-            transition: background 0.2s;
-        }
-        
-        .source-link:hover {
-            background: var(--primary-dark);
-        }
-        
-        .jobs-section {
-            background: var(--card);
-            border-radius: 12px;
-            padding: 1.5rem;
-            border: 1px solid var(--border);
-        }
-        
-        .jobs-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1.5rem;
-        }
-        
-        .jobs-title {
-            font-size: 1.25rem;
-            font-weight: 600;
-        }
-        
-        .badge {
-            padding: 0.5rem 1rem;
-            background: var(--success);
-            color: white;
-            font-size: 0.875rem;
-            font-weight: 500;
-            border-radius: 999px;
-        }
-        
-        .badge.new {
-            background: var(--warning);
-            animation: pulse 2s infinite;
-        }
-        
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.8; }
-        }
-        
-        .job-list {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-        
-        .job-card {
-            padding: 1.25rem;
-            background: var(--bg);
-            border-radius: 10px;
-            border-left: 4px solid var(--primary);
-            transition: all 0.2s;
-            position: relative;
-        }
-        
-        .job-card.destacado {
-            border-left-color: var(--warning);
-            background: linear-gradient(to right, #fffbeb 0%, var(--bg) 100%);
-        }
-        
-        .job-card:hover {
-            background: #f1f5f9;
-            transform: translateX(4px);
-        }
-        
-        .new-badge {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            padding: 0.25rem 0.75rem;
-            background: var(--warning);
-            color: white;
-            font-size: 0.75rem;
-            font-weight: 600;
-            border-radius: 999px;
-        }
-        
-        .job-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 0.75rem;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-        }
-        
-        .job-title {
-            font-size: 1.0625rem;
-            font-weight: 600;
-            color: var(--text);
-            flex: 1;
-            min-width: 250px;
-        }
-        
-        .job-meta {
-            display: flex;
-            gap: 0.75rem;
-            flex-wrap: wrap;
-        }
-        
-        .job-tag {
-            padding: 0.25rem 0.625rem;
-            background: white;
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            font-size: 0.8125rem;
-            color: var(--text-light);
-        }
-        
-        .job-company {
-            font-weight: 500;
-            color: var(--primary);
-            margin-bottom: 0.5rem;
-        }
-        
-        .job-location {
-            font-size: 0.9375rem;
-            color: var(--text-light);
-            margin-bottom: 0.75rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        
-        .job-reqs {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-            margin-bottom: 1rem;
-        }
-        
-        .req-tag {
-            padding: 0.25rem 0.625rem;
-            background: #dbeafe;
-            color: var(--primary);
-            font-size: 0.75rem;
-            border-radius: 4px;
-        }
-        
-        .job-footer {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 0.75rem;
-        }
-        
-        .job-salary {
-            font-weight: 600;
-            color: var(--success);
-        }
-        
-        .job-date {
-            font-size: 0.875rem;
-            color: var(--text-light);
-        }
-        
-        .job-link {
-            padding: 0.5rem 1rem;
-            background: var(--primary);
-            color: white;
-            text-decoration: none;
-            border-radius: 6px;
-            font-size: 0.875rem;
-            font-weight: 500;
-            transition: background 0.2s;
-        }
-        
-        .job-link:hover {
-            background: var(--primary-dark);
-        }
-        
-        .alert {
-            padding: 1rem 1.25rem;
-            background: #dcfce7;
-            border: 1px solid var(--success);
-            border-radius: 8px;
-            margin-bottom: 1.5rem;
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
-        
-        .alert.info {
-            background: #e0f2fe;
-            border-color: #0ea5e9;
-        }
-        
-        .alert-icon {
-            font-size: 1.25rem;
-        }
-        
-        .info-section {
-            background: var(--card);
-            border-radius: 12px;
-            padding: 1.5rem;
-            margin-top: 2rem;
-            border: 1px solid var(--border);
-        }
-        
-        .info-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-            margin-top: 1rem;
-        }
-        
-        .info-item h3 {
-            font-size: 1rem;
-            margin-bottom: 0.5rem;
-            color: var(--primary);
-        }
-        
-        .info-item p {
-            font-size: 0.9375rem;
-            color: var(--text-light);
-        }
-        
-        .footer {
-            text-align: center;
-            padding: 2rem;
-            color: var(--text-light);
-            font-size: 0.9375rem;
-            margin-top: 2rem;
-        }
-        
-        .footer a {
-            color: var(--primary);
-            text-decoration: none;
-        }
-        
-        @media (max-width: 640px) {
-            .header h1 {
-                font-size: 1.5rem;
-            }
-            
-            .stat-value {
-                font-size: 1.5rem;
-            }
-            
-            .jobs-header {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            
-            .new-badge {
-                position: static;
-                display: inline-block;
-                margin-bottom: 0.5rem;
-            }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: #0f172a; color: #e2e8f0; min-height: 100vh; }
+        .header { background: linear-gradient(135deg, #1e3a5f 0%, #0d9488 100%); padding: 2rem; text-align: center; }
+        .header h1 { font-size: 1.8rem; margin-bottom: 0.5rem; }
+        .header .subtitle { opacity: 0.85; font-size: 0.95rem; }
+        .header .update-time { margin-top: 0.5rem; font-size: 0.8rem; opacity: 0.7; }
+        .stats-bar { display: flex; justify-content: center; gap: 2rem; padding: 1rem 2rem; background: #1e293b; flex-wrap: wrap; }
+        .stat { text-align: center; }
+        .stat .num { font-size: 1.5rem; font-weight: 700; color: #2dd4bf; }
+        .stat .label { font-size: 0.75rem; opacity: 0.6; text-transform: uppercase; }
+        .context-box { max-width: 900px; margin: 1.5rem auto; padding: 1rem 1.5rem; background: #1e293b; border-left: 4px solid #2dd4bf; border-radius: 8px; }
+        .context-box h3 { color: #2dd4bf; margin-bottom: 0.5rem; font-size: 0.95rem; }
+        .context-box p { font-size: 0.85rem; line-height: 1.5; opacity: 0.85; }
+        .trends { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.75rem; }
+        .trend-tag { background: #0d9488; color: white; padding: 0.25rem 0.6rem; border-radius: 12px; font-size: 0.7rem; }
+        .container { max-width: 900px; margin: 0 auto; padding: 1rem; }
+        .oferta { background: #1e293b; border-radius: 12px; padding: 1.25rem; margin-bottom: 1rem; border: 1px solid #334155; transition: border-color 0.2s; }
+        .oferta:hover { border-color: #2dd4bf; }
+        .oferta-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; flex-wrap: wrap; }
+        .oferta-titulo { font-size: 1.05rem; font-weight: 600; color: #f1f5f9; }
+        .oferta-badges { display: flex; gap: 0.4rem; flex-wrap: wrap; }
+        .badge { padding: 0.2rem 0.5rem; border-radius: 6px; font-size: 0.7rem; font-weight: 600; }
+        .badge-fuente { background: #312e81; color: #a5b4fc; }
+        .badge-tipo { background: #064e3b; color: #6ee7b7; }
+        .badge-estado { background: #7c2d12; color: #fdba74; }
+        .oferta-body { margin-top: 0.75rem; }
+        .oferta-desc { font-size: 0.85rem; line-height: 1.5; opacity: 0.8; }
+        .oferta-meta { display: flex; gap: 1.5rem; margin-top: 0.75rem; flex-wrap: wrap; font-size: 0.8rem; opacity: 0.65; }
+        .oferta-meta span::before { margin-right: 0.3rem; }
+        .oferta-link { display: inline-block; margin-top: 0.75rem; color: #2dd4bf; text-decoration: none; font-size: 0.85rem; font-weight: 500; }
+        .oferta-link:hover { text-decoration: underline; }
+        .footer { text-align: center; padding: 2rem; opacity: 0.4; font-size: 0.75rem; }
+        @media (max-width: 600px) {
+            .header h1 { font-size: 1.3rem; }
+            .stats-bar { gap: 1rem; }
+            .container { padding: 0.75rem; }
         }
     </style>
 </head>
 <body>
-    <header class="header">
-        <div class="header-content">
-            <h1>🏥 Dashboard de Ofertas</h1>
-            <div class="header-subtitle">Médico de Familia y Comunitaria · Barcelona</div>
-            <div class="last-update">📅 Última actualización: 14 de marzo de 2026 a las 23:05</div>
-        </div>
-    </header>
-    
-    <main class="container">
-        <div class="stats-grid">
-            <div class="stat-card">
-                <div class="stat-label">Ofertas Activas</div>
-                <div class="stat-value" style="color: var(--success);">5</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-label">Fuentes Monitoreadas</div>
-                <div class="stat-value">10</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-label">Nuevas (24h)</div>
-                <div class="stat-value" style="color: var(--warning);">2</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-label">Zona Principal</div>
-                <div class="stat-value" style="font-size: 1.5rem;">BCN</div>
-            </div>
-        </div>
-        
-        <div class="filters">
-            <h2>🔍 Filtros Activos</h2>
-            <div class="filters-grid">
-                <div class="filter-item">
-                    <strong>Especialidad</strong>
-                    <span>Medicina Familia y Comunitaria</span>
-                </div>
-                <div class="filter-item">
-                    <strong>Ubicación</strong>
-                    <span>Barcelona y área metropolitana</span>
-                </div>
-                <div class="filter-item">
-                    <strong>Ámbito</strong>
-                    <span>CAP, EAP, Atención Primaria</span>
-                </div>
-            </div>
-        </div>
-        
-        <div class="alert">
-            <span class="alert-icon">✅</span>
-            <span><strong>Actualización completada:</strong> 2 nuevas ofertas detectadas en las últimas 24 horas. Dashboard actualizado automáticamente.</span>
-        </div>
-        
-        <h2 style="font-size: 1.25rem; margin-bottom: 1rem; color: var(--text);">📊 Fuentes Monitoreadas</h2>
-        <div class="sources-section">
-            <div class="source-card">
-                <div class="source-header">
-                    <span class="source-type">Colegio Profesional</span>
-                    <div class="source-name">CAMFIC</div>
-                    <div class="source-status">Actualizado</div>
-                </div>
-                <div class="source-body">
-                    <div class="source-count">📋 2 ofertas disponibles</div>
-                    <a href="https://www.camfic.cat/bolsa-de-treball/" target="_blank" class="source-link">
-                        Ver ofertas →
-                    </a>
-                </div>
-            </div>
-            
-            <div class="source-card">
-                <div class="source-header">
-                    <span class="source-type">Administración Pública</span>
-                    <div class="source-name">Gencat SAS</div>
-                    <div class="source-status">Actualizado</div>
-                </div>
-                <div class="source-body">
-                    <div class="source-count">📋 1 oferta disponible</div>
-                    <a href="https://sas.gencat.cat/ca/que-hem-de-fer-professionals/ofertes-de-treball/" target="_blank" class="source-link">
-                        Ver ofertas →
-                    </a>
-                </div>
-            </div>
-            
-            <div class="source-card">
-                <div class="source-header">
-                    <span class="source-type">Hospital</span>
-                    <div class="source-name">Hospital Clínic</div>
-                    <div class="source-status">Actualizado</div>
-                </div>
-                <div class="source-body">
-                    <div class="source-count">📋 1 oferta disponible</div>
-                    <a href="https://www.clinicbarcelona.org/es/trabaja-con-nosotros" target="_blank" class="source-link">
-                        Ver ofertas →
-                    </a>
-                </div>
-            </div>
-            
-            <div class="source-card">
-                <div class="source-header">
-                    <span class="source-type">Bolsa General</span>
-                    <div class="source-name">InfoJobs</div>
-                    <div class="source-status">Actualizado</div>
-                </div>
-                <div class="source-body">
-                    <div class="source-count">📋 1 oferta disponible</div>
-                    <a href="https://www.infojobs.net/ofertas-trabajo/medicos/barcelona" target="_blank" class="source-link">
-                        Ver ofertas →
-                    </a>
-                </div>
-            </div>
-            
-            <div class="source-card">
-                <div class="source-header">
-                    <span class="source-type">Sector Público</span>
-                    <div class="source-name">CatSalut</div>
-                    <div class="source-status warning">Sin ofertas</div>
-                </div>
-                <div class="source-body">
-                    <div class="source-count">📋 0 ofertas actualmente</div>
-                    <a href="https://catsalut.gencat.cat/ca/professionals/demanda-professionals/" target="_blank" class="source-link">
-                        Visitar web →
-                    </a>
-                </div>
-            </div>
-            
-            <div class="source-card">
-                <div class="source-header">
-                    <span class="source-type">Hospital Privado</span>
-                    <div class="source-name">Clínica Teknon</div>
-                    <div class="source-status warning">Sin ofertas</div>
-                </div>
-                <div class="source-body">
-                    <div class="source-count">📋 0 ofertas actualmente</div>
-                    <a href="https://www.teknon.es/es/trabaja-con-nosotros" target="_blank" class="source-link">
-                        Visitar web →
-                    </a>
-                </div>
-            </div>
-        </div>
-        
-        <div class="jobs-section">
-            <div class="jobs-header">
-                <h2 class="jobs-title">📋 Ofertas Activas</h2>
-                <span class="badge">5 ofertas</span>
-            </div>
-            
-            <div class="job-list">
-                <article class="job-card destacado">
-                    <span class="new-badge">🆕 Nueva</span>
-                    <div class="job-header">
-                        <h3 class="job-title">Médico/a de Familia - Urgencias Atención Primaria</h3>
-                        <div class="job-meta">
-                            <span class="job-tag">🏥 Público</span>
-                            <span class="job-tag">⏰ Completa</span>
-                            <span class="job-tag">🔄 Interino</span>
+    <div class="header">
+        <h1>🏥 Ofertas Médico de Familia — Barcelona</h1>
+        <div class="subtitle">Dashboard de oportunidades laborales en Atención Primaria</div>
+        <div class="update-time" id="update-time"></div>
+    </div>
+    <div class="stats-bar" id="stats-bar"></div>
+    <div class="context-box" id="context-box"></div>
+    <div class="container" id="ofertas-container"></div>
+    <div class="footer">Actualización automática · Fuentes: CAMFIC, Gencat ICS, CatSalut, InfoJobs, Hospital Clínic, Teknon/Quirónsalud</div>
+
+    <script>
+        async function loadData() {
+            try {
+                const resp = await fetch('data-ofertas.json');
+                const data = await resp.json();
+                render(data);
+            } catch(e) {
+                document.getElementById('ofertas-container').innerHTML = '<p style="text-align:center;padding:2rem;opacity:0.5;">Error cargando datos. Reintenta más tarde.</p>';
+            }
+        }
+
+        function render(data) {
+            // Update time
+            const d = new Date(data.meta.actualizado);
+            document.getElementById('update-time').textContent = '📅 Última actualización: ' + d.toLocaleString('es-ES', { dateStyle: 'full', timeStyle: 'short' });
+
+            // Stats
+            const ofertas = data.ofertas;
+            const activas = ofertas.filter(o => o.estado.toLowerCase().includes('activa')).length;
+            const fuentes = data.meta.fuentes.length;
+            document.getElementById('stats-bar').innerHTML = `
+                <div class="stat"><div class="num">${ofertas.length}</div><div class="label">Ofertas</div></div>
+                <div class="stat"><div class="num">${activas}</div><div class="label">Activas</div></div>
+                <div class="stat"><div class="num">${fuentes}</div><div class="label">Fuentes</div></div>
+            `;
+
+            // Context
+            const ctx = data.contexto;
+            document.getElementById('context-box').innerHTML = `
+                <h3>📊 Contexto del mercado</h3>
+                <p>${ctx.mercado}</p>
+                <div class="trends">${ctx.tendencias.map(t => `<span class="trend-tag">${t}</span>`).join('')}</div>
+            `;
+
+            // Ofertas
+            const container = document.getElementById('ofertas-container');
+            container.innerHTML = ofertas.map(o => `
+                <div class="oferta">
+                    <div class="oferta-header">
+                        <div class="oferta-titulo">${o.titulo}</div>
+                        <div class="oferta-badges">
+                            <span class="badge badge-fuente">${o.fuente}</span>
+                            <span class="badge badge-tipo">${o.tipo}</span>
+                            <span class="badge badge-estado">${o.estado}</span>
                         </div>
                     </div>
-                    <div class="job-company">CAP Les Corts</div>
-                    <div class="job-location">📍 Barcelona (Les Corts) · Sistema de turnos</div>
-                    <div class="job-reqs">
-                        <span class="req-tag">MIR Medicina Familia</span>
-                        <span class="req-tag">Exp. urgencias valorable</span>
-                        <span class="req-tag">Disponibilidad turnos</span>
-                    </div>
-                    <div class="job-footer">
-                        <span class="job-salary">💰 42.000-48.000€/año + complementos</span>
-                        <span class="job-date">📅 Publicada: 14 marzo 2026</span>
-                        <a href="https://www.camfic.cat/bolsa-de-treball/" target="_blank" class="job-link">Ver oferta →</a>
-                    </div>
-                </article>
-                
-                <article class="job-card destacado">
-                    <span class="new-badge">🆕 Nueva</span>
-                    <div class="job-header">
-                        <h3 class="job-title">Médico/a de Familia - CAP Sant Martí de Provençals</h3>
-                        <div class="job-meta">
-                            <span class="job-tag">🏥 Público</span>
-                            <span class="job-tag">⏰ Completa</span>
-                            <span class="job-tag">📄 Indefinido</span>
+                    <div class="oferta-body">
+                        <div class="oferta-desc">${o.descripcion}</div>
+                        <div class="oferta-meta">
+                            <span>📍 ${o.ubicacion}</span>
+                            <span>💰 ${o.salario}</span>
+                            <span>📅 ${o.fecha}</span>
                         </div>
+                        <a href="${o.url}" target="_blank" class="oferta-link">Ver oferta →</a>
                     </div>
-                    <div class="job-company">Institut Català de la Salut (ICS)</div>
-                    <div class="job-location">📍 Barcelona (Sant Martí)</div>
-                    <div class="job-reqs">
-                        <span class="req-tag">MIR completo</span>
-                        <span class="req-tag">Colegiado</span>
-                        <span class="req-tag">Catalán nivel C</span>
-                    </div>
-                    <div class="job-footer">
-                        <span class="job-salary">💰 Según convenio SISCAT</span>
-                        <span class="job-date">📅 Publicada: 14 marzo 2026</span>
-                        <a href="https://sas.gencat.cat" target="_blank" class="job-link">Ver oferta →</a>
-                    </div>
-                </article>
-                
-                <article class="job-card">
-                    <div class="job-header">
-                        <h3 class="job-title">Médico de Familia - Atención Primaria</h3>
-                        <div class="job-meta">
-                            <span class="job-tag">🏥 Público</span>
-                            <span class="job-tag">⏰ Parcial (30h)</span>
-                            <span class="job-tag">🔄 Sustitución</span>
-                        </div>
-                    </div>
-                    <div class="job-company">CAP Gràcia</div>
-                    <div class="job-location">📍 Barcelona (Gràcia)</div>
-                    <div class="job-reqs">
-                        <span class="req-tag">MIR Medicina Familia</span>
-                        <span class="req-tag">Exp. AP mínimo 2 años</span>
-                    </div>
-                    <div class="job-footer">
-                        <span class="job-salary">💰 35.000-45.000€/año</span>
-                        <span class="job-date">📅 Publicada: 13 marzo 2026</span>
-                        <a href="https://www.camfic.cat/bolsa-de-treball/" target="_blank" class="job-link">Ver oferta →</a>
-                    </div>
-                </article>
-                
-                <article class="job-card">
-                    <div class="job-header">
-                        <h3 class="job-title">Médico/a Familia y Comunitaria</h3>
-                        <div class="job-meta">
-                            <span class="job-tag">🏥 Hospital</span>
-                            <span class="job-tag">⏰ Completa</span>
-                            <span class="job-tag">📄 Temporal (6m)</span>
-                        </div>
-                    </div>
-                    <div class="job-company">Hospital Clínic Barcelona</div>
-                    <div class="job-location">📍 Barcelona (Eixample)</div>
-                    <div class="job-reqs">
-                        <span class="req-tag">MIR Medicina Familia</span>
-                        <span class="req-tag">Título homologado si UE</span>
-                        <span class="req-tag">Catalán B2</span>
-                    </div>
-                    <div class="job-footer">
-                        <span class="job-salary">💰 Convenio SISCAT</span>
-                        <span class="job-date">📅 Publicada: 12 marzo 2026</span>
-                        <a href="https://www.clinicbarcelona.org/es/trabaja-con-nosotros" target="_blank" class="job-link">Ver oferta →</a>
-                    </div>
-                </article>
-                
-                <article class="job-card">
-                    <div class="job-header">
-                        <h3 class="job-title">Médico Familia - Área Básica de Salud</h3>
-                        <div class="job-meta">
-                            <span class="job-tag">🏥 Público</span>
-                            <span class="job-tag">⏰ Completa</span>
-                            <span class="job-tag">📄 Temporal</span>
-                        </div>
-                    </div>
-                    <div class="job-company">CAPSBE (Consorci Atenció Primària)</div>
-                    <div class="job-location">📍 Barcelona (Sants-Montjuïc)</div>
-                    <div class="job-reqs">
-                        <span class="req-tag">Especialista MF</span>
-                        <span class="req-tag">Catalán intermedio</span>
-                        <span class="req-tag">Carnet conducir valorable</span>
-                    </div>
-                    <div class="job-footer">
-                        <span class="job-salary">💰 Según convenio</span>
-                        <span class="job-date">📅 Publicada: 11 marzo 2026</span>
-                        <a href="https://www.infojobs.net/ofertas-trabajo/medicos/barcelona" target="_blank" class="job-link">Ver oferta →</a>
-                    </div>
-                </article>
-            </div>
-        </div>
-        
-        <div class="info-section">
-            <h2 style="font-size: 1.25rem; margin-bottom: 1rem;">ℹ️ Información del Dashboard</h2>
-            <div class="info-grid">
-                <div class="info-item">
-                    <h3>📊 Estadísticas</h3>
-                    <p>Tracking de 10 fuentes oficiales y especializadas en sanidad en Barcelona</p>
                 </div>
-                <div class="info-item">
-                    <h3>🔄 Actualizaciones</h3>
-                    <p>Actualización automática cada día a las 23:00h con alertas de nuevas ofertas</p>
-                </div>
-                <div class="info-item">
-                    <h3>🎯 Filtros</h3>
-                    <p>Específicamente configurado para Medicina Familia Barcelona y área metropolitana</p>
-                </div>
-                <div class="info-item">
-                    <h3>🔔 Próximamente</h3>
-                    <p>Notificaciones push, filtros avanzados por salario y RSS feed</p>
-                </div>
-            </div>
-        </div>
-    </main>
-    
-    <footer class="footer">
-        <p>Dashboard generado automáticamente · Datos extraídos de fuentes oficiales · Actualizado 14/03/2026 23:05</p>
-        <p><a href="data-ofertas.json" target="_blank">Ver datos JSON</a> | <a href="https://github.com/ramongalera22-ai/filehubdef" target="_blank">Repositorio GitHub</a></p>
-    </footer>
+            `).join('');
+        }
+
+        loadData();
+    </script>
 </body>
 </html>

@@ -1,161 +1,139 @@
 {
-  "lastUpdate": "2026-03-14T23:04:00Z",
-  "totalListings": 47,
-  "priceRange": {
-    "min": 850,
-    "max": 1400,
-    "avg": 1150
+  "meta": {
+    "titulo": "Pisos en Alquiler Barcelona < 1.400€",
+    "actualizado": "2026-03-16T16:38:00+01:00",
+    "fuentes": ["Idealista", "Fotocasa", "Habitaclia"],
+    "filtro": "Alquiler ≤ 1.400€/mes en Barcelona ciudad",
+    "totalAnuncios": {
+      "idealista": "~2.500+",
+      "fotocasa": "886",
+      "habitaclia": "~4.188"
+    }
   },
-  "listings": [
+  "resumenMercado": {
+    "precioMinimo": 450,
+    "precioMedio1hab": "750-950€",
+    "precioMedio2hab": "900-1.300€",
+    "precioMedio3hab": "1.100-1.400€",
+    "tendencia": "Estable con ligera subida respecto a 2025"
+  },
+  "zonasEconomicas": [
     {
-      "id": "bcn001",
-      "title": "Piso luminoso en Gràcia",
-      "price": 1250,
-      "rooms": 2,
-      "bathrooms": 1,
-      "size": 65,
-      "district": "Gràcia",
-      "address": "Carrer de l'Or, 12",
-      "features": ["Ascensor", "Balcón", "Amueblado"],
-      "source": "Idealista",
-      "url": "https://www.idealista.com/inmueble/bcn001/",
-      "published": "2026-03-12"
+      "barrio": "Nou Barris",
+      "precio1hab": "650-850€",
+      "precio2hab": "850-1.100€",
+      "metro": "L1, L3, L4, L5, L9, L11",
+      "valoracion": "⭐⭐⭐⭐ Más económico"
     },
     {
-      "id": "bcn002",
-      "title": "Apartamento renovado Poble Sec",
-      "price": 1150,
-      "rooms": 1,
-      "bathrooms": 1,
-      "size": 45,
-      "district": "Sants-Montjuïc",
-      "address": "Carrer Blai, 28",
-      "features": ["Reformado", "A/C", "Cocina equipada"],
-      "source": "Fotocasa",
-      "url": "https://www.fotocasa.es/inmueble/bcn002/",
-      "published": "2026-03-13"
+      "barrio": "Horta-Guinardó",
+      "precio1hab": "700-850€",
+      "precio2hab": "900-1.150€",
+      "metro": "L3, L5",
+      "valoracion": "⭐⭐⭐⭐ Tranquilo y verde"
     },
     {
-      "id": "bcn003",
-      "title": "Piso en Sant Martí con terraza",
-      "price": 1350,
-      "rooms": 3,
-      "bathrooms": 2,
-      "size": 80,
-      "district": "Sant Martí",
-      "address": "Carrer de Pujades, 156",
-      "features": ["Terraza 15m²", "Ascensor", "Exterior"],
-      "source": "Habitaclia",
-      "url": "https://www.habitaclia.com/inmueble/bcn003/",
-      "published": "2026-03-11"
+      "barrio": "Sant Andreu",
+      "precio1hab": "750-900€",
+      "precio2hab": "900-1.200€",
+      "metro": "L1, L9, L10",
+      "valoracion": "⭐⭐⭐⭐ Residencial"
     },
     {
-      "id": "bcn004",
-      "title": "Estudio céntrico Eixample",
-      "price": 950,
-      "rooms": 1,
-      "bathrooms": 1,
-      "size": 38,
-      "district": "Eixample",
-      "address": "Carrer de Girona, 89",
-      "features": ["Amueblado", "Gastos incluidos", "Wifi"],
-      "source": "Idealista",
-      "url": "https://www.idealista.com/inmueble/bcn004/",
-      "published": "2026-03-14"
+      "barrio": "El Besòs i el Maresme",
+      "precio1hab": "750-900€",
+      "precio2hab": "950-1.100€",
+      "metro": "L4, T4, T5, T6",
+      "valoracion": "⭐⭐⭐ Cerca de playa"
     },
     {
-      "id": "bcn005",
-      "title": "Piso en Poblenou cerca playa",
-      "price": 1400,
-      "rooms": 2,
-      "bathrooms": 1,
-      "size": 70,
-      "district": "Sant Martí",
-      "address": "Carrer de Llull, 234",
-      "features": ["5 min playa", "Balcón", "Luminoso"],
-      "source": "Fotocasa",
-      "url": "https://www.fotocasa.es/inmueble/bcn005/",
-      "published": "2026-03-10"
+      "barrio": "La Sagrera",
+      "precio1hab": "800-1.000€",
+      "precio2hab": "950-1.200€",
+      "metro": "L1, L5, L9, L10",
+      "valoracion": "⭐⭐⭐ En desarrollo"
     },
     {
-      "id": "bcn006",
-      "title": "Apartamento Ciutat Vella",
-      "price": 1100,
-      "rooms": 2,
-      "bathrooms": 1,
-      "size": 55,
-      "district": "Ciutat Vella",
-      "address": "Carrer de l'Hospital, 45",
-      "features": ["Reformado", "Exterior", "Céntrico"],
-      "source": "Habitaclia",
-      "url": "https://www.habitaclia.com/inmueble/bcn006/",
-      "published": "2026-03-13"
-    },
-    {
-      "id": "bcn007",
-      "title": "Piso en Horta-Guinardó",
-      "price": 1050,
-      "rooms": 3,
-      "bathrooms": 1,
-      "size": 75,
-      "district": "Horta-Guinardó",
-      "address": "Carrer de Lepant, 312",
-      "features": ["Ascensor", "Parquing opcional", "Calefacción"],
-      "source": "Idealista",
-      "url": "https://www.idealista.com/inmueble/bcn007/",
-      "published": "2026-03-09"
-    },
-    {
-      "id": "bcn008",
-      "title": "Estudio en Sants",
-      "price": 850,
-      "rooms": 1,
-      "bathrooms": 1,
-      "size": 35,
-      "district": "Sants-Montjuïc",
-      "address": "Carrer de Sants, 178",
-      "features": ["Amueblado", "Cerca metro", "Económico"],
-      "source": "Fotocasa",
-      "url": "https://www.fotocasa.es/inmueble/bcn008/",
-      "published": "2026-03-14"
-    },
-    {
-      "id": "bcn009",
-      "title": "Piso amplio en Nou Barris",
-      "price": 1200,
-      "rooms": 3,
-      "bathrooms": 2,
-      "size": 85,
-      "district": "Nou Barris",
-      "address": "Passeig de Valldaura, 67",
-      "features": ["2 baños", "Ascensor", "Luminoso"],
-      "source": "Habitaclia",
-      "url": "https://www.habitaclia.com/inmueble/bcn009/",
-      "published": "2026-03-12"
-    },
-    {
-      "id": "bcn010",
-      "title": "Apartamento en Les Corts",
-      "price": 1300,
-      "rooms": 2,
-      "bathrooms": 1,
-      "size": 60,
-      "district": "Les Corts",
-      "address": "Carrer de Galileu, 234",
-      "features": ["Reformado 2024", "A/C", "Parquet"],
-      "source": "Idealista",
-      "url": "https://www.idealista.com/inmueble/bcn010/",
-      "published": "2026-03-11"
+      "barrio": "Sants-Montjuïc",
+      "precio1hab": "800-1.000€",
+      "precio2hab": "1.000-1.300€",
+      "metro": "L1, L3, L5",
+      "valoracion": "⭐⭐⭐ Bien conectado"
     }
   ],
-  "districts": {
-    "Gràcia": 6,
-    "Sants-Montjuïc": 8,
-    "Sant Martí": 11,
-    "Eixample": 5,
-    "Ciutat Vella": 4,
-    "Horta-Guinardó": 7,
-    "Nou Barris": 3,
-    "Les Corts": 3
+  "listadosDestacados": [
+    {
+      "fuente": "Habitaclia",
+      "titulo": "Piso Carrer dels Metges - St. Pere/Sta. Caterina/El Born",
+      "precio": 550,
+      "superficie": "35m²",
+      "habitaciones": "Estudio",
+      "url": "https://www.habitaclia.com/alquiler-pisos-baratos-barcelona.htm"
+    },
+    {
+      "fuente": "Habitaclia",
+      "titulo": "Apartamento Passeig Mare de Déu del Coll - La Teixonera",
+      "precio": 625,
+      "superficie": "35m²",
+      "habitaciones": 1,
+      "descripcion": "Exterior con balcón, mucha luz natural. Cocina americana.",
+      "url": "https://www.habitaclia.com/alquiler-pisos-baratos-barcelona.htm"
+    },
+    {
+      "fuente": "Fotocasa",
+      "titulo": "Piso Passeig de la Vall d'Hebron - La Vall d'Hebron",
+      "precio": 450,
+      "superficie": "90m² (habitación en compartido)",
+      "habitaciones": 1,
+      "descripcion": "Habitación en piso compartido. Planta 12 con vistas. Gastos incluidos.",
+      "url": "https://www.fotocasa.es/es/alquiler/pisos/barcelona-capital/todas-las-zonas/l?maxPrice=1400&sortType=price&sortOrderDesc=false"
+    },
+    {
+      "fuente": "Habitaclia",
+      "titulo": "Estudio Camp de l'Arpa del Clot",
+      "precio": 690,
+      "superficie": "20m²",
+      "habitaciones": "Estudio",
+      "descripcion": "Disponible desde 16/06/2026.",
+      "url": "https://www.habitaclia.com/alquiler-pisos-baratos-barcelona.htm"
+    },
+    {
+      "fuente": "Habitaclia",
+      "titulo": "Piso Avinguda Diagonal - Dreta de l'Eixample",
+      "precio": 700,
+      "superficie": "25m²",
+      "habitaciones": 1,
+      "url": "https://www.habitaclia.com/alquiler-pisos-baratos-barcelona.htm"
+    },
+    {
+      "fuente": "Idealista",
+      "titulo": "Piso amueblado 1 hab - Barcelona",
+      "precio": 800,
+      "habitaciones": 1,
+      "descripcion": "Buen estado, amueblado y equipado. Disponible 1 abril 2026. +100€ suministros.",
+      "url": "https://www.idealista.com/alquiler-viviendas/barcelona-barcelona/?ordenado-por=precios-asc"
+    },
+    {
+      "fuente": "Idealista",
+      "titulo": "Piso 1 hab con suministros incluidos - Barcelona",
+      "precio": 900,
+      "habitaciones": 1,
+      "descripcion": "Agua, luz e internet incluidos.",
+      "url": "https://www.idealista.com/alquiler-viviendas/barcelona-barcelona/?ordenado-por=precios-asc"
+    },
+    {
+      "fuente": "Idealista",
+      "titulo": "Sobreático C/ Córsega / Paseo San Juan",
+      "precio": 1050,
+      "superficie": "35m²",
+      "habitaciones": 1,
+      "descripcion": "Noveno piso con ascensor, 20m² terraza, vistas al mar. Cocina americana, baño completo.",
+      "url": "https://www.idealista.com/alquiler-viviendas/barcelona-barcelona/con-de-un-dormitorio/"
+    }
+  ],
+  "enlaces": {
+    "idealista": "https://www.idealista.com/alquiler-viviendas/barcelona-barcelona/?ordenado-por=precios-asc",
+    "fotocasa": "https://www.fotocasa.es/es/alquiler/pisos/barcelona-capital/todas-las-zonas/l?maxPrice=1400&sortType=price&sortOrderDesc=false",
+    "habitaclia": "https://www.habitaclia.com/alquiler-pisos-baratos-barcelona.htm"
   }
 }

@@ -1,139 +1,132 @@
 {
   "meta": {
-    "titulo": "Pisos en Alquiler Barcelona < 1.400€",
-    "actualizado": "2026-03-16T16:38:00+01:00",
-    "fuentes": ["Idealista", "Fotocasa", "Habitaclia"],
-    "filtro": "Alquiler ≤ 1.400€/mes en Barcelona ciudad",
-    "totalAnuncios": {
-      "idealista": "~2.500+",
-      "fotocasa": "886",
-      "habitaclia": "~4.188"
+    "titulo": "Dashboard Pisos Barcelona < 1.400€",
+    "fecha_actualizacion": "2026-03-16T23:07:00+01:00",
+    "fuente": "Idealista, Fotocasa, Habitaclia",
+    "total_pisos_analizados": 8620
+  },
+  "estadisticas": {
+    "total_pisos_idealista": "Desde 650€",
+    "total_pisos_fotocasa": 4308,
+    "total_pisos_habitaclia": 4188,
+    "precio_medio_m2": {
+      "centro_eixample_gracia": "28€/m²",
+      "precio_medio_mensual": "1.800 - 2.000 €/mes"
     }
   },
-  "resumenMercado": {
-    "precioMinimo": 450,
-    "precioMedio1hab": "750-950€",
-    "precioMedio2hab": "900-1.300€",
-    "precioMedio3hab": "1.100-1.400€",
-    "tendencia": "Estable con ligera subida respecto a 2025"
-  },
-  "zonasEconomicas": [
+  "zonas_baratas": [
     {
-      "barrio": "Nou Barris",
-      "precio1hab": "650-850€",
-      "precio2hab": "850-1.100€",
-      "metro": "L1, L3, L4, L5, L9, L11",
-      "valoracion": "⭐⭐⭐⭐ Más económico"
+      "zona": "Horta-Guinardó",
+      "precio_min": 600,
+      "precio_max": 1000,
+      "caracteristicas": "Zona tranquila, bien comunicada"
     },
     {
-      "barrio": "Horta-Guinardó",
-      "precio1hab": "700-850€",
-      "precio2hab": "900-1.150€",
-      "metro": "L3, L5",
-      "valoracion": "⭐⭐⭐⭐ Tranquilo y verde"
+      "zona": "Nou Barris",
+      "precio_min": 550,
+      "precio_max": 950,
+      "caracteristicas": "Precios más bajos de Barcelona"
     },
     {
-      "barrio": "Sant Andreu",
-      "precio1hab": "750-900€",
-      "precio2hab": "900-1.200€",
-      "metro": "L1, L9, L10",
-      "valoracion": "⭐⭐⭐⭐ Residencial"
+      "zona": "Sant Andreu",
+      "precio_min": 650,
+      "precio_max": 1100,
+      "caracteristicas": "Barrio residencial con encanto"
     },
     {
-      "barrio": "El Besòs i el Maresme",
-      "precio1hab": "750-900€",
-      "precio2hab": "950-1.100€",
-      "metro": "L4, T4, T5, T6",
-      "valoracion": "⭐⭐⭐ Cerca de playa"
-    },
-    {
-      "barrio": "La Sagrera",
-      "precio1hab": "800-1.000€",
-      "precio2hab": "950-1.200€",
-      "metro": "L1, L5, L9, L10",
-      "valoracion": "⭐⭐⭐ En desarrollo"
-    },
-    {
-      "barrio": "Sants-Montjuïc",
-      "precio1hab": "800-1.000€",
-      "precio2hab": "1.000-1.300€",
-      "metro": "L1, L3, L5",
-      "valoracion": "⭐⭐⭐ Bien conectado"
+      "zona": "Sant Martí",
+      "precio_min": 700,
+      "precio_max": 1200,
+      "caracteristicas": "Cerca de la playa, tech district"
     }
   ],
-  "listadosDestacados": [
+  "pisos_destacados": [
     {
+      "id": 1,
+      "titulo": "Piso en Carrer dels Metges",
+      "zona": "St. Pere - Sta. Caterina - El Born",
+      "superficie_m2": 35,
+      "precio_mes": 550,
+      "precio_m2": 15.71,
+      "habitaciones": 0,
+      "banos": 1,
+      "amueblado": false,
       "fuente": "Habitaclia",
-      "titulo": "Piso Carrer dels Metges - St. Pere/Sta. Caterina/El Born",
-      "precio": 550,
-      "superficie": "35m²",
-      "habitaciones": "Estudio",
-      "url": "https://www.habitaclia.com/alquiler-pisos-baratos-barcelona.htm"
+      "url": "https://www.habitaclia.com/alquiler-piso-carrer_dels_metges_st_pere_sta_caterina_el_born-barcelona-i52795000008062.htm"
     },
     {
-      "fuente": "Habitaclia",
-      "titulo": "Apartamento Passeig Mare de Déu del Coll - La Teixonera",
-      "precio": 625,
-      "superficie": "35m²",
+      "id": 2,
+      "titulo": "Apartamento Passeig de la Mare de Déu del Coll",
+      "zona": "La Teixonera",
+      "superficie_m2": 35,
+      "precio_mes": 625,
+      "precio_m2": 17.86,
       "habitaciones": 1,
-      "descripcion": "Exterior con balcón, mucha luz natural. Cocina americana.",
-      "url": "https://www.habitaclia.com/alquiler-pisos-baratos-barcelona.htm"
-    },
-    {
-      "fuente": "Fotocasa",
-      "titulo": "Piso Passeig de la Vall d'Hebron - La Vall d'Hebron",
-      "precio": 450,
-      "superficie": "90m² (habitación en compartido)",
-      "habitaciones": 1,
-      "descripcion": "Habitación en piso compartido. Planta 12 con vistas. Gastos incluidos.",
-      "url": "https://www.fotocasa.es/es/alquiler/pisos/barcelona-capital/todas-las-zonas/l?maxPrice=1400&sortType=price&sortOrderDesc=false"
-    },
-    {
+      "banos": 1,
+      "amueblado": false,
+      "caracteristicas": ["Exterior", "Balcón", "Primera planta sin ascensor"],
       "fuente": "Habitaclia",
-      "titulo": "Estudio Camp de l'Arpa del Clot",
-      "precio": 690,
-      "superficie": "20m²",
-      "habitaciones": "Estudio",
-      "descripcion": "Disponible desde 16/06/2026.",
-      "url": "https://www.habitaclia.com/alquiler-pisos-baratos-barcelona.htm"
+      "url": "https://www.habitaclia.com/alquiler-apartamento-la_teixonera-barcelona-i5663000000041.htm"
     },
     {
+      "id": 3,
+      "titulo": "Estudio El Camp de l'Arpa del Clot",
+      "zona": "El Camp de l'Arpa del Clot",
+      "superficie_m2": 20,
+      "precio_mes": 690,
+      "precio_m2": 34.50,
+      "habitaciones": 0,
+      "banos": 1,
+      "amueblado": true,
+      "caracteristicas": ["Alojamiento entero", "Disponible 16/06/2026"],
       "fuente": "Habitaclia",
-      "titulo": "Piso Avinguda Diagonal - Dreta de l'Eixample",
-      "precio": 700,
-      "superficie": "25m²",
-      "habitaciones": 1,
-      "url": "https://www.habitaclia.com/alquiler-pisos-baratos-barcelona.htm"
+      "url": "https://www.habitaclia.com/alquiler-estudio-el_camp_de_l_arpa_del_clot-barcelona-i50824000003275.htm"
     },
     {
+      "id": 4,
+      "titulo": "Piso Avinguda Diagonal",
+      "zona": "Dreta de l'Eixample",
+      "superficie_m2": 25,
+      "precio_mes": 700,
+      "precio_m2": 28.00,
+      "habitaciones": 1,
+      "banos": 1,
+      "amueblado": false,
+      "fuente": "Habitaclia",
+      "url": "https://www.habitaclia.com/alquiler-piso-avinguda_diagonal_dreta_de_l_eixample-barcelona-i52795000009896.htm"
+    },
+    {
+      "id": 5,
+      "titulo": "Estudio reformado en Gracia",
+      "zona": "Gràcia",
+      "superficie_m2": 27,
+      "precio_mes": 750,
+      "precio_m2": 27.78,
+      "habitaciones": 0,
+      "banos": 1,
+      "amueblado": true,
+      "caracteristicas": ["Reformado", "Luminoso", "Cerca de la playa"],
       "fuente": "Idealista",
-      "titulo": "Piso amueblado 1 hab - Barcelona",
-      "precio": 800,
-      "habitaciones": 1,
-      "descripcion": "Buen estado, amueblado y equipado. Disponible 1 abril 2026. +100€ suministros.",
-      "url": "https://www.idealista.com/alquiler-viviendas/barcelona-barcelona/?ordenado-por=precios-asc"
+      "notas": "Solo para una persona no fumadora y sin mascotas"
     },
     {
-      "fuente": "Idealista",
-      "titulo": "Piso 1 hab con suministros incluidos - Barcelona",
-      "precio": 900,
+      "id": 6,
+      "titulo": "Piso en La Barceloneta",
+      "zona": "La Barceloneta",
+      "superficie_m2": 45,
+      "precio_mes": 950,
+      "precio_m2": 21.11,
       "habitaciones": 1,
-      "descripcion": "Agua, luz e internet incluidos.",
-      "url": "https://www.idealista.com/alquiler-viviendas/barcelona-barcelona/?ordenado-por=precios-asc"
-    },
-    {
+      "banos": 1,
+      "amueblado": true,
+      "caracteristicas": ["Doble exterior", "2 balcones", "Terraza comunitaria", "Aire acondicionado", "Internet gratis"],
       "fuente": "Idealista",
-      "titulo": "Sobreático C/ Córsega / Paseo San Juan",
-      "precio": 1050,
-      "superficie": "35m²",
-      "habitaciones": 1,
-      "descripcion": "Noveno piso con ascensor, 20m² terraza, vistas al mar. Cocina americana, baño completo.",
-      "url": "https://www.idealista.com/alquiler-viviendas/barcelona-barcelona/con-de-un-dormitorio/"
+      "notas": "Disponible abril, a pocos minutos de la playa"
     }
   ],
-  "enlaces": {
+  "enlaces_fuentes": {
     "idealista": "https://www.idealista.com/alquiler-viviendas/barcelona-barcelona/?ordenado-por=precios-asc",
-    "fotocasa": "https://www.fotocasa.es/es/alquiler/pisos/barcelona-capital/todas-las-zonas/l?maxPrice=1400&sortType=price&sortOrderDesc=false",
+    "fotocasa": "https://www.fotocasa.es/es/alquiler/pisos/barcelona-capital/todas-las-zonas/l",
     "habitaclia": "https://www.habitaclia.com/alquiler-pisos-baratos-barcelona.htm"
   }
 }

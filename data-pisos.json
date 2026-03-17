@@ -1,182 +1,201 @@
-[
-  {
-    "price": "650€/month",
-    "description": "1 bed.10 m² without lift",
-    "location": "Calle de Pontons, Vilapicina i la Torre Llobeta, Barcelona",
-    "url": "https://www.idealista.com/en/inmueble/109014685/"
+{
+  "lastUpdate": "2026-03-17T23:00:00Z",
+  "city": "Barcelona",
+  "currency": "EUR",
+  "priceFilter": {
+    "min": 0,
+    "max": 1400,
+    "currency": "EUR/mes"
   },
-  {
-    "price": "699€/month",
-    "description": "1 bed.40 m²",
-    "location": "petritxol, El Gòtic, Barcelona",
-    "url": "https://www.idealista.com/en/inmueble/31587860/"
-  },
-  {
-    "price": "700€/month",
-    "description": "30 m²",
-    "location": "Ronda de la Universitat, 27, La Dreta de l'Eixample, Barcelona",
-    "url": "https://www.idealista.com/en/inmueble/110905596/"
-  },
-  {
-    "price": "700€/month",
-    "description": "37 m²Ground floor exterior with lift",
-    "location": "Calle de Mascaró, 11, El Guinardó, Barcelona",
-    "url": "https://www.idealista.com/en/inmueble/110853756/"
-  },
-  {
-    "price": "704€/month",
-    "description": "1 bed.32 m²3rd floor exterior without lift",
-    "location": "Calle de l'Atlàntida, Barcelona, La Barceloneta, Barcelona",
-    "url": "https://www.idealista.com/en/inmueble/84047613/"
-  },
-  {
-    "price": "710€/month",
-    "description": "1 bed.53 m²6th floor exterior without lift",
-    "location": "Calle d'Aragó, El Camp de l'Arpa del Clot, Barcelona",
-    "url": "https://www.idealista.com/en/inmueble/110937126/"
-  },
-  {
-    "price": "720€/month",
-    "description": "1 bed.36 m²3rd floor exterior without lift",
-    "location": "Calle de Sevilla, La Barceloneta, Barcelona",
-    "url": "https://www.idealista.com/en/inmueble/105230202/"
-  },
-  {
-    "price": "724€/month",
-    "description": "1 bed.32 m²3rd floor exterior without lift",
-    "location": "Calle de Sant Miquel, La Barceloneta, Barcelona",
-    "url": "https://www.idealista.com/en/inmueble/91353226/"
-  },
-  {
-    "price": "740€/month",
-    "description": "22 m²3rd floor interior with lift",
-    "location": "Mateu, Vila de Gràcia, Barcelona",
-    "url": "https://www.idealista.com/en/inmueble/81304720/"
-  },
-  {
-    "price": "750€/month",
-    "description": "32 m²1st floor exterior with lift",
-    "location": "Calle Balcells, 12, El Camp d'En Grassot i Gràcia Nova, Barcelona",
-    "url": "https://www.idealista.com/en/inmueble/28771918/"
-  },
-  {
-    "price": "750€/month",
-    "description": "1 bed.40 m²2nd floor exterior without lift",
-    "location": "Calle de Salamanca, La Barceloneta, Barcelona",
-    "url": "https://www.idealista.com/en/inmueble/110923284/"
-  },
-  {
-    "price": "750€/month",
-    "description": "50 m²Ground floor exterior without lift",
-    "location": "Calle de Logronyo, 17, Horta, Barcelona",
-    "url": "https://www.idealista.com/en/inmueble/110922590/"
-  },
-  {
-    "price": "760€/month",
-    "description": "1 bed.42 m²Ground floor interior with lift",
-    "location": "Mare de Déu de Montserrat, El Guinardó, Barcelona",
-    "url": "https://www.idealista.com/en/inmueble/39568746/"
-  },
-  {
-    "price": "765€/month",
-    "description": "22 m²Mezzanine interior with lift",
-    "location": "La Nova Esquerra de l'Eixample, Barcelona",
-    "url": "https://www.idealista.com/en/inmueble/99940247/"
-  },
-  {
-    "price": "775€/month",
-    "description": "25 m²3rd floor exterior with lift",
-    "location": "Calle de Sant Pau, El Raval, Barcelona",
-    "url": "https://www.idealista.com/en/inmueble/110938915/"
-  },
-  {
-    "price": "775€/month",
-    "description": "25 m²3rd floor exterior with lift",
-    "location": "Calle de Sant Pau, El Raval, Barcelona",
-    "url": "https://www.idealista.com/en/inmueble/110907274/"
-  },
-  {
-    "price": "780€/month",
-    "description": "1 bed.20 m²5th floor exterior without lift",
-    "location": "Calle de Magalhães, 33, El Poble Sec - Parc de Montjuïc, Barcelona",
-    "url": "https://www.idealista.com/en/inmueble/110311509/"
-  },
-  {
-    "price": "796€/month",
-    "description": "1 bed.41 m²4th floor exterior without lift",
-    "location": "Calle de Guifré, El Raval, Barcelona",
-    "url": "https://www.idealista.com/en/inmueble/109245527/"
-  },
-  {
-    "price": "800€/month",
-    "description": "2 bed.40 m²Ground floor exterior without lift",
-    "location": "Grau I Torras, La Barceloneta, Barcelona",
-    "url": "https://www.idealista.com/en/inmueble/96599702/"
-  },
-  {
-    "price": "800€/month",
-    "description": "35 m²2nd floor exterior without lift",
-    "location": "Calle de Sant Miquel, 110, La Barceloneta, Barcelona",
-    "url": "https://www.idealista.com/en/inmueble/105534529/"
-  },
-  {
-    "price": "800€/month",
-    "description": "1 bed.37 m²2nd floor exterior without lift",
-    "location": "Canvis Vells, Sant Pere - Santa Caterina i la Ribera, Barcelona",
-    "url": "https://www.idealista.com/en/inmueble/81772492/"
-  },
-  {
-    "price": "800€/month",
-    "description": "1 bed.40 m²1st floor exterior without lift",
-    "location": "Passatge dels Escudellers, 3, El Gòtic, Barcelona",
-    "url": "https://www.idealista.com/en/inmueble/86596167/"
-  },
-  {
-    "price": "800€/month",
-    "description": "1 bed.40 m²3rd floor exterior without lift",
-    "location": "Passatge dels Escudellers, 3, El Gòtic, Barcelona",
-    "url": "https://www.idealista.com/en/inmueble/83042796/"
-  },
-  {
-    "price": "800€/month",
-    "description": "29 m²3rd floor exterior without lift",
-    "location": "Plaza Roja de la Ciutat Meridiana, 1, Ciutat Meridiana - Torre Baró - Vallbona, Barcelona",
-    "url": "https://www.idealista.com/en/inmueble/110627303/"
-  },
-  {
-    "price": "800€/month",
-    "description": "65 m²Semi-basement interior without lift",
-    "location": "Avenida de Can Baró, 1, Can Baró, Barcelona",
-    "url": "https://www.idealista.com/en/inmueble/110850105/"
-  },
-  {
-    "price": "800€/month",
-    "description": "1 bed.20 m²5th floor exterior without lift",
-    "location": "CL Magalhaes, 33, El Poble Sec - Parc de Montjuïc, Barcelona",
-    "url": "https://www.idealista.com/en/inmueble/109929026/"
-  },
-  {
-    "price": "800€/month",
-    "description": "2 bed.58 m²3rd floor exterior without lift",
-    "location": "Calle d'Amílcar, El Guinardó, Barcelona",
-    "url": "https://www.idealista.com/en/inmueble/100912742/"
-  },
-  {
-    "price": "800€/month",
-    "description": "1 bed.65 m²3rd floor interior without lift",
-    "location": "Pasaje del Rellotge, 2, El Gòtic, Barcelona",
-    "url": "https://www.idealista.com/en/inmueble/100245330/"
-  },
-  {
-    "price": "800€/month",
-    "description": "3 bed.58 m²1st floor interior with lift",
-    "location": "Calle de Sant Antoni Maria Claret, 94, El Camp d'En Grassot i Gràcia Nova, Barcelona",
-    "url": "https://www.idealista.com/en/inmueble/110831640/"
-  },
-  {
-    "price": "800€/month",
-    "description": "1 bed.25 m²Ground floor exterior without lift",
-    "location": "Calle de Julià, 9, El Poble Sec - Parc de Montjuïc, Barcelona",
-    "url": "https://www.idealista.com/en/inmueble/110813832/"
+  "apartments": [
+    {
+      "id": 1,
+      "title": "Piso 1 hab - Vilapicina i la Torre Llobeta",
+      "bedrooms": 1,
+      "bathrooms": 1,
+      "size": 10,
+      "price": 650,
+      "district": "Vilapicina i la Torre Llobeta",
+      "description": "Apartamento completamente amueblado con lavadora, cocina equipada y wifi",
+      "features": ["Amueblado", "Wifi", "Lavadora", "Cocina equipada"],
+      "source": "Idealista",
+      "url": "https://www.idealista.com/alquiler-viviendas/barcelona-barcelona/"
+    },
+    {
+      "id": 2,
+      "title": "Piso 1 hab - El Gòtic",
+      "bedrooms": 1,
+      "bathrooms": 1,
+      "size": 40,
+      "price": 699,
+      "district": "El Gòtic",
+      "description": "Piso junto a la Rambla, baño con ducha, cocina independiente y salón-comedor con balcón",
+      "features": ["Balcón", "Cocina independiente", "Zona céntrica"],
+      "source": "Idealista",
+      "url": "https://www.idealista.com/alquiler-viviendas/barcelona-barcelona/"
+    },
+    {
+      "id": 3,
+      "title": "Estudio - La Dreta de l'Eixample",
+      "bedrooms": 1,
+      "bathrooms": 1,
+      "size": 30,
+      "price": 700,
+      "district": "La Dreta de l'Eixample",
+      "description": "Co-living moderno en zona de estudiantes y trabajadores. Dormitorio con cocina y baño privado",
+      "features": ["Cocina privada", "Baño privado", "Co-living", "Ascensor"],
+      "source": "Idealista",
+      "url": "https://www.idealista.com/alquiler-viviendas/barcelona-barcelona/"
+    },
+    {
+      "id": 4,
+      "title": "Estudio - El Guinardó",
+      "bedrooms": 1,
+      "bathrooms": 1,
+      "size": 37,
+      "price": 700,
+      "district": "El Guinardó",
+      "description": "Estudio luminoso, reformado, amueblado y equipado. No incluye suministros",
+      "features": ["Reformado", "Luminoso", "Amueblado", "Ascensor"],
+      "source": "Idealista",
+      "url": "https://www.idealista.com/alquiler-viviendas/barcelona-barcelona/"
+    },
+    {
+      "id": 5,
+      "title": "Piso 1 hab - La Barceloneta",
+      "bedrooms": 1,
+      "bathrooms": 1,
+      "size": 32,
+      "price": 704,
+      "district": "La Barceloneta",
+      "description": "Piso moderno cerca de la playa con internet incluido. Exterior luminoso",
+      "features": ["Cerca de playa", "Internet incluido", "Exterior"],
+      "source": "Idealista",
+      "url": "https://www.idealista.com/alquiler-viviendas/barcelona-barcelona/"
+    },
+    {
+      "id": 6,
+      "title": "Piso 1 hab - La Barceloneta",
+      "bedrooms": 1,
+      "bathrooms": 1,
+      "size": 32,
+      "price": 724,
+      "originalPrice": 875,
+      "discount": "17%",
+      "district": "La Barceloneta",
+      "description": "Piso amueblado con 2 balcones, acceso a terraza. Aire acondicionado. Internet gratis",
+      "features": ["2 Balcones", "Terraza", "A/C", "Internet gratis", "Amueblado"],
+      "source": "Idealista",
+      "url": "https://www.idealista.com/alquiler-viviendas/barcelona-barcelona/"
+    },
+    {
+      "id": 7,
+      "title": "Estudio - El Gòtic",
+      "bedrooms": 0,
+      "bathrooms": 1,
+      "size": 20,
+      "price": 740,
+      "district": "El Gòtic",
+      "description": "Estudio céntrico, luminoso e interior",
+      "features": ["Céntrico", "Luminoso", "Interior", "Ascensor"],
+      "source": "Idealista",
+      "url": "https://www.idealista.com/alquiler-viviendas/barcelona-barcelona/"
+    },
+    {
+      "id": 8,
+      "title": "Apartamento 1 hab - La Teixonera",
+      "bedrooms": 1,
+      "bathrooms": 1,
+      "size": 35,
+      "price": 625,
+      "district": "La Teixonera",
+      "description": "Exterior con balcón, mucha luz natural. Cocina tipo americana. Primer piso sin ascensor",
+      "features": ["Balcón", "Mucha luz", "Cocina americana", "Buena comunicación"],
+      "source": "Fotocasa",
+      "url": "https://www.fotocasa.es/en/rental/apartments/barcelona-capital/all-zones/l"
+    },
+    {
+      "id": 9,
+      "title": "Piso 3 hab - La Verneda - La Pau",
+      "bedrooms": 3,
+      "bathrooms": 2,
+      "size": 74,
+      "price": 1150,
+      "district": "La Verneda - La Pau",
+      "description": "Vivienda 3 dormitorios, cocina equipada, amueblada. Sin comisiones de agencia",
+      "features": ["3 Dormitorios", "Amueblado", "Sin comisiones", "Cocina equipada"],
+      "source": "Habitaclia",
+      "url": "https://www.habitaclia.com/alquiler-pisos-barcelona.htm"
+    },
+    {
+      "id": 10,
+      "title": "Piso 3 hab - El Camp de l'Arpa del Clot",
+      "bedrooms": 3,
+      "bathrooms": 1,
+      "size": 92,
+      "price": 1299,
+      "district": "El Camp de l'Arpa del Clot",
+      "description": "Vivienda en promoción moderna, ubicada en el corazón de El Clot",
+      "features": ["3 Dormitorios", "Moderno", "Promoción"],
+      "source": "Habitaclia",
+      "url": "https://www.habitaclia.com/alquiler-pisos-barcelona.htm"
+    },
+    {
+      "id": 11,
+      "title": "Piso 2 hab - Vila de Gràcia",
+      "bedrooms": 2,
+      "bathrooms": 1,
+      "size": 50,
+      "price": 1550,
+      "district": "Vila de Gràcia",
+      "description": "Espacio no amueblado perfecto para profesionales o estudiantes",
+      "features": ["2 Dormitorios", "No amueblado", "Zona de Gràcia"],
+      "source": "Habitaclia",
+      "url": "https://www.habitaclia.com/alquiler-pisos-barcelona.htm"
+    },
+    {
+      "id": 12,
+      "title": "Piso 2 hab - El Poble Sec",
+      "bedrooms": 2,
+      "bathrooms": 1,
+      "size": 74,
+      "price": 1750,
+      "district": "El Poble Sec - Parc de Montjuïc",
+      "description": "Espacio no amueblado perfecto para profesionales o estudiantes",
+      "features": ["2 Dormitorios", "Montjuïc cercano"],
+      "source": "Habitaclia",
+      "url": "https://www.habitaclia.com/alquiler-pisos-barcelona.htm"
+    },
+    {
+      "id": 13,
+      "title": "Apartamento 3 hab - Congrés - Indians",
+      "bedrooms": 3,
+      "bathrooms": 1,
+      "size": 75,
+      "price": 1700,
+      "district": "Congrés - Indians",
+      "description": "Alojamiento entero disponible para entrada inmediata",
+      "features": ["3 Dormitorios", "Alojamiento entero"],
+      "source": "Habitaclia",
+      "url": "https://www.habitaclia.com/alquiler-pisos-barcelona.htm"
+    }
+  ],
+  "statistics": {
+    "totalListings": 13,
+    "averagePrice": 1018,
+    "lowestPrice": 625,
+    "highestPrice": 1750,
+    "averageSizeM2": 53,
+    "byBedrooms": {
+      "0": 1,
+      "1": 5,
+      "2": 2,
+      "3": 3
+    },
+    "bySource": {
+      "Idealista": 6,
+      "Fotocasa": 1,
+      "Habitaclia": 6
+    }
   }
-]
+}

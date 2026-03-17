@@ -1,0 +1,9 @@
+Traceback (most recent call last):
+  File "/home/carlos/.openclaw/workspace/filehubdef/pisos_bot/main.py", line 12, in <module>
+    from scraper_pisos   import buscar_pisos
+  File "/home/carlos/.openclaw/workspace/filehubdef/pisos_bot/scraper_pisos.py", line 3, in <module>
+    from brave_driver import crear_driver, pausa, pausa_pagina, ir_a, aceptar_cookies
+  File "/home/carlos/.openclaw/workspace/filehubdef/pisos_bot/brave_driver.py", line 2, in <module>
+    from selenium import webdriver
+ModuleNotFoundError: No module named 'selenium'
+/bin/sh: 1: /home/carlos/usr/bin/python3: not found

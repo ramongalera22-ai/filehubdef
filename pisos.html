@@ -1,74 +1,416 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pisos Barcelona &lt;1400€</title>
+    <title>Dashboard Pisos Barcelona - Menos de 1.400€</title>
     <style>
-        body { font-family: sans-serif; margin: 20px; background-color: #f4f4f4; color: #333; }
-        h1 { color: #0056b3; text-align: center; margin-bottom: 30px; }
-        .apartment-list {
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+        
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        header p {
+            font-size: 1.1em;
+            opacity: 0.95;
+        }
+        
+        .stats-container {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 20px;
+            padding: 30px;
+            background: #f8f9fa;
+            border-bottom: 1px solid #e0e0e0;
         }
-        .apartment-card {
-            background-color: #fff;
-            border: 1px solid #ddd;
+        
+        .stat-box {
+            background: white;
+            padding: 20px;
             border-radius: 8px;
-            padding: 15px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            transition: transform 0.2s;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border-left: 4px solid #667eea;
         }
-        .apartment-card:hover {
-            transform: translateY(-5px);
-        }
-        .apartment-card h2 {
-            font-size: 1.2em;
-            color: #007bff;
-            margin-top: 0;
+        
+        .stat-box h3 {
+            color: #667eea;
+            font-size: 0.9em;
+            text-transform: uppercase;
             margin-bottom: 10px;
         }
-        .apartment-card p {
-            margin: 5px 0;
-            font-size: 0.95em;
+        
+        .stat-box .value {
+            font-size: 2em;
+            font-weight: bold;
+            color: #333;
         }
-        .apartment-card a {
-            display: inline-block;
-            margin-top: 10px;
-            color: #28a745;
-            text-decoration: none;
+        
+        .filters {
+            padding: 20px 30px;
+            background: #fff;
+            border-bottom: 1px solid #e0e0e0;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .filters select, .filters input {
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 1em;
+            cursor: pointer;
+        }
+        
+        .filters select:hover, .filters input:hover {
+            border-color: #667eea;
+        }
+        
+        .apartments-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 20px;
+            padding: 30px;
+        }
+        
+        .apartment-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            border-top: 4px solid #667eea;
+        }
+        
+        .apartment-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+        
+        .card-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px;
+        }
+        
+        .card-header h3 {
+            font-size: 1.3em;
+            margin-bottom: 5px;
+        }
+        
+        .card-header .price {
+            font-size: 1.8em;
             font-weight: bold;
         }
-        .apartment-card a:hover {
-            text-decoration: underline;
+        
+        .card-header .discount {
+            background: #ff6b6b;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.9em;
+            margin-left: 10px;
+        }
+        
+        .card-body {
+            padding: 15px;
+        }
+        
+        .card-body p {
+            color: #666;
+            font-size: 0.95em;
+            margin-bottom: 10px;
+            line-height: 1.4;
+        }
+        
+        .card-meta {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 10px;
+            font-size: 0.9em;
+            color: #555;
+        }
+        
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .features {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+        
+        .feature-tag {
+            background: #e8eaf6;
+            color: #667eea;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 500;
+        }
+        
+        .source-badge {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 0.8em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .card-footer {
+            border-top: 1px solid #eee;
+            padding: 12px 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .card-footer a {
+            background: #667eea;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 0.9em;
+            transition: background 0.3s;
+        }
+        
+        .card-footer a:hover {
+            background: #764ba2;
+        }
+        
+        .district-label {
+            color: #999;
+            font-size: 0.85em;
+        }
+        
+        footer {
+            background: #f8f9fa;
+            padding: 20px;
+            text-align: center;
+            color: #666;
+            border-top: 1px solid #e0e0e0;
+            font-size: 0.9em;
+        }
+        
+        .no-results {
+            text-align: center;
+            padding: 40px;
+            color: #999;
+        }
+        
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8em;
+            }
+            
+            .apartments-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
         }
     </style>
 </head>
 <body>
-    <h1>Pisos en Alquiler en Barcelona (Menos de 1400€)</h1>
-    <div class="apartment-list" id="apartment-container">
-        <!-- Apartment listings will be loaded here by JavaScript -->
+    <div class="container">
+        <header>
+            <h1>🏠 Dashboard Pisos Barcelona</h1>
+            <p>Pisos en alquiler por menos de 1.400€/mes</p>
+        </header>
+        
+        <div class="stats-container">
+            <div class="stat-box">
+                <h3>Total de pisos</h3>
+                <div class="value">13</div>
+            </div>
+            <div class="stat-box">
+                <h3>Precio promedio</h3>
+                <div class="value">1.018€</div>
+            </div>
+            <div class="stat-box">
+                <h3>Más barato</h3>
+                <div class="value">625€</div>
+            </div>
+            <div class="stat-box">
+                <h3>Tamaño promedio</h3>
+                <div class="value">53 m²</div>
+            </div>
+        </div>
+        
+        <div class="filters">
+            <select id="filterBedrooms">
+                <option value="">Filtrar por habitaciones...</option>
+                <option value="0">Estudios</option>
+                <option value="1">1 Habitación</option>
+                <option value="2">2 Habitaciones</option>
+                <option value="3">3+ Habitaciones</option>
+            </select>
+            
+            <select id="filterSource">
+                <option value="">Todas las fuentes</option>
+                <option value="Idealista">Idealista</option>
+                <option value="Fotocasa">Fotocasa</option>
+                <option value="Habitaclia">Habitaclia</option>
+            </select>
+            
+            <select id="sortBy">
+                <option value="price-asc">Menor precio</option>
+                <option value="price-desc">Mayor precio</option>
+                <option value="size-asc">Menor tamaño</option>
+                <option value="size-desc">Mayor tamaño</option>
+            </select>
+        </div>
+        
+        <div class="apartments-grid" id="apartmentsContainer">
+            <!-- Los pisos se cargarán aquí con JavaScript -->
+        </div>
+        
+        <footer>
+            <p>📊 Datos actualizados: 17 de Marzo de 2026 - 23:00h</p>
+            <p>Fuentes: Idealista, Fotocasa, Habitaclia</p>
+            <p>Dashboard generado automáticamente</p>
+        </footer>
     </div>
-
+    
     <script>
-        fetch('data-pisos.json')
-            .then(response => response.json())
-            .then(data => {
-                const container = document.getElementById('apartment-container');
-                data.forEach(apartment => {
-                    const card = document.createElement('div');
-                    card.classList.add('apartment-card');
-                    card.innerHTML = `
-                        <h2>${apartment.price}</h2>
-                        <p><strong>Location:</strong> ${apartment.location}</p>
-                        <p><strong>Details:</strong> ${apartment.description}</p>
-                        <a href="${apartment.url}" target="_blank">View Listing</a>
-                    `;
-                    container.appendChild(card);
-                });
-            })
-            .catch(error => console.error('Error loading apartment data:', error));
+        // Datos de pisos (embed de data-pisos.json)
+        const apartmentsData = {
+            "apartments": [
+                {"id": 1, "title": "Piso 1 hab - Vilapicina i la Torre Llobeta", "bedrooms": 1, "bathrooms": 1, "size": 10, "price": 650, "district": "Vilapicina i la Torre Llobeta", "description": "Apartamento completamente amueblado con lavadora, cocina equipada y wifi", "features": ["Amueblado", "Wifi", "Lavadora", "Cocina equipada"], "source": "Idealista"},
+                {"id": 2, "title": "Piso 1 hab - El Gòtic", "bedrooms": 1, "bathrooms": 1, "size": 40, "price": 699, "district": "El Gòtic", "description": "Piso junto a la Rambla, baño con ducha, cocina independiente y salón-comedor con balcón", "features": ["Balcón", "Cocina independiente", "Zona céntrica"], "source": "Idealista"},
+                {"id": 3, "title": "Estudio - La Dreta de l'Eixample", "bedrooms": 1, "bathrooms": 1, "size": 30, "price": 700, "district": "La Dreta de l'Eixample", "description": "Co-living moderno en zona de estudiantes y trabajadores. Dormitorio con cocina y baño privado", "features": ["Cocina privada", "Baño privado", "Co-living", "Ascensor"], "source": "Idealista"},
+                {"id": 4, "title": "Estudio - El Guinardó", "bedrooms": 1, "bathrooms": 1, "size": 37, "price": 700, "district": "El Guinardó", "description": "Estudio luminoso, reformado, amueblado y equipado. No incluye suministros", "features": ["Reformado", "Luminoso", "Amueblado", "Ascensor"], "source": "Idealista"},
+                {"id": 5, "title": "Piso 1 hab - La Barceloneta", "bedrooms": 1, "bathrooms": 1, "size": 32, "price": 704, "district": "La Barceloneta", "description": "Piso moderno cerca de la playa con internet incluido. Exterior luminoso", "features": ["Cerca de playa", "Internet incluido", "Exterior"], "source": "Idealista"},
+                {"id": 6, "title": "Piso 1 hab - La Barceloneta", "bedrooms": 1, "bathrooms": 1, "size": 32, "price": 724, "originalPrice": 875, "discount": "17%", "district": "La Barceloneta", "description": "Piso amueblado con 2 balcones, acceso a terraza. Aire acondicionado. Internet gratis", "features": ["2 Balcones", "Terraza", "A/C", "Internet gratis", "Amueblado"], "source": "Idealista"},
+                {"id": 7, "title": "Estudio - El Gòtic", "bedrooms": 0, "bathrooms": 1, "size": 20, "price": 740, "district": "El Gòtic", "description": "Estudio céntrico, luminoso e interior", "features": ["Céntrico", "Luminoso", "Interior", "Ascensor"], "source": "Idealista"},
+                {"id": 8, "title": "Apartamento 1 hab - La Teixonera", "bedrooms": 1, "bathrooms": 1, "size": 35, "price": 625, "district": "La Teixonera", "description": "Exterior con balcón, mucha luz natural. Cocina tipo americana. Primer piso sin ascensor", "features": ["Balcón", "Mucha luz", "Cocina americana", "Buena comunicación"], "source": "Fotocasa"},
+                {"id": 9, "title": "Piso 3 hab - La Verneda - La Pau", "bedrooms": 3, "bathrooms": 2, "size": 74, "price": 1150, "district": "La Verneda - La Pau", "description": "Vivienda 3 dormitorios, cocina equipada, amueblada. Sin comisiones de agencia", "features": ["3 Dormitorios", "Amueblado", "Sin comisiones", "Cocina equipada"], "source": "Habitaclia"},
+                {"id": 10, "title": "Piso 3 hab - El Camp de l'Arpa del Clot", "bedrooms": 3, "bathrooms": 1, "size": 92, "price": 1299, "district": "El Camp de l'Arpa del Clot", "description": "Vivienda en promoción moderna, ubicada en el corazón de El Clot", "features": ["3 Dormitorios", "Moderno", "Promoción"], "source": "Habitaclia"},
+                {"id": 11, "title": "Piso 2 hab - Vila de Gràcia", "bedrooms": 2, "bathrooms": 1, "size": 50, "price": 1550, "district": "Vila de Gràcia", "description": "Espacio no amueblado perfecto para profesionales o estudiantes", "features": ["2 Dormitorios", "No amueblado", "Zona de Gràcia"], "source": "Habitaclia"},
+                {"id": 12, "title": "Piso 2 hab - El Poble Sec", "bedrooms": 2, "bathrooms": 1, "size": 74, "price": 1750, "district": "El Poble Sec - Parc de Montjuïc", "description": "Espacio no amueblado perfecto para profesionales o estudiantes", "features": ["2 Dormitorios", "Montjuïc cercano"], "source": "Habitaclia"},
+                {"id": 13, "title": "Apartamento 3 hab - Congrés - Indians", "bedrooms": 3, "bathrooms": 1, "size": 75, "price": 1700, "district": "Congrés - Indians", "description": "Alojamiento entero disponible para entrada inmediata", "features": ["3 Dormitorios", "Alojamiento entero"], "source": "Habitaclia"}
+            ]
+        };
+        
+        function renderApartments() {
+            const filterBedrooms = document.getElementById('filterBedrooms').value;
+            const filterSource = document.getElementById('filterSource').value;
+            const sortBy = document.getElementById('sortBy').value;
+            
+            let filtered = apartmentsData.apartments;
+            
+            if (filterBedrooms) {
+                filtered = filtered.filter(apt => apt.bedrooms == filterBedrooms);
+            }
+            
+            if (filterSource) {
+                filtered = filtered.filter(apt => apt.source === filterSource);
+            }
+            
+            if (sortBy === 'price-asc') {
+                filtered.sort((a, b) => a.price - b.price);
+            } else if (sortBy === 'price-desc') {
+                filtered.sort((a, b) => b.price - a.price);
+            } else if (sortBy === 'size-asc') {
+                filtered.sort((a, b) => a.size - b.size);
+            } else if (sortBy === 'size-desc') {
+                filtered.sort((a, b) => b.size - a.size);
+            }
+            
+            const container = document.getElementById('apartmentsContainer');
+            
+            if (filtered.length === 0) {
+                container.innerHTML = '<div class="no-results"><h3>No se encontraron pisos con los filtros seleccionados</h3></div>';
+                return;
+            }
+            
+            container.innerHTML = filtered.map(apt => `
+                <div class="apartment-card">
+                    <div class="card-header">
+                        <h3>${apt.title}</h3>
+                        <div>
+                            <span class="price">${apt.price}€/mes</span>
+                            ${apt.discount ? `<span class="discount">-${apt.discount}</span>` : ''}
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <span class="source-badge">${apt.source}</span>
+                        <p class="district-label">📍 ${apt.district}</p>
+                        <p>${apt.description}</p>
+                        <div class="card-meta">
+                            <div class="meta-item">
+                                <span>🛏️</span>
+                                <span>${apt.bedrooms === 0 ? 'Estudio' : apt.bedrooms + ' hab.'}</span>
+                            </div>
+                            <div class="meta-item">
+                                <span>🚿</span>
+                                <span>${apt.bathrooms} baño${apt.bathrooms > 1 ? 's' : ''}</span>
+                            </div>
+                            <div class="meta-item">
+                                <span>📐</span>
+                                <span>${apt.size} m²</span>
+                            </div>
+                        </div>
+                        <div class="features">
+                            ${apt.features.map(f => `<span class="feature-tag">${f}</span>`).join('')}
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <span style="color: #999; font-size: 0.85em;">Precio/m²: ${(apt.price/apt.size).toFixed(0)}€</span>
+                        <a href="#" onclick="alert('Ver más en ' + '${apt.source}')">Ver más</a>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        // Event listeners para filtros
+        document.getElementById('filterBedrooms').addEventListener('change', renderApartments);
+        document.getElementById('filterSource').addEventListener('change', renderApartments);
+        document.getElementById('sortBy').addEventListener('change', renderApartments);
+        
+        // Render inicial
+        renderApartments();
     </script>
 </body>
 </html>

@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "arditi-dashboard-cg",
+  "private_key_id": "1747e9f8d54d0b84ce690f0590891f9fb8736f38",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDF/XEX1HpaWDyC\nS5cqxOHldhxa6Qqd+BiAEhW7cfFPir6vPYnBAICPqzSPdXiphT6WrmRJkTznA43N\n1o04UYwP3WwV0BPRKhBAnCLles8+uosWSxeXKxdyyo7q9mdNE/34YECZTlcqsK8b\nxwzalBDWfKXiDlT4Oi0UQf+ruIhoUzo9+hPwpvCMjngwqbHCVf1L6S4woVU1w19l\nuxa+qEpH6Dd+QoGP3ljZPQv7MCFBx/xET6M4xdUcgUeFvOFF7um7ykFGblTCJAol\nFphx5nYAtuqJ+J1d48Biyqb+HTYNfvAUdmuIQ9h+F+Iu/VArGt7NaqYb8HnThq2j\nWi2WUqu/AgMBAAECggEANB4UfJziflC20OecCdaczj3KlgW9VTr/HAtmrBqA1prj\nuhZ9YhBDR05efhsCocEg6iJK5PC18uvFEreVIguZTn3PW2iUJt2nPJK9PuIWluEd\nBsfKlHDz8bQvbdth8vC9zHlt180+9c5fsfSyRgFu8z8JnZl/NX5+6lO7PRVM1wUG\n9fZMXp9hXPUu0dn7Hd96912+qpNJBpkBkfle32feXFhcUZUi9KSgXX8BxAuJzSF/\nypX8NXC3dqwhOIaibMPvjfwvVyUp6nXk/9HPYV4F+v05oH8TOiFUJglpabJr1brS\nL1ig3J0G3Y3OIcF+uX59vnBwKLmYFtMx+w4frITHgQKBgQDpvlfn/r6xpiEO8tnX\nEzVw9ShiZaKtZY4YsfNTt5ylNLPILMZoVzFzsMYcg/YSWJJn2FvTZgBkaBBHOOUF\nHuuCH0/SLS5iOUULDOA2ndU3NFk9gAsgv0nU1JB0IsvM9enCkJqQTXPMMYKggd9K\nO3JeppNtPKDPeLr7zJu8XxYzgQKBgQDY15UE5YM/7Snq+xjyFJT44/ugPgeWV39Y\nEITzQEjSwS1n78TJyFNtz67ad6UrpvRvuvPhssdiuHBwWW3XZdwZHrgZ6ozs4Qi7\niRkFBzwS4ZkPoLMERRUY0UFpSwQLn+bLjvYchN6sJ3mQTSKG9sU7vHhQ5vE3VEE3\nojJKB89/PwKBgEIzD3B8HIPxuhEixIF+Rjdsp3hespkLVxg1ZeXC7dF4QKajz7mD\nYFUUrrcqxIljnmtcwnz3uYq2Uk3plitCG48p0RCEjUtyTtSXW/T79IQDBnc9iWlH\n4+AsJ5FMvY2Z5A+fprbRyMb/CrDst1GtznFyGfTpI94+oi5oP381KvOBAoGAGriW\nOIA/6ETFgZtnu40lvnX5sAl0zeYCX0vJ1l/5mV8MxV4alfMFtOZ+2ZUc2YA9ZvdW\nzl1FjLjFwlKC4qQ+tym97hOlQhuJA/MlDiWSFZGPVwmqhcAtlV1T/jGsUfJmcncv\nhNwqxHQo2stmkdMfAvl6qh2LZBIR51UpdU35F+kCgYEAljtIuEpaxYh/7aR3eGCm\nUwOTn39nQQqVgmhUUxlo7ToQ7jFH+KiDPMd4aAZpmo7fNHR8KP7b07iby8HpmQQQ\n5ZmITmPbH/iwJWjlZXhNWRh6cgUvMOElSXp1+NbF90cqpi5/VLuBo2EahlYqV5LK\niH8vUzsdH2oScbVcfO3HkBA=\n-----END PRIVATE KEY-----\n",
+  "client_email": "firebase-adminsdk-fbsvc@arditi-dashboard-cg.iam.gserviceaccount.com",
+  "client_id": "102356136538786056457",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-fbsvc%40arditi-dashboard-cg.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

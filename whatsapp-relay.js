@@ -198,3 +198,26 @@ process.on('SIGINT', async () => {
   saveMessages();
   process.exit(0);
 });
+
+// ===== FIREBASE INTEGRATION =====
+const admin = require('firebase-admin');
+const serviceAccount = require('./firebase-key.json');
+
+if (!admin.apps.length) {
+  admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount)
+  });
+}
+const db = admin.firestore();
+
+async function saveToFirestore(message) {
+  try {
+    await db.collection('whatsapp_messages').doc(message.id).set({
+      ...message,
+      savedAt: admin.firestore.FieldValue.serverTimestamp()
+    });
+    console.log('🔥 Mensaje guardado en Firestore:', message.id);
+  } catch (e) {
+    console.error('❌ Error Firestore:', e.message);
+  }
+}

@@ -1,0 +1,249 @@
+{
+  "pisos": [
+    {
+      "id": 1,
+      "platform": "pisoscom",
+      "url": "https://www.pisos.com/alquilar/finca_rustica-orista_centro_urbano-62558524000_513880/",
+      "titulo": "Finca rústica en calle Masia Mas El Prat de Toneu",
+      "precio": 1000,
+      "barrio": "",
+      "descripcion": "",
+      "contacto": "",
+      "amueblado": 0,
+      "contactado": 0,
+      "fecha": "2026-03-16T11:32:09.061455",
+      "fecha_contacto": null
+    }
+  ],
+  "trabajos": [],
+  "logs": [
+    {
+      "id": 37,
+      "tipo": "info",
+      "msg": "✅ 0 válidos, 0 contactados",
+      "fecha": "2026-03-16T11:32:09.464052"
+    },
+    {
+      "id": 36,
+      "tipo": "info",
+      "msg": "Válidos tras filtro Kimi: 0",
+      "fecha": "2026-03-16T11:32:09.450185"
+    },
+    {
+      "id": 35,
+      "tipo": "info",
+      "msg": "Total pisos nuevos: 0",
+      "fecha": "2026-03-16T11:32:09.431018"
+    },
+    {
+      "id": 34,
+      "tipo": "error",
+      "msg": "Pisos.com: 'sqlite3.Connection' object has no attribute 'lastrowid'",
+      "fecha": "2026-03-16T11:32:09.077755"
+    },
+    {
+      "id": 33,
+      "tipo": "info",
+      "msg": "Pisos.com: 24 nuevos",
+      "fecha": "2026-03-16T11:32:09.045224"
+    },
+    {
+      "id": 32,
+      "tipo": "info",
+      "msg": "── Pisos.com",
+      "fecha": "2026-03-16T11:23:05.515431"
+    },
+    {
+      "id": 31,
+      "tipo": "info",
+      "msg": "Milanuncios: 0 nuevos",
+      "fecha": "2026-03-16T11:22:31.775209"
+    },
+    {
+      "id": 30,
+      "tipo": "info",
+      "msg": "── Milanuncios",
+      "fecha": "2026-03-16T11:22:17.605099"
+    },
+    {
+      "id": 29,
+      "tipo": "info",
+      "msg": "Habitaclia: 0 nuevos",
+      "fecha": "2026-03-16T11:21:49.892882"
+    },
+    {
+      "id": 28,
+      "tipo": "info",
+      "msg": "── Habitaclia",
+      "fecha": "2026-03-16T11:20:55.716453"
+    },
+    {
+      "id": 27,
+      "tipo": "info",
+      "msg": "Fotocasa: 0 nuevos",
+      "fecha": "2026-03-16T11:20:23.826947"
+    },
+    {
+      "id": 26,
+      "tipo": "info",
+      "msg": "── Fotocasa",
+      "fecha": "2026-03-16T11:20:07.725254"
+    },
+    {
+      "id": 25,
+      "tipo": "info",
+      "msg": "Idealista: 0 nuevos",
+      "fecha": "2026-03-16T11:19:48.340888"
+    },
+    {
+      "id": 24,
+      "tipo": "warning",
+      "msg": "Idealista HTTP 403",
+      "fecha": "2026-03-16T11:19:48.306520"
+    },
+    {
+      "id": 23,
+      "tipo": "scraping",
+      "msg": "Idealista (requests) pág 1",
+      "fecha": "2026-03-16T11:19:48.250306"
+    },
+    {
+      "id": 22,
+      "tipo": "info",
+      "msg": "── Idealista (requests)",
+      "fecha": "2026-03-16T11:19:45.352530"
+    },
+    {
+      "id": 21,
+      "tipo": "info",
+      "msg": "✅ Chrome undetected iniciado",
+      "fecha": "2026-03-16T11:19:45.301373"
+    },
+    {
+      "id": 20,
+      "tipo": "info",
+      "msg": "Iniciando búsqueda de pisos",
+      "fecha": "2026-03-16T11:19:42.721667"
+    },
+    {
+      "id": 19,
+      "tipo": "info",
+      "msg": "🏠 BÚSQUEDA DE PISOS",
+      "fecha": "2026-03-16T11:19:42.707275"
+    },
+    {
+      "id": 18,
+      "tipo": "info",
+      "msg": "═════════════════════════════════════════════",
+      "fecha": "2026-03-16T11:19:42.691978"
+    },
+    {
+      "id": 17,
+      "tipo": "info",
+      "msg": "✅ Chrome undetected iniciado",
+      "fecha": "2026-03-16T11:18:09.748368"
+    },
+    {
+      "id": 16,
+      "tipo": "info",
+      "msg": "✅ Chrome undetected iniciado",
+      "fecha": "2026-03-16T11:15:27.329907"
+    },
+    {
+      "id": 15,
+      "tipo": "info",
+      "msg": "Milanuncios: 0 nuevos",
+      "fecha": "2026-03-16T11:15:21.493486"
+    },
+    {
+      "id": 14,
+      "tipo": "info",
+      "msg": "── Milanuncios",
+      "fecha": "2026-03-16T11:15:16.802041"
+    },
+    {
+      "id": 13,
+      "tipo": "info",
+      "msg": "Habitaclia: 0 nuevos",
+      "fecha": "2026-03-16T11:14:56.837610"
+    },
+    {
+      "id": 12,
+      "tipo": "info",
+      "msg": "── Habitaclia",
+      "fecha": "2026-03-16T11:14:13.798701"
+    },
+    {
+      "id": 11,
+      "tipo": "info",
+      "msg": "Fotocasa: 0 nuevos",
+      "fecha": "2026-03-16T11:13:51.169036"
+    },
+    {
+      "id": 10,
+      "tipo": "info",
+      "msg": "── Fotocasa",
+      "fecha": "2026-03-16T11:13:34.962482"
+    },
+    {
+      "id": 9,
+      "tipo": "info",
+      "msg": "Idealista: 0 nuevos",
+      "fecha": "2026-03-16T11:12:56.187549"
+    },
+    {
+      "id": 8,
+      "tipo": "info",
+      "msg": "── Idealista",
+      "fecha": "2026-03-16T11:12:40.901005"
+    },
+    {
+      "id": 7,
+      "tipo": "info",
+      "msg": "✅ Chrome undetected iniciado",
+      "fecha": "2026-03-16T11:12:40.827805"
+    },
+    {
+      "id": 6,
+      "tipo": "info",
+      "msg": "🦁 Brave iniciado — buscando pisos",
+      "fecha": "2026-03-16T11:12:38.320117"
+    },
+    {
+      "id": 5,
+      "tipo": "info",
+      "msg": "🏠 BÚSQUEDA DE PISOS",
+      "fecha": "2026-03-16T11:12:38.303847"
+    },
+    {
+      "id": 4,
+      "tipo": "info",
+      "msg": "═════════════════════════════════════════════",
+      "fecha": "2026-03-16T11:12:38.286512"
+    },
+    {
+      "id": 3,
+      "tipo": "info",
+      "msg": "🦁 Brave iniciado — buscando pisos",
+      "fecha": "2026-03-16T11:08:08.999764"
+    },
+    {
+      "id": 2,
+      "tipo": "info",
+      "msg": "🏠 BÚSQUEDA DE PISOS",
+      "fecha": "2026-03-16T11:08:08.984152"
+    },
+    {
+      "id": 1,
+      "tipo": "info",
+      "msg": "═════════════════════════════════════════════",
+      "fecha": "2026-03-16T11:08:08.951218"
+    }
+  ],
+  "stats": {
+    "pisos_total": 1,
+    "pisos_contactados": 0,
+    "trabajos_total": 0,
+    "ultima_actualizacion": "2026-03-16T11:32:09.485646"
+  }
+}

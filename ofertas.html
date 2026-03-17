@@ -3,755 +3,609 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Ofertas - Médico Familia Barcelona</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>Dashboard Ofertas - Médico de Familia Barcelona</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background: linear-gradient(135deg, #1a1c2e 0%, #16213e 50%, #0f3460 100%);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-            color: #e4e4e4;
             padding: 20px;
         }
-        
         .container {
             max-width: 1400px;
             margin: 0 auto;
         }
-        
         header {
             text-align: center;
-            padding: 40px 20px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 24px;
-            margin-bottom: 30px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: white;
+            padding: 30px 0;
         }
-        
-        h1 {
+        header h1 {
             font-size: 2.5rem;
-            font-weight: 700;
-            background: linear-gradient(90deg, #00d4ff, #7b2cbf);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
             margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
         }
-        
-        .subtitle {
-            color: #94a3b8;
+        header p {
             font-size: 1.1rem;
+            opacity: 0.9;
         }
-        
         .last-update {
+            background: rgba(255,255,255,0.2);
             display: inline-block;
-            background: rgba(0, 212, 255, 0.15);
-            color: #00d4ff;
             padding: 8px 16px;
             border-radius: 20px;
-            font-size: 0.85rem;
-            margin-top: 15px;
-            border: 1px solid rgba(0, 212, 255, 0.3);
-        }
-        
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-        
-        .stat-card {
-            background: rgba(255, 255, 255, 0.05);
-            padding: 25px;
-            border-radius: 16px;
-            text-align: center;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        
-        .stat-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-        }
-        
-        .stat-number {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: #00d4ff;
-            margin-bottom: 5px;
-        }
-        
-        .stat-label {
-            color: #94a3b8;
+            margin-top: 10px;
             font-size: 0.9rem;
         }
-        
-        .filters {
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .stat-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .stat-card h3 {
+            font-size: 2rem;
+            color: #667eea;
+        }
+        .stat-card p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        .jobs-grid {
+            display: grid;
+            gap: 15px;
+        }
+        .job-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+        }
+        .job-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 12px rgba(0,0,0,0.15);
+        }
+        .job-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 12px;
+        }
+        .job-title {
+            font-size: 1.2rem;
+            color: #333;
+            font-weight: 600;
+        }
+        .job-company {
+            color: #667eea;
+            font-weight: 500;
+            margin-top: 4px;
+        }
+        .job-salary {
+            background: #e8f5e9;
+            color: #2e7d32;
+            padding: 6px 12px;
+            border-radius: 15px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+        .job-details {
             display: flex;
             gap: 15px;
             flex-wrap: wrap;
-            margin-bottom: 30px;
-            justify-content: center;
+            margin: 12px 0;
         }
-        
-        .filter-btn {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            color: #e4e4e4;
-            padding: 12px 24px;
-            border-radius: 30px;
-            cursor: pointer;
-            font-size: 0.9rem;
-            transition: all 0.3s ease;
-        }
-        
-        .filter-btn:hover, .filter-btn.active {
-            background: linear-gradient(90deg, #00d4ff, #7b2cbf);
-            border-color: transparent;
-            transform: scale(1.05);
-        }
-        
-        .offers-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
-            gap: 25px;
-        }
-        
-        .offer-card {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 20px;
-            overflow: hidden;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: all 0.3s ease;
-        }
-        
-        .offer-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
-            border-color: rgba(0, 212, 255, 0.3);
-        }
-        
-        .offer-header {
-            padding: 25px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-        }
-        
-        .company-badge {
-            display: inline-flex;
+        .detail-tag {
+            display: flex;
             align-items: center;
-            gap: 8px;
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 15px;
+            gap: 5px;
+            color: #666;
+            font-size: 0.9rem;
         }
-        
-        .badge-public {
-            background: rgba(34, 197, 94, 0.2);
-            color: #4ade80;
-        }
-        
-        .badge-private {
-            background: rgba(59, 130, 246, 0.2);
-            color: #60a5fa;
-        }
-        
-        .badge-agen {
-            background: rgba(168, 85, 247, 0.2);
-            color: #c084fc;
-        }
-        
-        .offer-title {
-            font-size: 1.25rem;
-            font-weight: 600;
-            color: #ffffff;
-            margin-bottom: 8px;
-            line-height: 1.4;
-        }
-        
-        .offer-company {
-            color: #94a3b8;
+        .job-description {
+            color: #555;
             font-size: 0.95rem;
+            line-height: 1.5;
+            margin: 12px 0;
         }
-        
-        .offer-body {
-            padding: 20px 25px;
-        }
-        
-        .offer-details {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            margin-bottom: 20px;
-        }
-        
-        .detail-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            color: #b4c0d0;
-            font-size: 0.9rem;
-        }
-        
-        .detail-icon {
-            width: 20px;
-            height: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #00d4ff;
-        }
-        
-        .offer-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin-bottom: 20px;
-        }
-        
-        .tag {
-            background: rgba(0, 212, 255, 0.1);
-            color: #00d4ff;
-            padding: 5px 12px;
-            border-radius: 12px;
-            font-size: 0.75rem;
-        }
-        
-        .offer-footer {
-            padding: 20px 25px;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        .job-footer {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
         }
-        
-        .offer-date {
-            color: #64748b;
+        .job-source {
             font-size: 0.8rem;
+            color: #999;
         }
-        
         .apply-btn {
-            background: linear-gradient(90deg, #00d4ff, #7b2cbf);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-            padding: 10px 24px;
-            border-radius: 25px;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 0.9rem;
-            transition: all 0.3s ease;
             border: none;
-            cursor: pointer;
-        }
-        
-        .apply-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 10px 20px rgba(0, 212, 255, 0.3);
-        }
-        
-        .sources-section {
-            margin-top: 50px;
-            padding: 30px;
-            background: rgba(255, 255, 255, 0.03);
+            padding: 10px 24px;
             border-radius: 20px;
-        }
-        
-        .sources-title {
-            font-size: 1.5rem;
-            margin-bottom: 25px;
-            color: #ffffff;
-        }
-        
-        .sources-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
-        }
-        
-        .source-card {
-            background: rgba(255, 255, 255, 0.05);
-            padding: 20px;
-            border-radius: 16px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: all 0.3s ease;
-        }
-        
-        .source-card:hover {
-            background: rgba(255, 255, 255, 0.08);
-            border-color: rgba(0, 212, 255, 0.3);
-        }
-        
-        .source-name {
-            font-weight: 600;
-            color: #ffffff;
-            margin-bottom: 8px;
-        }
-        
-        .source-desc {
-            color: #94a3b8;
-            font-size: 0.85rem;
-            margin-bottom: 12px;
-        }
-        
-        .source-link {
-            color: #00d4ff;
+            cursor: pointer;
+            font-size: 0.9rem;
             text-decoration: none;
-            font-size: 0.85rem;
-            display: inline-flex;
+            transition: opacity 0.3s;
+        }
+        .apply-btn:hover {
+            opacity: 0.9;
+        }
+        .portal-links {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .portal-links h3 {
+            margin-bottom: 15px;
+            color: #333;
+        }
+        .portal-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+        }
+        .portal-link {
+            display: flex;
             align-items: center;
-            gap: 5px;
+            gap: 10px;
+            padding: 12px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            text-decoration: none;
+            color: #333;
+            transition: background 0.3s;
         }
-        
-        .source-link:hover {
-            text-decoration: underline;
+        .portal-link:hover {
+            background: #e9ecef;
         }
-        
         footer {
             text-align: center;
-            padding: 40px 20px;
-            color: #64748b;
-            font-size: 0.9rem;
+            color: white;
+            padding: 30px 0;
+            opacity: 0.8;
         }
-        
         @media (max-width: 768px) {
-            h1 { font-size: 1.8rem; }
-            .offers-grid { grid-template-columns: 1fr; }
-            .filters { justify-content: flex-start; }
-        }
-        
-        .salary-highlight {
-            background: linear-gradient(90deg, #fbbf24, #f59e0b);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            font-weight: 600;
-        }
-        
-        .urgent-badge {
-            background: rgba(239, 68, 68, 0.2);
-            color: #ef4444;
-            padding: 4px 10px;
-            border-radius: 12px;
-            font-size: 0.7rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            margin-left: 10px;
+            header h1 { font-size: 1.8rem; }
+            .job-header { flex-direction: column; }
+            .job-salary { margin-top: 10px; }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
-            <h1>🏥 Dashboard Ofertas Médico Familia</h1>
-            <p class="subtitle">Barcelona y área metropolitana - Actualizado diariamente</p>
-            <span class="last-update">📅 Última actualización: 16 de marzo de 2026 - 23:00</span>
+            <h1>🏥 Dashboard Ofertas Médico de Familia</h1>
+            <p>Barcelona y área metropolitana</p>
+            <div class="last-update">📅 Actualizado: 17 de marzo de 2026 - 07:08 AM</div>
         </header>
 
-        <div class="stats-grid">
+        <div class="stats">
             <div class="stat-card">
-                <div class="stat-number">101+</div>
-                <div class="stat-label">Ofertas activas LinkedIn</div>
+                <h3>15</h3>
+                <p>Ofertas activas</p>
             </div>
             <div class="stat-card">
-                <div class="stat-number">6</div>
-                <div class="stat-label">Fuentes principales</div>
+                <h3>8</h3>
+                <p>Portales consultados</p>
             </div>
             <div class="stat-card">
-                <div class="stat-number">25+</div>
-                <div class="stat-label">Ofertas Hospital Clínic</div>
+                <h3>55K-80K</h3>
+                <p>Rango salarial (€/año)</p>
             </div>
             <div class="stat-card">
-                <div class="stat-number">70+</div>
-                <div class="stat-label">Centros Quirónsalud</div>
+                <h3>3</h3>
+                <p>Contratos indefinidos</p>
             </div>
         </div>
 
-        <div class="filters">
-            <button class="filter-btn active">Todas</button>
-            <button class="filter-btn">Sector Público</button>
-            <button class="filter-btn">Sector Privado</button>
-            <button class="filter-btn">Agencias</button>
-            <button class="filter-btn">Urgentes</button>
+        <div class="jobs-grid">
+            <!-- OFERTA 1 -->
+            <div class="job-card">
+                <div class="job-header">
+                    <div>
+                        <div class="job-title">Médico/a de Urgencias - Contrato Indefinido + Docencia</div>
+                        <div class="job-company">SEMES - Sociedad Española de Medicina de Urgencias</div>
+                    </div>
+                    <span class="job-salary">55.000 - 70.000 €/año</span>
+                </div>
+                <div class="job-details">
+                    <span class="detail-tag">📍 Tarragona</span>
+                    <span class="detail-tag">💼 Indefinido</span>
+                    <span class="detail-tag">🕐 Tiempo completo</span>
+                </div>
+                <div class="job-description">
+                    Se busca médico para urgencias con formación continuada y participación en proyectos. Se requiere título en Medicina y Cirugía, y se valora especialidad en Medicina de Familia o experiencia en urgencias hospitalarias.
+                </div>
+                <div class="job-footer">
+                    <span class="job-source">📌 Portal: Jooble</span>
+                    <a href="https://es.jooble.org/away/6819899334175217933" class="apply-btn" target="_blank">Ver oferta</a>
+                </div>
+            </div>
+
+            <!-- OFERTA 2 -->
+            <div class="job-card">
+                <div class="job-header">
+                    <div>
+                        <div class="job-title">Médico/a de Urgencias BARCELONA</div>
+                        <div class="job-company">SEMES - Nuevo Hospital Barcelona</div>
+                    </div>
+                    <span class="job-salary"></span>
+                </div>
+                <div class="job-details">
+                    <span class="detail-tag">📍 Barcelona</span>
+                    <span class="detail-tag">💼 Indefinido</span>
+                    <span class="detail-tag">🕐 Tiempo completo</span>
+                </div>
+                <div class="job-description">
+                    Buscamos profesionales comprometidos para nuevo hospital en Barcelona. Especialidad de Medicina Familiar y comunitaria y/o experiencia en Urgencias. Homologación por parte del Ministerio de España requerida.
+                </div>
+                <div class="job-footer">
+                    <span class="job-source">📌 Portal: Jooble</span>
+                    <a href="https://es.jooble.org/away/4941263711282330071" class="apply-btn" target="_blank">Ver oferta</a>
+                </div>
+            </div>
+
+            <!-- OFERTA 3 -->
+            <div class="job-card">
+                <div class="job-header">
+                    <div>
+                        <div class="job-title">Médico/a de Urgencias (SISCAT) - Atención de Calidad</div>
+                        <div class="job-company">Comsevilla - Hospital SISCAT</div>
+                    </div>
+                    <span class="job-salary">80.000 €/año</span>
+                </div>
+                <div class="job-details">
+                    <span class="detail-tag">📍 Barcelona</span>
+                    <span class="detail-tag">💼 Temporal</span>
+                    <span class="detail-tag">🕐 Turnos 12h</span>
+                </div>
+                <div class="job-description">
+                    Se busca médico de urgencias con especialización en Medicina de Familia o Interna. Salario de 80.000€ brutos anuales. Requiere colegiación y habilidades comunicativas. Turnos de 12 horas.
+                </div>
+                <div class="job-footer">
+                    <span class="job-source">📌 Portal: Jooble</span>
+                    <a href="https://es.jooble.org/away/8871972108383429579" class="apply-btn" target="_blank">Ver oferta</a>
+                </div>
+            </div>
+
+            <!-- OFERTA 4 -->
+            <div class="job-card">
+                <div class="job-header">
+                    <div>
+                        <div class="job-title">Médico/a a Domicilio - DomusVi Barcelona</div>
+                        <div class="job-company">DomusVi - Saluven</div>
+                    </div>
+                    <span class="job-salary"></span>
+                </div>
+                <div class="job-details">
+                    <span class="detail-tag">📍 Barcelona</span>
+                    <span class="detail-tag">💼 Contrato mercantil</span>
+                    <span class="detail-tag">🕐 Flexible</span>
+                </div>
+                <div class="job-description">
+                    DomusVi busca médico para atención domiciliaria. Se valora especialidad en cuidados paliativos, Medicina de Familia, Medicina Interna o formación en Gerontología/Geriatría. Requiere vehículo propio. Turnos flexibles compatibles con otros trabajos.
+                </div>
+                <div class="job-footer">
+                    <span class="job-source">📌 Portal: Indeed</span>
+                    <a href="https://es.indeed.com/rc/clk?jk=fc2c218fb9307569" class="apply-btn" target="_blank">Ver oferta</a>
+                </div>
+            </div>
+
+            <!-- OFERTA 5 -->
+            <div class="job-card">
+                <div class="job-header">
+                    <div>
+                        <div class="job-title">Facultativo/a Atención Espontánea Servicio Urgencias</div>
+                        <div class="job-company">Quirónsalud - Barcelona Vallès</div>
+                    </div>
+                    <span class="job-salary"></span>
+                </div>
+                <div class="job-details">
+                    <span class="detail-tag">📍 Sant Cugat del Vallès</span>
+                    <span class="detail-tag">💼 Indefinido</span>
+                    <span class="detail-tag">🕐 Jornada completa/parcial</span>
+                </div>
+                <div class="job-description">
+                    Quirónsalud busca profesionales para plazas indefinidas con jornadas completas o parciales en servicio de urgencias. Formación continua y plan de retribución flexible.
+                </div>
+                <div class="job-footer">
+                    <span class="job-source">📌 Portal: Indeed</span>
+                    <a href="https://es.indeed.com/rc/clk?jk=ffa9f01bad83e034" class="apply-btn" target="_blank">Ver oferta</a>
+                </div>
+            </div>
+
+            <!-- OFERTA 6 -->
+            <div class="job-card">
+                <div class="job-header">
+                    <div>
+                        <div class="job-title">Médico/a de Familia - Atención Primaria</div>
+                        <div class="job-company">ICS - EAP Sant Celoni</div>
+                    </div>
+                    <span class="job-salary"></span>
+                </div>
+                <div class="job-details">
+                    <span class="detail-tag">📍 Sant Celoni (Barcelona)</span>
+                    <span class="detail-tag">💼 Temporal</span>
+                    <span class="detail-tag">🕐 Vallès Oriental</span>
+                </div>
+                <div class="job-description">
+                    Oferta de 1 lugar de Facultativo/a especialista en Medicina Familiar y Comunitaria en el EAP Sant Celoni. Dirección Asistencial Vallès Oriental. Gerència d'Atenció Primària i a la Comunitat Vallès Occidental i Vallès Oriental.
+                </div>
+                <div class="job-footer">
+                    <span class="job-source">📌 Portal: ICS Gencat</span>
+                    <a href="https://ics.gencat.cat/ca/lics/treballeu-a-lics/treball-temporal/convocatories-de-treball-temporal/llista-de-convocatories/" class="apply-btn" target="_blank">Ver oferta</a>
+                </div>
+            </div>
+
+            <!-- OFERTA 7 -->
+            <div class="job-card">
+                <div class="job-header">
+                    <div>
+                        <div class="job-title">Médico/a consultas externas (Barcelona)</div>
+                        <div class="job-company">Marlex - Grupo Sanitario</div>
+                    </div>
+                    <span class="job-salary"></span>
+                </div>
+                <div class="job-details">
+                    <span class="detail-tag">📍 Barcelona</span>
+                    <span class="detail-tag">💼 Indefinido</span>
+                    <span class="detail-tag">🕐 L-V 8:00-16:00</span>
+                </div>
+                <div class="job-description">
+                    Grupo sanitario con hospital y varios centros en Barcelona busca médico de familia para consultas externas. Horario de Lunes a Viernes de 8:00 a 16:00. Contratación indefinida.
+                </div>
+                <div class="job-footer">
+                    <span class="job-source">📌 Portal: Jooble</span>
+                    <a href="https://es.jooble.org/desc/-7496403781745940584" class="apply-btn" target="_blank">Ver oferta</a>
+                </div>
+            </div>
+
+            <!-- OFERTA 8 -->
+            <div class="job-card">
+                <div class="job-header">
+                    <div>
+                        <div class="job-title">Médico/a del Trabajo - Horario Flexible</div>
+                        <div class="job-company">Empresa Salud Laboral Cataluña</div>
+                    </div>
+                    <span class="job-salary"></span>
+                </div>
+                <div class="job-details">
+                    <span class="detail-tag">📍 Barcelona</span>
+                    <span class="detail-tag">💼 Indefinido</span>
+                    <span class="detail-tag">🕐 Tiempo completo</span>
+                </div>
+                <div class="job-description">
+                    Empresa dedicada a la salud laboral busca médico especialista del trabajo. Contrato indefinido a jornada completa, horario flexible, 28 días de vacaciones y salario competitivo.
+                </div>
+                <div class="job-footer">
+                    <span class="job-source">📌 Portal: Jooble</span>
+                    <a href="https://es.jooble.org/away/5174450299030365765" class="apply-btn" target="_blank">Ver oferta</a>
+                </div>
+            </div>
+
+            <!-- OFERTA 9 -->
+            <div class="job-card">
+                <div class="job-header">
+                    <div>
+                        <div class="job-title">Médico/a de Urgencias - Nuevo Hospital Barcelona</div>
+                        <div class="job-company">SEMES</div>
+                    </div>
+                    <span class="job-salary"></span>
+                </div>
+                <div class="job-details">
+                    <span class="detail-tag">📍 Barcelona</span>
+                    <span class="detail-tag">💼 Temporal</span>
+                    <span class="detail-tag">🕐 Urgencias</span>
+                </div>
+                <div class="job-description">
+                    Un nuevo hospital en Barcelona busca médicos con experiencia en urgencias. Especialidad en Medicina Familiar preferible. Realización de historias clínicas, prescripciones y coordinación de pacientes.
+                </div>
+                <div class="job-footer">
+                    <span class="job-source">📌 Portal: Jooble</span>
+                    <a href="https://es.jooble.org/away/5017506322062683568" class="apply-btn" target="_blank">Ver oferta</a>
+                </div>
+            </div>
+
+            <!-- OFERTA 10 -->
+            <div class="job-card">
+                <div class="job-header">
+                    <div>
+                        <div class="job-title">Médico/a para Atención Domiciliaria zona Girona</div>
+                        <div class="job-company">Idealmedic</div>
+                    </div>
+                    <span class="job-salary"></span>
+                </div>
+                <div class="job-details">
+                    <span class="detail-tag">📍 Girona</span>
+                    <span class="detail-tag">💼 Autónomo</span>
+                    <span class="detail-tag">🕐 Turno rotativo</span>
+                </div>
+                <div class="job-description">
+                    IdealMedic busca médico de urgencias comprometido para unirse al equipo. Empresa líder en sector hospitalario con presencia internacional. Inicio inmediato.
+                </div>
+                <div class="job-footer">
+                    <span class="job-source">📌 Portal: Jooble</span>
+                    <a href="https://es.jooble.org/away/-468787282952134393" class="apply-btn" target="_blank">Ver oferta</a>
+                </div>
+            </div>
+
+            <!-- OFERTA 11 -->
+            <div class="job-card">
+                <div class="job-header">
+                    <div>
+                        <div class="job-title">Médico/a para el Servicio de Urgencias</div>
+                        <div class="job-company">Comsevilla - Bologna Health Jobs</div>
+                    </div>
+                    <span class="job-salary"></span>
+                </div>
+                <div class="job-details">
+                    <span class="detail-tag">📍 Barcelona</span>
+                    <span class="detail-tag">💼 Permanente</span>
+                    <span class="detail-tag">🕐 Urgencias hospitalario</span>
+                </div>
+                <div class="job-description">
+                    Especialidad en Medicina Familiar y Comunitaria vía MIR y/o equivalente. Experiencia en servicio de urgencias en ámbito hospitalario. Puesto estable con excelente oportunidad de desarrollo profesional.
+                </div>
+                <div class="job-footer">
+                    <span class="job-source">📌 Portal: Jooble</span>
+                    <a href="https://es.jooble.org/away/107684067411659211" class="apply-btn" target="_blank">Ver oferta</a>
+                </div>
+            </div>
+
+            <!-- OFERTA 12 -->
+            <div class="job-card">
+                <div class="job-header">
+                    <div>
+                        <div class="job-title">Médico/a de Familia - Francia</div>
+                        <div class="job-company">Comsevilla</div>
+                    </div>
+                    <span class="job-salary"></span>
+                </div>
+                <div class="job-details">
+                    <span class="detail-tag">📍 Barcelona (desde)</span>
+                    <span class="detail-tag">💼 Temporal</span>
+                    <span class="detail-tag">🕐 Francia</span>
+                </div>
+                <div class="job-description">
+                    Grado o licenciatura en medicina con especialidad MIR. Inscripción o elegibilidad para inscribirse en el Colegio de Médicos en Francia. Hospital Universitario Rey Juan Carlos de Móstoles.
+                </div>
+                <div class="job-footer">
+                    <span class="job-source">📌 Portal: Jooble</span>
+                    <a href="https://es.jooble.org/away/5349025296838308150" class="apply-btn" target="_blank">Ver oferta</a>
+                </div>
+            </div>
+
+            <!-- OFERTA 13 -->
+            <div class="job-card">
+                <div class="job-header">
+                    <div>
+                        <div class="job-title">Facultativo/a Urgencias - Hospital Quironsalud Barcelona</div>
+                        <div class="job-company">Quirónsalud</div>
+                    </div>
+                    <span class="job-salary"></span>
+                </div>
+                <div class="job-details">
+                    <span class="detail-tag">📍 Barcelona</span>
+                    <span class="detail-tag">💼 Temporal/Indefinido</span>
+                    <span class="detail-tag">🕐 Formación continua</span>
+                </div>
+                <div class="job-description">
+                    Acceso a programas de formación continua, sesiones clínicas y eventos médicos organizados por Quirónsalud. Plan de retribución flexible y seguro médico privado.
+                </div>
+                <div class="job-footer">
+                    <span class="job-source">📌 Portal: Indeed</span>
+                    <a href="https://es.indeed.com/rc/clk?jk=fba3333fa5ec16a8" class="apply-btn" target="_blank">Ver oferta</a>
+                </div>
+            </div>
+
+            <!-- OFERTA 14 -->
+            <div class="job-card">
+                <div class="job-header">
+                    <div>
+                        <div class="job-title">Profesionales médicos - Residencia DomusVi</div>
+                        <div class="job-company">DomusVi Tarragona Ciutat</div>
+                    </div>
+                    <span class="job-salary"></span>
+                </div>
+                <div class="job-details">
+                    <span class="detail-tag">📍 Tarragona</span>
+                    <span class="detail-tag">💼 Temporal</span>
+                    <span class="detail-tag">🕐 Turno mañana</span>
+                </div>
+                <div class="job-description">
+                    Se valorará especialidad en cuidados paliativos, Médico/a de Familia, Medicina Interna o formación complementaria/especialidad en Gerontología/Geriatría. Experiencia en ámbito sociosanitario.
+                </div>
+                <div class="job-footer">
+                    <span class="job-source">📌 Portal: Jooble</span>
+                    <a href="https://es.jooble.org/desc/-256054155949585641" class="apply-btn" target="_blank">Ver oferta</a>
+                </div>
+            </div>
+
+            <!-- OFERTA 15 -->
+            <div class="job-card">
+                <div class="job-header">
+                    <div>
+                        <div class="job-title">Médico/a ITCC - Seguimiento de bajas</div>
+                        <div class="job-company">Solutia GHS</div>
+                    </div>
+                    <span class="job-salary">5 €/hora</span>
+                </div>
+                <div class="job-details">
+                    <span class="detail-tag">📍 Gavà, Barcelona</span>
+                    <span class="detail-tag">💼 Permanente</span>
+                    <span class="detail-tag">🕐 Tiempo parcial</span>
+                </div>
+                <div class="job-description">
+                    Buscamos médico/a colegiado/a para realizar servicio de ITCC a empresa. Llamados telefónicos de contacto proactivo en caso de baja. Seguimiento periódico de bajas médicas.
+                </div>
+                <div class="job-footer">
+                    <span class="job-source">📌 Portal: Jooble</span>
+                    <a href="https://es.jooble.org/desc/6549577802305825405" class="apply-btn" target="_blank">Ver oferta</a>
+                </div>
+            </div>
+
         </div>
 
-        <div class="offers-grid">
-            <!-- Oferta 1: CAMFIC -->
-            <div class="offer-card">
-                <div class="offer-header">
-                    <span class="company-badge badge-public">Sector Público</span>
-                    <h3 class="offer-title">Médico/a de Familia CAP</h3>
-                    <p class="offer-company">Centro de Salud - Barcelona</p>
-                </div>
-                <div class="offer-body">
-                    <div class="offer-details">
-                        <div class="detail-item">
-                            <span class="detail-icon">📍</span>
-                            <span>Barcelona (varias zonas)</span>
-                        </div>
-                        <div class="detail-item">
-                            <span class="detail-icon">💼</span>
-                            <span>Jornada completa</span>
-                        </div>
-                        <div class="detail-item">
-                            <span class="detail-icon">💰</span>
-                            <span class="salary-highlight">3.200€+ / mes</span>
-                        </div>
-                        <div class="detail-item">
-                            <span class="detail-icon">📝</span>
-                            <span>Especialidad vía MIR o homologada</span>
-                        </div>
-                    </div>
-                    <div class="offer-tags">
-                        <span class="tag">Atención Primaria</span>
-                        <span class="tag">CAP</span>
-                        <span class="tag">Indefinido</span>
-                    </div>
-                </div>
-                <div class="offer-footer">
-                    <span class="offer-date">Publicado: Marzo 2026</span>
-                    <a href="https://www.camfic.cat/OfertesFeina.aspx" class="apply-btn" target="_blank">Ver oferta</a>
-                </div>
-            </div>
-
-            <!-- Oferta 2: Hospital Clínic -->
-            <div class="offer-card">
-                <div class="offer-header">
-                    <span class="company-badge badge-public">Hospital Público</span>
-                    <h3 class="offer-title">Especialista Medicina Familiar</h3>
-                    <p class="offer-company">Hospital Clínic de Barcelona</p>
-                </div>
-                <div class="offer-body">
-                    <div class="offer-details">
-                        <div class="detail-item">
-                            <span class="detail-icon">📍</span>
-                            <span>Barcelona centro</span>
-                        </div>
-                        <div class="detail-item">
-                            <span class="detail-icon">💼</span>
-                            <span>Varias modalidades</span>
-                        </div>
-                        <div class="detail-item">
-                            <span class="detail-icon">🏥</span>
-                            <span>1.892 ofertas totales</span>
-                        </div>
-                        <div class="detail-item">
-                            <span class="detail-icon">📋</span>
-                            <span>Múltiples especialidades</span>
-                        </div>
-                    </div>
-                    <div class="offer-tags">
-                        <span class="tag">Hospital</span>
-                        <span class="tag">Docencia</span>
-                        <span class="tag">Investigación</span>
-                    </div>
-                </div>
-                <div class="offer-footer">
-                    <span class="offer-date">Actualizado: 16/03/2026</span>
-                    <a href="https://jobs.clinicbarcelona.org/jobs" class="apply-btn" target="_blank">Ver ofertas</a>
-                </div>
-            </div>
-
-            <!-- Oferta 3: Divico Consultores -->
-            <div class="offer-card">
-                <div class="offer-header">
-                    <span class="company-badge badge-agen">Agencia</span>
-                    <h3 class="offer-title">Médico/a de Familia<span class="urgent-badge">Urgente</span></h3>
-                    <p class="offer-company">Divico Consultores</p>
-                </div>
-                <div class="offer-body">
-                    <div class="offer-details">
-                        <div class="detail-item">
-                            <span class="detail-icon">📍</span>
-                            <span>Manresa (Barcelona)</span>
-                        </div>
-                        <div class="detail-item">
-                            <span class="detail-icon">💼</span>
-                            <span>Incorporación inmediata</span>
-                        </div>
-                        <div class="detail-item">
-                            <span class="detail-icon">🚗</span>
-                            <span>Vehículo propio requerido</span>
-                        </div>
-                        <div class="detail-item">
-                            <span class="detail-icon">📅</span>
-                            <span>Lunes y miércoles</span>
-                        </div>
-                    </div>
-                    <div class="offer-tags">
-                        <span class="tag">CAP</span>
-                        <span class="tag">Temporal</span>
-                        <span class="tag">Inmediato</span>
-                    </div>
-                </div>
-                <div class="offer-footer">
-                    <span class="offer-date">Publicado: Marzo 2026</span>
-                    <a href="https://coma.es/oferta-trabajo/medico-de-familia-barcelona/" class="apply-btn" target="_blank">Ver oferta</a>
-                </div>
-            </div>
-
-            <!-- Oferta 4: Quirónsalud/Teknon -->
-            <div class="offer-card">
-                <div class="offer-header">
-                    <span class="company-badge badge-private">Sector Privado</span>
-                    <h3 class="offer-title">Médico/a Medicina Familiar</h3>
-                    <p class="offer-company">Centro Médico Teknon - Quirónsalud</p>
-                </div>
-                <div class="offer-body">
-                    <div class="offer-details">
-                        <div class="detail-item">
-                            <span class="detail-icon">📍</span>
-                            <span>C/ Vilana, 12 - Barcelona</span>
-                        </div>
-                        <div class="detail-item">
-                            <span class="detail-icon">🏥</span>
-                            <span>70+ centros en España</span>
-                        </div>
-                        <div class="detail-item">
-                            <span class="detail-icon">💼</span>
-                            <span>Plan de retribución flexible</span>
-                        </div>
-                        <div class="detail-item">
-                            <span class="detail-icon">🎓</span>
-                            <span>Formación continua</span>
-                        </div>
-                    </div>
-                    <div class="offer-tags">
-                        <span class="tag">Medicina Privada</span>
-                        <span class="tag">Teknon</span>
-                        <span class="tag">Beneficios</span>
-                    </div>
-                </div>
-                <div class="offer-footer">
-                    <span class="offer-date">Actualizado: Marzo 2026</span>
-                    <a href="https://empleo.quironsalud.es/" class="apply-btn" target="_blank">Ver ofertas</a>
-                </div>
-            </div>
-
-            <!-- Oferta 5: CatSalut -->
-            <div class="offer-card">
-                <div class="offer-header">
-                    <span class="company-badge badge-public">Administración</span>
-                    <h3 class="offer-title">Médico/a Familia y Comunitaria</h3>
-                    <p class="offer-company">CatSalut - Servei Català de la Salut</p>
-                </div>
-                <div class="offer-body">
-                    <div class="offer-details">
-                        <div class="detail-item">
-                            <span class="detail-icon">📍</span>
-                            <span>Toda Cataluña</span>
-                        </div>
-                        <div class="detail-item">
-                            <span class="detail-icon">💼</span>
-                            <span>Bolsa de trabajo temporal</span>
-                        </div>
-                        <div class="detail-item">
-                            <span class="detail-icon">📝</span>
-                            <span>Sistema SAS / OPE</span>
-                        </div>
-                        <div class="detail-item">
-                            <span class="detail-icon">📋</span>
-                            <span>Convocatorias periódicas</span>
-                        </div>
-                    </div>
-                    <div class="offer-tags">
-                        <span class="tag">Público</span>
-                        <span class="tag">CatSalut</span>
-                        <span class="tag">Oposiciones</span>
-                    </div>
-                </div>
-                <div class="offer-footer">
-                    <span class="offer-date">Convocatoria abierta</span>
-                    <a href="https://catsalut.gencat.cat/ca/coneix-catsalut/presentacio/organitzacio/recursos-humans/ofertes-treball/" class="apply-btn" target="_blank">Ver convocatoria</a>
-                </div>
-            </div>
-
-            <!-- Oferta 6: Consorci Sanitari -->
-            <div class="offer-card">
-                <div class="offer-header">
-                    <span class="company-badge badge-public">Consorcio</span>
-                    <h3 class="offer-title">5 Médicos/as Familia y Comunitaria</h3>
-                    <p class="offer-company">Consorci Sanitari del Maresme</p>
-                </div>
-                <div class="offer-body">
-                    <div class="offer-details">
-                        <div class="detail-item">
-                            <span class="detail-icon">📍</span>
-                            <span>Maresme (Barcelona)</span>
-                        </div>
-                        <div class="detail-item">
-                            <span class="detail-icon">🏥</span>
-                            <span>Atención Primaria</span>
-                        </div>
-                        <div class="detail-item">
-                            <span class="detail-icon">👥</span>
-                            <span>5 plazas disponibles</span>
-                        </div>
-                        <div class="detail-item">
-                            <span class="detail-icon">📅</span>
-                            <span>Convocatoria activa</span>
-                        </div>
-                    </div>
-                    <div class="offer-tags">
-                        <span class="tag">Maresme</span>
-                        <span class="tag">AP</span>
-                        <span class="tag">5 plazas</span>
-                    </div>
-                </div>
-                <div class="offer-footer">
-                    <span class="offer-date">Convocatoria abierta</span>
-                    <a href="https://www.consorci.org/professionals/es_ofertes-de-treball/" class="apply-btn" target="_blank">Ver oferta</a>
-                </div>
-            </div>
-
-            <!-- Oferta 7: InfoJobs -->
-            <div class="offer-card">
-                <div class="offer-header">
-                    <span class="company-badge badge-private">Bolsa Empleo</span>
-                    <h3 class="offer-title">Médico/a de Familia Barcelona</h3>
-                    <p class="offer-company">Múltiples empresas - InfoJobs</p>
-                </div>
-                <div class="offer-body">
-                    <div class="offer-details">
-                        <div class="detail-item">
-                            <span class="detail-icon">📍</span>
-                            <span>Barcelona y provincia</span>
-                        </div>
-                        <div class="detail-item">
-                            <span class="detail-icon">🔢</span>
-                            <span>75+ ofertas activas</span>
-                        </div>
-                        <div class="detail-item">
-                            <span class="detail-icon">💼</span>
-                            <span>Varias modalidades</span>
-                        </div>
-                        <div class="detail-item">
-                            <span class="detail-icon">🎯</span>
-                            <span>Público y privado</span>
-                        </div>
-                    </div>
-                    <div class="offer-tags">
-                        <span class="tag">InfoJobs</span>
-                        <span class="tag">Varias</span>
-                        <span class="tag">Actualizado</span>
-                    </div>
-                </div>
-                <div class="offer-footer">
-                    <span class="offer-date">Actualizado diariamente</span>
-                    <a href="https://www.infojobs.net/ofertas-trabajo/barcelona/medico-de-familia" class="apply-btn" target="_blank">Ver ofertas</a>
-                </div>
-            </div>
-
-            <!-- Oferta 8: CAP Sagrada Familia -->
-            <div class="offer-card">
-                <div class="offer-header">
-                    <span class="company-badge badge-public">CAP</span>
-                    <h3 class="offer-title">Médico/a Familia y Comunitaria</h3>
-                    <p class="offer-company">CAP Sagrada Familia - CSI</p>
-                </div>
-                <div class="offer-body">
-                    <div class="offer-details">
-                        <div class="detail-item">
-                            <span class="detail-icon">📍</span>
-                            <span>Barcelona (Sagrada Familia)</span>
-                        </div>
-                        <div class="detail-item">
-                            <span class="detail-icon">🏥</span>
-                            <span>Atención Primaria</span>
-                        </div>
-                        <div class="detail-item">
-                            <span class="detail-icon">💼</span>
-                            <span>Centro colaborador UIC</span>
-                        </div>
-                        <div class="detail-item">
-                            <span class="detail-icon">📚</span>
-                            <span>Filial Grupo Echevarne</span>
-                        </div>
-                    </div>
-                    <div class="offer-tags">
-                        <span class="tag">Barcelona</span>
-                        <span class="tag">Echevarne</span>
-                        <span class="tag">Docencia</span>
-                    </div>
-                </div>
-                <div class="offer-footer">
-                    <span class="offer-date">Consultar disponibilidad</span>
-                    <a href="https://www.csi.cat/es/ninguna-sagrada-familia/" class="apply-btn" target="_blank">Ver centro</a>
-                </div>
-            </div>
-        </div>
-
-        <div class="sources-section">
-            <h2 class="sources-title">🔗 Fuentes de Empleo Recomendadas</h2>
-            <div class="sources-grid">
-                <div class="source-card">
-                    <div class="source-name">🩺 CAMFiC</div>
-                    <div class="source-desc">Societat Catalana de Medicina Familiar i Comunitària. Ofertas específicas para especialistas en AP.</div>
-                    <a href="https://www.camfic.cat/OfertesFeina.aspx" class="source-link" target="_blank">Acceder →</a>
-                </div>
-                <div class="source-card">
-                    <div class="source-name">🏥 Hospital Clínic</div>
-                    <div class="source-desc">Portal de empleo del Hospital Clínic de Barcelona. 1,892 ofertas activas.</div>
-                    <a href="https://jobs.clinicbarcelona.org/jobs" class="source-link" target="_blank">Acceder →</a>
-                </div>
-                <div class="source-card">
-                    <div class="source-name">💼 InfoJobs</div>
-                    <div class="source-desc">Bolsa de empleo líder en España. 75+ ofertas médico familia Barcelona.</div>
-                    <a href="https://www.infojobs.net/ofertas-trabajo/barcelona/medico-de-familia" class="source-link" target="_blank">Acceder →</a>
-                </div>
-                <div class="source-card">
-                    <div class="source-name">🏛️ CatSalut</div>
-                    <div class="source-desc">Bolsa de trabajo del Servei Català de la Salut. Convocatorias públicas.</div>
-                    <a href="https://catsalut.gencat.cat/ca/coneix-catsalut/presentacio/organitzacio/recursos-humans/ofertes-treball/" class="source-link" target="_blank">Acceder →</a>
-                </div>
-                <div class="source-card">
-                    <div class="source-name">🏨 Quirónsalud</div>
-                    <div class="source-desc">Líder en sanidad privada española. 70+ centros, incluye Teknon Barcelona.</div>
-                    <a href="https://empleo.quironsalud.es/" class="source-link" target="_blank">Acceder →</a>
-                </div>
-                <div class="source-card">
-                    <div class="source-name">👔 LinkedIn</div>
-                    <div class="source-desc">101+ empleos médico familia Barcelona. Networking profesional.</div>
-                    <a href="https://es.linkedin.com/jobs/m%C3%A9dico-de-familia-empleos-barcelona" class="source-link" target="_blank">Acceder →</a>
-                </div>
+        <div class="portal-links">
+            <h3>🔗 Portales de Empleo Consultados</h3>
+            <div class="portal-grid">
+                <a href="https://www.camfic.cat/OfertesFeina.aspx" class="portal-link" target="_blank">
+                    <span>🏥</span> CAMFiC
+                </a>
+                <a href="https://ics.gencat.cat/ca/lics/treballeu-a-lics/treball-temporal/convocatories-de-treball-temporal/llista-de-convocatories/" class="portal-link" target="_blank">
+                    <span>🏛️</span> ICS Gencat
+                </a>
+                <a href="https://catsalut.gencat.cat/ca/coneix-catsalut/presentacio/organitzacio/recursos-humans/ofertes-treball/" class="portal-link" target="_blank">
+                    <span>💚</span> CatSalut
+                </a>
+                <a href="https://www.infojobs.net/ofertas-trabajo/barcelona/medico-de-familia" class="portal-link" target="_blank">
+                    <span>💼</span> InfoJobs
+                </a>
+                <a href="https://jobs.clinicbarcelona.org/jobs" class="portal-link" target="_blank">
+                    <span>🔬</span> Hospital Clínic
+                </a>
+                <a href="https://www.teknon.es/es/centro/recursos-humanos" class="portal-link" target="_blank">
+                    <span>🏨</span> Centro Médico Teknon
+                </a>
+                <a href="https://es.indeed.com/q-medico-de-familia-l-barcelona,-barcelona-provincia-empleos.html" class="portal-link" target="_blank">
+                    <span>🔍</span> Indeed
+                </a>
+                <a href="https://es.jooble.org/trabajo-medico-de-familia/Barcelona" class="portal-link" target="_blank">
+                    <span>📋</span> Jooble
+                </a>
             </div>
         </div>
 
         <footer>
-            <p>Dashboard generado automáticamente | Datos recopilados de múltiples fuentes públicas</p>
-            <p style="margin-top: 10px; font-size: 0.8rem;">⚠️ Las ofertas pueden variar. Verificar directamente en las fuentes oficiales antes de aplicar.</p>
+            <p>Dashboard generado automáticamente | © 2026</p>
+            <p style="margin-top: 10px; font-size: 0.9rem;">Los datos se actualizan diariamente desde múltiples fuentes</p>
         </footer>
     </div>
 
     <script>
-        // Filtros interactivos
-        document.querySelectorAll('.filter-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-                this.classList.add('active');
-            });
-        });
-
-        // Animación de entrada
-        document.querySelectorAll('.offer-card, .stat-card').forEach((card, index) => {
-            card.style.opacity = '0';
-            card.style.transform = 'translateY(20px)';
-            setTimeout(() => {
-                card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-                card.style.opacity = '1';
-                card.style.transform = 'translateY(0)';
-            }, index * 100);
+        // Actualización de fecha
+        document.querySelector('.last-update').textContent = '📅 Actualizado: ' + new Date().toLocaleString('es-ES', {
+            day: 'numeric',
+            month: 'long',
+            year: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
         });
     </script>
 </body>

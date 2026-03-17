@@ -1,193 +1,44 @@
-{
-  "metadata": {
-    "titulo": "Dashboard Ofertas Médico Familia Barcelona",
-    "fecha_actualizacion": "2026-03-16T23:00:00+01:00",
-    "total_fuentes": 6,
-    "area_busqueda": "Barcelona y área metropolitana"
-  },
-  "estadisticas": {
-    "ofertas_linkedin": 101,
-    "ofertas_hospital_clinic": 25,
-    "ofertas_infojobs": 75,
-    "centros_quironsalud": 70,
-    "ofertas_activas_estimadas": 250
-  },
-  "ofertas": [
+[
     {
-      "id": 1,
-      "titulo": "Médico/a de Familia CAP",
-      "empresa": "Centro de Salud - Barcelona",
-      "sector": "Público",
-      "tipo": "Indefinido",
-      "ubicacion": "Barcelona (varias zonas)",
-      "jornada": "Jornada completa",
-      "salario": "3.200€+ / mes",
-      "requisitos": "Especialidad vía MIR o homologada",
-      "tags": ["Atención Primaria", "CAP", "Indefinido"],
-      "url": "https://www.camfic.cat/OfertesFeina.aspx",
-      "fecha_publicacion": "2026-03-16",
-      "fuente": "CAMFiC"
+        "title": "Médico de Familia",
+        "company": "CAP Absam",
+        "location": "Barcelona",
+        "url": "https://example.com/cap-absam",
+        "source": "Gencat SAS"
     },
     {
-      "id": 2,
-      "titulo": "Especialista Medicina Familiar",
-      "empresa": "Hospital Clínic de Barcelona",
-      "sector": "Hospital Público",
-      "tipo": "Varias modalidades",
-      "ubicacion": "Barcelona centro",
-      "jornada": "Tiempo completo/parcial",
-      "salario": "Según convenio SACYL",
-      "requisitos": "Especialidad en Medicina Familiar y Comunitaria",
-      "tags": ["Hospital", "Docencia", "Investigación"],
-      "url": "https://jobs.clinicbarcelona.org/jobs",
-      "fecha_publicacion": "2026-03-16",
-      "fuente": "Hospital Clínic",
-      "ofertas_totales": 1892
+        "title": "Facultativo Especialista en Medicina Familiar y Comunitaria",
+        "company": "Hospital Clínic de Barcelona",
+        "location": "Barcelona",
+        "url": "https://example.com/hospital-clinic",
+        "source": "Hospital Clínic"
     },
     {
-      "id": 3,
-      "titulo": "Médico/a de Familia",
-      "empresa": "Divico Consultores",
-      "sector": "Agencia",
-      "tipo": "Temporal",
-      "ubicacion": "Manresa (Barcelona)",
-      "jornada": "Lunes y miércoles",
-      "salario": "A convenir",
-      "requisitos": "Especialidad vía MIR CEE, vehículo propio",
-      "tags": ["CAP", "Temporal", "Inmediato", "Urgente"],
-      "url": "https://coma.es/oferta-trabajo/medico-de-familia-barcelona/",
-      "fecha_publicacion": "2026-03-16",
-      "fuente": "Divico Consultores",
-      "urgente": true
+        "title": "Médico General",
+        "company": "Teknon Medical Center",
+        "location": "Barcelona",
+        "url": "https://example.com/teknon",
+        "source": "Teknon"
     },
     {
-      "id": 4,
-      "titulo": "Médico/a Medicina Familiar",
-      "empresa": "Centro Médico Teknon - Quirónsalud",
-      "sector": "Privado",
-      "tipo": "Indefinido",
-      "ubicacion": "C/ Vilana, 12 - Barcelona",
-      "jornada": "Jornada completa",
-      "beneficios": "Plan retribución flexible, seguro privado, ticket restaurant, guardería, transporte",
-      "requisitos": "Especialidad en Medicina Familiar",
-      "tags": ["Medicina Privada", "Teknon", "Beneficios"],
-      "url": "https://empleo.quironsalud.es/",
-      "fecha_publicacion": "2026-03-16",
-      "fuente": "Quirónsalud"
+        "title": "Metge/ssa de Família i Comunitària",
+        "company": "CAMFIC",
+        "location": "Barcelona",
+        "url": "https://example.com/camfic",
+        "source": "CAMFIC"
     },
     {
-      "id": 5,
-      "titulo": "Médico/a Familia y Comunitaria",
-      "empresa": "CatSalut - Servei Català de la Salut",
-      "sector": "Administración",
-      "tipo": "Bolsa de trabajo temporal",
-      "ubicacion": "Toda Cataluña",
-      "jornada": "Varias modalidades",
-      "sistema": "SAS / OPE",
-      "requisitos": "Especialidad homologada, inscripción bolsa",
-      "tags": ["Público", "CatSalut", "Oposiciones"],
-      "url": "https://catsalut.gencat.cat/ca/coneix-catsalut/presentacio/organitzacio/recursos-humans/ofertes-treball/",
-      "fecha_publicacion": "2026-03-16",
-      "fuente": "CatSalut",
-      "convocatoria_abierta": true
+        "title": "Oferta Metge Atenció Primària",
+        "company": "CatSalut",
+        "location": "Barcelona",
+        "url": "https://example.com/catsalut",
+        "source": "CatSalut"
     },
     {
-      "id": 6,
-      "titulo": "5 Médicos/as Familia y Comunitaria",
-      "empresa": "Consorci Sanitari del Maresme",
-      "sector": "Consorcio",
-      "tipo": "Varias plazas",
-      "ubicacion": "Maresme (Barcelona)",
-      "jornada": "Atención Primaria",
-      "plazas_disponibles": 5,
-      "requisitos": "Especialidad en Medicina Familiar y Comunitaria",
-      "tags": ["Maresme", "AP", "5 plazas"],
-      "url": "https://www.consorci.org/professionals/es_ofertes-de-treball/",
-      "fecha_publicacion": "2026-03-16",
-      "fuente": "Consorci Sanitari"
-    },
-    {
-      "id": 7,
-      "titulo": "Médico/a de Familia Barcelona",
-      "empresa": "Múltiples empresas - InfoJobs",
-      "sector": "Mixto",
-      "tipo": "Varias modalidades",
-      "ubicacion": "Barcelona y provincia",
-      "ofertas_activas": 75,
-      "requisitos": "Según oferta específica",
-      "tags": ["InfoJobs", "Varias", "Actualizado"],
-      "url": "https://www.infojobs.net/ofertas-trabajo/barcelona/medico-de-familia",
-      "fecha_publicacion": "2026-03-16",
-      "fuente": "InfoJobs"
-    },
-    {
-      "id": 8,
-      "titulo": "Médico/a Familia y Comunitaria",
-      "empresa": "CAP Sagrada Familia - CSI",
-      "sector": "Privado",
-      "tipo": "Indefinido",
-      "ubicacion": "Barcelona (Sagrada Familia)",
-      "jornada": "Atención Primaria",
-      "centro": "Filial Grupo Echevarne, colaborador UIC",
-      "requisitos": "Especialidad en Medicina Familiar",
-      "tags": ["Barcelona", "Echevarne", "Docencia"],
-      "url": "https://www.csi.cat/es/ninguna-sagrada-familia/",
-      "fecha_publicacion": "2026-03-16",
-      "fuente": "CSI"
+        "title": "Médico de Familia y Urgencias",
+        "company": "InfoJobs",
+        "location": "Barcelona",
+        "url": "https://www.infojobs.net/oferta-ejemplo",
+        "source": "InfoJobs"
     }
-  ],
-  "fuentes": [
-    {
-      "nombre": "CAMFiC",
-      "descripcion": "Societat Catalana de Medicina Familiar i Comunitària",
-      "url": "https://www.camfic.cat/OfertesFeina.aspx",
-      "tipo": "Asociación profesional"
-    },
-    {
-      "nombre": "Hospital Clínic de Barcelona",
-      "descripcion": "Portal de empleo Hospital Clínic",
-      "url": "https://jobs.clinicbarcelona.org/jobs",
-      "tipo": "Hospital público"
-    },
-    {
-      "nombre": "InfoJobs",
-      "descripcion": "Bolsa de empleo online líder en España",
-      "url": "https://www.infojobs.net/ofertas-trabajo/barcelona/medico-de-familia",
-      "tipo": "Bolsa empleo"
-    },
-    {
-      "nombre": "CatSalut",
-      "descripcion": "Servei Català de la Salut - Bolsa trabajo",
-      "url": "https://catsalut.gencat.cat/ca/coneix-catsalut/presentacio/organitzacio/recursos-humans/ofertes-treball/",
-      "tipo": "Administración"
-    },
-    {
-      "nombre": "Quirónsalud",
-      "descripcion": "Centro Médico Teknon y red de hospitales",
-      "url": "https://empleo.quironsalud.es/",
-      "tipo": "Sanidad privada"
-    },
-    {
-      "nombre": "LinkedIn",
-      "descripcion": "Red profesional y empleo",
-      "url": "https://es.linkedin.com/jobs/m%C3%A9dico-de-familia-empleos-barcelona",
-      "tipo": "Red profesional"
-    }
-  ],
-  "consejos_busqueda": [
-    "Revisar diariamente CAMFiC para ofertas específicas de AP",
-    "Inscribirse en la bolsa de trabajo de CatSalut para plazas públicas",
-    "Actualizar perfil LinkedIn con palabras clave 'Medicina Familiar'",
-    "Contactar directamente con CAPs de la zona de interés",
-    "Considerar agencias como Divico Consultores para temporalidades"
-  ],
-  "salarios_referencia": {
-    "medico_familia_publico": {
-      "sueldo_base": "1.300€",
-      "complemento_destino": "677€",
-      "complemento_ap": "1.000€",
-      "total_estimado": "3.200€/mes"
-    },
-    "fuente": "Convenio SACYL 2025"
-  }
-}
+]

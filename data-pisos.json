@@ -1,132 +1,182 @@
-{
-  "meta": {
-    "titulo": "Dashboard Pisos Barcelona < 1.400€",
-    "fecha_actualizacion": "2026-03-16T23:07:00+01:00",
-    "fuente": "Idealista, Fotocasa, Habitaclia",
-    "total_pisos_analizados": 8620
+[
+  {
+    "price": "650€/month",
+    "description": "1 bed.10 m² without lift",
+    "location": "Calle de Pontons, Vilapicina i la Torre Llobeta, Barcelona",
+    "url": "https://www.idealista.com/en/inmueble/109014685/"
   },
-  "estadisticas": {
-    "total_pisos_idealista": "Desde 650€",
-    "total_pisos_fotocasa": 4308,
-    "total_pisos_habitaclia": 4188,
-    "precio_medio_m2": {
-      "centro_eixample_gracia": "28€/m²",
-      "precio_medio_mensual": "1.800 - 2.000 €/mes"
-    }
+  {
+    "price": "699€/month",
+    "description": "1 bed.40 m²",
+    "location": "petritxol, El Gòtic, Barcelona",
+    "url": "https://www.idealista.com/en/inmueble/31587860/"
   },
-  "zonas_baratas": [
-    {
-      "zona": "Horta-Guinardó",
-      "precio_min": 600,
-      "precio_max": 1000,
-      "caracteristicas": "Zona tranquila, bien comunicada"
-    },
-    {
-      "zona": "Nou Barris",
-      "precio_min": 550,
-      "precio_max": 950,
-      "caracteristicas": "Precios más bajos de Barcelona"
-    },
-    {
-      "zona": "Sant Andreu",
-      "precio_min": 650,
-      "precio_max": 1100,
-      "caracteristicas": "Barrio residencial con encanto"
-    },
-    {
-      "zona": "Sant Martí",
-      "precio_min": 700,
-      "precio_max": 1200,
-      "caracteristicas": "Cerca de la playa, tech district"
-    }
-  ],
-  "pisos_destacados": [
-    {
-      "id": 1,
-      "titulo": "Piso en Carrer dels Metges",
-      "zona": "St. Pere - Sta. Caterina - El Born",
-      "superficie_m2": 35,
-      "precio_mes": 550,
-      "precio_m2": 15.71,
-      "habitaciones": 0,
-      "banos": 1,
-      "amueblado": false,
-      "fuente": "Habitaclia",
-      "url": "https://www.habitaclia.com/alquiler-piso-carrer_dels_metges_st_pere_sta_caterina_el_born-barcelona-i52795000008062.htm"
-    },
-    {
-      "id": 2,
-      "titulo": "Apartamento Passeig de la Mare de Déu del Coll",
-      "zona": "La Teixonera",
-      "superficie_m2": 35,
-      "precio_mes": 625,
-      "precio_m2": 17.86,
-      "habitaciones": 1,
-      "banos": 1,
-      "amueblado": false,
-      "caracteristicas": ["Exterior", "Balcón", "Primera planta sin ascensor"],
-      "fuente": "Habitaclia",
-      "url": "https://www.habitaclia.com/alquiler-apartamento-la_teixonera-barcelona-i5663000000041.htm"
-    },
-    {
-      "id": 3,
-      "titulo": "Estudio El Camp de l'Arpa del Clot",
-      "zona": "El Camp de l'Arpa del Clot",
-      "superficie_m2": 20,
-      "precio_mes": 690,
-      "precio_m2": 34.50,
-      "habitaciones": 0,
-      "banos": 1,
-      "amueblado": true,
-      "caracteristicas": ["Alojamiento entero", "Disponible 16/06/2026"],
-      "fuente": "Habitaclia",
-      "url": "https://www.habitaclia.com/alquiler-estudio-el_camp_de_l_arpa_del_clot-barcelona-i50824000003275.htm"
-    },
-    {
-      "id": 4,
-      "titulo": "Piso Avinguda Diagonal",
-      "zona": "Dreta de l'Eixample",
-      "superficie_m2": 25,
-      "precio_mes": 700,
-      "precio_m2": 28.00,
-      "habitaciones": 1,
-      "banos": 1,
-      "amueblado": false,
-      "fuente": "Habitaclia",
-      "url": "https://www.habitaclia.com/alquiler-piso-avinguda_diagonal_dreta_de_l_eixample-barcelona-i52795000009896.htm"
-    },
-    {
-      "id": 5,
-      "titulo": "Estudio reformado en Gracia",
-      "zona": "Gràcia",
-      "superficie_m2": 27,
-      "precio_mes": 750,
-      "precio_m2": 27.78,
-      "habitaciones": 0,
-      "banos": 1,
-      "amueblado": true,
-      "caracteristicas": ["Reformado", "Luminoso", "Cerca de la playa"],
-      "fuente": "Idealista",
-      "notas": "Solo para una persona no fumadora y sin mascotas"
-    },
-    {
-      "id": 6,
-      "titulo": "Piso en La Barceloneta",
-      "zona": "La Barceloneta",
-      "superficie_m2": 45,
-      "precio_mes": 950,
-      "precio_m2": 21.11,
-      "habitaciones": 1,
-      "banos": 1,
-      "amueblado": true,
-      "caracteristicas": ["Doble exterior", "2 balcones", "Terraza comunitaria", "Aire acondicionado", "Internet gratis"],
-      "fuente": "Idealista",
-      "notas": "Disponible abril, a pocos minutos de la playa"
-    }
-  ],
-  "enlaces_fuentes": {
-    "idealista": "https://www.idealista.com/alquiler-viviendas/barcelona-barcelona/?ordenado-por=precios-asc",
-    "fotocasa": "https://www.fotocasa.es/es/alquiler/pisos/barcelona-capital/todas-las-zonas/l",
-    "habitaclia": "https://www.habitaclia.com/alquiler-pisos-baratos-barcelona.htm"
+  {
+    "price": "700€/month",
+    "description": "30 m²",
+    "location": "Ronda de la Universitat, 27, La Dreta de l'Eixample, Barcelona",
+    "url": "https://www.idealista.com/en/inmueble/110905596/"
+  },
+  {
+    "price": "700€/month",
+    "description": "37 m²Ground floor exterior with lift",
+    "location": "Calle de Mascaró, 11, El Guinardó, Barcelona",
+    "url": "https://www.idealista.com/en/inmueble/110853756/"
+  },
+  {
+    "price": "704€/month",
+    "description": "1 bed.32 m²3rd floor exterior without lift",
+    "location": "Calle de l'Atlàntida, Barcelona, La Barceloneta, Barcelona",
+    "url": "https://www.idealista.com/en/inmueble/84047613/"
+  },
+  {
+    "price": "710€/month",
+    "description": "1 bed.53 m²6th floor exterior without lift",
+    "location": "Calle d'Aragó, El Camp de l'Arpa del Clot, Barcelona",
+    "url": "https://www.idealista.com/en/inmueble/110937126/"
+  },
+  {
+    "price": "720€/month",
+    "description": "1 bed.36 m²3rd floor exterior without lift",
+    "location": "Calle de Sevilla, La Barceloneta, Barcelona",
+    "url": "https://www.idealista.com/en/inmueble/105230202/"
+  },
+  {
+    "price": "724€/month",
+    "description": "1 bed.32 m²3rd floor exterior without lift",
+    "location": "Calle de Sant Miquel, La Barceloneta, Barcelona",
+    "url": "https://www.idealista.com/en/inmueble/91353226/"
+  },
+  {
+    "price": "740€/month",
+    "description": "22 m²3rd floor interior with lift",
+    "location": "Mateu, Vila de Gràcia, Barcelona",
+    "url": "https://www.idealista.com/en/inmueble/81304720/"
+  },
+  {
+    "price": "750€/month",
+    "description": "32 m²1st floor exterior with lift",
+    "location": "Calle Balcells, 12, El Camp d'En Grassot i Gràcia Nova, Barcelona",
+    "url": "https://www.idealista.com/en/inmueble/28771918/"
+  },
+  {
+    "price": "750€/month",
+    "description": "1 bed.40 m²2nd floor exterior without lift",
+    "location": "Calle de Salamanca, La Barceloneta, Barcelona",
+    "url": "https://www.idealista.com/en/inmueble/110923284/"
+  },
+  {
+    "price": "750€/month",
+    "description": "50 m²Ground floor exterior without lift",
+    "location": "Calle de Logronyo, 17, Horta, Barcelona",
+    "url": "https://www.idealista.com/en/inmueble/110922590/"
+  },
+  {
+    "price": "760€/month",
+    "description": "1 bed.42 m²Ground floor interior with lift",
+    "location": "Mare de Déu de Montserrat, El Guinardó, Barcelona",
+    "url": "https://www.idealista.com/en/inmueble/39568746/"
+  },
+  {
+    "price": "765€/month",
+    "description": "22 m²Mezzanine interior with lift",
+    "location": "La Nova Esquerra de l'Eixample, Barcelona",
+    "url": "https://www.idealista.com/en/inmueble/99940247/"
+  },
+  {
+    "price": "775€/month",
+    "description": "25 m²3rd floor exterior with lift",
+    "location": "Calle de Sant Pau, El Raval, Barcelona",
+    "url": "https://www.idealista.com/en/inmueble/110938915/"
+  },
+  {
+    "price": "775€/month",
+    "description": "25 m²3rd floor exterior with lift",
+    "location": "Calle de Sant Pau, El Raval, Barcelona",
+    "url": "https://www.idealista.com/en/inmueble/110907274/"
+  },
+  {
+    "price": "780€/month",
+    "description": "1 bed.20 m²5th floor exterior without lift",
+    "location": "Calle de Magalhães, 33, El Poble Sec - Parc de Montjuïc, Barcelona",
+    "url": "https://www.idealista.com/en/inmueble/110311509/"
+  },
+  {
+    "price": "796€/month",
+    "description": "1 bed.41 m²4th floor exterior without lift",
+    "location": "Calle de Guifré, El Raval, Barcelona",
+    "url": "https://www.idealista.com/en/inmueble/109245527/"
+  },
+  {
+    "price": "800€/month",
+    "description": "2 bed.40 m²Ground floor exterior without lift",
+    "location": "Grau I Torras, La Barceloneta, Barcelona",
+    "url": "https://www.idealista.com/en/inmueble/96599702/"
+  },
+  {
+    "price": "800€/month",
+    "description": "35 m²2nd floor exterior without lift",
+    "location": "Calle de Sant Miquel, 110, La Barceloneta, Barcelona",
+    "url": "https://www.idealista.com/en/inmueble/105534529/"
+  },
+  {
+    "price": "800€/month",
+    "description": "1 bed.37 m²2nd floor exterior without lift",
+    "location": "Canvis Vells, Sant Pere - Santa Caterina i la Ribera, Barcelona",
+    "url": "https://www.idealista.com/en/inmueble/81772492/"
+  },
+  {
+    "price": "800€/month",
+    "description": "1 bed.40 m²1st floor exterior without lift",
+    "location": "Passatge dels Escudellers, 3, El Gòtic, Barcelona",
+    "url": "https://www.idealista.com/en/inmueble/86596167/"
+  },
+  {
+    "price": "800€/month",
+    "description": "1 bed.40 m²3rd floor exterior without lift",
+    "location": "Passatge dels Escudellers, 3, El Gòtic, Barcelona",
+    "url": "https://www.idealista.com/en/inmueble/83042796/"
+  },
+  {
+    "price": "800€/month",
+    "description": "29 m²3rd floor exterior without lift",
+    "location": "Plaza Roja de la Ciutat Meridiana, 1, Ciutat Meridiana - Torre Baró - Vallbona, Barcelona",
+    "url": "https://www.idealista.com/en/inmueble/110627303/"
+  },
+  {
+    "price": "800€/month",
+    "description": "65 m²Semi-basement interior without lift",
+    "location": "Avenida de Can Baró, 1, Can Baró, Barcelona",
+    "url": "https://www.idealista.com/en/inmueble/110850105/"
+  },
+  {
+    "price": "800€/month",
+    "description": "1 bed.20 m²5th floor exterior without lift",
+    "location": "CL Magalhaes, 33, El Poble Sec - Parc de Montjuïc, Barcelona",
+    "url": "https://www.idealista.com/en/inmueble/109929026/"
+  },
+  {
+    "price": "800€/month",
+    "description": "2 bed.58 m²3rd floor exterior without lift",
+    "location": "Calle d'Amílcar, El Guinardó, Barcelona",
+    "url": "https://www.idealista.com/en/inmueble/100912742/"
+  },
+  {
+    "price": "800€/month",
+    "description": "1 bed.65 m²3rd floor interior without lift",
+    "location": "Pasaje del Rellotge, 2, El Gòtic, Barcelona",
+    "url": "https://www.idealista.com/en/inmueble/100245330/"
+  },
+  {
+    "price": "800€/month",
+    "description": "3 bed.58 m²1st floor interior with lift",
+    "location": "Calle de Sant Antoni Maria Claret, 94, El Camp d'En Grassot i Gràcia Nova, Barcelona",
+    "url": "https://www.idealista.com/en/inmueble/110831640/"
+  },
+  {
+    "price": "800€/month",
+    "description": "1 bed.25 m²Ground floor exterior without lift",
+    "location": "Calle de Julià, 9, El Poble Sec - Parc de Montjuïc, Barcelona",
+    "url": "https://www.idealista.com/en/inmueble/110813832/"
   }
-}
+]

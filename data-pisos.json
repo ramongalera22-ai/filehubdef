@@ -1,201 +1,212 @@
 {
-  "lastUpdate": "2026-03-17T23:00:00Z",
-  "city": "Barcelona",
+  "title": "Dashboard Pisos Barcelona - Menos de €1.400",
+  "lastUpdated": "2026-03-18T15:00:00Z",
   "currency": "EUR",
-  "priceFilter": {
-    "min": 0,
-    "max": 1400,
-    "currency": "EUR/mes"
+  "maxPrice": 1400,
+  "city": "Barcelona",
+  "totalListings": 2646,
+  "sources": ["Idealista", "Fotocasa", "Habitaclia"],
+  "neighborhoods": {
+    "Ciutat Vella": {
+      "name": "Ciutat Vella",
+      "listings": 658,
+      "avgPrice": 750,
+      "features": "Historic center, Gothic Quarter, near beaches"
+    },
+    "Eixample": {
+      "name": "Eixample",
+      "listings": 919,
+      "avgPrice": 850,
+      "features": "Modern grid layout, Sagrada Familia, commercial area"
+    },
+    "Sarrià-Sant Gervasi": {
+      "name": "Sarrià-Sant Gervasi",
+      "listings": 375,
+      "avgPrice": 900,
+      "features": "Upscale residential, quiet area, parks"
+    },
+    "Sant Martí": {
+      "name": "Sant Martí",
+      "listings": 197,
+      "avgPrice": 800,
+      "features": "Poblenou, industrial revival area, beaches"
+    },
+    "Gràcia": {
+      "name": "Gràcia",
+      "listings": 185,
+      "avgPrice": 820,
+      "features": "Bohemian, plazas, student area, bohemian vibe"
+    },
+    "Sants-Montjuïc": {
+      "name": "Sants-Montjuïc",
+      "listings": 98,
+      "avgPrice": 780,
+      "features": "Mountain views, museums, Cable car"
+    },
+    "Les Corts": {
+      "name": "Les Corts",
+      "listings": 113,
+      "avgPrice": 850,
+      "features": "Sports area, Camp Nou, residential"
+    },
+    "Horta Guinardó": {
+      "name": "Horta Guinardó",
+      "listings": 71,
+      "avgPrice": 750,
+      "features": "Park Güell area, gardens, quiet residential"
+    }
   },
-  "apartments": [
+  "recentListings": [
     {
-      "id": 1,
-      "title": "Piso 1 hab - Vilapicina i la Torre Llobeta",
-      "bedrooms": 1,
-      "bathrooms": 1,
-      "size": 10,
+      "id": "ideal-650-vilapicina",
+      "platform": "Idealista",
       "price": 650,
-      "district": "Vilapicina i la Torre Llobeta",
-      "description": "Apartamento completamente amueblado con lavadora, cocina equipada y wifi",
-      "features": ["Amueblado", "Wifi", "Lavadora", "Cocina equipada"],
-      "source": "Idealista",
-      "url": "https://www.idealista.com/alquiler-viviendas/barcelona-barcelona/"
-    },
-    {
-      "id": 2,
-      "title": "Piso 1 hab - El Gòtic",
       "bedrooms": 1,
       "bathrooms": 1,
-      "size": 40,
+      "area": 10,
+      "location": "Vilapicina i la Torre Llobeta",
+      "type": "Studio/Short-term",
+      "features": ["Furnished", "WiFi", "Private washing machine"],
+      "url": "https://www.idealista.com/en/alquiler-viviendas/barcelona-barcelona/"
+    },
+    {
+      "id": "ideal-699-gotic",
+      "platform": "Idealista",
       "price": 699,
-      "district": "El Gòtic",
-      "description": "Piso junto a la Rambla, baño con ducha, cocina independiente y salón-comedor con balcón",
-      "features": ["Balcón", "Cocina independiente", "Zona céntrica"],
-      "source": "Idealista",
-      "url": "https://www.idealista.com/alquiler-viviendas/barcelona-barcelona/"
-    },
-    {
-      "id": 3,
-      "title": "Estudio - La Dreta de l'Eixample",
       "bedrooms": 1,
       "bathrooms": 1,
-      "size": 30,
+      "area": 40,
+      "location": "El Gòtic",
+      "type": "Apartment/Short-term",
+      "features": ["Near La Rambla", "Seasonal rental", "Balcony"],
+      "url": "https://www.idealista.com/en/alquiler-viviendas/barcelona-barcelona/"
+    },
+    {
+      "id": "ideal-700-eixample",
+      "platform": "Idealista",
       "price": 700,
-      "district": "La Dreta de l'Eixample",
-      "description": "Co-living moderno en zona de estudiantes y trabajadores. Dormitorio con cocina y baño privado",
-      "features": ["Cocina privada", "Baño privado", "Co-living", "Ascensor"],
-      "source": "Idealista",
-      "url": "https://www.idealista.com/alquiler-viviendas/barcelona-barcelona/"
-    },
-    {
-      "id": 4,
-      "title": "Estudio - El Guinardó",
-      "bedrooms": 1,
-      "bathrooms": 1,
-      "size": 37,
-      "price": 700,
-      "district": "El Guinardó",
-      "description": "Estudio luminoso, reformado, amueblado y equipado. No incluye suministros",
-      "features": ["Reformado", "Luminoso", "Amueblado", "Ascensor"],
-      "source": "Idealista",
-      "url": "https://www.idealista.com/alquiler-viviendas/barcelona-barcelona/"
-    },
-    {
-      "id": 5,
-      "title": "Piso 1 hab - La Barceloneta",
-      "bedrooms": 1,
-      "bathrooms": 1,
-      "size": 32,
-      "price": 704,
-      "district": "La Barceloneta",
-      "description": "Piso moderno cerca de la playa con internet incluido. Exterior luminoso",
-      "features": ["Cerca de playa", "Internet incluido", "Exterior"],
-      "source": "Idealista",
-      "url": "https://www.idealista.com/alquiler-viviendas/barcelona-barcelona/"
-    },
-    {
-      "id": 6,
-      "title": "Piso 1 hab - La Barceloneta",
-      "bedrooms": 1,
-      "bathrooms": 1,
-      "size": 32,
-      "price": 724,
-      "originalPrice": 875,
-      "discount": "17%",
-      "district": "La Barceloneta",
-      "description": "Piso amueblado con 2 balcones, acceso a terraza. Aire acondicionado. Internet gratis",
-      "features": ["2 Balcones", "Terraza", "A/C", "Internet gratis", "Amueblado"],
-      "source": "Idealista",
-      "url": "https://www.idealista.com/alquiler-viviendas/barcelona-barcelona/"
-    },
-    {
-      "id": 7,
-      "title": "Estudio - El Gòtic",
       "bedrooms": 0,
       "bathrooms": 1,
-      "size": 20,
-      "price": 740,
-      "district": "El Gòtic",
-      "description": "Estudio céntrico, luminoso e interior",
-      "features": ["Céntrico", "Luminoso", "Interior", "Ascensor"],
-      "source": "Idealista",
-      "url": "https://www.idealista.com/alquiler-viviendas/barcelona-barcelona/"
+      "area": 30,
+      "location": "La Dreta de l'Eixample",
+      "type": "Studio/Co-living",
+      "features": ["Co-living space", "Shared amenities", "Available April"],
+      "url": "https://www.idealista.com/en/alquiler-viviendas/barcelona-barcelona/"
     },
     {
-      "id": 8,
-      "title": "Apartamento 1 hab - La Teixonera",
+      "id": "ideal-704-barceloneta",
+      "platform": "Idealista",
+      "price": 704,
       "bedrooms": 1,
       "bathrooms": 1,
-      "size": 35,
-      "price": 625,
-      "district": "La Teixonera",
-      "description": "Exterior con balcón, mucha luz natural. Cocina tipo americana. Primer piso sin ascensor",
-      "features": ["Balcón", "Mucha luz", "Cocina americana", "Buena comunicación"],
-      "source": "Fotocasa",
-      "url": "https://www.fotocasa.es/en/rental/apartments/barcelona-capital/all-zones/l"
+      "area": 32,
+      "location": "La Barceloneta",
+      "type": "Apartment/Short-term",
+      "features": ["Near beach", "Internet included", "Modern"],
+      "url": "https://www.idealista.com/en/alquiler-viviendas/barcelona-barcelona/"
     },
     {
-      "id": 9,
-      "title": "Piso 3 hab - La Verneda - La Pau",
-      "bedrooms": 3,
-      "bathrooms": 2,
-      "size": 74,
-      "price": 1150,
-      "district": "La Verneda - La Pau",
-      "description": "Vivienda 3 dormitorios, cocina equipada, amueblada. Sin comisiones de agencia",
-      "features": ["3 Dormitorios", "Amueblado", "Sin comisiones", "Cocina equipada"],
-      "source": "Habitaclia",
-      "url": "https://www.habitaclia.com/alquiler-pisos-barcelona.htm"
-    },
-    {
-      "id": 10,
-      "title": "Piso 3 hab - El Camp de l'Arpa del Clot",
-      "bedrooms": 3,
+      "id": "ideal-710-clot",
+      "platform": "Idealista",
+      "price": 710,
+      "bedrooms": 1,
       "bathrooms": 1,
-      "size": 92,
-      "price": 1299,
-      "district": "El Camp de l'Arpa del Clot",
-      "description": "Vivienda en promoción moderna, ubicada en el corazón de El Clot",
-      "features": ["3 Dormitorios", "Moderno", "Promoción"],
-      "source": "Habitaclia",
-      "url": "https://www.habitaclia.com/alquiler-pisos-barcelona.htm"
+      "area": 53,
+      "location": "El Camp de l'Arpa del Clot",
+      "type": "Penthouse/Short-term",
+      "features": ["Spacious terrace", "Private access", "Well-connected"],
+      "url": "https://www.idealista.com/en/alquiler-viviendas/barcelona-barcelona/"
     },
     {
-      "id": 11,
-      "title": "Piso 2 hab - Vila de Gràcia",
+      "id": "ideal-720-barceloneta",
+      "platform": "Idealista",
+      "price": 720,
+      "bedrooms": 1,
+      "bathrooms": 1,
+      "area": 36,
+      "location": "La Barceloneta",
+      "type": "Apartment/Short-term",
+      "features": ["Beach access", "Designer furnished", "Balconies"],
+      "url": "https://www.idealista.com/en/alquiler-viviendas/barcelona-barcelona/"
+    },
+    {
+      "id": "ideal-750-gracia",
+      "platform": "Idealista",
+      "price": 750,
+      "bedrooms": 0,
+      "bathrooms": 1,
+      "area": 22,
+      "location": "Vila de Gràcia",
+      "type": "Studio/Seasonal",
+      "features": ["Renovated", "Furnished", "Bohemian area"],
+      "url": "https://www.idealista.com/en/alquiler-viviendas/barcelona-barcelona/"
+    },
+    {
+      "id": "ideal-800-barceloneta",
+      "platform": "Idealista",
+      "price": 800,
       "bedrooms": 2,
       "bathrooms": 1,
-      "size": 50,
-      "price": 1550,
-      "district": "Vila de Gràcia",
-      "description": "Espacio no amueblado perfecto para profesionales o estudiantes",
-      "features": ["2 Dormitorios", "No amueblado", "Zona de Gràcia"],
-      "source": "Habitaclia",
-      "url": "https://www.habitaclia.com/alquiler-pisos-barcelona.htm"
+      "area": 40,
+      "location": "La Barceloneta",
+      "type": "Apartment/Long-term",
+      "features": ["2 bedrooms", "Renovated", "AC with heat pump"],
+      "url": "https://www.idealista.com/en/alquiler-viviendas/barcelona-barcelona/"
     },
     {
-      "id": 12,
-      "title": "Piso 2 hab - El Poble Sec",
+      "id": "fotocasa-450-vallhebron",
+      "platform": "Fotocasa",
+      "price": 450,
+      "bedrooms": 1,
+      "bathrooms": 1,
+      "area": 90,
+      "location": "La Vall d'Hebron",
+      "type": "Room in shared flat",
+      "features": ["Shared apartment", "Metro access", "All utilities included"],
+      "url": "https://www.fotocasa.es/en/rental/flats/barcelona-capital/"
+    },
+    {
+      "id": "habitaclia-sample",
+      "platform": "Habitaclia",
+      "price": 800,
       "bedrooms": 2,
       "bathrooms": 1,
-      "size": 74,
-      "price": 1750,
-      "district": "El Poble Sec - Parc de Montjuïc",
-      "description": "Espacio no amueblado perfecto para profesionales o estudiantes",
-      "features": ["2 Dormitorios", "Montjuïc cercano"],
-      "source": "Habitaclia",
-      "url": "https://www.habitaclia.com/alquiler-pisos-barcelona.htm"
-    },
-    {
-      "id": 13,
-      "title": "Apartamento 3 hab - Congrés - Indians",
-      "bedrooms": 3,
-      "bathrooms": 1,
-      "size": 75,
-      "price": 1700,
-      "district": "Congrés - Indians",
-      "description": "Alojamiento entero disponible para entrada inmediata",
-      "features": ["3 Dormitorios", "Alojamiento entero"],
-      "source": "Habitaclia",
-      "url": "https://www.habitaclia.com/alquiler-pisos-barcelona.htm"
+      "area": 80,
+      "location": "Eixample",
+      "type": "Apartment/Long-term",
+      "features": ["Renovated", "Well-equipped", "Central location"],
+      "url": "https://english.habitaclia.com/rent-barcelona.htm"
     }
   ],
-  "statistics": {
-    "totalListings": 13,
-    "averagePrice": 1018,
-    "lowestPrice": 625,
-    "highestPrice": 1750,
-    "averageSizeM2": 53,
-    "byBedrooms": {
-      "0": 1,
-      "1": 5,
-      "2": 2,
-      "3": 3
+  "priceRanges": {
+    "under500": {
+      "label": "Under €500",
+      "count": 342,
+      "percentage": 12.9
     },
-    "bySource": {
-      "Idealista": 6,
-      "Fotocasa": 1,
-      "Habitaclia": 6
+    "500to800": {
+      "label": "€500 - €800",
+      "count": 958,
+      "percentage": 36.2
+    },
+    "800to1000": {
+      "label": "€800 - €1.000",
+      "count": 892,
+      "percentage": 33.7
+    },
+    "1000to1400": {
+      "label": "€1.000 - €1.400",
+      "count": 454,
+      "percentage": 17.2
     }
-  }
+  },
+  "statistics": {
+    "medianPrice": 750,
+    "avgBedroomCount": 1.2,
+    "avgAreaSqm": 65,
+    "avgPricePerSqm": 11.54,
+    "totalNeighborhoods": 8
+  },
+  "updateFrequency": "Daily",
+  "disclaimer": "Precios aproximados basados en datos públicos de Idealista, Fotocasa y Habitaclia. Los precios pueden variar."
 }

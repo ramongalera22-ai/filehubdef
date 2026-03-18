@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Pisos Barcelona - Menos de 1.400€</title>
+    <title>Dashboard Pisos Barcelona - Menos de €1.400</title>
     <style>
         * {
             margin: 0;
@@ -20,235 +20,290 @@
         }
         
         .container {
-            max-width: 1400px;
+            max-width: 1200px;
             margin: 0 auto;
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            overflow: hidden;
         }
         
         header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 40px;
-            text-align: center;
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
         }
         
         header h1 {
+            color: #667eea;
             font-size: 2.5em;
             margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
         }
         
-        header p {
+        header .subtitle {
+            color: #666;
             font-size: 1.1em;
-            opacity: 0.95;
         }
         
-        .stats-container {
+        .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            padding: 30px;
-            background: #f8f9fa;
-            border-bottom: 1px solid #e0e0e0;
+            gap: 15px;
+            margin-top: 20px;
         }
         
-        .stat-box {
-            background: white;
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
             padding: 20px;
             border-radius: 8px;
             text-align: center;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            border-left: 4px solid #667eea;
         }
         
-        .stat-box h3 {
-            color: #667eea;
-            font-size: 0.9em;
-            text-transform: uppercase;
-            margin-bottom: 10px;
-        }
-        
-        .stat-box .value {
+        .stat-card .number {
             font-size: 2em;
             font-weight: bold;
-            color: #333;
-        }
-        
-        .filters {
-            padding: 20px 30px;
-            background: #fff;
-            border-bottom: 1px solid #e0e0e0;
-            display: flex;
-            gap: 15px;
-            flex-wrap: wrap;
-        }
-        
-        .filters select, .filters input {
-            padding: 10px 15px;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            font-size: 1em;
-            cursor: pointer;
-        }
-        
-        .filters select:hover, .filters input:hover {
-            border-color: #667eea;
-        }
-        
-        .apartments-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 20px;
-            padding: 30px;
-        }
-        
-        .apartment-card {
-            background: white;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            transition: transform 0.3s, box-shadow 0.3s;
-            border-top: 4px solid #667eea;
-        }
-        
-        .apartment-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-        }
-        
-        .card-header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 15px;
-        }
-        
-        .card-header h3 {
-            font-size: 1.3em;
             margin-bottom: 5px;
         }
         
-        .card-header .price {
+        .stat-card .label {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+        
+        .content-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        @media (max-width: 768px) {
+            .content-wrapper {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .section {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .section h2 {
+            color: #667eea;
             font-size: 1.8em;
-            font-weight: bold;
+            margin-bottom: 20px;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
         }
         
-        .card-header .discount {
-            background: #ff6b6b;
-            padding: 2px 8px;
-            border-radius: 4px;
-            font-size: 0.9em;
-            margin-left: 10px;
-        }
-        
-        .card-body {
+        .neighborhood-item {
             padding: 15px;
+            margin-bottom: 12px;
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            border-radius: 4px;
+            transition: all 0.3s ease;
         }
         
-        .card-body p {
+        .neighborhood-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .neighborhood-item h3 {
+            color: #333;
+            margin-bottom: 8px;
+            font-size: 1.1em;
+        }
+        
+        .neighborhood-item p {
             color: #666;
-            font-size: 0.95em;
-            margin-bottom: 10px;
-            line-height: 1.4;
-        }
-        
-        .card-meta {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 10px;
             font-size: 0.9em;
-            color: #555;
+            line-height: 1.5;
         }
         
-        .meta-item {
+        .stats-flex {
             display: flex;
-            align-items: center;
-            gap: 5px;
+            justify-content: space-between;
+            margin-top: 8px;
+            font-size: 0.85em;
+            color: #764ba2;
+            font-weight: 600;
+        }
+        
+        .listings-container {
+            display: grid;
+            gap: 20px;
+        }
+        
+        .listing-card {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 20px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .listing-card:hover {
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.2);
+            transform: translateY(-3px);
+            border-color: #667eea;
+        }
+        
+        .listing-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 12px;
+        }
+        
+        .listing-title {
+            font-weight: 600;
+            color: #333;
+            font-size: 1.1em;
+        }
+        
+        .price-badge {
+            background: #667eea;
+            color: white;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+        
+        .listing-details {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 12px;
+            font-size: 0.9em;
+        }
+        
+        .detail-item {
+            color: #666;
+        }
+        
+        .detail-item strong {
+            color: #333;
+            display: block;
+            margin-bottom: 3px;
+        }
+        
+        .listing-location {
+            color: #764ba2;
+            font-weight: 600;
+            margin-bottom: 12px;
         }
         
         .features {
             display: flex;
             flex-wrap: wrap;
             gap: 8px;
-            margin-bottom: 15px;
         }
         
         .feature-tag {
-            background: #e8eaf6;
-            color: #667eea;
+            background: #e9ecef;
+            color: #666;
             padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 0.85em;
-            font-weight: 500;
+            border-radius: 12px;
+            font-size: 0.8em;
+        }
+        
+        .price-distribution {
+            margin-bottom: 20px;
+        }
+        
+        .price-range-bar {
+            margin-bottom: 15px;
+        }
+        
+        .price-range-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+            font-size: 0.9em;
+        }
+        
+        .price-range-label span:first-child {
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .price-range-label span:last-child {
+            color: #667eea;
+            font-weight: 600;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 24px;
+            background: #e9ecef;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.75em;
+            font-weight: bold;
+        }
+        
+        .full-width {
+            grid-column: 1 / -1;
+        }
+        
+        .sources {
+            background: #f0f4ff;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+        
+        .sources h4 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 0.95em;
+        }
+        
+        .sources-list {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
         }
         
         .source-badge {
-            display: inline-block;
-            background: #667eea;
-            color: white;
-            padding: 4px 10px;
-            border-radius: 4px;
-            font-size: 0.8em;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-        
-        .card-footer {
-            border-top: 1px solid #eee;
-            padding: 12px 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .card-footer a {
-            background: #667eea;
-            color: white;
-            padding: 8px 16px;
-            border-radius: 4px;
-            text-decoration: none;
-            font-size: 0.9em;
-            transition: background 0.3s;
-        }
-        
-        .card-footer a:hover {
-            background: #764ba2;
-        }
-        
-        .district-label {
-            color: #999;
+            background: white;
+            border: 1px solid #667eea;
+            color: #667eea;
+            padding: 6px 12px;
+            border-radius: 20px;
             font-size: 0.85em;
+            font-weight: 600;
         }
         
         footer {
-            background: #f8f9fa;
+            background: white;
+            border-radius: 12px;
             padding: 20px;
             text-align: center;
             color: #666;
-            border-top: 1px solid #e0e0e0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
             font-size: 0.9em;
         }
         
-        .no-results {
-            text-align: center;
-            padding: 40px;
+        .disclaimer {
+            margin-top: 10px;
             color: #999;
-        }
-        
-        @media (max-width: 768px) {
-            header h1 {
-                font-size: 1.8em;
-            }
-            
-            .apartments-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .stats-container {
-                grid-template-columns: repeat(2, 1fr);
-            }
+            font-size: 0.85em;
+            font-style: italic;
         }
     </style>
 </head>
@@ -256,161 +311,260 @@
     <div class="container">
         <header>
             <h1>🏠 Dashboard Pisos Barcelona</h1>
-            <p>Pisos en alquiler por menos de 1.400€/mes</p>
+            <p class="subtitle">Pisos en alquiler por menos de €1.400/mes</p>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="number">2.646</div>
+                    <div class="label">Anuncios Activos</div>
+                </div>
+                <div class="stat-card">
+                    <div class="number">€750</div>
+                    <div class="label">Precio Mediano</div>
+                </div>
+                <div class="stat-card">
+                    <div class="number">65m²</div>
+                    <div class="label">Área Promedio</div>
+                </div>
+                <div class="stat-card">
+                    <div class="number">€11,54</div>
+                    <div class="label">Precio/m² Promedio</div>
+                </div>
+            </div>
         </header>
         
-        <div class="stats-container">
-            <div class="stat-box">
-                <h3>Total de pisos</h3>
-                <div class="value">13</div>
+        <div class="content-wrapper">
+            <div class="section">
+                <h2>📍 Barrios Disponibles</h2>
+                <div class="neighborhood-item">
+                    <h3>Eixample</h3>
+                    <p>Zona moderna con distribución en cuadrícula, cerca de Sagrada Familia y áreas comerciales.</p>
+                    <div class="stats-flex">
+                        <span>919 anuncios</span>
+                        <span>€850 promedio</span>
+                    </div>
+                </div>
+                
+                <div class="neighborhood-item">
+                    <h3>Ciutat Vella</h3>
+                    <p>Centro histórico, Barrio Gótico, muy cerca de playas y atracciones turísticas.</p>
+                    <div class="stats-flex">
+                        <span>658 anuncios</span>
+                        <span>€750 promedio</span>
+                    </div>
+                </div>
+                
+                <div class="neighborhood-item">
+                    <h3>Sarrià-Sant Gervasi</h3>
+                    <p>Zona residencial de lujo, tranquila con muchos parques y espacios verdes.</p>
+                    <div class="stats-flex">
+                        <span>375 anuncios</span>
+                        <span>€900 promedio</span>
+                    </div>
+                </div>
+                
+                <div class="neighborhood-item">
+                    <h3>Sant Martí</h3>
+                    <p>Poblenou, zona en transformación con carácter industrial moderno, acceso a playas.</p>
+                    <div class="stats-flex">
+                        <span>197 anuncios</span>
+                        <span>€800 promedio</span>
+                    </div>
+                </div>
+                
+                <div class="neighborhood-item">
+                    <h3>Gràcia</h3>
+                    <p>Barrio bohemio con plazas encantadoras, popular entre estudiantes y artistas.</p>
+                    <div class="stats-flex">
+                        <span>185 anuncios</span>
+                        <span>€820 promedio</span>
+                    </div>
+                </div>
+                
+                <div class="neighborhood-item">
+                    <h3>Horta-Guinardó</h3>
+                    <p>Cerca del Parque Güell, zona tranquila con jardines y ambiente residencial.</p>
+                    <div class="stats-flex">
+                        <span>71 anuncios</span>
+                        <span>€750 promedio</span>
+                    </div>
+                </div>
             </div>
-            <div class="stat-box">
-                <h3>Precio promedio</h3>
-                <div class="value">1.018€</div>
-            </div>
-            <div class="stat-box">
-                <h3>Más barato</h3>
-                <div class="value">625€</div>
-            </div>
-            <div class="stat-box">
-                <h3>Tamaño promedio</h3>
-                <div class="value">53 m²</div>
+            
+            <div class="section">
+                <h2>💰 Distribución de Precios</h2>
+                <div class="price-distribution">
+                    <div class="price-range-bar">
+                        <div class="price-range-label">
+                            <span>Menos de €500</span>
+                            <span>342 (12.9%)</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 12.9%;">12.9%</div>
+                        </div>
+                    </div>
+                    
+                    <div class="price-range-bar">
+                        <div class="price-range-label">
+                            <span>€500 - €800</span>
+                            <span>958 (36.2%)</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 36.2%;">36.2%</div>
+                        </div>
+                    </div>
+                    
+                    <div class="price-range-bar">
+                        <div class="price-range-label">
+                            <span>€800 - €1.000</span>
+                            <span>892 (33.7%)</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 33.7%;">33.7%</div>
+                        </div>
+                    </div>
+                    
+                    <div class="price-range-bar">
+                        <div class="price-range-label">
+                            <span>€1.000 - €1.400</span>
+                            <span>454 (17.2%)</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 17.2%;">17.2%</div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         
-        <div class="filters">
-            <select id="filterBedrooms">
-                <option value="">Filtrar por habitaciones...</option>
-                <option value="0">Estudios</option>
-                <option value="1">1 Habitación</option>
-                <option value="2">2 Habitaciones</option>
-                <option value="3">3+ Habitaciones</option>
-            </select>
+        <div class="section full-width">
+            <h2>🔍 Anuncios Recientes</h2>
+            <div class="listings-container">
+                <div class="listing-card">
+                    <div class="listing-header">
+                        <div class="listing-title">Estudio Moderno - Vilapicina</div>
+                        <div class="price-badge">€650/mes</div>
+                    </div>
+                    <div class="listing-location">📍 Vilapicina i la Torre Llobeta</div>
+                    <div class="listing-details">
+                        <div class="detail-item"><strong>1 Dorm</strong>Estudio</div>
+                        <div class="detail-item"><strong>1 Baño</strong></div>
+                        <div class="detail-item"><strong>10m²</strong></div>
+                    </div>
+                    <div class="features">
+                        <span class="feature-tag">Amueblado</span>
+                        <span class="feature-tag">WiFi</span>
+                        <span class="feature-tag">Lavadora privada</span>
+                    </div>
+                </div>
+                
+                <div class="listing-card">
+                    <div class="listing-header">
+                        <div class="listing-title">Apartamento Centro - Gothic Quarter</div>
+                        <div class="price-badge">€699/mes</div>
+                    </div>
+                    <div class="listing-location">📍 El Gòtic (Barrio Gótico)</div>
+                    <div class="listing-details">
+                        <div class="detail-item"><strong>1 Dorm</strong></div>
+                        <div class="detail-item"><strong>1 Baño</strong></div>
+                        <div class="detail-item"><strong>40m²</strong></div>
+                    </div>
+                    <div class="features">
+                        <span class="feature-tag">Cerca La Rambla</span>
+                        <span class="feature-tag">Alquiler temporal</span>
+                        <span class="feature-tag">Balcón</span>
+                    </div>
+                </div>
+                
+                <div class="listing-card">
+                    <div class="listing-header">
+                        <div class="listing-title">Estudio Co-living - Eixample</div>
+                        <div class="price-badge">€700/mes</div>
+                    </div>
+                    <div class="listing-location">📍 La Dreta de l'Eixample</div>
+                    <div class="listing-details">
+                        <div class="detail-item"><strong>Estudio</strong></div>
+                        <div class="detail-item"><strong>1 Baño</strong></div>
+                        <div class="detail-item"><strong>30m²</strong></div>
+                    </div>
+                    <div class="features">
+                        <span class="feature-tag">Co-living</span>
+                        <span class="feature-tag">Servicios comunes</span>
+                        <span class="feature-tag">Disponible abril</span>
+                    </div>
+                </div>
+                
+                <div class="listing-card">
+                    <div class="listing-header">
+                        <div class="listing-title">Apartamento Playa - Barceloneta</div>
+                        <div class="price-badge">€704/mes</div>
+                    </div>
+                    <div class="listing-location">📍 La Barceloneta (Junto a playas)</div>
+                    <div class="listing-details">
+                        <div class="detail-item"><strong>1 Dorm</strong></div>
+                        <div class="detail-item"><strong>1 Baño</strong></div>
+                        <div class="detail-item"><strong>32m²</strong></div>
+                    </div>
+                    <div class="features">
+                        <span class="feature-tag">Acceso playas</span>
+                        <span class="feature-tag">Internet incluido</span>
+                        <span class="feature-tag">Moderno</span>
+                    </div>
+                </div>
+                
+                <div class="listing-card">
+                    <div class="listing-header">
+                        <div class="listing-title">Ático con Terraza - El Clot</div>
+                        <div class="price-badge">€710/mes</div>
+                    </div>
+                    <div class="listing-location">📍 El Camp de l'Arpa del Clot</div>
+                    <div class="listing-details">
+                        <div class="detail-item"><strong>1 Dorm</strong></div>
+                        <div class="detail-item"><strong>1 Baño</strong></div>
+                        <div class="detail-item"><strong>53m²</strong></div>
+                    </div>
+                    <div class="features">
+                        <span class="feature-tag">Terraza espaciosa</span>
+                        <span class="feature-tag">Acceso privado</span>
+                        <span class="feature-tag">Bien conectado</span>
+                    </div>
+                </div>
+                
+                <div class="listing-card">
+                    <div class="listing-header">
+                        <div class="listing-title">Apartamento 2 Dormitorios - Barceloneta</div>
+                        <div class="price-badge">€800/mes</div>
+                    </div>
+                    <div class="listing-location">📍 La Barceloneta</div>
+                    <div class="listing-details">
+                        <div class="detail-item"><strong>2 Dormeitorios</strong></div>
+                        <div class="detail-item"><strong>1 Baño</strong></div>
+                        <div class="detail-item"><strong>40m²</strong></div>
+                    </div>
+                    <div class="features">
+                        <span class="feature-tag">Renovado</span>
+                        <span class="feature-tag">AC + Calefacción</span>
+                        <span class="feature-tag">Luz natural</span>
+                    </div>
+                </div>
+            </div>
             
-            <select id="filterSource">
-                <option value="">Todas las fuentes</option>
-                <option value="Idealista">Idealista</option>
-                <option value="Fotocasa">Fotocasa</option>
-                <option value="Habitaclia">Habitaclia</option>
-            </select>
-            
-            <select id="sortBy">
-                <option value="price-asc">Menor precio</option>
-                <option value="price-desc">Mayor precio</option>
-                <option value="size-asc">Menor tamaño</option>
-                <option value="size-desc">Mayor tamaño</option>
-            </select>
-        </div>
-        
-        <div class="apartments-grid" id="apartmentsContainer">
-            <!-- Los pisos se cargarán aquí con JavaScript -->
+            <div class="sources">
+                <h4>📊 Fuentes de Datos:</h4>
+                <div class="sources-list">
+                    <span class="source-badge">Idealista</span>
+                    <span class="source-badge">Fotocasa</span>
+                    <span class="source-badge">Habitaclia</span>
+                </div>
+            </div>
         </div>
         
         <footer>
-            <p>📊 Datos actualizados: 17 de Marzo de 2026 - 23:00h</p>
-            <p>Fuentes: Idealista, Fotocasa, Habitaclia</p>
-            <p>Dashboard generado automáticamente</p>
+            <div>📅 Actualizado: 18 de marzo de 2026</div>
+            <div class="disclaimer">
+                ⚠️ Los precios y disponibilidad son aproximados basados en datos públicos y pueden cambiar en cualquier momento. 
+                Se recomienda verificar directamente con los portales de inmuebles para información actualizada.
+            </div>
         </footer>
     </div>
-    
-    <script>
-        // Datos de pisos (embed de data-pisos.json)
-        const apartmentsData = {
-            "apartments": [
-                {"id": 1, "title": "Piso 1 hab - Vilapicina i la Torre Llobeta", "bedrooms": 1, "bathrooms": 1, "size": 10, "price": 650, "district": "Vilapicina i la Torre Llobeta", "description": "Apartamento completamente amueblado con lavadora, cocina equipada y wifi", "features": ["Amueblado", "Wifi", "Lavadora", "Cocina equipada"], "source": "Idealista"},
-                {"id": 2, "title": "Piso 1 hab - El Gòtic", "bedrooms": 1, "bathrooms": 1, "size": 40, "price": 699, "district": "El Gòtic", "description": "Piso junto a la Rambla, baño con ducha, cocina independiente y salón-comedor con balcón", "features": ["Balcón", "Cocina independiente", "Zona céntrica"], "source": "Idealista"},
-                {"id": 3, "title": "Estudio - La Dreta de l'Eixample", "bedrooms": 1, "bathrooms": 1, "size": 30, "price": 700, "district": "La Dreta de l'Eixample", "description": "Co-living moderno en zona de estudiantes y trabajadores. Dormitorio con cocina y baño privado", "features": ["Cocina privada", "Baño privado", "Co-living", "Ascensor"], "source": "Idealista"},
-                {"id": 4, "title": "Estudio - El Guinardó", "bedrooms": 1, "bathrooms": 1, "size": 37, "price": 700, "district": "El Guinardó", "description": "Estudio luminoso, reformado, amueblado y equipado. No incluye suministros", "features": ["Reformado", "Luminoso", "Amueblado", "Ascensor"], "source": "Idealista"},
-                {"id": 5, "title": "Piso 1 hab - La Barceloneta", "bedrooms": 1, "bathrooms": 1, "size": 32, "price": 704, "district": "La Barceloneta", "description": "Piso moderno cerca de la playa con internet incluido. Exterior luminoso", "features": ["Cerca de playa", "Internet incluido", "Exterior"], "source": "Idealista"},
-                {"id": 6, "title": "Piso 1 hab - La Barceloneta", "bedrooms": 1, "bathrooms": 1, "size": 32, "price": 724, "originalPrice": 875, "discount": "17%", "district": "La Barceloneta", "description": "Piso amueblado con 2 balcones, acceso a terraza. Aire acondicionado. Internet gratis", "features": ["2 Balcones", "Terraza", "A/C", "Internet gratis", "Amueblado"], "source": "Idealista"},
-                {"id": 7, "title": "Estudio - El Gòtic", "bedrooms": 0, "bathrooms": 1, "size": 20, "price": 740, "district": "El Gòtic", "description": "Estudio céntrico, luminoso e interior", "features": ["Céntrico", "Luminoso", "Interior", "Ascensor"], "source": "Idealista"},
-                {"id": 8, "title": "Apartamento 1 hab - La Teixonera", "bedrooms": 1, "bathrooms": 1, "size": 35, "price": 625, "district": "La Teixonera", "description": "Exterior con balcón, mucha luz natural. Cocina tipo americana. Primer piso sin ascensor", "features": ["Balcón", "Mucha luz", "Cocina americana", "Buena comunicación"], "source": "Fotocasa"},
-                {"id": 9, "title": "Piso 3 hab - La Verneda - La Pau", "bedrooms": 3, "bathrooms": 2, "size": 74, "price": 1150, "district": "La Verneda - La Pau", "description": "Vivienda 3 dormitorios, cocina equipada, amueblada. Sin comisiones de agencia", "features": ["3 Dormitorios", "Amueblado", "Sin comisiones", "Cocina equipada"], "source": "Habitaclia"},
-                {"id": 10, "title": "Piso 3 hab - El Camp de l'Arpa del Clot", "bedrooms": 3, "bathrooms": 1, "size": 92, "price": 1299, "district": "El Camp de l'Arpa del Clot", "description": "Vivienda en promoción moderna, ubicada en el corazón de El Clot", "features": ["3 Dormitorios", "Moderno", "Promoción"], "source": "Habitaclia"},
-                {"id": 11, "title": "Piso 2 hab - Vila de Gràcia", "bedrooms": 2, "bathrooms": 1, "size": 50, "price": 1550, "district": "Vila de Gràcia", "description": "Espacio no amueblado perfecto para profesionales o estudiantes", "features": ["2 Dormitorios", "No amueblado", "Zona de Gràcia"], "source": "Habitaclia"},
-                {"id": 12, "title": "Piso 2 hab - El Poble Sec", "bedrooms": 2, "bathrooms": 1, "size": 74, "price": 1750, "district": "El Poble Sec - Parc de Montjuïc", "description": "Espacio no amueblado perfecto para profesionales o estudiantes", "features": ["2 Dormitorios", "Montjuïc cercano"], "source": "Habitaclia"},
-                {"id": 13, "title": "Apartamento 3 hab - Congrés - Indians", "bedrooms": 3, "bathrooms": 1, "size": 75, "price": 1700, "district": "Congrés - Indians", "description": "Alojamiento entero disponible para entrada inmediata", "features": ["3 Dormitorios", "Alojamiento entero"], "source": "Habitaclia"}
-            ]
-        };
-        
-        function renderApartments() {
-            const filterBedrooms = document.getElementById('filterBedrooms').value;
-            const filterSource = document.getElementById('filterSource').value;
-            const sortBy = document.getElementById('sortBy').value;
-            
-            let filtered = apartmentsData.apartments;
-            
-            if (filterBedrooms) {
-                filtered = filtered.filter(apt => apt.bedrooms == filterBedrooms);
-            }
-            
-            if (filterSource) {
-                filtered = filtered.filter(apt => apt.source === filterSource);
-            }
-            
-            if (sortBy === 'price-asc') {
-                filtered.sort((a, b) => a.price - b.price);
-            } else if (sortBy === 'price-desc') {
-                filtered.sort((a, b) => b.price - a.price);
-            } else if (sortBy === 'size-asc') {
-                filtered.sort((a, b) => a.size - b.size);
-            } else if (sortBy === 'size-desc') {
-                filtered.sort((a, b) => b.size - a.size);
-            }
-            
-            const container = document.getElementById('apartmentsContainer');
-            
-            if (filtered.length === 0) {
-                container.innerHTML = '<div class="no-results"><h3>No se encontraron pisos con los filtros seleccionados</h3></div>';
-                return;
-            }
-            
-            container.innerHTML = filtered.map(apt => `
-                <div class="apartment-card">
-                    <div class="card-header">
-                        <h3>${apt.title}</h3>
-                        <div>
-                            <span class="price">${apt.price}€/mes</span>
-                            ${apt.discount ? `<span class="discount">-${apt.discount}</span>` : ''}
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <span class="source-badge">${apt.source}</span>
-                        <p class="district-label">📍 ${apt.district}</p>
-                        <p>${apt.description}</p>
-                        <div class="card-meta">
-                            <div class="meta-item">
-                                <span>🛏️</span>
-                                <span>${apt.bedrooms === 0 ? 'Estudio' : apt.bedrooms + ' hab.'}</span>
-                            </div>
-                            <div class="meta-item">
-                                <span>🚿</span>
-                                <span>${apt.bathrooms} baño${apt.bathrooms > 1 ? 's' : ''}</span>
-                            </div>
-                            <div class="meta-item">
-                                <span>📐</span>
-                                <span>${apt.size} m²</span>
-                            </div>
-                        </div>
-                        <div class="features">
-                            ${apt.features.map(f => `<span class="feature-tag">${f}</span>`).join('')}
-                        </div>
-                    </div>
-                    <div class="card-footer">
-                        <span style="color: #999; font-size: 0.85em;">Precio/m²: ${(apt.price/apt.size).toFixed(0)}€</span>
-                        <a href="#" onclick="alert('Ver más en ' + '${apt.source}')">Ver más</a>
-                    </div>
-                </div>
-            `).join('');
-        }
-        
-        // Event listeners para filtros
-        document.getElementById('filterBedrooms').addEventListener('change', renderApartments);
-        document.getElementById('filterSource').addEventListener('change', renderApartments);
-        document.getElementById('sortBy').addEventListener('change', renderApartments);
-        
-        // Render inicial
-        renderApartments();
-    </script>
 </body>
 </html>

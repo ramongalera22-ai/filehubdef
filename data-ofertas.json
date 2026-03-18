@@ -1,220 +1,126 @@
 {
-  "titulo": "Dashboard Ofertas Médico Familia Barcelona",
-  "descripcion": "Agregador de ofertas de empleo para médicos de familia en Barcelona",
-  "ultima_actualizacion": "2026-03-17T23:02:00Z",
-  "fecha_generacion": "2026-03-17",
+  "lastUpdated": "2026-03-18T15:04:00Z",
+  "timestamp": 1710776640000,
   "region": "Barcelona",
-  "especialidad": "Medicina de Familia",
-  "total_ofertas": 12,
+  "specialty": "Medicina Familiar",
   "ofertas": [
     {
       "id": 1,
-      "titulo": "Médico de Familia - Cobertura de Baja Médica",
+      "titulo": "Médico de Urgencias - Cobertura Temporal",
       "fuente": "CAMFIC",
-      "ubicacion": "Barcelona",
       "descripcion": "Se busca médico urgente para cobertura de baja médica en consultas externas de medicina de familia/interna",
+      "ubicacion": "Barcelona",
       "tipo_contrato": "Temporal",
-      "urgencia": "urgente",
-      "enlace": "https://camfic.cat/detallOferta.aspx?id=2699",
-      "fecha_publicacion": "2026-03-15",
-      "requisitos": ["Licenciatura en Medicina", "Especialidad en Medicina de Familia"],
-      "salario": "A negociar"
+      "estado": "Activa",
+      "fecha_publicacion": "2026-03-18",
+      "url": "https://camfic.cat/detallOferta.aspx?id=2699"
     },
     {
       "id": 2,
-      "titulo": "Médico Generalista - Centro de Atención Primaria",
-      "fuente": "CatSalut",
+      "titulo": "Médico Generalista CAP Llefià",
+      "fuente": "COMT",
+      "descripcion": "Se busca médico generalista o especialista en medicina familiar y comunitaria en la zona de Badalona (CAP Llefià), a 15 minutos de Barcelona",
       "ubicacion": "Badalona/Barcelona",
-      "descripcion": "Se busca médico generalista o especialista en medicina familiar y comunitaria para vacante en CAP",
-      "tipo_contrato": "Permanente",
-      "urgencia": "normal",
-      "enlace": "https://catsalut.gencat.cat/ca/coneix-catsalut/presentacio/organitzacio/recursos-humans/ofertes-treball/",
-      "fecha_publicacion": "2026-03-10",
-      "requisitos": ["Especialidad en Medicina de Familia", "Colegiación en Colegio de Médicos de Cataluña"],
-      "salario": "Según convenio CatSalut"
+      "tipo_contrato": "Indefinido",
+      "empleador": "ICS (Instituto Catalán de la Salut)",
+      "estado": "Activa",
+      "fecha_publicacion": "2026-02-16",
+      "url": "https://comt.cat/es/medicina-general-o-medicina-familiar-barcelona/"
     },
     {
       "id": 3,
-      "titulo": "Médico de Familia - Barcelona Metropolitana",
-      "fuente": "CatSalut",
-      "ubicacion": "Región Sanitaria Barcelona Metropolitana",
-      "descripcion": "Oferta para médico de familia en la región sanitaria Barcelona Metropolitana",
-      "tipo_contrato": "Permanente",
-      "urgencia": "normal",
-      "enlace": "https://catsalut.gencat.cat/ca/coneix-catsalut/presentacio/organitzacio/recursos-humans/ofertes-treball/",
-      "fecha_publicacion": "2026-03-12",
-      "requisitos": ["Médico especialista en Medicina de Familia"],
-      "salario": "Según escala salarial CatSalut"
+      "titulo": "Enfermero/a - Centro Médico Teknon",
+      "fuente": "Teknon",
+      "descripcion": "Centro Médico Teknon busca profesionales de enfermería. Hospital acreditado por Joint Commission Internacional con salario por encima de convenio",
+      "ubicacion": "Barcelona",
+      "tipo_contrato": "Indefinido/Larga duración",
+      "salario": "Competitivo (encima de convenio)",
+      "beneficios": "Ayuda de vivienda, formación continua, descuentos Grupo Quirón",
+      "estado": "Activa",
+      "fecha_publicacion": "2026-03-18",
+      "url": "https://www.teknon.es/es/centro/enfermeria/quieres-trabajar"
     },
     {
       "id": 4,
-      "titulo": "Médico Familia - Puesto Fijo Hospital",
-      "fuente": "InfoJobs",
-      "ubicacion": "Barcelona",
-      "descripcion": "Hospital busca médicos de familia para ampliar su equipo de atención primaria",
-      "tipo_contrato": "Permanente",
-      "urgencia": "normal",
-      "enlace": "https://www.infojobs.net/ofertas-trabajo/barcelona/medico-de-familia",
-      "fecha_publicacion": "2026-03-14",
-      "requisitos": ["Licenciado en Medicina", "Especialista en Medicina de Familia"],
-      "salario": "25.000€ - 35.000€ anuales"
+      "titulo": "Oportunidades de Empleo - Bolsa de Trabajo ICS",
+      "fuente": "Gencat SAS",
+      "descripcion": "Plataforma de colocación del Institut Català de la Salut (ICS) para profesionales sanitarios con ofertas de tiempo parcial",
+      "ubicacion": "Cataluña",
+      "tipo_contrato": "Parcial (tiempo parcial)",
+      "estado": "Activa",
+      "fecha_publicacion": "2026-03-18",
+      "url": "https://tramits.gencat.cat/en/tramits/tramits-temes/Borsa-de-treball-de-lICS"
     },
     {
       "id": 5,
-      "titulo": "Médico de Medicina Familiar",
+      "titulo": "Ofertas Múltiples Medicina General",
       "fuente": "InfoJobs",
+      "descripcion": "Portal con numerosas ofertas de médicos generales y especialistas en Barcelona. Actualmente hay más de 100 empleos disponibles",
       "ubicacion": "Barcelona",
-      "descripcion": "Centro sanitario requiere médicos de medicina familiar para proyectos especiales",
-      "tipo_contrato": "Temporal",
-      "urgencia": "normal",
-      "enlace": "https://www.infojobs.net/ofertas-trabajo/barcelona/medico-de-medicina-familiar",
-      "fecha_publicacion": "2026-03-13",
-      "requisitos": ["Formación en Medicina de Familia", "Experiencia en atención primaria"],
-      "salario": "A negociar según experiencia"
+      "tipo_contrato": "Variados",
+      "estado": "Múltiples ofertas",
+      "fecha_publicacion": "2026-03-18",
+      "url": "https://www.infojobs.net/ofertas-trabajo/barcelona/medico-general"
     },
     {
       "id": 6,
-      "titulo": "Médico Especialista - Hospital Clínic",
+      "titulo": "Ofertas Hospital Clínic Barcelona",
       "fuente": "Hospital Clínic",
-      "ubicacion": "Barcelona - Hospital Clínic",
-      "descripcion": "Hospital Clínic busca profesionales médicos para su equipo multidisciplinar",
-      "tipo_contrato": "Permanente",
-      "urgencia": "normal",
-      "enlace": "https://jobs.clinicbarcelona.org/es",
-      "fecha_publicacion": "2026-03-16",
-      "requisitos": ["Médico especialista", "Experiencia en hospital universitario"],
-      "salario": "Según escala Hospital Clínic"
+      "descripcion": "Hospital Clínic de Barcelona - Centro universitario con servicios de salud, docencia e investigación. Disponibles puestos en diversos departamentos",
+      "ubicacion": "Barcelona",
+      "tipo_contrato": "Variados",
+      "empleador": "Hospital Clínic Barcelona",
+      "estado": "Activa",
+      "fecha_publicacion": "2026-03-18",
+      "url": "https://www.clinicbarcelona.org/en"
     },
     {
       "id": 7,
-      "titulo": "Médico en Medicina Preventiva - Hospital Clínic",
-      "fuente": "Hospital Clínic",
-      "ubicacion": "Barcelona",
-      "descripcion": "Oportunidad laboral para médico en medicina preventiva y salud pública",
-      "tipo_contrato": "Permanente",
-      "urgencia": "normal",
-      "enlace": "https://jobs.clinicbarcelona.org/es",
-      "fecha_publicacion": "2026-03-15",
-      "requisitos": ["Formación en Medicina Preventiva", "Experiencia en salud pública"],
-      "salario": "A negociar"
+      "titulo": "Ofertas CatSalut - Sector Concertado",
+      "fuente": "CatSalut",
+      "descripcion": "Entidades proveedoras del CatSalut ofrecen oportunidades en el sector sanitario concertado de Cataluña",
+      "ubicacion": "Cataluña",
+      "tipo_contrato": "Variados",
+      "estado": "Activa",
+      "fecha_publicacion": "2026-03-18",
+      "url": "https://www.comb.cat/es/serveis/sspublic/sectorconcertat"
     },
     {
       "id": 8,
-      "titulo": "Médico de Familia - Centro Médico Teknon",
-      "fuente": "Teknon",
-      "ubicacion": "Barcelona - C/ Vilana",
-      "descripcion": "Centro Médico Teknon busca médicos de familia para ampliar su servicio",
-      "tipo_contrato": "Permanente",
-      "urgencia": "normal",
-      "enlace": "https://teknon.quironsalud.com/en",
-      "fecha_publicacion": "2026-03-14",
-      "requisitos": ["Especialista en Medicina de Familia", "Experiencia clínica"],
-      "salario": "Según experiencia y dedicación"
-    },
-    {
-      "id": 9,
-      "titulo": "Médico Generalista - Clínica Privada",
-      "fuente": "Teknon",
-      "ubicacion": "Mollet/Barcelona",
-      "descripcion": "Clínica privada busca médicos generalistas y especialistas debido a ampliación de instalaciones",
-      "tipo_contrato": "Permanente",
-      "urgencia": "urgente",
-      "enlace": "https://www.infojobs.net/ofertas-trabajo/centro-medico-teknon",
-      "fecha_publicacion": "2026-03-16",
-      "requisitos": ["Licenciado en Medicina", "Colegiación vigente"],
-      "salario": "Competitivo según experiencia"
-    },
-    {
-      "id": 10,
-      "titulo": "Médico de Familia - Borsa de Treball CatSalut",
-      "fuente": "CatSalut",
+      "titulo": "CAP Sagrada Família - Formación MIR",
+      "fuente": "CSI",
+      "descripcion": "Centro de Atención Primaria acreditado para formación de médicos internos residentes en Medicina Familiar y Comunitaria",
       "ubicacion": "Barcelona",
-      "descripcion": "Inscripción en borsa de trabajo temporal para médicos de familia",
-      "tipo_contrato": "Temporal",
-      "urgencia": "normal",
-      "enlace": "https://catsalut.gencat.cat/ca/coneix-catsalut/presentacio/organitzacio/recursos-humans/ofertes-treball/",
-      "fecha_publicacion": "2026-03-10",
-      "requisitos": ["Médico especialista en Medicina de Familia", "Currículum actualizado"],
-      "salario": "Según jornada y temporalidad"
-    },
-    {
-      "id": 11,
-      "titulo": "Médico Urgencias - Centro Sanitario",
-      "fuente": "Consorci de Salut",
-      "ubicacion": "Maresme/Barcelona",
-      "descripcion": "Consorci Sanitari del Maresme convoca llocs de Medicina Familiar",
-      "tipo_contrato": "Permanente",
-      "urgencia": "urgente",
-      "enlace": "https://www.consorci.org/professionals/es_ofertes-de-treball/",
-      "fecha_publicacion": "2026-03-16",
-      "requisitos": ["Especialista en Medicina Familiar y Comunitaria"],
-      "salario": "Según convenio sanitario"
-    },
-    {
-      "id": 12,
-      "titulo": "Médico de Familia - Atención Primaria",
-      "fuente": "CAMFIC",
-      "ubicacion": "Barcelona",
-      "descripcion": "Ofertas agregadas de miembros de CAMFIC para medicina de familia",
-      "tipo_contrato": "Permanente",
-      "urgencia": "normal",
-      "enlace": "https://www.camfic.cat/",
-      "fecha_publicacion": "2026-03-17",
-      "requisitos": ["Colegiado en CAMFIC", "Especialidad en Medicina de Familia"],
-      "salario": "Variable según centro"
+      "tipo_contrato": "Formación/Residencia",
+      "estado": "Activa",
+      "fecha_publicacion": "2026-03-18",
+      "url": "https://www.csi.cat/cap-sagrada-familia/"
     }
   ],
-  "fuentes": [
-    {
-      "nombre": "CAMFIC",
-      "url": "https://www.camfic.cat/",
-      "descripcion": "Societat Catalana de Medicina Familiar i Comunitària",
-      "tipo": "asociacion_profesional"
+  "estadisticas": {
+    "total_ofertas": 8,
+    "por_fuente": {
+      "CAMFIC": 1,
+      "COMT": 1,
+      "Teknon": 1,
+      "Gencat SAS": 1,
+      "InfoJobs": 1,
+      "Hospital Clínic": 1,
+      "CatSalut": 1,
+      "CSI": 1
     },
-    {
-      "nombre": "CatSalut",
-      "url": "https://catsalut.gencat.cat/",
-      "descripcion": "Servei Català de la Salut",
-      "tipo": "organismo_publico"
+    "por_tipo_contrato": {
+      "Temporal": 1,
+      "Indefinido": 2,
+      "Indefinido/Larga duración": 1,
+      "Parcial": 1,
+      "Variados": 2,
+      "Formación": 1
     },
-    {
-      "nombre": "InfoJobs",
-      "url": "https://www.infojobs.net/",
-      "descripcion": "Portal de empleo online",
-      "tipo": "portal_empleo"
-    },
-    {
-      "nombre": "Hospital Clínic",
-      "url": "https://www.clinicbarcelona.org/",
-      "descripcion": "Hospital Clínic Barcelona",
-      "tipo": "hospital_universitario"
-    },
-    {
-      "nombre": "Teknon",
-      "url": "https://teknon.quironsalud.com/",
-      "descripcion": "Centro Médico Teknon (Quirónsalud)",
-      "tipo": "centro_privado"
-    },
-    {
-      "nombre": "Gencat SAS",
-      "url": "https://web.gencat.cat/",
-      "descripcion": "Generalitat de Catalunya - Serveis de Salut",
-      "tipo": "organismo_publico"
+    "ubicaciones": {
+      "Barcelona": 5,
+      "Barcelona/Badalona": 1,
+      "Cataluña": 2
     }
-  ],
-  "resumen": {
-    "total_ofertas": 12,
-    "ofertas_urgentes": 3,
-    "ofertas_permanentes": 8,
-    "ofertas_temporales": 4,
-    "salario_medio_estimado": "25000-35000",
-    "ubicacion_principal": "Barcelona"
-  },
-  "metadatos": {
-    "version": "1.0",
-    "generado_por": "Dashboard Ofertas Médico Familia",
-    "actualizacion_automatica": "diaria_23:00",
-    "idioma": "es",
-    "timezone": "Europe/Madrid"
   }
 }

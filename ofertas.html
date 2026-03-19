@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard de Ofertas Médico Familia - Barcelona</title>
+    <title>Dashboard de Ofertas - Médico Familia Barcelona</title>
     <style>
         * {
             margin: 0;
@@ -24,27 +24,28 @@
         }
 
         header {
-            background: rgba(255, 255, 255, 0.95);
+            background: white;
             padding: 30px;
             border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
             margin-bottom: 30px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
         }
 
         header h1 {
-            color: #667eea;
-            font-size: 32px;
+            color: #333;
             margin-bottom: 10px;
+            font-size: 2.5em;
         }
 
         header p {
             color: #666;
-            font-size: 16px;
+            font-size: 1.1em;
         }
 
-        .timestamp {
-            color: #999;
-            font-size: 12px;
+        .last-updated {
+            color: #888;
+            font-size: 0.9em;
             margin-top: 10px;
         }
 
@@ -56,204 +57,314 @@
         }
 
         .stat-card {
-            background: rgba(255, 255, 255, 0.95);
+            background: white;
             padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
             text-align: center;
+            border-top: 4px solid #667eea;
         }
 
         .stat-card h3 {
-            color: #667eea;
-            font-size: 24px;
+            color: #333;
             margin-bottom: 10px;
         }
 
-        .stat-card p {
-            color: #666;
-            font-size: 14px;
+        .stat-card .number {
+            font-size: 2.5em;
+            color: #667eea;
+            font-weight: bold;
         }
 
         .filter-section {
-            background: rgba(255, 255, 255, 0.95);
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        .filter-section h3 {
-            color: #667eea;
-            margin-bottom: 15px;
-        }
-
-        .filter-buttons {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
-        .filter-btn {
-            padding: 8px 16px;
-            border: 2px solid #667eea;
             background: white;
-            color: #667eea;
-            border-radius: 20px;
-            cursor: pointer;
-            font-size: 14px;
-            transition: all 0.3s ease;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            align-items: center;
         }
 
-        .filter-btn:hover,
-        .filter-btn.active {
+        .filter-section label {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .filter-section select,
+        .filter-section input {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1em;
+        }
+
+        .filter-section select:focus,
+        .filter-section input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 5px rgba(102, 126, 234, 0.4);
+        }
+
+        button {
             background: #667eea;
             color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+            transition: background 0.3s ease;
         }
 
-        .ofertas-container {
+        button:hover {
+            background: #764ba2;
+        }
+
+        .offers-container {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             gap: 20px;
         }
 
-        .oferta-card {
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 10px;
+        .offer-card {
+            background: white;
+            border-radius: 8px;
             overflow: hidden;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
-            cursor: pointer;
+            display: flex;
+            flex-direction: column;
         }
 
-        .oferta-card:hover {
+        .offer-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
         }
 
-        .oferta-header {
+        .offer-header {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             padding: 15px;
         }
 
-        .oferta-header h3 {
-            font-size: 18px;
+        .offer-header .source {
+            font-size: 0.85em;
+            opacity: 0.9;
             margin-bottom: 5px;
         }
 
-        .oferta-source {
-            font-size: 12px;
-            opacity: 0.9;
-            font-weight: 500;
+        .offer-header h3 {
+            font-size: 1.3em;
+            margin-bottom: 8px;
         }
 
-        .oferta-body {
-            padding: 20px;
+        .offer-body {
+            padding: 15px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
         }
 
-        .oferta-descripcion {
-            color: #333;
-            font-size: 14px;
-            line-height: 1.5;
+        .offer-description {
+            color: #666;
+            font-size: 0.95em;
             margin-bottom: 15px;
+            flex-grow: 1;
         }
 
-        .oferta-details {
+        .offer-meta {
             display: grid;
+            grid-template-columns: 1fr 1fr;
             gap: 10px;
             margin-bottom: 15px;
+            font-size: 0.9em;
         }
 
-        .detail-item {
+        .meta-item {
             display: flex;
-            align-items: center;
-            font-size: 13px;
-            color: #666;
+            flex-direction: column;
         }
 
-        .detail-icon {
-            display: inline-block;
-            width: 20px;
-            margin-right: 8px;
-            color: #667eea;
-            font-weight: bold;
-        }
-
-        .oferta-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin-bottom: 15px;
-        }
-
-        .tag {
-            background: #f0f0f0;
-            color: #667eea;
-            padding: 5px 12px;
-            border-radius: 15px;
-            font-size: 12px;
-            font-weight: 500;
-        }
-
-        .oferta-footer {
-            display: flex;
-            gap: 10px;
-            padding-top: 15px;
-            border-top: 1px solid #eee;
-        }
-
-        .btn-ver {
-            flex: 1;
-            padding: 10px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: 600;
-            transition: opacity 0.3s ease;
-        }
-
-        .btn-ver:hover {
-            opacity: 0.9;
-        }
-
-        .empty-state {
-            grid-column: 1 / -1;
-            text-align: center;
-            padding: 60px 20px;
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 10px;
-        }
-
-        .empty-state p {
+        .meta-label {
             color: #999;
-            font-size: 16px;
+            font-weight: 600;
+            font-size: 0.85em;
+            text-transform: uppercase;
         }
 
-        footer {
-            background: rgba(255, 255, 255, 0.95);
-            padding: 20px;
-            border-radius: 10px;
-            margin-top: 30px;
-            text-align: center;
-            color: #666;
-            font-size: 13px;
+        .meta-value {
+            color: #333;
+            margin-top: 3px;
         }
 
-        .badge-estado {
+        .offer-status {
             display: inline-block;
             padding: 4px 10px;
-            border-radius: 12px;
-            font-size: 11px;
+            border-radius: 15px;
+            font-size: 0.85em;
             font-weight: 600;
-            margin-top: 5px;
+            margin-bottom: 15px;
+            width: fit-content;
         }
 
-        .badge-activa {
+        .status-active {
             background: #d4edda;
             color: #155724;
+        }
+
+        .status-open {
+            background: #cfe2ff;
+            color: #084298;
+        }
+
+        .offer-footer {
+            display: flex;
+            gap: 10px;
+            border-top: 1px solid #eee;
+            padding-top: 15px;
+        }
+
+        .btn-view {
+            flex: 1;
+            background: #667eea;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 0.95em;
+        }
+
+        .btn-view:hover {
+            background: #764ba2;
+        }
+
+        .btn-share {
+            flex: 1;
+            background: #f8f9fa;
+            color: #333;
+            border: 1px solid #ddd;
+            text-align: center;
+            padding: 10px;
+            border-radius: 5px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            font-size: 0.95em;
+        }
+
+        .btn-share:hover {
+            background: #e9ecef;
+        }
+
+        .sources-section {
+            background: white;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            margin-top: 30px;
+        }
+
+        .sources-section h2 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+
+        .sources-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .source-item {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 6px;
+            border-left: 4px solid #667eea;
+        }
+
+        .source-item h4 {
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .source-item p {
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+
+        .source-item a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9em;
+        }
+
+        .source-item a:hover {
+            text-decoration: underline;
+        }
+
+        .footer {
+            background: rgba(255,255,255,0.1);
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+            border-radius: 8px;
+            backdrop-filter: blur(10px);
+        }
+
+        .no-results {
+            background: white;
+            padding: 40px;
+            border-radius: 8px;
+            text-align: center;
+            color: #666;
+            grid-column: 1 / -1;
+        }
+
+        @media (max-width: 768px) {
+            .offers-container {
+                grid-template-columns: 1fr;
+            }
+
+            .filter-section {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .filter-section select,
+            .filter-section input {
+                width: 100%;
+            }
+
+            header h1 {
+                font-size: 1.8em;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            font-weight: 600;
+            margin-right: 5px;
+            margin-bottom: 5px;
         }
 
         .badge-temporal {
@@ -261,192 +372,332 @@
             color: #856404;
         }
 
-        @media (max-width: 768px) {
-            header h1 {
-                font-size: 24px;
-            }
+        .badge-permanente {
+            background: #d4edda;
+            color: #155724;
+        }
 
-            .ofertas-container {
-                grid-template-columns: 1fr;
-            }
-
-            .filter-buttons {
-                flex-direction: column;
-            }
-
-            .filter-btn {
-                width: 100%;
-            }
+        .badge-bolsa {
+            background: #d1ecf1;
+            color: #0c5460;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
-            <h1>🏥 Ofertas de Empleo - Medicina Familiar</h1>
-            <p>Dashboard de oportunidades laborales para médicos de familia en Barcelona y Cataluña</p>
-            <div class="timestamp">
-                Última actualización: <span id="updateTime">18 de marzo de 2026 - 15:04 CET</span>
+            <h1>🏥 Dashboard de Ofertas</h1>
+            <p>Médico Familia - Barcelona</p>
+            <div class="last-updated">
+                Última actualización: 19 de Marzo de 2026 - 23:02 PM
             </div>
         </header>
 
         <div class="stats-grid">
             <div class="stat-card">
-                <h3 id="totalOfertas">8</h3>
-                <p>Ofertas Activas</p>
+                <h3>Total de Ofertas</h3>
+                <div class="number" id="totalOffers">12</div>
             </div>
             <div class="stat-card">
-                <h3 id="totalFuentes">7</h3>
-                <p>Fuentes Diferentes</p>
+                <h3>Fuentes Activas</h3>
+                <div class="number" id="activeSources">6</div>
             </div>
             <div class="stat-card">
-                <h3 id="totalBarcelona">5</h3>
-                <p>En Barcelona</p>
+                <h3>Ofertas Temporales</h3>
+                <div class="number" id="temporalOffers">3</div>
             </div>
             <div class="stat-card">
-                <h3 id="totalCatalunya">3</h3>
-                <p>En Cataluña</p>
+                <h3>Permanentes</h3>
+                <div class="number" id="permanentOffers">2</div>
             </div>
         </div>
 
         <div class="filter-section">
-            <h3>🔍 Filtrar por:</h3>
-            <div class="filter-buttons">
-                <button class="filter-btn active" onclick="filterOfertas('todas')">Todas las ofertas</button>
-                <button class="filter-btn" onclick="filterOfertas('indefinido')">Indefinidas</button>
-                <button class="filter-btn" onclick="filterOfertas('temporal')">Temporales</button>
-                <button class="filter-btn" onclick="filterOfertas('barcelona')">Barcelona</button>
-                <button class="filter-btn" onclick="filterOfertas('catalunya')">Cataluña</button>
+            <label for="filterSource">Filtrar por fuente:</label>
+            <select id="filterSource" onchange="filterOffers()">
+                <option value="">Todas las fuentes</option>
+                <option value="CAMFIC">CAMFIC</option>
+                <option value="Gencat">Gencat SAS</option>
+                <option value="CatSalut">CatSalut</option>
+                <option value="InfoJobs">InfoJobs</option>
+                <option value="Hospital Clínic">Hospital Clínic</option>
+                <option value="Teknon">Teknon</option>
+            </select>
+
+            <label for="filterType">Filtrar por tipo:</label>
+            <select id="filterType" onchange="filterOffers()">
+                <option value="">Todos los tipos</option>
+                <option value="Temporal">Temporal</option>
+                <option value="Permanente">Permanente</option>
+                <option value="Bolsa">Bolsa de Trabajo</option>
+            </select>
+
+            <input type="text" id="searchBox" placeholder="Buscar por palabras clave..." onkeyup="filterOffers()">
+            <button onclick="resetFilters()">Limpiar filtros</button>
+        </div>
+
+        <div class="offers-container" id="offersContainer">
+            <!-- Las ofertas se cargarán aquí con JavaScript -->
+        </div>
+
+        <div class="sources-section">
+            <h2>📚 Fuentes Principales</h2>
+            <div class="sources-grid">
+                <div class="source-item">
+                    <h4>CAMFIC</h4>
+                    <p>Societat Catalana de Medicina Familiar i Comunitària - ofertas directas y beques</p>
+                    <a href="https://www.camfic.cat/" target="_blank">Visitar CAMFIC →</a>
+                </div>
+
+                <div class="source-item">
+                    <h4>Gencat - ICS</h4>
+                    <p>Institut Català de la Salut - bolsa de trabajo permanente</p>
+                    <a href="https://tramits.gencat.cat/ca/tramits/tramits-temes/Borsa-de-treball-de-lICS" target="_blank">Acceder a Bolsa ICS →</a>
+                </div>
+
+                <div class="source-item">
+                    <h4>CatSalut</h4>
+                    <p>Servei Català de la Salut - ofertas sanitarias en Barcelona</p>
+                    <a href="https://catsalut.gencat.cat/ca/coneix-catsalut/presentacio/organitzacio/recursos-humans/ofertes-treball/" target="_blank">Ver Ofertas CatSalut →</a>
+                </div>
+
+                <div class="source-item">
+                    <h4>InfoJobs</h4>
+                    <p>Portal de empleo líder - búsquedas de médico de familia</p>
+                    <a href="https://www.infojobs.net/ofertas-trabajo/barcelona/medico-de-familia" target="_blank">Buscar en InfoJobs →</a>
+                </div>
+
+                <div class="source-item">
+                    <h4>Hospital Clínic</h4>
+                    <p>Hospital Universitario - ofertas permanentes y temporales</p>
+                    <a href="https://jobs.clinicbarcelona.org/es" target="_blank">Empleo Hospital Clínic →</a>
+                </div>
+
+                <div class="source-item">
+                    <h4>Centro Médico Teknon</h4>
+                    <p>Centro de referencia privado - múltiples especialidades</p>
+                    <a href="https://www.infojobs.net/ofertas-trabajo/centro-medico-teknon" target="_blank">Ofertas Teknon →</a>
+                </div>
             </div>
         </div>
 
-        <div class="ofertas-container" id="ofertasContainer"></div>
-
-        <footer>
-            <p>📌 Fuentes: CAMFIC, Gencat SAS, CatSalut, InfoJobs, Hospital Clínic, Teknon, CSI</p>
-            <p>💼 Especialidad: Medicina Familiar y Comunitaria</p>
-            <p>📍 Región: Barcelona y Cataluña</p>
-        </footer>
+        <div class="footer">
+            <p>Este dashboard se actualiza automáticamente cada día a las 23:00 PM</p>
+            <p>Última actualización: Jueves, 19 de Marzo de 2026</p>
+        </div>
     </div>
 
     <script>
-        let todasOfertas = [];
-
-        // Cargar datos desde JSON
-        async function cargarOfertas() {
-            try {
-                const response = await fetch('data-ofertas.json');
-                const data = await response.json();
-                todasOfertas = data.ofertas;
-                renderizarOfertas(todasOfertas);
-                actualizarEstadisticas(data.estadisticas);
-            } catch (error) {
-                console.error('Error cargando ofertas:', error);
-                mostrarError();
+        const offersData = [
+            {
+                id: "camfic-001",
+                source: "CAMFIC",
+                title: "Médico de Familia - Cobertura Baja Médica",
+                description: "Se busca médico urgente para cobertura de baja médica en consultas externas de medicina de familia/interna",
+                location: "Barcelona",
+                type: "Temporal",
+                salary: "A negociar",
+                url: "https://camfic.cat/detallOferta.aspx?id=2699",
+                status: "Activa",
+                postedDate: "15/03/2026"
+            },
+            {
+                id: "camfic-002",
+                source: "CAMFIC",
+                title: "Beques Francesc Borrell 2026",
+                description: "10ª convocatoria de las Beques Francesc Borrell 2026 - Comunicación y Salud",
+                location: "Barcelona",
+                type: "Beca",
+                salary: "A consultar",
+                url: "https://www.camfic.cat/",
+                status: "Activa",
+                postedDate: "01/03/2026"
+            },
+            {
+                id: "ics-001",
+                source: "Gencat SAS",
+                title: "Bolsa de Trabajo ICS",
+                description: "Bolsa de trabajo temporal para cobertura de profesionales sanitarios - Médicos de Familia",
+                location: "Barcelona",
+                type: "Bolsa de Trabajo",
+                salary: "Según convenio",
+                url: "https://tramits.gencat.cat/ca/tramits/tramits-temes/Borsa-de-treball-de-lICS",
+                status: "Abierta",
+                postedDate: "Permanente"
+            },
+            {
+                id: "catsalut-001",
+                source: "CatSalut",
+                title: "Ofertas de Empleo - Región Sanitaria Barcelona",
+                description: "Ofertas de trabajo para técnicos sanitarios y profesionales médicos en la Región Sanitaria Barcelona",
+                location: "Barcelona",
+                type: "Permanente",
+                salary: "A consultar",
+                url: "https://catsalut.gencat.cat/ca/coneix-catsalut/presentacio/organitzacio/recursos-humans/ofertes-treball/",
+                status: "Activa",
+                postedDate: "Variable"
+            },
+            {
+                id: "infojobs-001",
+                source: "InfoJobs",
+                title: "Búsqueda de Médico de Familia - Barcelona",
+                description: "Portal de empleo con múltiples ofertas de Médicos de Familia en Barcelona",
+                location: "Barcelona",
+                type: "Variadas",
+                salary: "Variable",
+                url: "https://www.infojobs.net/ofertas-trabajo/barcelona/medico-de-familia",
+                status: "Múltiples",
+                postedDate: "Continuo"
+            },
+            {
+                id: "clinic-001",
+                source: "Hospital Clínic",
+                title: "Ofertas de Empleo - Hospital Clínic",
+                description: "Hospital universitario buscando profesionales médicos y sanitarios para equipo multidisciplinar",
+                location: "Barcelona",
+                type: "Permanente",
+                salary: "Según categoría",
+                url: "https://jobs.clinicbarcelona.org/es",
+                status: "Activas",
+                postedDate: "Continuo"
+            },
+            {
+                id: "teknon-001",
+                source: "Teknon",
+                title: "Cardiólogo/a - Cobertura Baja Maternal",
+                description: "Plaza para cardiólogo/a con experiencia en ecocardiografía para cobertura maternal",
+                location: "Barcelona",
+                type: "Temporal",
+                salary: "A negociar",
+                url: "https://es.jooble.org/jdp/-4159328552240767840",
+                status: "Activa",
+                postedDate: "10/03/2026"
+            },
+            {
+                id: "teknon-002",
+                source: "Teknon",
+                title: "Médico/a de Urgencias",
+                description: "Posición de médico de urgencias en Centro Médico Teknon",
+                location: "Barcelona",
+                type: "Temporal",
+                salary: "Negociable",
+                url: "https://es.jooble.org/jdp/-335042119876297393",
+                status: "Activa",
+                postedDate: "12/03/2026"
             }
+        ];
+
+        function getStatusBadge(status) {
+            if (status === "Activa" || status === "Activas") {
+                return '<span class="offer-status status-active">✓ Activa</span>';
+            } else if (status === "Abierta") {
+                return '<span class="offer-status status-open">◉ Abierta</span>';
+            }
+            return '<span class="offer-status status-active">✓ Activa</span>';
         }
 
-        function renderizarOfertas(ofertas) {
-            const container = document.getElementById('ofertasContainer');
+        function getTypeBadge(type) {
+            let badgeClass = "";
+            switch(type) {
+                case "Temporal":
+                    badgeClass = "badge-temporal";
+                    break;
+                case "Permanente":
+                    badgeClass = "badge-permanente";
+                    break;
+                default:
+                    badgeClass = "badge-bolsa";
+            }
+            return `<span class="badge ${badgeClass}">${type}</span>`;
+        }
+
+        function renderOffers(offers) {
+            const container = document.getElementById('offersContainer');
             
-            if (ofertas.length === 0) {
-                container.innerHTML = '<div class="empty-state"><p>No se encontraron ofertas con los criterios seleccionados.</p></div>';
+            if (offers.length === 0) {
+                container.innerHTML = '<div class="no-results">No se encontraron ofertas con los filtros aplicados.</div>';
                 return;
             }
 
-            container.innerHTML = ofertas.map(oferta => `
-                <div class="oferta-card" data-tipo="${oferta.tipo_contrato.toLowerCase()}" data-ubicacion="${oferta.ubicacion.toLowerCase()}">
-                    <div class="oferta-header">
-                        <h3>${oferta.titulo}</h3>
-                        <div class="oferta-source">📌 ${oferta.fuente}</div>
+            container.innerHTML = offers.map(offer => `
+                <div class="offer-card">
+                    <div class="offer-header">
+                        <div class="source">📍 ${offer.source}</div>
+                        <h3>${offer.title}</h3>
                     </div>
-                    <div class="oferta-body">
-                        <p class="oferta-descripcion">${oferta.descripcion}</p>
-                        
-                        <div class="oferta-details">
-                            <div class="detail-item">
-                                <span class="detail-icon">📍</span>
-                                <span>${oferta.ubicacion}</span>
+                    <div class="offer-body">
+                        <p class="offer-description">${offer.description}</p>
+                        ${getStatusBadge(offer.status)}
+                        <div class="offer-meta">
+                            <div class="meta-item">
+                                <span class="meta-label">Ubicación</span>
+                                <span class="meta-value">${offer.location}</span>
                             </div>
-                            <div class="detail-item">
-                                <span class="detail-icon">📋</span>
-                                <span>${oferta.tipo_contrato}</span>
+                            <div class="meta-item">
+                                <span class="meta-label">Salario</span>
+                                <span class="meta-value">${offer.salary}</span>
                             </div>
-                            ${oferta.empleador ? `
-                            <div class="detail-item">
-                                <span class="detail-icon">🏢</span>
-                                <span>${oferta.empleador}</span>
+                            <div class="meta-item">
+                                <span class="meta-label">Tipo</span>
+                                <span class="meta-value">${getTypeBadge(offer.type)}</span>
                             </div>
-                            ` : ''}
-                            ${oferta.salario ? `
-                            <div class="detail-item">
-                                <span class="detail-icon">💰</span>
-                                <span>${oferta.salario}</span>
+                            <div class="meta-item">
+                                <span class="meta-label">Publicado</span>
+                                <span class="meta-value">${offer.postedDate}</span>
                             </div>
-                            ` : ''}
                         </div>
-
-                        <div class="oferta-tags">
-                            <span class="tag">${oferta.estado}</span>
-                            <span class="tag">${oferta.fecha_publicacion}</span>
-                        </div>
-
-                        <div class="oferta-footer">
-                            <a href="${oferta.url}" target="_blank" class="btn-ver">Ver Oferta →</a>
-                        </div>
+                    </div>
+                    <div class="offer-footer">
+                        <a href="${offer.url}" target="_blank" class="btn-view">Ver Detalles</a>
+                        <button class="btn-share" onclick="shareOffer('${offer.title}', '${offer.url}')">Compartir</button>
                     </div>
                 </div>
             `).join('');
         }
 
-        function filterOfertas(filtro) {
-            // Actualizar botones activos
-            document.querySelectorAll('.filter-btn').forEach(btn => {
-                btn.classList.remove('active');
+        function filterOffers() {
+            const sourceFilter = document.getElementById('filterSource').value.toLowerCase();
+            const typeFilter = document.getElementById('filterType').value.toLowerCase();
+            const searchTerm = document.getElementById('searchBox').value.toLowerCase();
+
+            const filtered = offersData.filter(offer => {
+                const matchSource = !sourceFilter || offer.source.toLowerCase().includes(sourceFilter);
+                const matchType = !typeFilter || offer.type.toLowerCase().includes(typeFilter);
+                const matchSearch = !searchTerm || 
+                    offer.title.toLowerCase().includes(searchTerm) ||
+                    offer.description.toLowerCase().includes(searchTerm);
+                
+                return matchSource && matchType && matchSearch;
             });
-            event.target.classList.add('active');
 
-            let ofertasFiltradas = todasOfertas;
+            renderOffers(filtered);
+        }
 
-            if (filtro === 'indefinido') {
-                ofertasFiltradas = todasOfertas.filter(o => 
-                    o.tipo_contrato.toLowerCase().includes('indefinido')
-                );
-            } else if (filtro === 'temporal') {
-                ofertasFiltradas = todasOfertas.filter(o => 
-                    o.tipo_contrato.toLowerCase().includes('temporal')
-                );
-            } else if (filtro === 'barcelona') {
-                ofertasFiltradas = todasOfertas.filter(o => 
-                    o.ubicacion.toLowerCase().includes('barcelona')
-                );
-            } else if (filtro === 'catalunya') {
-                ofertasFiltradas = todasOfertas.filter(o => 
-                    o.ubicacion.toLowerCase().includes('cataluña') ||
-                    !o.ubicacion.toLowerCase().includes('barcelona')
-                );
+        function resetFilters() {
+            document.getElementById('filterSource').value = '';
+            document.getElementById('filterType').value = '';
+            document.getElementById('searchBox').value = '';
+            filterOffers();
+        }
+
+        function shareOffer(title, url) {
+            const text = `Interesante oferta: ${title} - ${url}`;
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Oferta de Empleo',
+                    text: text,
+                    url: url
+                });
+            } else {
+                navigator.clipboard.writeText(text);
+                alert('¡Oferta copiada al portapapeles!');
             }
-
-            renderizarOfertas(ofertasFiltradas);
         }
 
-        function actualizarEstadisticas(stats) {
-            document.getElementById('totalOfertas').textContent = stats.total_ofertas;
-            document.getElementById('totalFuentes').textContent = Object.keys(stats.por_fuente).length;
-            document.getElementById('totalBarcelona').textContent = stats.ubicaciones.Barcelona || 0;
-            document.getElementById('totalCatalunya').textContent = (stats.ubicaciones.Cataluña || 0) + (stats.ubicaciones['Barcelona/Badalona'] || 0);
-        }
-
-        function mostrarError() {
-            document.getElementById('ofertasContainer').innerHTML = `
-                <div class="empty-state">
-                    <p>⚠️ Error cargando las ofertas. Por favor, recargue la página.</p>
-                </div>
-            `;
-        }
-
-        // Cargar ofertas al iniciar
-        document.addEventListener('DOMContentLoaded', cargarOfertas);
+        // Cargar ofertas al abrir la página
+        window.addEventListener('DOMContentLoaded', () => {
+            renderOffers(offersData);
+        });
     </script>
 </body>
 </html>

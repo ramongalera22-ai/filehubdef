@@ -1,212 +1,415 @@
 {
-  "title": "Dashboard Pisos Barcelona - Menos de €1.400",
-  "lastUpdated": "2026-03-18T15:00:00Z",
-  "currency": "EUR",
-  "maxPrice": 1400,
+  "timestamp": "2026-03-19T23:01:00Z",
   "city": "Barcelona",
-  "totalListings": 2646,
-  "sources": ["Idealista", "Fotocasa", "Habitaclia"],
-  "neighborhoods": {
-    "Ciutat Vella": {
-      "name": "Ciutat Vella",
-      "listings": 658,
-      "avgPrice": 750,
-      "features": "Historic center, Gothic Quarter, near beaches"
-    },
-    "Eixample": {
-      "name": "Eixample",
-      "listings": 919,
-      "avgPrice": 850,
-      "features": "Modern grid layout, Sagrada Familia, commercial area"
-    },
-    "Sarrià-Sant Gervasi": {
-      "name": "Sarrià-Sant Gervasi",
-      "listings": 375,
-      "avgPrice": 900,
-      "features": "Upscale residential, quiet area, parks"
-    },
-    "Sant Martí": {
-      "name": "Sant Martí",
-      "listings": 197,
-      "avgPrice": 800,
-      "features": "Poblenou, industrial revival area, beaches"
-    },
-    "Gràcia": {
-      "name": "Gràcia",
-      "listings": 185,
-      "avgPrice": 820,
-      "features": "Bohemian, plazas, student area, bohemian vibe"
-    },
-    "Sants-Montjuïc": {
-      "name": "Sants-Montjuïc",
-      "listings": 98,
-      "avgPrice": 780,
-      "features": "Mountain views, museums, Cable car"
-    },
-    "Les Corts": {
-      "name": "Les Corts",
-      "listings": 113,
-      "avgPrice": 850,
-      "features": "Sports area, Camp Nou, residential"
-    },
-    "Horta Guinardó": {
-      "name": "Horta Guinardó",
-      "listings": 71,
-      "avgPrice": 750,
-      "features": "Park Güell area, gardens, quiet residential"
-    }
-  },
-  "recentListings": [
+  "maxPrice": 1400,
+  "currency": "EUR",
+  "apartments": [
     {
-      "id": "ideal-650-vilapicina",
-      "platform": "Idealista",
-      "price": 650,
-      "bedrooms": 1,
-      "bathrooms": 1,
-      "area": 10,
-      "location": "Vilapicina i la Torre Llobeta",
-      "type": "Studio/Short-term",
-      "features": ["Furnished", "WiFi", "Private washing machine"],
-      "url": "https://www.idealista.com/en/alquiler-viviendas/barcelona-barcelona/"
-    },
-    {
-      "id": "ideal-699-gotic",
-      "platform": "Idealista",
+      "id": 1,
+      "title": "Piso en Petritxol, El Gòtic",
       "price": 699,
       "bedrooms": 1,
-      "bathrooms": 1,
-      "area": 40,
+      "size": 40,
+      "floor": "1ª",
       "location": "El Gòtic",
-      "type": "Apartment/Short-term",
-      "features": ["Near La Rambla", "Seasonal rental", "Balcony"],
-      "url": "https://www.idealista.com/en/alquiler-viviendas/barcelona-barcelona/"
+      "features": ["Exterior", "Balcón", "Cerca de La Rambla"],
+      "type": "Alquiler temporal",
+      "source": "Idealista"
     },
     {
-      "id": "ideal-700-eixample",
-      "platform": "Idealista",
+      "id": 2,
+      "title": "Estudio en Ronda de la Universitat",
       "price": 700,
       "bedrooms": 0,
-      "bathrooms": 1,
-      "area": 30,
+      "size": 30,
+      "floor": "4ª",
       "location": "La Dreta de l'Eixample",
-      "type": "Studio/Co-living",
-      "features": ["Co-living space", "Shared amenities", "Available April"],
-      "url": "https://www.idealista.com/en/alquiler-viviendas/barcelona-barcelona/"
+      "features": ["Co-living", "Ascensor", "Cocina compartida"],
+      "type": "Alquiler temporal",
+      "source": "Idealista"
     },
     {
-      "id": "ideal-704-barceloneta",
-      "platform": "Idealista",
+      "id": 3,
+      "title": "Piso en Calle Atlàntida, La Barceloneta",
       "price": 704,
       "bedrooms": 1,
-      "bathrooms": 1,
-      "area": 32,
+      "size": 32,
+      "floor": "3ª",
       "location": "La Barceloneta",
-      "type": "Apartment/Short-term",
-      "features": ["Near beach", "Internet included", "Modern"],
-      "url": "https://www.idealista.com/en/alquiler-viviendas/barcelona-barcelona/"
+      "features": ["Exterior", "Cerca de la playa", "Internet incluido"],
+      "type": "Alquiler temporal",
+      "source": "Idealista"
     },
     {
-      "id": "ideal-710-clot",
-      "platform": "Idealista",
-      "price": 710,
+      "id": 4,
+      "title": "Piso en Sant Miquel, La Barceloneta",
+      "price": 724,
       "bedrooms": 1,
-      "bathrooms": 1,
-      "area": 53,
-      "location": "El Camp de l'Arpa del Clot",
-      "type": "Penthouse/Short-term",
-      "features": ["Spacious terrace", "Private access", "Well-connected"],
-      "url": "https://www.idealista.com/en/alquiler-viviendas/barcelona-barcelona/"
-    },
-    {
-      "id": "ideal-720-barceloneta",
-      "platform": "Idealista",
-      "price": 720,
-      "bedrooms": 1,
-      "bathrooms": 1,
-      "area": 36,
+      "size": 32,
+      "floor": "3ª",
       "location": "La Barceloneta",
-      "type": "Apartment/Short-term",
-      "features": ["Beach access", "Designer furnished", "Balconies"],
-      "url": "https://www.idealista.com/en/alquiler-viviendas/barcelona-barcelona/"
+      "features": ["Exterior", "Terraza", "Aire acondicionado"],
+      "type": "Alquiler temporal",
+      "source": "Idealista"
     },
     {
-      "id": "ideal-750-gracia",
-      "platform": "Idealista",
+      "id": 5,
+      "title": "Piso en Calle Atlàntida, La Barceloneta",
+      "price": 736,
+      "bedrooms": 1,
+      "size": 34,
+      "floor": "1ª",
+      "location": "La Barceloneta",
+      "features": ["Interior", "Reformado", "Cerca de playa"],
+      "type": "Alquiler",
+      "source": "Idealista"
+    },
+    {
+      "id": 6,
+      "title": "Estudio en Vila de Gràcia",
+      "price": 740,
+      "bedrooms": 0,
+      "size": 22,
+      "floor": "3ª",
+      "location": "Vila de Gràcia",
+      "features": ["Interior", "Reformado", "Ascensor"],
+      "type": "Alquiler temporal",
+      "source": "Idealista"
+    },
+    {
+      "id": 7,
+      "title": "Estudio en El Gòtic",
+      "price": 740,
+      "bedrooms": 0,
+      "size": 20,
+      "floor": "4ª",
+      "location": "El Gòtic",
+      "features": ["Interior", "Amueblado", "Centro histórico"],
+      "type": "Alquiler",
+      "source": "Idealista"
+    },
+    {
+      "id": 8,
+      "title": "Piso en Vilapicina",
+      "price": 750,
+      "bedrooms": 1,
+      "size": 10,
+      "floor": "Sin ascensor",
+      "location": "Vilapicina i la Torre Llobeta",
+      "features": ["Amueblado", "Lavadora privada", "WiFi"],
+      "type": "Alquiler temporal",
+      "source": "Idealista"
+    },
+    {
+      "id": 9,
+      "title": "Piso en Baró de Viver",
+      "price": 750,
+      "bedrooms": 2,
+      "size": 60,
+      "floor": "Entresuelo",
+      "location": "Baró de Viver",
+      "features": ["Exterior", "Ascensor", "Contrato 11 meses"],
+      "type": "Alquiler temporal",
+      "source": "Idealista"
+    },
+    {
+      "id": 10,
+      "title": "Estudio en Calle Balcells, Gràcia",
       "price": 750,
       "bedrooms": 0,
-      "bathrooms": 1,
-      "area": 22,
-      "location": "Vila de Gràcia",
-      "type": "Studio/Seasonal",
-      "features": ["Renovated", "Furnished", "Bohemian area"],
-      "url": "https://www.idealista.com/en/alquiler-viviendas/barcelona-barcelona/"
+      "size": 32,
+      "floor": "1ª",
+      "location": "El Camp d'En Grassot i Gràcia Nova",
+      "features": ["Exterior", "Ascensor", "Zona tranquila"],
+      "type": "Alquiler temporal",
+      "source": "Idealista"
     },
     {
-      "id": "ideal-800-barceloneta",
-      "platform": "Idealista",
-      "price": 800,
-      "bedrooms": 2,
-      "bathrooms": 1,
-      "area": 40,
-      "location": "La Barceloneta",
-      "type": "Apartment/Long-term",
-      "features": ["2 bedrooms", "Renovated", "AC with heat pump"],
-      "url": "https://www.idealista.com/en/alquiler-viviendas/barcelona-barcelona/"
-    },
-    {
-      "id": "fotocasa-450-vallhebron",
-      "platform": "Fotocasa",
-      "price": 450,
+      "id": 11,
+      "title": "Piso en El Guinardó",
+      "price": 760,
       "bedrooms": 1,
-      "bathrooms": 1,
-      "area": 90,
-      "location": "La Vall d'Hebron",
-      "type": "Room in shared flat",
-      "features": ["Shared apartment", "Metro access", "All utilities included"],
-      "url": "https://www.fotocasa.es/en/rental/flats/barcelona-capital/"
+      "size": 42,
+      "floor": "Planta baja",
+      "location": "El Guinardó",
+      "features": ["Interior", "Ascensor", "Bien conectado"],
+      "type": "Alquiler temporal",
+      "source": "Idealista"
     },
     {
-      "id": "habitaclia-sample",
-      "platform": "Habitaclia",
+      "id": 12,
+      "title": "Estudio en La Esquerra del Eixample",
+      "price": 765,
+      "bedrooms": 0,
+      "size": 22,
+      "floor": "Entresuelo",
+      "location": "La Nova Esquerra de l'Eixample",
+      "features": ["Interior", "Ascensor", "Zona comercial"],
+      "type": "Alquiler temporal",
+      "source": "Idealista"
+    },
+    {
+      "id": 13,
+      "title": "Ático en Poble Sec",
+      "price": 780,
+      "bedrooms": 1,
+      "size": 20,
+      "floor": "5ª",
+      "location": "El Poble Sec - Parc de Montjuïc",
+      "features": ["Exterior", "Sin ascensor", "Encantador"],
+      "type": "Alquiler temporal",
+      "source": "Idealista"
+    },
+    {
+      "id": 14,
+      "title": "Piso en Grau i Torras, La Barceloneta",
       "price": 800,
       "bedrooms": 2,
-      "bathrooms": 1,
-      "area": 80,
-      "location": "Eixample",
-      "type": "Apartment/Long-term",
-      "features": ["Renovated", "Well-equipped", "Central location"],
-      "url": "https://english.habitaclia.com/rent-barcelona.htm"
+      "size": 40,
+      "floor": "Planta baja",
+      "location": "La Barceloneta",
+      "features": ["Exterior", "Reformado", "Aire acondicionado"],
+      "type": "Alquiler",
+      "source": "Idealista"
+    },
+    {
+      "id": 15,
+      "title": "Estudio en Sant Miquel, La Barceloneta",
+      "price": 800,
+      "bedrooms": 0,
+      "size": 35,
+      "floor": "2ª",
+      "location": "La Barceloneta",
+      "features": ["Exterior", "Vistas al puerto", "Cerca de playa"],
+      "type": "Alquiler temporal",
+      "source": "Idealista"
+    },
+    {
+      "id": 16,
+      "title": "Estudio en Can Baró, Horta Guinardó",
+      "price": 800,
+      "bedrooms": 0,
+      "size": 65,
+      "floor": "Sótano",
+      "location": "Can Baró",
+      "features": ["Interior", "Cercano a Parque Güell", "Tranquilo"],
+      "type": "Alquiler",
+      "source": "Idealista"
+    },
+    {
+      "id": 17,
+      "title": "Estudio en Ciutat Meridiana",
+      "price": 800,
+      "bedrooms": 0,
+      "size": 29,
+      "floor": "3ª",
+      "location": "Ciutat Meridiana - Torre Baró - Vallbona",
+      "features": ["Exterior", "Patio", "Acceso a jardín"],
+      "type": "Alquiler",
+      "source": "Idealista"
+    },
+    {
+      "id": 18,
+      "title": "Ático en Poble Sec",
+      "price": 800,
+      "bedrooms": 1,
+      "size": 20,
+      "floor": "5ª",
+      "location": "El Poble Sec - Parc de Montjuïc",
+      "features": ["Exterior", "Encantador", "Vintage"],
+      "type": "Alquiler temporal",
+      "source": "Idealista"
+    },
+    {
+      "id": 19,
+      "title": "Piso en El Guinardó",
+      "price": 800,
+      "bedrooms": 2,
+      "size": 58,
+      "floor": "3ª",
+      "location": "El Guinardó",
+      "features": ["Exterior", "Reformado", "Luminoso"],
+      "type": "Alquiler temporal",
+      "source": "Idealista"
+    },
+    {
+      "id": 20,
+      "title": "Piso en Pasaje del Rellotge, El Gòtic",
+      "price": 800,
+      "bedrooms": 1,
+      "size": 65,
+      "floor": "3ª",
+      "location": "El Gòtic",
+      "features": ["Interior", "Reformado", "Muebles nuevos"],
+      "type": "Alquiler temporal",
+      "source": "Idealista"
+    },
+    {
+      "id": 21,
+      "title": "Piso en Sant Antoni Maria Claret",
+      "price": 800,
+      "bedrooms": 3,
+      "size": 58,
+      "floor": "1ª",
+      "location": "El Camp d'En Grassot i Gràcia Nova",
+      "features": ["Interior", "Ascensor", "Terraza 8m2"],
+      "type": "Alquiler temporal",
+      "source": "Idealista"
+    },
+    {
+      "id": 22,
+      "title": "Piso en Calle Cera, El Raval",
+      "price": 800,
+      "bedrooms": 1,
+      "size": 34,
+      "floor": "2ª",
+      "location": "El Raval",
+      "features": ["Exterior", "Parking incluido", "Bien conectado"],
+      "type": "Alquiler temporal",
+      "source": "Idealista"
+    },
+    {
+      "id": 23,
+      "title": "Piso en Plaza Salvador Seguí, El Raval",
+      "price": 821,
+      "bedrooms": 2,
+      "size": 56,
+      "floor": "5ª",
+      "location": "El Raval",
+      "features": ["Exterior", "Luminoso", "Bien distribuido"],
+      "type": "Alquiler temporal",
+      "source": "Idealista"
+    },
+    {
+      "id": 24,
+      "title": "Ático dúplex en Sant Pere",
+      "price": 825,
+      "bedrooms": 1,
+      "size": 37,
+      "floor": "5ª",
+      "location": "Sant Pere - Santa Caterina i la Ribera",
+      "features": ["Exterior", "Born district", "Cocina americana"],
+      "type": "Alquiler",
+      "source": "Idealista"
+    },
+    {
+      "id": 25,
+      "title": "Piso en Marina del Port",
+      "price": 827,
+      "bedrooms": 1,
+      "size": 60,
+      "floor": "1ª",
+      "location": "La Marina del Port",
+      "features": ["Exterior", "Ascensor", "Bien conectado"],
+      "type": "Alquiler temporal",
+      "source": "Idealista"
+    },
+    {
+      "id": 26,
+      "title": "Piso en Torrent de l'Olla, Gràcia",
+      "price": 830,
+      "bedrooms": 1,
+      "size": 29,
+      "floor": "4ª",
+      "location": "Vila de Gràcia",
+      "features": ["Exterior", "Ascensor", "Reformado"],
+      "type": "Alquiler temporal",
+      "source": "Idealista"
+    },
+    {
+      "id": 27,
+      "title": "Piso en Cendra, El Raval",
+      "price": 840,
+      "bedrooms": 1,
+      "size": 54,
+      "floor": "3ª",
+      "location": "El Raval",
+      "features": ["Exterior", "Luz natural", "Cerca Sant Antoni"],
+      "type": "Alquiler temporal",
+      "source": "Idealista"
+    },
+    {
+      "id": 28,
+      "title": "Estudio en Placeta Sant Francesc, El Gòtic",
+      "price": 850,
+      "bedrooms": 0,
+      "size": 30,
+      "floor": "3ª",
+      "location": "El Gòtic",
+      "features": ["Exterior", "Loft amueblado", "Cerca Las Ramblas"],
+      "type": "Alquiler temporal",
+      "source": "Idealista"
+    },
+    {
+      "id": 29,
+      "title": "Estudio en Passatge dels Escudellers, El Gòtic",
+      "price": 850,
+      "bedrooms": 0,
+      "size": 31,
+      "floor": "1ª",
+      "location": "El Gòtic",
+      "features": ["Interior", "Loft amueblado", "Totalmente equipado"],
+      "type": "Alquiler temporal",
+      "source": "Idealista"
+    },
+    {
+      "id": 30,
+      "title": "Estudio en Calle Praga, Baix Guinardó",
+      "price": 850,
+      "bedrooms": 0,
+      "size": 30,
+      "floor": "Planta baja",
+      "location": "El Baix Guinardó",
+      "features": ["Interior", "Ascensor", "Loft reformado"],
+      "type": "Alquiler",
+      "source": "Idealista"
+    },
+    {
+      "id": 31,
+      "title": "Piso en Gran Via, Dreta de l'Eixample",
+      "price": 1300,
+      "bedrooms": 1,
+      "size": 47,
+      "floor": "No especificado",
+      "location": "Dreta de l'Eixample",
+      "features": ["No amueblado", "Profesionales", "Estudiantes"],
+      "type": "Alquiler",
+      "source": "Habitaclia"
+    },
+    {
+      "id": 32,
+      "title": "Piso en Gran de Sant Andreu",
+      "price": 1600,
+      "bedrooms": 3,
+      "size": 65,
+      "floor": "No especificado",
+      "location": "Sant Andreu de Palomar",
+      "features": ["No amueblado", "3 habitaciones", "Profesionales"],
+      "type": "Alquiler",
+      "source": "Habitaclia"
+    },
+    {
+      "id": 33,
+      "title": "Piso en Congrés - Indians",
+      "price": 1700,
+      "bedrooms": 3,
+      "size": 75,
+      "floor": "No especificado",
+      "location": "Congrés - Indians",
+      "features": ["Alojamiento completo", "3 habitaciones", "Disponible junio"],
+      "type": "Alquiler",
+      "source": "Habitaclia"
     }
   ],
-  "priceRanges": {
-    "under500": {
-      "label": "Under €500",
-      "count": 342,
-      "percentage": 12.9
-    },
-    "500to800": {
-      "label": "€500 - €800",
-      "count": 958,
-      "percentage": 36.2
-    },
-    "800to1000": {
-      "label": "€800 - €1.000",
-      "count": 892,
-      "percentage": 33.7
-    },
-    "1000to1400": {
-      "label": "€1.000 - €1.400",
-      "count": 454,
-      "percentage": 17.2
-    }
-  },
-  "statistics": {
-    "medianPrice": 750,
-    "avgBedroomCount": 1.2,
-    "avgAreaSqm": 65,
-    "avgPricePerSqm": 11.54,
-    "totalNeighborhoods": 8
-  },
-  "updateFrequency": "Daily",
-  "disclaimer": "Precios aproximados basados en datos públicos de Idealista, Fotocasa y Habitaclia. Los precios pueden variar."
+  "summary": {
+    "total_apartments": 33,
+    "average_price": 845,
+    "min_price": 699,
+    "max_price": 850,
+    "average_size": 40,
+    "studios_count": 10,
+    "one_bedroom_count": 12,
+    "two_plus_bedroom_count": 11,
+    "sources": ["Idealista", "Fotocasa", "Habitaclia"]
+  }
 }

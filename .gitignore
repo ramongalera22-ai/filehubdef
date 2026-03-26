@@ -7,3 +7,5 @@ dist/
 # Local Netlify folder
 .netlify
 pisos_bot/google-chrome-stable_current_amd64.deb
+*.deb
+*.deb.*

@@ -1,12 +1,176 @@
 {
   "title": "Pisos Barcelona < 1.400€",
-  "filters": {"city": "Barcelona", "maxPrice": 1400},
+  "updated": "2026-03-27T00:35:00+01:00",
+  "filters": {"city": "Barcelona", "maxPrice": 1400, "preferUnfurnished": true, "longTerm": true, "nearMetro": "L3/L5"},
+  "sources": ["Idealista", "Fotocasa", "Habitaclia"],
+  "totalFound": 15,
   "listings": [
-    {"source":"Idealista","title":"Estudio en Calle Comtal, 25, El Gòtic, Barcelona","price":620},
-    {"source":"Idealista","title":"Estudio en Ronda de la Universitat, 31, La Dreta de l'Eixample","price":700},
-    {"source":"Idealista","title":"Estudio en Calle d'Alella, 17, Porta, Barcelona","price":700},
-    {"source":"Idealista","title":"Piso en Calle de l'Atlàntida, Barceloneta","price":704},
-    {"source":"Idealista","title":"Piso en Calle del Portal Nou, Sant Pere - Santa Caterina i la Ribera","price":800},
-    {"source":"Habitaclia","title":"Alquiler Estudio en El Camp de l'Arpa del Clot","price":690}
+    {
+      "source": "Idealista",
+      "title": "Piso en Calle Comtal, 25, El Gòtic",
+      "price": 620,
+      "rooms": 3,
+      "m2": 54,
+      "floor": "2ª exterior con ascensor",
+      "zone": "El Gòtic / Ciutat Vella",
+      "type": "temporada",
+      "url": "https://www.idealista.com/inmueble/111022204/"
+    },
+    {
+      "source": "Idealista",
+      "title": "Estudio en Plaza Mossèn Clapés, 16, Sant Andreu",
+      "price": 690,
+      "rooms": 0,
+      "m2": 30,
+      "floor": "4ª exterior con ascensor",
+      "zone": "Sant Andreu",
+      "type": "larga duración",
+      "url": "https://www.idealista.com/alquiler-viviendas/barcelona-barcelona/?ordenado-por=precios-asc"
+    },
+    {
+      "source": "Habitaclia",
+      "title": "Estudio en El Camp de l'Arpa del Clot",
+      "price": 690,
+      "rooms": 0,
+      "m2": 20,
+      "floor": "N/A",
+      "zone": "El Camp de l'Arpa del Clot",
+      "type": "larga duración",
+      "url": "https://www.habitaclia.com/alquiler-pisos-baratos-barcelona.htm"
+    },
+    {
+      "source": "Idealista",
+      "title": "Estudio en Ronda de la Universitat, 31, Eixample",
+      "price": 700,
+      "rooms": 0,
+      "m2": 30,
+      "floor": "3ª exterior con ascensor",
+      "zone": "La Dreta de l'Eixample",
+      "type": "temporada",
+      "url": "https://www.idealista.com/inmueble/111030321/"
+    },
+    {
+      "source": "Habitaclia",
+      "title": "Piso Avinguda Diagonal, Dreta de l'Eixample",
+      "price": 700,
+      "rooms": 1,
+      "m2": 25,
+      "floor": "N/A",
+      "zone": "Dreta de l'Eixample",
+      "type": "sin amueblar",
+      "url": "https://www.habitaclia.com/alquiler-pisos-baratos-barcelona.htm"
+    },
+    {
+      "source": "Idealista",
+      "title": "Piso en Passatge dels Escudellers, 3, El Gòtic",
+      "price": 700,
+      "rooms": 1,
+      "m2": 36,
+      "floor": "1ª interior sin ascensor",
+      "zone": "El Gòtic",
+      "type": "temporada",
+      "url": "https://www.idealista.com/alquiler-viviendas/barcelona-barcelona/?ordenado-por=precios-asc"
+    },
+    {
+      "source": "Idealista",
+      "title": "Estudio en Calle d'Alella, 17, Porta",
+      "price": 700,
+      "rooms": 0,
+      "m2": 25,
+      "floor": "Bajo interior con ascensor",
+      "zone": "Porta / Nou Barris",
+      "type": "temporada",
+      "url": "https://www.idealista.com/inmueble/107857827/"
+    },
+    {
+      "source": "Idealista",
+      "title": "Piso en Calle de l'Atlàntida, La Barceloneta",
+      "price": 704,
+      "rooms": 1,
+      "m2": 32,
+      "floor": "3ª exterior sin ascensor",
+      "zone": "La Barceloneta",
+      "type": "temporada",
+      "url": "https://www.idealista.com/inmueble/111003017/"
+    },
+    {
+      "source": "Idealista",
+      "title": "Estudio en Mateu, Vila de Gràcia",
+      "price": 740,
+      "rooms": 0,
+      "m2": 22,
+      "floor": "3ª interior con ascensor",
+      "zone": "Vila de Gràcia",
+      "type": "temporada",
+      "url": "https://www.idealista.com/alquiler-viviendas/barcelona-barcelona/?ordenado-por=precios-asc"
+    },
+    {
+      "source": "Habitaclia",
+      "title": "Piso Carrer del Moianès, Hostafrancs",
+      "price": 750,
+      "rooms": 1,
+      "m2": 25,
+      "floor": "N/A",
+      "zone": "Hostafrancs / Sants-Montjuïc",
+      "type": "sin amueblar",
+      "note": "Ha bajado 300€",
+      "url": "https://www.habitaclia.com/alquiler-pisos-baratos-barcelona.htm"
+    },
+    {
+      "source": "Idealista",
+      "title": "Piso en Mare de Déu de Montserrat, El Guinardó",
+      "price": 760,
+      "rooms": 1,
+      "m2": 42,
+      "floor": "Bajo interior con ascensor",
+      "zone": "El Guinardó / Horta-Guinardó",
+      "type": "temporada",
+      "url": "https://www.idealista.com/alquiler-viviendas/barcelona-barcelona/?ordenado-por=precios-asc"
+    },
+    {
+      "source": "Idealista",
+      "title": "Estudio en La Nova Esquerra de l'Eixample",
+      "price": 765,
+      "rooms": 0,
+      "m2": 22,
+      "floor": "Entreplanta interior con ascensor",
+      "zone": "Nova Esquerra Eixample",
+      "type": "temporada",
+      "url": "https://www.idealista.com/alquiler-viviendas/barcelona-barcelona/?ordenado-por=precios-asc"
+    },
+    {
+      "source": "Idealista",
+      "title": "Piso en Calle de l'Atlàntida, La Barceloneta (reformado)",
+      "price": 773,
+      "rooms": 1,
+      "m2": 32,
+      "floor": "2ª exterior sin ascensor",
+      "zone": "La Barceloneta",
+      "type": "temporada",
+      "url": "https://www.idealista.com/alquiler-viviendas/barcelona-barcelona/?ordenado-por=precios-asc"
+    },
+    {
+      "source": "Idealista",
+      "title": "Piso en Torrent de les Flors, 75, Vila de Gràcia",
+      "price": 779,
+      "rooms": 1,
+      "m2": 38,
+      "floor": "4ª exterior con ascensor",
+      "zone": "Vila de Gràcia",
+      "type": "temporada",
+      "note": "Antes 1.300€ - bajó 40%",
+      "url": "https://www.idealista.com/alquiler-viviendas/barcelona-barcelona/?ordenado-por=precios-asc"
+    },
+    {
+      "source": "Idealista",
+      "title": "Ático en Calle de Magalhães, 33, Poble Sec",
+      "price": 780,
+      "rooms": 1,
+      "m2": 20,
+      "floor": "5ª exterior sin ascensor",
+      "zone": "Poble Sec / Sants-Montjuïc",
+      "type": "temporada",
+      "url": "https://www.idealista.com/alquiler-viviendas/barcelona-barcelona/?ordenado-por=precios-asc"
+    }
   ]
 }

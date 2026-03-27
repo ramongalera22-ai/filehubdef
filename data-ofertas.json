@@ -1,10 +1,71 @@
 {
   "search_date": "2026-03-27",
-  "sources_searched": ["CAMFIC", "Gencat SAS", "CatSalut", "InfoJobs", "Hospital Clínic", "Teknon"],
-  "offers_found_count": "Limited by search results",
+  "sources_searched": [
+    "CAMFiC",
+    "CatSalut",
+    "InfoJobs",
+    "SemFYC",
+    "LinkedIn",
+    "Indeed",
+    "Telemedi",
+    "Jooble"
+  ],
   "offers": [
-    {"title": "Médico de Familia - CAMFIC", "location": "Barcelona", "url": "https://example.com/camfic_oferta1", "publish_date": "recent"},
-    {"title": "Especialista Medicina Interna - Hospital Clínic", "location": "Barcelona", "url": "https://example.com/clinic_job1", "publish_date": "recent"},
-    {"title": "Residente MIR - CatSalut", "location": "Cataluña", "url": "https://example.com/catsalut_mir", "publish_date": "recent"}
+    {
+      "title": "Médico urgente cobertura MF",
+      "location": "Barcelona",
+      "url": "https://camfic.cat/detallOferta.aspx?id=2699",
+      "source": "CAMFiC",
+      "tipo": "medico"
+    },
+    {
+      "title": "Bolsa de trabajo MF",
+      "location": "Cataluña",
+      "url": "https://catsalut.gencat.cat/ca/coneix-catsalut/presentacio/organitzacio/recursos-humans/ofertes-treball/",
+      "source": "CatSalut",
+      "tipo": "medico"
+    },
+    {
+      "title": "Médico de familia Barcelona",
+      "location": "Barcelona",
+      "url": "https://www.infojobs.net/ofertas-trabajo/barcelona/medico-de-familia",
+      "source": "InfoJobs",
+      "tipo": "medico"
+    },
+    {
+      "title": "Bolsa MFyC",
+      "location": "España",
+      "url": "https://www.semfyc.es/secciones-y-grupos/seccion-de-desarrollo-profesional/salida-profesional/bolsa-de-trabajo/",
+      "source": "SemFYC",
+      "tipo": "medico"
+    },
+    {
+      "title": "Empleos telemedicina España",
+      "location": "España",
+      "url": "https://es.linkedin.com/jobs/telemedicina-empleos",
+      "source": "LinkedIn",
+      "tipo": "consultor"
+    },
+    {
+      "title": "Empleos telemedicina",
+      "location": "España",
+      "url": "https://es.indeed.com/q-telemedicina-empleos.html",
+      "source": "Indeed",
+      "tipo": "consultor"
+    },
+    {
+      "title": "Médico General telemedicina (remoto)",
+      "location": "Remoto",
+      "url": "https://apply.workable.com/telemedi/j/1A3F03D40A/",
+      "source": "Telemedi",
+      "tipo": "consultor"
+    },
+    {
+      "title": "Médico teletrabajo España",
+      "location": "España",
+      "url": "https://es.jooble.org/trabajo-m%C3%A9dico-teletrabajo",
+      "source": "Jooble",
+      "tipo": "consultor"
+    }
   ]
 }

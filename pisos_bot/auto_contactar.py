@@ -51,15 +51,23 @@ def log(msg):
         f.write(f"[{ts}] {msg}\n")
 
 def send_wa(msg):
-    """Enviar mensaje por WhatsApp via el servidor."""
+    """Enviar mensaje por Telegram (canal principal) + WA como backup."""
+    import urllib.request, urllib.parse
+    sent = False
+    # Telegram primero (siempre funciona)
     try:
-        import urllib.request
+        data = urllib.parse.urlencode({"chat_id": "596831448", "text": msg}).encode()
+        req = urllib.request.Request("https://api.telegram.org/bot8779418734:AAE63RPFNRulPy4ZvtL8L0iZROsnKRf69kk/sendMessage", data=data, method="POST")
+        urllib.request.urlopen(req, timeout=10)
+        sent = True
+    except: pass
+    # WA backup
+    try:
         data = json.dumps({"phone": WA_PHONE, "message": msg}).encode()
         req = urllib.request.Request(f"{WA_SERVER}/send", data=data, headers={"Content-Type": "application/json"}, method="POST")
         urllib.request.urlopen(req, timeout=10)
-        return True
-    except:
-        return False
+    except: pass
+    return sent
 
 def contact_via_server(url):
     """Contactar casero via el servidor (puppeteer/API/extract)."""

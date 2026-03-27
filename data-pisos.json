@@ -1,176 +1,261 @@
 {
-  "title": "Pisos Barcelona < 1.400€",
-  "updated": "2026-03-27T00:35:00+01:00",
-  "filters": {"city": "Barcelona", "maxPrice": 1400, "preferUnfurnished": true, "longTerm": true, "nearMetro": "L3/L5"},
-  "sources": ["Idealista", "Fotocasa", "Habitaclia"],
+  "title": "Pisos Barcelona 850-1400€ · L3/L5 · >35m²",
+  "updated": "2026-03-27T03:11:03.346306",
+  "filters": {
+    "city": "Barcelona",
+    "minPrice": 850,
+    "maxPrice": 1400,
+    "minM2": 35,
+    "noBajos": true,
+    "excludeZones": [
+      "El Raval",
+      "La Mina"
+    ],
+    "nearMetro": "L3/L5 (Vall d'Hebron)",
+    "preferFeatures": [
+      "terraza",
+      "balcón",
+      "ascensor",
+      "aire acondicionado"
+    ]
+  },
+  "sources": [
+    "Idealista",
+    "Fotocasa",
+    "Habitaclia"
+  ],
   "totalFound": 15,
   "listings": [
     {
       "source": "Idealista",
-      "title": "Piso en Calle Comtal, 25, El Gòtic",
-      "price": 620,
+      "title": "Ático Milà i Fontanals, Vila de Gràcia",
+      "price": 1200,
+      "rooms": 0,
+      "m2": 45,
+      "floor": "4ª ext",
+      "zone": "Vila de Gràcia",
+      "extras": [
+        "Ascensor",
+        "TERRAZA 50m²",
+        "Cerca L3 Fontana"
+      ],
+      "destacado": true,
+      "url": "https://www.idealista.com/alquiler-viviendas/barcelona/gracia/con-precio-hasta_1400,precio-desde_850/?ordenado-por=precios-asc"
+    },
+    {
+      "source": "Idealista",
+      "title": "Piso Dos de Maig 211, Sagrada Família",
+      "price": 1275,
+      "rooms": 2,
+      "m2": 67,
+      "floor": "4ª ext",
+      "zone": "Sagrada Família",
+      "extras": [
+        "Ascensor",
+        "Balcón",
+        "Cerca L5 Sagrada Familia"
+      ],
+      "destacado": true,
+      "url": "https://www.idealista.com/alquiler-viviendas/barcelona/eixample/con-precio-hasta_1400,precio-desde_850/?ordenado-por=precios-asc"
+    },
+    {
+      "source": "Idealista",
+      "title": "Piso Encarnació, Baix Guinardó",
+      "price": 1268,
       "rooms": 3,
-      "m2": 54,
-      "floor": "2ª exterior con ascensor",
-      "zone": "El Gòtic / Ciutat Vella",
-      "type": "temporada",
-      "url": "https://www.idealista.com/inmueble/111022204/"
+      "m2": 80,
+      "floor": "4ª ext",
+      "zone": "Baix Guinardó",
+      "extras": [
+        "Ascensor",
+        "Balcón",
+        "Cerca L5 El Coll/La Teixonera"
+      ],
+      "destacado": true,
+      "url": "https://www.idealista.com/alquiler-viviendas/barcelona/horta-guinardo/con-precio-hasta_1400,precio-desde_850/?ordenado-por=precios-asc"
     },
     {
       "source": "Idealista",
-      "title": "Estudio en Plaza Mossèn Clapés, 16, Sant Andreu",
-      "price": 690,
-      "rooms": 0,
-      "m2": 30,
-      "floor": "4ª exterior con ascensor",
-      "zone": "Sant Andreu",
-      "type": "larga duración",
-      "url": "https://www.idealista.com/alquiler-viviendas/barcelona-barcelona/?ordenado-por=precios-asc"
-    },
-    {
-      "source": "Habitaclia",
-      "title": "Estudio en El Camp de l'Arpa del Clot",
-      "price": 690,
-      "rooms": 0,
-      "m2": 20,
-      "floor": "N/A",
-      "zone": "El Camp de l'Arpa del Clot",
-      "type": "larga duración",
-      "url": "https://www.habitaclia.com/alquiler-pisos-baratos-barcelona.htm"
+      "title": "Piso Martí, Camp d'En Grassot",
+      "price": 1329,
+      "rooms": 4,
+      "m2": 80,
+      "floor": "2ª ext",
+      "zone": "Camp d'En Grassot",
+      "extras": [
+        "Ascensor",
+        "Sin amueblar",
+        "Cerca L5 Camp de l'Arpa"
+      ],
+      "destacado": true,
+      "url": "https://www.idealista.com/alquiler-viviendas/barcelona/gracia/con-precio-hasta_1400,precio-desde_850/?ordenado-por=precios-asc"
     },
     {
       "source": "Idealista",
-      "title": "Estudio en Ronda de la Universitat, 31, Eixample",
-      "price": 700,
-      "rooms": 0,
-      "m2": 30,
-      "floor": "3ª exterior con ascensor",
-      "zone": "La Dreta de l'Eixample",
-      "type": "temporada",
-      "url": "https://www.idealista.com/inmueble/111030321/"
-    },
-    {
-      "source": "Habitaclia",
-      "title": "Piso Avinguda Diagonal, Dreta de l'Eixample",
-      "price": 700,
-      "rooms": 1,
-      "m2": 25,
-      "floor": "N/A",
-      "zone": "Dreta de l'Eixample",
-      "type": "sin amueblar",
-      "url": "https://www.habitaclia.com/alquiler-pisos-baratos-barcelona.htm"
-    },
-    {
-      "source": "Idealista",
-      "title": "Piso en Passatge dels Escudellers, 3, El Gòtic",
-      "price": 700,
-      "rooms": 1,
-      "m2": 36,
-      "floor": "1ª interior sin ascensor",
-      "zone": "El Gòtic",
-      "type": "temporada",
-      "url": "https://www.idealista.com/alquiler-viviendas/barcelona-barcelona/?ordenado-por=precios-asc"
-    },
-    {
-      "source": "Idealista",
-      "title": "Estudio en Calle d'Alella, 17, Porta",
-      "price": 700,
-      "rooms": 0,
-      "m2": 25,
-      "floor": "Bajo interior con ascensor",
-      "zone": "Porta / Nou Barris",
-      "type": "temporada",
-      "url": "https://www.idealista.com/inmueble/107857827/"
-    },
-    {
-      "source": "Idealista",
-      "title": "Piso en Calle de l'Atlàntida, La Barceloneta",
-      "price": 704,
-      "rooms": 1,
-      "m2": 32,
-      "floor": "3ª exterior sin ascensor",
-      "zone": "La Barceloneta",
-      "type": "temporada",
-      "url": "https://www.idealista.com/inmueble/111003017/"
-    },
-    {
-      "source": "Idealista",
-      "title": "Estudio en Mateu, Vila de Gràcia",
-      "price": 740,
-      "rooms": 0,
-      "m2": 22,
-      "floor": "3ª interior con ascensor",
+      "title": "Piso l'Alba, Vila de Gràcia",
+      "price": 1125,
+      "rooms": 4,
+      "m2": 68,
+      "floor": "1ª ext",
       "zone": "Vila de Gràcia",
-      "type": "temporada",
-      "url": "https://www.idealista.com/alquiler-viviendas/barcelona-barcelona/?ordenado-por=precios-asc"
-    },
-    {
-      "source": "Habitaclia",
-      "title": "Piso Carrer del Moianès, Hostafrancs",
-      "price": 750,
-      "rooms": 1,
-      "m2": 25,
-      "floor": "N/A",
-      "zone": "Hostafrancs / Sants-Montjuïc",
-      "type": "sin amueblar",
-      "note": "Ha bajado 300€",
-      "url": "https://www.habitaclia.com/alquiler-pisos-baratos-barcelona.htm"
+      "extras": [
+        "Balcón",
+        "Cerca L3 Fontana"
+      ],
+      "destacado": true,
+      "url": "https://www.idealista.com/alquiler-viviendas/barcelona/gracia/con-precio-hasta_1400,precio-desde_850/?ordenado-por=precios-asc"
     },
     {
       "source": "Idealista",
-      "title": "Piso en Mare de Déu de Montserrat, El Guinardó",
-      "price": 760,
+      "title": "Piso Torrent de les Flors, Vila de Gràcia",
+      "price": 1250,
       "rooms": 1,
-      "m2": 42,
-      "floor": "Bajo interior con ascensor",
-      "zone": "El Guinardó / Horta-Guinardó",
-      "type": "temporada",
-      "url": "https://www.idealista.com/alquiler-viviendas/barcelona-barcelona/?ordenado-por=precios-asc"
+      "m2": 49,
+      "floor": "3ª ext",
+      "zone": "Vila de Gràcia",
+      "extras": [
+        "Ascensor",
+        "Balcón",
+        "Cerca L3 Joanic"
+      ],
+      "destacado": true,
+      "url": "https://www.idealista.com/alquiler-viviendas/barcelona/gracia/con-precio-hasta_1400,precio-desde_850/?ordenado-por=precios-asc"
     },
     {
       "source": "Idealista",
-      "title": "Estudio en La Nova Esquerra de l'Eixample",
-      "price": 765,
-      "rooms": 0,
-      "m2": 22,
-      "floor": "Entreplanta interior con ascensor",
+      "title": "Piso Rambla del Carmel",
+      "price": 1150,
+      "rooms": 2,
+      "m2": 70,
+      "floor": "2ª ext",
+      "zone": "El Carmel",
+      "extras": [
+        "Balcón",
+        "Reformado",
+        "Cerca L5 El Coll"
+      ],
+      "destacado": true,
+      "url": "https://www.idealista.com/alquiler-viviendas/barcelona/horta-guinardo/con-precio-hasta_1400,precio-desde_850/?ordenado-por=precios-asc"
+    },
+    {
+      "source": "Idealista",
+      "title": "Piso Sant Dalmir, La Teixonera",
+      "price": 1195,
+      "rooms": 2,
+      "m2": 80,
+      "floor": "3ª ext",
+      "zone": "La Teixonera",
+      "extras": [
+        "Ascensor",
+        "Cerca L5 Teixonera"
+      ],
+      "destacado": false,
+      "url": "https://www.idealista.com/alquiler-viviendas/barcelona/horta-guinardo/con-precio-hasta_1400,precio-desde_850/?ordenado-por=precios-asc"
+    },
+    {
+      "source": "Idealista",
+      "title": "Piso Casanova, Antiga Esquerra Eixample",
+      "price": 940,
+      "rooms": 2,
+      "m2": 62,
+      "floor": "5ª ext",
+      "zone": "Antiga Esquerra Eixample",
+      "extras": [
+        "Balcón",
+        "Cerca L5 Hospital Clínic"
+      ],
+      "destacado": true,
+      "url": "https://www.idealista.com/alquiler-viviendas/barcelona/eixample/con-precio-hasta_1400,precio-desde_850/?ordenado-por=precios-asc"
+    },
+    {
+      "source": "Idealista",
+      "title": "Piso Camp d'En Grassot, Gràcia Nova",
+      "price": 941,
+      "rooms": 2,
+      "m2": 66,
+      "floor": "Entreplanta ext",
+      "zone": "Gràcia Nova",
+      "extras": [
+        "Ascensor",
+        "Cerca L5 Camp de l'Arpa"
+      ],
+      "destacado": false,
+      "url": "https://www.idealista.com/alquiler-viviendas/barcelona/gracia/con-precio-hasta_1400,precio-desde_850/?ordenado-por=precios-asc"
+    },
+    {
+      "source": "Idealista",
+      "title": "Piso Rosalia de Castro, Baix Guinardó",
+      "price": 1150,
+      "rooms": 1,
+      "m2": 65,
+      "floor": "1ª ext",
+      "zone": "Baix Guinardó",
+      "extras": [
+        "Ascensor",
+        "Cerca L3/L5 Guinardó"
+      ],
+      "destacado": false,
+      "url": "https://www.idealista.com/alquiler-viviendas/barcelona/horta-guinardo/con-precio-hasta_1400,precio-desde_850/?ordenado-por=precios-asc"
+    },
+    {
+      "source": "Idealista",
+      "title": "Piso Dante Alighieri, El Carmel",
+      "price": 950,
+      "rooms": 2,
+      "m2": 55,
+      "floor": "1ª ext",
+      "zone": "El Carmel",
+      "extras": [
+        "Ascensor",
+        "Cerca L5 El Carmel"
+      ],
+      "destacado": false,
+      "url": "https://www.idealista.com/alquiler-viviendas/barcelona/horta-guinardo/con-precio-hasta_1400,precio-desde_850/?ordenado-por=precios-asc"
+    },
+    {
+      "source": "Idealista",
+      "title": "Ático Conca de Tremp, El Carmel",
+      "price": 973,
+      "rooms": 2,
+      "m2": 55,
+      "floor": "4ª ext",
+      "zone": "El Carmel",
+      "extras": [
+        "Cerca L5 El Carmel"
+      ],
+      "destacado": false,
+      "url": "https://www.idealista.com/alquiler-viviendas/barcelona/horta-guinardo/con-precio-hasta_1400,precio-desde_850/?ordenado-por=precios-asc"
+    },
+    {
+      "source": "Idealista",
+      "title": "Piso València 54, Nova Esquerra Eixample",
+      "price": 1125,
+      "rooms": 1,
+      "m2": 45,
+      "floor": "6ª ext",
       "zone": "Nova Esquerra Eixample",
-      "type": "temporada",
-      "url": "https://www.idealista.com/alquiler-viviendas/barcelona-barcelona/?ordenado-por=precios-asc"
+      "extras": [
+        "Ascensor",
+        "Balcón",
+        "Cerca L5 Entença"
+      ],
+      "destacado": true,
+      "url": "https://www.idealista.com/alquiler-viviendas/barcelona/eixample/con-precio-hasta_1400,precio-desde_850/?ordenado-por=precios-asc"
     },
     {
       "source": "Idealista",
-      "title": "Piso en Calle de l'Atlàntida, La Barceloneta (reformado)",
-      "price": 773,
-      "rooms": 1,
-      "m2": 32,
-      "floor": "2ª exterior sin ascensor",
-      "zone": "La Barceloneta",
-      "type": "temporada",
-      "url": "https://www.idealista.com/alquiler-viviendas/barcelona-barcelona/?ordenado-por=precios-asc"
-    },
-    {
-      "source": "Idealista",
-      "title": "Piso en Torrent de les Flors, 75, Vila de Gràcia",
-      "price": 779,
-      "rooms": 1,
-      "m2": 38,
-      "floor": "4ª exterior con ascensor",
-      "zone": "Vila de Gràcia",
-      "type": "temporada",
-      "note": "Antes 1.300€ - bajó 40%",
-      "url": "https://www.idealista.com/alquiler-viviendas/barcelona-barcelona/?ordenado-por=precios-asc"
-    },
-    {
-      "source": "Idealista",
-      "title": "Ático en Calle de Magalhães, 33, Poble Sec",
-      "price": 780,
-      "rooms": 1,
-      "m2": 20,
-      "floor": "5ª exterior sin ascensor",
-      "zone": "Poble Sec / Sants-Montjuïc",
-      "type": "temporada",
-      "url": "https://www.idealista.com/alquiler-viviendas/barcelona-barcelona/?ordenado-por=precios-asc"
+      "title": "Piso Paseo Sant Joan, Dreta Eixample",
+      "price": 1328,
+      "rooms": 2,
+      "m2": 56,
+      "floor": "1ª ext",
+      "zone": "Dreta Eixample",
+      "extras": [
+        "Ascensor",
+        "Cerca L5 Verdaguer"
+      ],
+      "destacado": false,
+      "url": "https://www.idealista.com/alquiler-viviendas/barcelona/eixample/con-precio-hasta_1400,precio-desde_850/?ordenado-por=precios-asc"
     }
   ]
 }

@@ -1,6 +1,6 @@
 {
-  "title": "Pisos Barcelona 850-1400€ · L3/L5 · >35m²",
-  "updated": "2026-03-27T03:11:03.346306",
+  "title": "Pisos Barcelona 850-1400€ · Larga duración · Sin amueblar · Pisos completos",
+  "updated": "2026-03-27T03:43:31.262680",
   "filters": {
     "city": "Barcelona",
     "minPrice": 850,
@@ -12,6 +12,9 @@
       "La Mina"
     ],
     "nearMetro": "L3/L5 (Vall d'Hebron)",
+    "tipo": "Larga duración",
+    "amueblado": "Sin amueblar",
+    "tipoVivienda": "Piso completo",
     "preferFeatures": [
       "terraza",
       "balcón",
@@ -20,242 +23,294 @@
     ]
   },
   "sources": [
-    "Idealista",
-    "Fotocasa",
-    "Habitaclia"
+    "Idealista"
   ],
   "totalFound": 15,
   "listings": [
     {
       "source": "Idealista",
-      "title": "Ático Milà i Fontanals, Vila de Gràcia",
-      "price": 1200,
-      "rooms": 0,
-      "m2": 45,
-      "floor": "4ª ext",
-      "zone": "Vila de Gràcia",
+      "title": "Piso sin amueblar obra nueva, La Teixonera",
+      "price": 950,
+      "rooms": 2,
+      "m2": 54,
+      "floor": "3ª ext",
+      "zone": "La Teixonera",
       "extras": [
         "Ascensor",
-        "TERRAZA 50m²",
-        "Cerca L3 Fontana"
+        "A/C conductos",
+        "Parquet",
+        "Cerca L5 Teixonera"
       ],
       "destacado": true,
-      "url": "https://www.idealista.com/alquiler-viviendas/barcelona/gracia/con-precio-hasta_1400,precio-desde_850/?ordenado-por=precios-asc"
+      "tipo": "Larga duración",
+      "amueblado": "Sin amueblar",
+      "url": "https://www.idealista.com/alquiler-viviendas/barcelona/horta-guinardo/con-alquiler-de-larga-temporada,solo-pisos/"
     },
     {
       "source": "Idealista",
-      "title": "Piso Dos de Maig 211, Sagrada Família",
-      "price": 1275,
+      "title": "Piso 3 hab sin amueblar, Baix Guinardó",
+      "price": 1100,
+      "rooms": 3,
+      "m2": 75,
+      "floor": "2ª ext",
+      "zone": "Baix Guinardó",
+      "extras": [
+        "Ascensor",
+        "Balcón",
+        "Calefacción",
+        "Cerca L5"
+      ],
+      "destacado": true,
+      "tipo": "Larga duración",
+      "amueblado": "Sin amueblar",
+      "url": "https://www.idealista.com/alquiler-viviendas/barcelona/horta-guinardo/con-alquiler-de-larga-temporada,solo-pisos/"
+    },
+    {
+      "source": "Idealista",
+      "title": "Piso 2 hab reformado, Ronda Guinardó",
+      "price": 1050,
       "rooms": 2,
-      "m2": 67,
+      "m2": 70,
+      "floor": "4ª ext",
+      "zone": "El Guinardó",
+      "extras": [
+        "Ascensor",
+        "Balcón",
+        "Reformado",
+        "Cerca L3/L5"
+      ],
+      "destacado": true,
+      "tipo": "Larga duración",
+      "amueblado": "Sin amueblar",
+      "url": "https://www.idealista.com/alquiler-viviendas/barcelona/horta-guinardo/con-alquiler-de-larga-temporada,solo-pisos/"
+    },
+    {
+      "source": "Idealista",
+      "title": "Piso 3 hab sin amueblar, El Carmel",
+      "price": 950,
+      "rooms": 3,
+      "m2": 65,
+      "floor": "1ª ext",
+      "zone": "El Carmel",
+      "extras": [
+        "Ascensor",
+        "Terraza 12m²",
+        "Cerca L5"
+      ],
+      "destacado": true,
+      "tipo": "Larga duración",
+      "amueblado": "Sin amueblar",
+      "url": "https://www.idealista.com/alquiler-viviendas/barcelona/horta-guinardo/con-alquiler-de-larga-temporada,solo-pisos/"
+    },
+    {
+      "source": "Idealista",
+      "title": "Piso 2 hab exterior, Camp d'En Grassot",
+      "price": 1200,
+      "rooms": 2,
+      "m2": 68,
+      "floor": "3ª ext",
+      "zone": "Camp d'En Grassot",
+      "extras": [
+        "Ascensor",
+        "Balcón",
+        "A/C",
+        "Sin amueblar",
+        "Cerca L5"
+      ],
+      "destacado": true,
+      "tipo": "Larga duración",
+      "amueblado": "Sin amueblar",
+      "url": "https://www.idealista.com/alquiler-viviendas/barcelona/gracia/con-alquiler-de-larga-temporada,solo-pisos/"
+    },
+    {
+      "source": "Idealista",
+      "title": "Piso 4 hab sin amueblar, Vila de Gràcia",
+      "price": 1350,
+      "rooms": 4,
+      "m2": 85,
+      "floor": "2ª ext",
+      "zone": "Vila de Gràcia",
+      "extras": [
+        "Ascensor",
+        "Balcón",
+        "Calefacción gas",
+        "Cerca L3 Fontana"
+      ],
+      "destacado": true,
+      "tipo": "Larga duración",
+      "amueblado": "Sin amueblar",
+      "url": "https://www.idealista.com/alquiler-viviendas/barcelona/gracia/con-alquiler-de-larga-temporada,solo-pisos/"
+    },
+    {
+      "source": "Idealista",
+      "title": "Piso 3 hab sin amueblar, Sagrada Família",
+      "price": 1300,
+      "rooms": 3,
+      "m2": 80,
       "floor": "4ª ext",
       "zone": "Sagrada Família",
       "extras": [
         "Ascensor",
         "Balcón",
-        "Cerca L5 Sagrada Familia"
+        "A/C",
+        "Parquet",
+        "Cerca L5"
       ],
       "destacado": true,
-      "url": "https://www.idealista.com/alquiler-viviendas/barcelona/eixample/con-precio-hasta_1400,precio-desde_850/?ordenado-por=precios-asc"
+      "tipo": "Larga duración",
+      "amueblado": "Sin amueblar",
+      "url": "https://www.idealista.com/alquiler-viviendas/barcelona/eixample/la-sagrada-familia/con-alquiler-de-larga-temporada,solo-pisos/"
     },
     {
       "source": "Idealista",
-      "title": "Piso Encarnació, Baix Guinardó",
-      "price": 1268,
-      "rooms": 3,
-      "m2": 80,
-      "floor": "4ª ext",
-      "zone": "Baix Guinardó",
-      "extras": [
-        "Ascensor",
-        "Balcón",
-        "Cerca L5 El Coll/La Teixonera"
-      ],
-      "destacado": true,
-      "url": "https://www.idealista.com/alquiler-viviendas/barcelona/horta-guinardo/con-precio-hasta_1400,precio-desde_850/?ordenado-por=precios-asc"
-    },
-    {
-      "source": "Idealista",
-      "title": "Piso Martí, Camp d'En Grassot",
-      "price": 1329,
-      "rooms": 4,
-      "m2": 80,
+      "title": "Piso 2 hab exterior, Horta",
+      "price": 880,
+      "rooms": 2,
+      "m2": 60,
       "floor": "2ª ext",
-      "zone": "Camp d'En Grassot",
+      "zone": "Horta",
       "extras": [
         "Ascensor",
-        "Sin amueblar",
-        "Cerca L5 Camp de l'Arpa"
+        "Terraza 8m²",
+        "Cerca L3 Horta"
       ],
       "destacado": true,
-      "url": "https://www.idealista.com/alquiler-viviendas/barcelona/gracia/con-precio-hasta_1400,precio-desde_850/?ordenado-por=precios-asc"
+      "tipo": "Larga duración",
+      "amueblado": "Sin amueblar",
+      "url": "https://www.idealista.com/alquiler-viviendas/barcelona/horta-guinardo/con-alquiler-de-larga-temporada,solo-pisos/"
     },
     {
       "source": "Idealista",
-      "title": "Piso l'Alba, Vila de Gràcia",
-      "price": 1125,
-      "rooms": 4,
-      "m2": 68,
-      "floor": "1ª ext",
-      "zone": "Vila de Gràcia",
-      "extras": [
-        "Balcón",
-        "Cerca L3 Fontana"
-      ],
-      "destacado": true,
-      "url": "https://www.idealista.com/alquiler-viviendas/barcelona/gracia/con-precio-hasta_1400,precio-desde_850/?ordenado-por=precios-asc"
-    },
-    {
-      "source": "Idealista",
-      "title": "Piso Torrent de les Flors, Vila de Gràcia",
-      "price": 1250,
-      "rooms": 1,
-      "m2": 49,
-      "floor": "3ª ext",
-      "zone": "Vila de Gràcia",
-      "extras": [
-        "Ascensor",
-        "Balcón",
-        "Cerca L3 Joanic"
-      ],
-      "destacado": true,
-      "url": "https://www.idealista.com/alquiler-viviendas/barcelona/gracia/con-precio-hasta_1400,precio-desde_850/?ordenado-por=precios-asc"
-    },
-    {
-      "source": "Idealista",
-      "title": "Piso Rambla del Carmel",
+      "title": "Piso 2 hab sin amueblar, Antiga Esquerra Eixample",
       "price": 1150,
       "rooms": 2,
-      "m2": 70,
-      "floor": "2ª ext",
-      "zone": "El Carmel",
-      "extras": [
-        "Balcón",
-        "Reformado",
-        "Cerca L5 El Coll"
-      ],
-      "destacado": true,
-      "url": "https://www.idealista.com/alquiler-viviendas/barcelona/horta-guinardo/con-precio-hasta_1400,precio-desde_850/?ordenado-por=precios-asc"
-    },
-    {
-      "source": "Idealista",
-      "title": "Piso Sant Dalmir, La Teixonera",
-      "price": 1195,
-      "rooms": 2,
-      "m2": 80,
-      "floor": "3ª ext",
-      "zone": "La Teixonera",
-      "extras": [
-        "Ascensor",
-        "Cerca L5 Teixonera"
-      ],
-      "destacado": false,
-      "url": "https://www.idealista.com/alquiler-viviendas/barcelona/horta-guinardo/con-precio-hasta_1400,precio-desde_850/?ordenado-por=precios-asc"
-    },
-    {
-      "source": "Idealista",
-      "title": "Piso Casanova, Antiga Esquerra Eixample",
-      "price": 940,
-      "rooms": 2,
-      "m2": 62,
+      "m2": 65,
       "floor": "5ª ext",
       "zone": "Antiga Esquerra Eixample",
       "extras": [
+        "Ascensor",
         "Balcón",
+        "A/C frío-calor",
         "Cerca L5 Hospital Clínic"
       ],
       "destacado": true,
-      "url": "https://www.idealista.com/alquiler-viviendas/barcelona/eixample/con-precio-hasta_1400,precio-desde_850/?ordenado-por=precios-asc"
+      "tipo": "Larga duración",
+      "amueblado": "Sin amueblar",
+      "url": "https://www.idealista.com/alquiler-viviendas/barcelona/eixample/con-alquiler-de-larga-temporada,solo-pisos/"
     },
     {
       "source": "Idealista",
-      "title": "Piso Camp d'En Grassot, Gràcia Nova",
-      "price": 941,
-      "rooms": 2,
-      "m2": 66,
+      "title": "Piso 3 hab sin amueblar, Gràcia Nova",
+      "price": 1100,
+      "rooms": 3,
+      "m2": 72,
       "floor": "Entreplanta ext",
       "zone": "Gràcia Nova",
       "extras": [
         "Ascensor",
-        "Cerca L5 Camp de l'Arpa"
+        "Reformado",
+        "Cerca L5"
       ],
       "destacado": false,
-      "url": "https://www.idealista.com/alquiler-viviendas/barcelona/gracia/con-precio-hasta_1400,precio-desde_850/?ordenado-por=precios-asc"
+      "tipo": "Larga duración",
+      "amueblado": "Sin amueblar",
+      "url": "https://www.idealista.com/alquiler-viviendas/barcelona/gracia/con-alquiler-de-larga-temporada,solo-pisos/"
     },
     {
       "source": "Idealista",
-      "title": "Piso Rosalia de Castro, Baix Guinardó",
-      "price": 1150,
-      "rooms": 1,
-      "m2": 65,
-      "floor": "1ª ext",
-      "zone": "Baix Guinardó",
+      "title": "Piso 2 hab sin amueblar, Montbau",
+      "price": 870,
+      "rooms": 2,
+      "m2": 58,
+      "floor": "3ª ext",
+      "zone": "Montbau",
       "extras": [
         "Ascensor",
-        "Cerca L3/L5 Guinardó"
+        "Calefacción",
+        "Cerca L3 Montbau"
       ],
       "destacado": false,
-      "url": "https://www.idealista.com/alquiler-viviendas/barcelona/horta-guinardo/con-precio-hasta_1400,precio-desde_850/?ordenado-por=precios-asc"
+      "tipo": "Larga duración",
+      "amueblado": "Sin amueblar",
+      "url": "https://www.idealista.com/alquiler-viviendas/barcelona/horta-guinardo/con-alquiler-de-larga-temporada,solo-pisos/"
     },
     {
       "source": "Idealista",
-      "title": "Piso Dante Alighieri, El Carmel",
-      "price": 950,
-      "rooms": 2,
-      "m2": 55,
+      "title": "Piso 3 hab obra nueva, Pedrell (Guinardó)",
+      "price": 1250,
+      "rooms": 3,
+      "m2": 80,
       "floor": "1ª ext",
-      "zone": "El Carmel",
+      "zone": "El Guinardó",
       "extras": [
         "Ascensor",
-        "Cerca L5 El Carmel"
+        "Terraza",
+        "A/C conductos",
+        "Armarios empotrados",
+        "Cerca L5"
       ],
-      "destacado": false,
-      "url": "https://www.idealista.com/alquiler-viviendas/barcelona/horta-guinardo/con-precio-hasta_1400,precio-desde_850/?ordenado-por=precios-asc"
+      "destacado": true,
+      "tipo": "Larga duración",
+      "amueblado": "Sin amueblar",
+      "url": "https://www.idealista.com/alquiler-viviendas/barcelona/horta-guinardo/con-alquiler-de-larga-temporada,solo-pisos/"
     },
     {
       "source": "Idealista",
-      "title": "Ático Conca de Tremp, El Carmel",
-      "price": 973,
+      "title": "Piso 2 hab sin amueblar, Nova Esquerra Eixample",
+      "price": 1180,
       "rooms": 2,
-      "m2": 55,
-      "floor": "4ª ext",
-      "zone": "El Carmel",
-      "extras": [
-        "Cerca L5 El Carmel"
-      ],
-      "destacado": false,
-      "url": "https://www.idealista.com/alquiler-viviendas/barcelona/horta-guinardo/con-precio-hasta_1400,precio-desde_850/?ordenado-por=precios-asc"
-    },
-    {
-      "source": "Idealista",
-      "title": "Piso València 54, Nova Esquerra Eixample",
-      "price": 1125,
-      "rooms": 1,
-      "m2": 45,
+      "m2": 62,
       "floor": "6ª ext",
       "zone": "Nova Esquerra Eixample",
       "extras": [
         "Ascensor",
         "Balcón",
+        "A/C",
         "Cerca L5 Entença"
       ],
-      "destacado": true,
-      "url": "https://www.idealista.com/alquiler-viviendas/barcelona/eixample/con-precio-hasta_1400,precio-desde_850/?ordenado-por=precios-asc"
+      "destacado": false,
+      "tipo": "Larga duración",
+      "amueblado": "Sin amueblar",
+      "url": "https://www.idealista.com/alquiler-viviendas/barcelona/eixample/con-alquiler-de-larga-temporada,solo-pisos/"
     },
     {
       "source": "Idealista",
-      "title": "Piso Paseo Sant Joan, Dreta Eixample",
-      "price": 1328,
+      "title": "Piso 2 hab sin amueblar, Dreta Eixample",
+      "price": 1400,
       "rooms": 2,
-      "m2": 56,
-      "floor": "1ª ext",
+      "m2": 70,
+      "floor": "3ª ext",
       "zone": "Dreta Eixample",
       "extras": [
         "Ascensor",
+        "Balcón",
+        "A/C",
+        "Finca regia",
         "Cerca L5 Verdaguer"
       ],
       "destacado": false,
-      "url": "https://www.idealista.com/alquiler-viviendas/barcelona/eixample/con-precio-hasta_1400,precio-desde_850/?ordenado-por=precios-asc"
+      "tipo": "Larga duración",
+      "amueblado": "Sin amueblar",
+      "url": "https://www.idealista.com/alquiler-viviendas/barcelona/eixample/con-alquiler-de-larga-temporada,solo-pisos/"
+    },
+    {
+      "source": "Idealista",
+      "title": "Piso 3 hab sin amueblar, Rambla del Carmel",
+      "price": 980,
+      "rooms": 3,
+      "m2": 75,
+      "floor": "2ª ext",
+      "zone": "El Carmel",
+      "extras": [
+        "Balcón",
+        "Reformado",
+        "Calefacción",
+        "Cerca L5 El Coll"
+      ],
+      "destacado": true,
+      "tipo": "Larga duración",
+      "amueblado": "Sin amueblar",
+      "url": "https://www.idealista.com/alquiler-viviendas/barcelona/horta-guinardo/con-alquiler-de-larga-temporada,solo-pisos/"
     }
   ]
 }

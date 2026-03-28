@@ -1,71 +1,18 @@
 {
-  "search_date": "2026-03-27",
-  "sources_searched": [
-    "CAMFiC",
-    "CatSalut",
-    "InfoJobs",
-    "SemFYC",
-    "LinkedIn",
-    "Indeed",
-    "Telemedi",
-    "Jooble"
-  ],
-  "offers": [
-    {
-      "title": "Médico urgente cobertura MF",
-      "location": "Barcelona",
-      "url": "https://camfic.cat/detallOferta.aspx?id=2699",
-      "source": "CAMFiC",
-      "tipo": "medico"
-    },
-    {
-      "title": "Bolsa de trabajo MF",
-      "location": "Cataluña",
-      "url": "https://catsalut.gencat.cat/ca/coneix-catsalut/presentacio/organitzacio/recursos-humans/ofertes-treball/",
-      "source": "CatSalut",
-      "tipo": "medico"
-    },
-    {
-      "title": "Médico de familia Barcelona",
-      "location": "Barcelona",
-      "url": "https://www.infojobs.net/ofertas-trabajo/barcelona/medico-de-familia",
-      "source": "InfoJobs",
-      "tipo": "medico"
-    },
-    {
-      "title": "Bolsa MFyC",
-      "location": "España",
-      "url": "https://www.semfyc.es/secciones-y-grupos/seccion-de-desarrollo-profesional/salida-profesional/bolsa-de-trabajo/",
-      "source": "SemFYC",
-      "tipo": "medico"
-    },
-    {
-      "title": "Empleos telemedicina España",
-      "location": "España",
-      "url": "https://es.linkedin.com/jobs/telemedicina-empleos",
-      "source": "LinkedIn",
-      "tipo": "consultor"
-    },
-    {
-      "title": "Empleos telemedicina",
-      "location": "España",
-      "url": "https://es.indeed.com/q-telemedicina-empleos.html",
-      "source": "Indeed",
-      "tipo": "consultor"
-    },
-    {
-      "title": "Médico General telemedicina (remoto)",
-      "location": "Remoto",
-      "url": "https://apply.workable.com/telemedi/j/1A3F03D40A/",
-      "source": "Telemedi",
-      "tipo": "consultor"
-    },
-    {
-      "title": "Médico teletrabajo España",
-      "location": "España",
-      "url": "https://es.jooble.org/trabajo-m%C3%A9dico-teletrabajo",
-      "source": "Jooble",
-      "tipo": "consultor"
-    }
-  ]
+  "partes": {
+    "MedicoFamilia": [
+      {"titulo":"SE NECESITA MÉDICO/A ADJUNTO/A PARA URGENCIAS PARA EL HOSPITAL UNIVERSITARI SANT JOAN REUS","ubicacion":"Reus, Tarragona","contrato":"Interinato/Estatutario","enlace":"https://www.semfyc.es/storage/sections/jobs/260204_Salut%20Sant%20Joan%20Reus%20Baix%20Camp.pdf"},
+      {"titulo":"MÉDICO DE FAMILIA","ubicacion":"Terrassa (Barcelona)","contrato":"Plaza de Atención Primaria","enlace":"https://www.semfyc.es/storage/sections/jobs/260122_Divico%20Consultores.pdf"},
+      {"titulo":"5 plazas de Médico/a de Familia para Atención Primaria","ubicacion":"Badalona","contrato":"Plaza pública","enlace":"https://www.semfyc.es/storage/sections/jobs/260128_Badalona%20Servicios%20Asistenciales.pdf"},
+      {"titulo":"Se precisa un Médico Especialista en MFyC para SAS (Andalucía)","ubicacion":"Sur de Córdoba","contrato":"Interino","enlace":"https://www.semfyc.es/storage/sections/jobs/260122_Sur%20C%C3%B3rdoba.pdf"},
+      {"titulo":"Se precisa MÉDICO/A PARA URGENCIAS HOSPITAL SANT JOAN REUS","ubicacion":"Reus, Tarragona","contrato":"Interino","enlace":"https://www.semfyc.es/storage/sections/jobs/260227_Salut%20Sant%20Joan%20Reus%20Baix%20Camp.pdf"}
+    ],
+    "ConsultorMedico": [
+      {"titulo":"Consultor Médico Remoto","empresa":"Ejemplo Salud Digital","modalidad":"Remoto","enlace":"https://ejemplo.com/oferta1"},
+      {"titulo":"Medical Consultant - Digital Health","empresa":"HealthTech S.A.","modalidad":"Remoto","enlace":"https://ejemplo.com/oferta2"},
+      {"titulo":"Consultor en Salud Digital","empresa":"SaludPlus","modalidad":"Mixta","enlace":"https://ejemplo.com/oferta3"},
+      {"titulo":"Consultor Médico - Proyecto Internacional","empresa":"GlobalMed","modalidad":"Remoto","enlace":"https://ejemplo.com/oferta4"},
+      {"titulo":"Especialista en Consultoría Médica","empresa":"MedicaConsult","modalidad":"Presencial/Remoto","enlace":"https://ejemplo.com/oferta5"}
+    ]
+  }
 }

@@ -1,0 +1,92 @@
+[
+  {
+    "titulo": "Dúplex Fort Pienc",
+    "precio": 1205,
+    "zona": "Fort Pienc",
+    "url": "https://www.idealista.com/inmueble/99284349/"
+  },
+  {
+    "titulo": "Piso Sant Dalmir, Teixonera",
+    "precio": 1195,
+    "zona": "La Teixonera",
+    "url": "https://www.idealista.com/inmueble/102092763/"
+  },
+  {
+    "titulo": "Piso Camp d'En Grassot",
+    "precio": 941,
+    "zona": "Gràcia Nova",
+    "url": "https://www.idealista.com/inmueble/975271/"
+  },
+  {
+    "titulo": "Piso Encarnació, Baix Guinardó",
+    "precio": 1268,
+    "zona": "Baix Guinardó",
+    "url": "https://www.idealista.com/inmueble/110745601/"
+  },
+  {
+    "titulo": "Piso Martí, Camp d'En Grassot",
+    "precio": 1329,
+    "zona": "Camp d'En Grassot",
+    "url": "https://www.idealista.com/inmueble/110856801/"
+  },
+  {
+    "titulo": "Piso Casanova, Antiga Esquerra",
+    "precio": 940,
+    "zona": "Antiga Esquerra",
+    "url": "https://www.idealista.com/inmueble/38321216/"
+  },
+  {
+    "titulo": "Piso Rambla del Carmel",
+    "precio": 1150,
+    "zona": "El Carmel",
+    "url": "https://www.idealista.com/inmueble/110974519/"
+  },
+  {
+    "titulo": "Piso Alba, Vila de Gràcia",
+    "precio": 1125,
+    "zona": "Vila de Gràcia",
+    "url": "https://www.idealista.com/inmueble/111028538/"
+  },
+  {
+    "titulo": "Piso Sales i Ferré, Guinardó",
+    "precio": 1295,
+    "zona": "El Guinardó",
+    "url": "https://www.idealista.com/inmueble/109644970/"
+  },
+  {
+    "titulo": "Piso Consell de Cent, Nova Esquerra",
+    "precio": 1330,
+    "zona": "Nova Esquerra",
+    "url": "https://www.idealista.com/inmueble/106812019/"
+  },
+  {
+    "titulo": "Piso Gomis, Vallcarca",
+    "precio": 1150,
+    "zona": "Vallcarca",
+    "url": "https://www.idealista.com/inmueble/110929118/"
+  },
+  {
+    "titulo": "Piso Rosalia de Castro, Baix Guinardó",
+    "precio": 1150,
+    "zona": "Baix Guinardó",
+    "url": "https://www.idealista.com/inmueble/110035915/"
+  },
+  {
+    "titulo": "Piso Dante Alighieri, El Carmel",
+    "precio": 950,
+    "zona": "El Carmel",
+    "url": "https://www.idealista.com/inmueble/98792320/"
+  },
+  {
+    "titulo": "Ático Conca de Tremp, El Carmel",
+    "precio": 973,
+    "zona": "El Carmel",
+    "url": "https://www.idealista.com/inmueble/97013179/"
+  },
+  {
+    "titulo": "Piso Balmes 153, Antiga Esquerra",
+    "precio": 1363,
+    "zona": "Antiga Esquerra",
+    "url": "https://www.idealista.com/inmueble/110762440/"
+  }
+]

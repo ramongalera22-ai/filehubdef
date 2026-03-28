@@ -1,0 +1,13 @@
+🏠 FILEHUB Auto-Contactar — 2026-03-27 05:50:26
+🐍 Ejecutando auto_contactar.py...
+[05:50:26] 🏠 Auto-Contactar Caseros BCN — Inicio
+[05:50:27] 🌐 Usando Selenium Chrome...
+[05:50:28] 🔍 Buscando en idealista_horta: https://www.idealista.com/alquiler-viviendas/barcelona/horta-guinardo/con-precio-hasta_1400,precio-desde_850,de-dos-dormitorios,de-tres-dormitorios,de-cuatro-o-mas-dormitorios/
+[05:50:54]   📋 0 anuncios encontrados
+[05:50:54] 🔍 Buscando en idealista_gracia: https://www.idealista.com/alquiler-viviendas/barcelona/gracia/con-precio-hasta_1400,precio-desde_850,de-dos-dormitorios,de-tres-dormitorios/
+[05:51:19]   📋 0 anuncios encontrados
+[05:51:19] 🔍 Buscando en idealista_eixample: https://www.idealista.com/alquiler-viviendas/barcelona/eixample/con-precio-hasta_1400,precio-desde_850,de-dos-dormitorios,de-tres-dormitorios/
+[05:51:43]   📋 0 anuncios encontrados
+[05:51:43] 💾 Resultados guardados en /home/carlos/.openclaw/workspace/filehubdef/pisos_bot/data/contactos_20260327_055143.json
+[05:51:44] 📱 Resumen enviado por WhatsApp
+[05:51:44] ✅ Fin — 0 contactados de 0 pisos

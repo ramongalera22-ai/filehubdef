@@ -53,3 +53,51 @@
 /home/carlos/run_pisos_final.sh: line 4: openclaw: command not found
 /home/carlos/run_pisos_final.sh: line 4: openclaw: command not found
 /home/carlos/run_pisos_final.sh: line 4: openclaw: command not found
+[15:00:03] 🏠 FILEHUB — Ejecución completa iniciada
+[15:00:03] 🔍 Paso 1: Buscando pisos...
+Error Horta-Guinardó: HTTP Error 403: Forbidden
+Error Gràcia: HTTP Error 403: Forbidden
+Error Eixample: HTTP Error 403: Forbidden
+[15:00:03] 📊 Encontrados: 15 pisos
+[15:00:03] 📧 Paso 2: Contactando caseros...
+0
+[15:00:04] 📧 Contactos procesados
+[15:00:04] 📱 Paso 3: Enviando pisos por Telegram...
+[15:00:04] ✅ Lista enviada por Telegram
+[15:00:04] 💾 Resultados guardados
+[15:00:04] 🏁 Ejecución completa finalizada
+/home/carlos/run_pisos_final.sh: line 4: openclaw: command not found
+/home/carlos/run_pisos_final.sh: line 4: openclaw: command not found
+/home/carlos/run_pisos_final.sh: line 4: openclaw: command not found
+/home/carlos/run_pisos_final.sh: line 4: openclaw: command not found
+[19:00:02] 🏠 FILEHUB — Ejecución completa iniciada
+[19:00:02] 🔍 Paso 1: Buscando pisos...
+Error Horta-Guinardó: HTTP Error 403: Forbidden
+Error Gràcia: HTTP Error 403: Forbidden
+Error Eixample: HTTP Error 403: Forbidden
+[19:00:03] 📊 Encontrados: 15 pisos
+[19:00:03] 📧 Paso 2: Contactando caseros...
+0
+[19:00:03] 📧 Contactos procesados
+[19:00:03] 📱 Paso 3: Enviando pisos por Telegram...
+[19:00:04] ✅ Lista enviada por Telegram
+[19:00:04] 💾 Resultados guardados
+[19:00:04] 🏁 Ejecución completa finalizada
+/home/carlos/run_pisos_final.sh: line 4: openclaw: command not found
+/home/carlos/run_pisos_final.sh: line 4: openclaw: command not found
+/home/carlos/run_pisos_final.sh: line 4: openclaw: command not found
+/home/carlos/run_pisos_final.sh: line 4: openclaw: command not found
+[23:00:02] 🏠 FILEHUB — Ejecución completa iniciada
+[23:00:03] 🔍 Paso 1: Buscando pisos...
+Error Horta-Guinardó: HTTP Error 403: Forbidden
+Error Gràcia: HTTP Error 403: Forbidden
+Error Eixample: HTTP Error 403: Forbidden
+[23:00:03] 📊 Encontrados: 15 pisos
+[23:00:03] 📧 Paso 2: Contactando caseros...
+0
+[23:00:04] 📧 Contactos procesados
+[23:00:04] 📱 Paso 3: Enviando pisos por Telegram...
+[23:00:05] ✅ Lista enviada por Telegram
+[23:00:05] 💾 Resultados guardados
+[23:00:05] 🏁 Ejecución completa finalizada
+/home/carlos/run_pisos_final.sh: line 4: openclaw: command not found

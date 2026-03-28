@@ -1,0 +1,141 @@
+{
+  "generated": "2026-03-28T04:05:30.045280",
+  "count": 15,
+  "pisos": [
+    {
+      "titulo": "Piso en de Mir Geribert, Hostafrancs, Barcelona",
+      "precio": 1069,
+      "m2": 105,
+      "zona": "Piso en de Mir Geribert, Hostafrancs, Barcelona",
+      "url": "https://www.idealista.com/inmueble/105911001/",
+      "portal": "idealista",
+      "contactado": false
+    },
+    {
+      "titulo": "Piso en Calle de la Concòrdia, El Poble Sec - Parc de Montjuïc, Barcelona",
+      "precio": 1060,
+      "m2": 80,
+      "zona": "Piso en Calle de la Concòrdia, El Poble Sec - Parc de Montjuïc, Barcelona",
+      "url": "https://www.idealista.com/inmueble/111027544/",
+      "portal": "idealista",
+      "contactado": true
+    },
+    {
+      "titulo": "Piso en Calle de la Llacuna, El Poblenou, Barcelona",
+      "precio": 1155,
+      "m2": 85,
+      "zona": "Piso en Calle de la Llacuna, El Poblenou, Barcelona",
+      "url": "https://www.idealista.com/inmueble/110996195/",
+      "portal": "idealista",
+      "contactado": false
+    },
+    {
+      "titulo": "Piso en Avenida del Paral·lel, El Poble Sec - Parc de Montjuïc, Barcelona",
+      "precio": 1400,
+      "m2": 100,
+      "zona": "Piso en Avenida del Paral·lel, El Poble Sec - Parc de Montjuïc, Barcelona",
+      "url": "https://www.idealista.com/inmueble/88334584/",
+      "portal": "idealista",
+      "contactado": false
+    },
+    {
+      "titulo": "Piso en Calle de Padilla, 375, El Baix Guinardó, Barcelona",
+      "precio": 1037,
+      "m2": 73,
+      "zona": "Piso en Calle de Padilla, 375, El Baix Guinardó, Barcelona",
+      "url": "https://www.idealista.com/inmueble/111025130/",
+      "portal": "idealista",
+      "contactado": true
+    },
+    {
+      "titulo": "Piso en Avenida de la Mare de Déu de Montserrat, El Guinardó, Barcelona",
+      "precio": 1133,
+      "m2": 78,
+      "zona": "Piso en Avenida de la Mare de Déu de Montserrat, El Guinardó, Barcelona",
+      "url": "https://www.idealista.com/inmueble/111021056/",
+      "portal": "idealista",
+      "contactado": false
+    },
+    {
+      "titulo": "Piso en Calle del Pintor Pahissa, 33, La Maternitat i Sant Ramon, Barcelona",
+      "precio": 1174,
+      "m2": 80,
+      "zona": "Piso en Calle del Pintor Pahissa, 33, La Maternitat i Sant Ramon, Barcelona",
+      "url": "https://www.idealista.com/inmueble/111030194/",
+      "portal": "idealista",
+      "contactado": false
+    },
+    {
+      "titulo": "Piso en Calle de Sant Dalmir, La Teixonera, Barcelona",
+      "precio": 1195,
+      "m2": 80,
+      "zona": "Piso en Calle de Sant Dalmir, La Teixonera, Barcelona",
+      "url": "https://www.idealista.com/inmueble/102092763/",
+      "portal": "idealista",
+      "contactado": false
+    },
+    {
+      "titulo": "Piso en Casanova, L'Antiga Esquerra de l'Eixample, Barcelona",
+      "precio": 940,
+      "m2": 62,
+      "zona": "Piso en Casanova, L'Antiga Esquerra de l'Eixample, Barcelona",
+      "url": "https://www.idealista.com/inmueble/38321216/",
+      "portal": "idealista",
+      "contactado": true
+    },
+    {
+      "titulo": "Estudio en Calle Gran de Gràcia, 74, Vila de Gràcia, Barcelona",
+      "precio": 950,
+      "m2": 60,
+      "zona": "Estudio en Calle Gran de Gràcia, 74, Vila de Gràcia, Barcelona",
+      "url": "https://www.idealista.com/inmueble/108868363/",
+      "portal": "idealista",
+      "contactado": false
+    },
+    {
+      "titulo": "Piso en Paseo de la Zona Franca, s/n, La Marina del Port, Barcelona",
+      "precio": 1220,
+      "m2": 77,
+      "zona": "Piso en Paseo de la Zona Franca, s/n, La Marina del Port, Barcelona",
+      "url": "https://www.idealista.com/inmueble/107834414/",
+      "portal": "idealista",
+      "contactado": false
+    },
+    {
+      "titulo": "Piso en Calle de l'Encarnació, El Baix Guinardó, Barcelona",
+      "precio": 1268,
+      "m2": 80,
+      "zona": "Piso en Calle de l'Encarnació, El Baix Guinardó, Barcelona",
+      "url": "https://www.idealista.com/inmueble/110745601/",
+      "portal": "idealista",
+      "contactado": false
+    },
+    {
+      "titulo": "Piso en CL Mare De Deu De Port, 281, La Marina del Port, Barcelona",
+      "precio": 1300,
+      "m2": 79,
+      "zona": "Piso en CL Mare De Deu De Port, 281, La Marina del Port, Barcelona",
+      "url": "https://www.idealista.com/inmueble/110311523/",
+      "portal": "idealista",
+      "contactado": false
+    },
+    {
+      "titulo": "Piso en Calle de l'Alba, Vila de Gràcia, Barcelona",
+      "precio": 1125,
+      "m2": 68,
+      "zona": "Piso en Calle de l'Alba, Vila de Gràcia, Barcelona",
+      "url": "https://www.idealista.com/inmueble/111028538/",
+      "portal": "idealista",
+      "contactado": false
+    },
+    {
+      "titulo": "Piso en Passatge de Jaume Roig, La Maternitat i Sant Ramon, Barcelona",
+      "precio": 1226,
+      "m2": 74,
+      "zona": "Piso en Passatge de Jaume Roig, La Maternitat i Sant Ramon, Barcelona",
+      "url": "https://www.idealista.com/inmueble/104102564/",
+      "portal": "idealista",
+      "contactado": false
+    }
+  ]
+}

@@ -1,6 +1,6 @@
 {
   "title": "Pisos Barcelona 800-1400€ · Búsqueda automática",
-  "updated": "2026-03-28T02:43:35.835318",
+  "updated": "2026-03-28T03:06:46.759228",
   "filters": {
     "city": "Barcelona",
     "minPrice": 800,
@@ -15,11 +15,11 @@
   },
   "stats": {
     "total_encontrados": 123,
-    "total_contactados": 22,
+    "total_contactados": 23,
     "por_portal": {
       "idealista": {
         "encontrados": 123,
-        "contactados": 22
+        "contactados": 23
       },
       "fotocasa": {
         "encontrados": 0,
@@ -66,7 +66,7 @@
       "zona": "Piso en Torrent de l'Olla, 191, Vila de Gràcia, Barcelona",
       "url": "https://www.idealista.com/inmueble/35414867/",
       "portal": "idealista",
-      "contactado": false
+      "contactado": true
     },
     {
       "titulo": "Estudio en Calle de Praga, El Baix Guinardó, Barcelona",
@@ -84,7 +84,7 @@
       "zona": "Estudio en Calle de Praga, El Baix Guinardó, Barcelona",
       "url": "https://www.idealista.com/inmueble/110802790/",
       "portal": "idealista",
-      "contactado": false
+      "contactado": true
     },
     {
       "titulo": "Piso en Calle de Sant Paulí de Nola, 6, La Font de la Guatlla, Barcelona",
@@ -93,7 +93,7 @@
       "zona": "Piso en Calle de Sant Paulí de Nola, 6, La Font de la Guatlla, Barcelona",
       "url": "https://www.idealista.com/inmueble/91860756/",
       "portal": "idealista",
-      "contactado": false
+      "contactado": true
     },
     {
       "titulo": "Estudio en Plaza d'Espanya, La Nova Esquerra de l'Eixample, Barcelona",
@@ -129,7 +129,7 @@
       "zona": "Estudio en Calle de la Diputació, La Dreta de l'Eixample, Barcelona",
       "url": "https://www.idealista.com/inmueble/95610160/",
       "portal": "idealista",
-      "contactado": false
+      "contactado": true
     },
     {
       "titulo": "Piso en Casanova, L'Antiga Esquerra de l'Eixample, Barcelona",
@@ -138,7 +138,7 @@
       "zona": "Piso en Casanova, L'Antiga Esquerra de l'Eixample, Barcelona",
       "url": "https://www.idealista.com/inmueble/38321216/",
       "portal": "idealista",
-      "contactado": false
+      "contactado": true
     },
     {
       "titulo": "Estudio en Calle de Mozart, Vila de Gràcia, Barcelona",
@@ -174,7 +174,7 @@
       "zona": "Piso en Calle de Dante Alighieri, El Carmel, Barcelona",
       "url": "https://www.idealista.com/inmueble/98792320/",
       "portal": "idealista",
-      "contactado": false
+      "contactado": true
     },
     {
       "titulo": "Estudio en mare de deu dels Àngels, 49, La Teixonera, Barcelona",
@@ -210,7 +210,7 @@
       "zona": "Piso en Calle de los Castillejos, 221, La Sagrada Família, Barcelona",
       "url": "https://www.idealista.com/inmueble/111040327/",
       "portal": "idealista",
-      "contactado": false
+      "contactado": true
     },
     {
       "titulo": "Ático en Calle de la Conca de Tremp, El Carmel, Barcelona",
@@ -219,7 +219,7 @@
       "zona": "Ático en Calle de la Conca de Tremp, El Carmel, Barcelona",
       "url": "https://www.idealista.com/inmueble/97013179/",
       "portal": "idealista",
-      "contactado": false
+      "contactado": true
     },
     {
       "titulo": "Piso en Calle de Sigüenza, 70, El Carmel, Barcelona",
@@ -228,7 +228,7 @@
       "zona": "Piso en Calle de Sigüenza, 70, El Carmel, Barcelona",
       "url": "https://www.idealista.com/inmueble/111024200/",
       "portal": "idealista",
-      "contactado": false
+      "contactado": true
     },
     {
       "titulo": "Piso en Calle de València, s/n, La Nova Esquerra de l'Eixample, Barcelona",
@@ -318,7 +318,7 @@
       "zona": "Piso en de Mir Geribert, Hostafrancs, Barcelona",
       "url": "https://www.idealista.com/inmueble/105911001/",
       "portal": "idealista",
-      "contactado": true
+      "contactado": false
     },
     {
       "titulo": "Estudio en Calle de Joan Gamper, Les Corts, Barcelona",
@@ -327,7 +327,7 @@
       "zona": "Estudio en Calle de Joan Gamper, Les Corts, Barcelona",
       "url": "https://www.idealista.com/inmueble/107099686/",
       "portal": "idealista",
-      "contactado": true
+      "contactado": false
     },
     {
       "titulo": "Estudio en Calle de Fastenrath, 7, La Teixonera, Barcelona",
@@ -336,7 +336,7 @@
       "zona": "Estudio en Calle de Fastenrath, 7, La Teixonera, Barcelona",
       "url": "https://www.idealista.com/inmueble/106377669/",
       "portal": "idealista",
-      "contactado": true
+      "contactado": false
     },
     {
       "titulo": "Ático en El Carmel, Barcelona",
@@ -345,7 +345,7 @@
       "zona": "Ático en El Carmel, Barcelona",
       "url": "https://www.idealista.com/inmueble/108450569/",
       "portal": "idealista",
-      "contactado": true
+      "contactado": false
     },
     {
       "titulo": "Piso en Calle del Comte Borrell, 180, La Nova Esquerra de l'Eixample, Barcelona",
@@ -363,7 +363,7 @@
       "zona": "Estudio en Sant Antoni, Barcelona",
       "url": "https://www.idealista.com/inmueble/111019748/",
       "portal": "idealista",
-      "contactado": true
+      "contactado": false
     },
     {
       "titulo": "Estudio en Calle de Nàpols, El Fort Pienc, Barcelona",
@@ -372,7 +372,7 @@
       "zona": "Estudio en Calle de Nàpols, El Fort Pienc, Barcelona",
       "url": "https://www.idealista.com/inmueble/110726645/",
       "portal": "idealista",
-      "contactado": true
+      "contactado": false
     },
     {
       "titulo": "Estudio en Calle del Consell de Cent, La Dreta de l'Eixample, Barcelona",
@@ -381,7 +381,7 @@
       "zona": "Estudio en Calle del Consell de Cent, La Dreta de l'Eixample, Barcelona",
       "url": "https://www.idealista.com/inmueble/108662579/",
       "portal": "idealista",
-      "contactado": true
+      "contactado": false
     },
     {
       "titulo": "Piso en Calle Alcalá de Guadaira, 23, Sant Martí de Provençals, Barcelona",
@@ -390,7 +390,7 @@
       "zona": "Piso en Calle Alcalá de Guadaira, 23, Sant Martí de Provençals, Barcelona",
       "url": "https://www.idealista.com/inmueble/110998603/",
       "portal": "idealista",
-      "contactado": true
+      "contactado": false
     },
     {
       "titulo": "Piso en Calle de Pamplona, La Vila Olímpica del Poblenou, Barcelona",
